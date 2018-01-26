@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>MEDIS</title>
+    <link rel="shortcut icon" href="ico/favicon.ico" >
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+<body>
+    <div class="form-wrapper">
+        <div class="image-wrapper">
+            <img src="image/logo.png">
+        </div>
+        <form action="top.html">
+            <div class="form-item">
+                <div class="form-error">
+                    <div id="error-message">
+                        <!-- 社員番号とパスワードの<br/>組み合わせが異なります -->
+                    </div>
+                </div>
+            </div>
+            <div class="form-item">
+                <input type="text" name="employeeId" placeholder="社員番号" required="required" value="99999"/>
+            </div>
+            <div class="form-item">
+                <input type="password" name="password" placeholder="パスワード" required="required" value="hoge"/>
+            </div>
+            <div class="button-wrapper">
+                <input type="submit" class="button" title="LOGIN" value="login" />
+            </div>
+            <div class="form-footer">
+                <span>パスワードを忘れた場合</span>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
