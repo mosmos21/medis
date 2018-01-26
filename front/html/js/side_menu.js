@@ -70,6 +70,14 @@ $(function(){
         });
     });
 
+    // これはベタ打ちしたタグを消すために必要なやつなので最終的にはたぶん消す
+    $('.tag_remove').on('click', function(){
+        $($(this).parent()).remove();
+        if($('#selected_tags .tag_base').length == 4){
+            $('#search_box input').show();
+        }
+    });
+
     $('#search_box').on('click', function(){
         $('#search_box input').focus();
     });
