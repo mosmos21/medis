@@ -6,6 +6,11 @@
     <link rel="shortcut icon" href="ico/favicon.ico" >
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/dialog.js"></script>
 </head>
 <body>
     <div class="form-wrapper">
@@ -30,7 +35,22 @@
                 <input type="submit" class="button" title="LOGIN" value="login" />
             </div>
             <div class="form-footer">
-                <span>パスワードを忘れた場合</span>
+                <a href ="#" id="reset_dialog">パスワードを忘れた場合はこちら</a>
+            </div>
+            <div id="reset_pass" style="display:none;">
+                <table>
+                    <tr>
+                        <th>社員番号</th>
+                        <td><input type="text" name="pass" id="employee_id"></td>
+                    </tr>
+                    <tr>
+                        <th>メールアドレス</th>
+                        <td><input type="text" name="pass" id="mail"></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="alert" style="display:none;">
+                <p>メールを送信しました。</p>
             </div>
         </form>
     </div>
