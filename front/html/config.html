@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="ico/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
+    <link rel="stylesheet" type="text/css" href="css/side_menu.css" />
+    <link rel="stylesheet" type="text/css" href="css/config.css" />
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/side_menu.js"></script>
+
+    <title>MEDIS - 通知設定</title>
+</head>
+<body>
+    <div id="wrap_side_menu" class="active">
+        <div id="wrap_side_menu_icon">
+            <div id="menu_user" class="side_menu_icon"></div>
+            <div id="menu_search" class="side_menu_icon"></div>
+            <div id="menu_config" class="side_menu_icon"></div>
+        </div>
+        <div id="wrap_side_menu_content">
+            <div id="menu_user_content" class="menu_content">
+                    <div class="wrap_menu_contet_link">
+                    <div class="menu_content_link">
+                        <img src="image/top.svg"/>
+                        <div class="menu_content_link_text">トップページ</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/new.svg" />
+                        <div class="menu_content_link_text">文書作成</div>
+                    </div>  
+                </div>
+            </div>
+            <div id="menu_search_content" class="menu_content">
+                <div class="wrap_search_content">
+                    <h2>検索</h2>
+                </div>
+                <div class="wrap_search_content">
+                    <div id="search_box">
+                        <div id="selected_tags"></div>
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="wrap_search_content">
+                    <div id="search_tag_candidate" class="content_scroll_y">
+                        <div class="tag_base tag_middle">2017年度新人研修</div>
+                        <div class="tag_base tag_middle">2018年度新人研修</div>
+                        <div class="tag_base tag_middle">A-AUTO研修</div>
+                        <div class="tag_base tag_middle">帳票研修</div>
+                        <div class="tag_base tag_middle">Waha!研修</div>
+                        <div class="tag_base tag_middle">研修</div>
+                    </div>
+                </div>
+            </div>
+            <div id="menu_config_content" class="menu_content">
+                <div class="wrap_menu_contet_link">
+                    <div class="menu_content_link">
+                        <img src="image/user_config.svg" />
+                        <div class="menu_content_link_text">ユーザ設定</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/top_config.svg" />
+                        <div class="menu_content_link_text">トップページ設定</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/tag_config.svg" />
+                        <div class="menu_content_link_text">監視タグ設定</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/bell_config.svg" />
+                        <div class="menu_content_link_text">通知設定</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="side_menu_key"></div>
+        <div id="icon_logout"></div>
+    </div>
+
+    <div id="wrap_main_content">
+        <div class="wrap_main_content_center content_scroll_y">
+            <div class="main_content_header">
+                <h1>通知設定</h1>
+            </div>
+                <div class="wrap_list_box">
+                    <div class="list_box">
+                        <div class="list_box_header">
+                            <h3>コメント通知</h3>
+                        </div>
+                            <div class="config_text">
+                                メール：<input type="checkbox" id="toggleButton" class="toggle-button" checked="checked"><label for="toggleButton"></label>
+                                &emsp;&emsp;&emsp;
+                                プッシュ：<input type="checkbox" id="toggleButton" class="toggle-button" checked="checked"><label for="toggleButton"></label>
+                            </div>
+                        <div class="list_box_header_square">
+                            <h3>監視タグ通知</h3><br>
+                        </div>
+                            <div class="config_text">
+                                メール：<input type="checkbox" id="toggleButton" class="toggle-button" checked="checked"><label for="toggleButton"></label>
+                                &emsp;&emsp;&emsp;
+                                プッシュ：<input type="checkbox" id="toggleButton" class="toggle-button" checked="checked"><label for="toggleButton"></label>
+                            </div><br><br><br>
+
+                       <div class="config_text">
+                           <table class="t-line">
+                           <tr>
+                               <th>タグ名</th>
+                               <th>メール</th>
+                               <th class="boder-none">プッシュ</th>
+                           </tr>
+                           <tr>
+                               <td>新人研修_A-AUTO</td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                           </tr>
+                           <tr>
+                               <td>新人研修_帳票</td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                           </tr>
+                           <tr>
+                               <td>新人研修_Waha!</td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                           </tr>
+                                                     <tr>
+                               <td>新人研修_A-AUTO</td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                           </tr>
+                           <tr>
+                               <td>新人研修_帳票</td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                           </tr>
+                           <tr>
+                               <td>新人研修_Waha!</td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                               <td><input type="checkbox" id="toggleButton_tag" class="toggle-button_tag"><label for="toggleButton_tag"></label></td>
+                           </tr>
+                           </table>
+                       </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
