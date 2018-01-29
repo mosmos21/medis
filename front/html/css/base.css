@@ -115,3 +115,11 @@ body {
   box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
 }
 /* ここまでスクロールバーカスタマイズ*/
+
+/*ここからダイアログ*/
+.ui-dialog-titlebar-close{
+    visibility: hidden;
+}
+
+
+/*ここまでダイアログ*/
