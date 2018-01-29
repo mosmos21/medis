@@ -28,6 +28,53 @@
 }
 /* ここまで全体 */
 
+/* ここからテンプレ選択画面 */
+table {
+    width: 100%;
+}
+
+table tr th,
+table tr td {
+    padding: 5px 10px;
+    border: 2px solid #ddd;
+    vertical-align: middle;
+}
+
+table tr th {
+    background: #aaa;
+}
+
+table tr th {
+    text-align: center;
+    font-weight: bold;
+}
+
+
+tr:nth-child(odd) td {  
+    background-color: #fff;  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ここまでテンプレ選択画面 */
+
 /* ここからテンプレ部分 */
 #edit_template_header {
     width: 100%;

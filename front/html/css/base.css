@@ -39,6 +39,7 @@ body {
 .main_content_header {
     width: 99%;
     height: 50px;
+    line-height: 50px;
     margin: 10px;
 }
 
@@ -59,6 +60,14 @@ body {
     border-radius: 5px;
     border: 2px #999 solid;
     box-shadow: 2px 2px 2px #999;
+}
+
+.wrap_list_box_tall {
+    height: calc(100% - 110px);
+}
+
+.wrap_list_box_tall .list_box{
+    height: 100%;
 }
 
 .list_box_header {
@@ -85,6 +94,10 @@ body {
     padding: 1em 2em;
     width: 98%;
     height: 12em;
+}
+
+.list_box_content_tall {
+    height: 92%;
 }
 
 .list_box_content ul li {
@@ -123,3 +136,9 @@ body {
 
 
 /*ここまでダイアログ*/
+
+.content_short {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
