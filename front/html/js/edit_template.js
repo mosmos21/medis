@@ -22,11 +22,14 @@ $(function(){
             $(this).css('background', '#fff');
             $('#template_content_list').append('<div class="template_content"></div>');
             var id = e.originalEvent.dataTransfer.getData('id');
-            
-            var obj = $('#' + id).clone();
-            $(obj).attr('id', 'block_content1');
+            var obj = $('#' + id + ' .template_block_body').clone();
+            $(obj).show();
             $('.template_content:last').append(obj);
-            $("#template_content_list .wrap_template_block .template_block_info").hide();
-            $("#template_content_list .wrap_template_block .template_block_body").show();
+
+            $(".content_remove").on('click', function(){
+                $(this).parent().parent().remove();
+            });
         });
+
+    
 });

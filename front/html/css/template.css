@@ -57,6 +57,10 @@
     box-shadow: 5px 5px 5px #999;
 }
 
+.template_block_desc {
+    width: 90%;
+}
+
 /*固定タグ*/
 #tag_list {
     margin: 10px;
@@ -91,10 +95,13 @@
 }
 
 .template_block_info {
+    margin: 10px 5px;
     padding: 5px;
     height: 100px;
+    width: auto;
     background: white;
     border: 1px black solid;
+    border-radius: 5px;
 }
 
 .template_block_body {
@@ -109,7 +116,7 @@
     padding: 0 5px;
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 15px;
     font-weight: bolder;
     font-size: 15px;
     border: 2px #999 solid;
