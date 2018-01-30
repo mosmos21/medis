@@ -109,6 +109,32 @@ body {
 .list_content_time {
     float: right;
 }
+
+/* ここからテーブルのカラム幅 */
+table {
+    table-layout: fixed;
+}
+
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#template_info_list_id {
+    width: 11em;
+}
+
+#template_info_list_date {
+    width: 10em;
+}
+
+#template_info_list_flag {
+    width: 8em;
+}
+
+/* ここまでテーブルのカラム幅 */
+
 /* ここまでリストボックス */
 
 
