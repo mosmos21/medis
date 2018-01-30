@@ -2,11 +2,23 @@ package jp.co.unirita.medis.domain.documenttag;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
+import lombok.Data;
+
+@Data
 @Entity
+@Table(name = "document_tag")
 public class DocumentTag {
 
-    @Id
-    private String documentId;
+	@Id
+	@Size(min = 11, max = 11)
+	private String documentId;
 
+	@Id
+	@Size(min = 11, max = 11)
+	private String tagId;
+
+	private boolean isFixed;
 }
