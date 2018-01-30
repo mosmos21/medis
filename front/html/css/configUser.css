@@ -1,0 +1,115 @@
+.list_box {
+    border: 1px black solid;
+    height: auto;
+    width: 100%;
+    padding: 0;
+    border-radius: 5px;
+    border: 2px #999 solid;
+    box-shadow: 2px 2px 2px #999;
+    background: rgb(255, 255, 255);
+}
+table.company {
+    width: 95%;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0px 15px;
+    font-size: 18px;
+}
+ 
+table.company th,
+table.company td {
+    padding: 5px;
+}
+ 
+table.company th {
+    background: #29902e;
+    vertical-align: middle;
+    text-align: left;
+    width: 100px;
+    overflow: visible;
+    position: relative;
+    color: #fff;
+    font-weight: normal;
+    font-size: 18px;
+}
+ 
+table.company th:after {
+    left: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-left-color: #29902e;
+    border-width: 10px;
+    margin-top: -10px;
+}
+/* firefox */
+@-moz-document url-prefix() {
+    table.company th::after {
+        float: right;
+        padding: 0;
+        left: 30px;
+        top: 10px;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: relative;
+        pointer-events: none;
+        border: 10px solid transparent;
+        border-left: #0f9d58 10px solid;
+        margin-top: -10px;
+    }
+}
+ 
+table.company td {
+    background: #c5ffd1;
+    width: 360px;
+    padding-left: 20px;
+}
+
+.pen_btn {
+    width: 20px;
+    height: 20px;
+    cursor:pointer
+}
+.pen_position{
+    float: right;
+    margin-bottom:-8px;
+}
+
+.account_icon {
+    background: #ffffff;
+    width: 64px;
+    height: 64px;
+}
+.icon_position{
+    float: left;
+    margin-bottom:-8px;
+}
+
+.square_btn {
+    position: relative;
+    display: inline-block;
+    padding: 0.5em 2.5em;
+    text-decoration: none;
+    color: #FFF;
+    background: #479dff;/*背景色*/
+    border-bottom: solid 2px #278bc5;/*少し濃い目の色に*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+    text-transform: uppercase;
+    transition: background 0.3s ease-in-out;
+}
+.square_btn:hover{
+    background: #007bff;
+    border-bottom: solid 4x #037cc2;
+}
+
+.btn_position {
+    text-align: center;
+    margin: 20px; 
+}
