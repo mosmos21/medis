@@ -3,10 +3,9 @@ package jp.co.unirita.medis.domain.comment;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-
-import org.springframework.data.annotation.Id;
 
 import lombok.Data;
 

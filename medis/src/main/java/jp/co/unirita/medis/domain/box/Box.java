@@ -1,10 +1,10 @@
 package jp.co.unirita.medis.domain.box;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.springframework.data.annotation.Id;
 
 import lombok.Data;
 

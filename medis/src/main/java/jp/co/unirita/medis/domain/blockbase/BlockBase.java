@@ -1,10 +1,10 @@
 package jp.co.unirita.medis.domain.blockbase;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.springframework.data.annotation.Id;
 
 import lombok.Data;
 
@@ -14,7 +14,6 @@ import lombok.Data;
 public class BlockBase {
 
 	@Id
-
 	@Size(min = 11, max = 11)
 	private String blockId;
 
