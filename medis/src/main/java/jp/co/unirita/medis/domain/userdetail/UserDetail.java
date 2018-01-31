@@ -33,6 +33,5 @@ public class UserDetail {
 
 	private boolean isIcon;
 
-	@Size(max = 256)
-	private String password;
+
 }
