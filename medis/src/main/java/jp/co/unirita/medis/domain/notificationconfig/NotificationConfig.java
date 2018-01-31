@@ -1,14 +1,15 @@
 package jp.co.unirita.medis.domain.notificationconfig;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @Entity
+@IdClass(value = NotificationConfig.PK.class)
 @Table(name = "notification_config")
 public class NotificationConfig {
 
@@ -23,4 +24,11 @@ public class NotificationConfig {
 	private boolean isMailNotification;
 
 	private boolean isBrowserNotification;
+
+    @Data
+    public static class PK implements Serializable{
+        private String employeeNumber;
+        private String tagId;
+    }
+
 }

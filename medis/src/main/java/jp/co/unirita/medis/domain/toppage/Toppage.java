@@ -1,24 +1,31 @@
 package jp.co.unirita.medis.domain.toppage;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @Entity
+@IdClass(value = Toppage.PK.class)
 @Table(name = "toppage")
-public class Toppage {
+public class Toppage{
 
-	@Embedded
+	@Id
 	@Size(max = 64)
 	private String employeeNumber;
 
-	@Embedded
+	@Id
 	@Size(min = 11, max = 11)
 	private String boxId;
 
 	private int toppageOrder;
+
+    @Data
+    public static class PK implements Serializable{
+        private String employeeNumber;
+        private String boxId;
+    }
 }
