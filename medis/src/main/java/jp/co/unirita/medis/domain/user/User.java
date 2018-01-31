@@ -19,5 +19,5 @@ public class User {
 	@Size(min = 11, max = 11)
 	private String authorityId;
 
-	private boolean isValid;
+	private boolean isEnabled;
 }

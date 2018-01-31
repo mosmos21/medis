@@ -19,7 +19,7 @@ public class TempkeyInfo {
 	private String employeeNumber;
 
 	@Size(min = 32, max = 32)
-	private String tempkey;
+	private String tempKey;
 
 	private Timestamp changeDate;
 }
