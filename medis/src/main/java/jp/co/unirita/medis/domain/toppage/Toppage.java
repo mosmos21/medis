@@ -1,7 +1,7 @@
 package jp.co.unirita.medis.domain.toppage;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -12,11 +12,11 @@ import lombok.Data;
 @Table(name = "toppage")
 public class Toppage {
 
-	@Id
+	@Embedded
 	@Size(max = 64)
 	private String employeeNumber;
 
-	@Id
+	@Embedded
 	@Size(min = 11, max = 11)
 	private String boxId;
 

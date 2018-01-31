@@ -1,7 +1,7 @@
 package jp.co.unirita.medis.domain.documenttag;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -12,11 +12,11 @@ import lombok.Data;
 @Table(name = "document_tag")
 public class DocumentTag {
 
-	@Id
+	@Embedded
 	@Size(min = 11, max = 11)
 	private String documentId;
 
-	@Id
+	@Embedded
 	@Size(min = 11, max = 11)
 	private String tagId;
 
