@@ -1,6 +1,7 @@
 package jp.co.unirita.medis.logic;
 
 import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.form.UserLoginForm;
 import lombok.Data;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,18 +17,11 @@ public class LoginLogic {
 
     private final AuthenticationManager authManager;
 
-    public void login(LoginData loginData) {
-        Authentication auth = new UsernamePasswordAuthenticationToken(loginData.getLoginId(), loginData.getPassword());
+    public void login(UserLoginForm loginForm) {
+        Authentication auth = new UsernamePasswordAuthenticationToken(loginForm.getEmployeeNumber(), loginForm.getPassword());
         Authentication result = authManager.authenticate(auth);
 
         SecurityContextHolder.getContext().setAuthentication(result);
         User principal = (User)result.getPrincipal();
-    }
-
-    @Data
-    public static class LoginData implements Serializable {
-        private static final long serialVersionUID = 1L;
-        private String loginId;
-        private String password;
     }
 }
