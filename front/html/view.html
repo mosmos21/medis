@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="ico/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
+    <link rel="stylesheet" type="text/css" href="css/side_menu.css" />
+    <link rel="stylesheet" type="text/css" href="css/view.css" />
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/side_menu.js"></script>
+    <script type="text/javascript" src="js/update_monitoring.js"></script>
+    <script type="text/javascript" src="js/screen_size.js"></script>
+
+    <title>MEDIS - 文書タイトル</title>
+</head>
+<body>
+    <div id="wrap_side_menu" class="active">
+        <div id="wrap_side_menu_icon">
+            <div id="menu_user" class="side_menu_icon"></div>
+            <div id="menu_search" class="side_menu_icon"></div>
+            <div id="menu_config" class="side_menu_icon"></div>
+        </div>
+        <div id="wrap_side_menu_content">
+            <div id="menu_user_content" class="menu_content">
+                    <div class="wrap_menu_contet_link">
+                    <div class="menu_content_link">
+                        <img src="image/top.svg"/>
+                        <div class="menu_content_link_text">トップページ</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/new.svg" />
+                        <div class="menu_content_link_text">新規作成</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/new.svg" />
+                        <div class="menu_content_link_text">下書き</div>
+                    </div>
+                </div>
+            </div>
+            <div id="menu_search_content" class="menu_content">
+                <div class="wrap_search_content">
+                    <h2>検索</h2>
+                </div>
+                <div class="wrap_search_content">
+                    <div id="search_box">
+                        <div id="selected_tags"></div>
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="wrap_search_content">
+                    <div id="search_tag_candidate" class="content_scroll_y">
+                        <div class="tag_base tag_middle">2017年度新人研修</div>
+                        <div class="tag_base tag_middle">2018年度新人研修</div>
+                        <div class="tag_base tag_middle">A-AUTO研修</div>
+                        <div class="tag_base tag_middle">帳票研修</div>
+                        <div class="tag_base tag_middle">Waha!研修</div>
+                        <div class="tag_base tag_middle">研修</div>
+                    </div>
+                </div>
+            </div>
+            <div id="menu_config_content" class="menu_content">
+                <div class="wrap_menu_contet_link">
+                    <div class="menu_content_link">
+                        <img src="image/user_config.svg" />
+                        <div class="menu_content_link_text">ユーザ設定</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/top_config.svg" />
+                        <div class="menu_content_link_text">トップページ設定</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/tag_config.svg" />
+                        <div class="menu_content_link_text">監視タグ設定</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/bell_config.svg" />
+                        <div class="menu_content_link_text">通知設定</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="side_menu_key"></div>
+        <div id="icon_logout"></div>
+    </div>
+    <div id="wrap_main_content">
+        <div class="wrap_main_content_center content_scroll">
+            <!--
+            <div class="main_content_header">
+                <h1>文書タイトル</h1>
+            </div>
+            <hr />
+            -->
+            <div id="view_body">
+                <div id="view_plate">
+                    <div id="view_header">
+                        <h1>文書タイトル</h1>
+                        <hr />
+                        <div id="tag_list">
+                            <div class="tag_base tag_middle tag_side tag_erasable">2018年度新人研修日報</div>
+                            <div class="tag_base tag_middle tag_side tag_erasable">ビジネスマナー研修</div>
+                        </div>
+                    </div>
+                    <div id="view_content_list">
+                        <div class="view_content_block_header">
+                            <h4>学んだこと</h4>
+                        </div>
+                        <hr/>
+                        <div class="view_content_block_body">
+                            <ul type="disc">
+                                <li>学んだこと1</li>
+                                <span>ああああああああ</span>
+                                <li>学んだこと2</li>
+                                <li>学んだこと3</li>
+                                <li>学んだこと4</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="view_comment">
+                    <h1>コメント</h1>
+                    <hr/>
+                    <div id="view_comment_list">
+                        <div class="view_comment_content">
+                            <div class="user_icon">
+                                <img src="image/user.svg">
+                            </div>
+                            <div class="comment_info">
+                                <p class="user_name">浅野雅則</p>
+                                <p class="comment_date">2018/01/31 17:16</p>
+                            </div>
+                            <hr/>
+                            <div class="comment_text">
+                                <span>コメントの内容あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="wrap_footer_content">
+            <div class="footer">
+                <div class="footer_area">
+                    <div id="comment">
+                        <p>コメント</p>
+                        <textarea id="comment_input"></textarea>
+                    </div>
+                    <div class="footer_botton">
+                        <div class="footer_button_zoom">
+                            <button class="resize" value = "-0.1">縮小</button>
+                            <button class="resize" value = "0">元のサイズ</button>
+                            <button class="resize" value = "0.1">拡大</button>
+                        </div>
+                        <div class="footer_button_send">
+                            <button class="send_comment">送信</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>

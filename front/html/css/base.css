@@ -19,6 +19,19 @@ body {
     overflow-y: scroll;
 }
 
+.content_scroll {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    white-space: nowrap;
+}
+
+#wrap_footer_content {
+    z-index: 3;
+    position: fixed; /* 固定 */
+    bottom: 15px; /* 一番下に表示 */
+    left: 320px;
+}
+
 #wrap_main_content {
     position: fixed;
     left: 320px;

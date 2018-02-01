@@ -1,0 +1,140 @@
+#edit_template_header {
+    width: 100%;
+    height: 50px;
+    margin: 10px 0;
+    padding: 10px 30px;
+}
+
+#view_body {
+    margin: 0 3%;
+    padding: 0;
+    height: calc(100% - 50px);
+    width: 94%;
+}
+
+#view_plate {
+    background: #fff;
+    margin-top: 50px;
+    padding: 10px;
+    min-width: 800px;
+    width: auto;
+    min-height: 1200px;
+    height: auto;
+    border-top: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    box-shadow: 5px 5px 5px #999;
+}
+
+.template_block_desc {
+    width: 90%;
+}
+
+/*固定タグ*/
+#tag_list {
+    margin: 10px;
+    min-height: 40px;
+}
+
+/* ここまでテンプレ部分 */
+
+/* 内容部分 */
+#view_header {
+    margin-left: 2em;
+    margin-right: 2em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+#view_content_list {
+    margin-left: 4em;
+    margin-right: 4em;
+}
+
+.view_content_block_body {
+    margin-top: 2mm;
+    margin-left: 2em;
+}
+
+/* コメント部分 */
+
+.footer {
+    background-color:rgba(97, 97, 97, 0.5);
+    padding: 10px;
+    left: 320px;
+    width: calc(100% - 25px);
+    margin-left: 15px;
+    margin-right: 15px;
+    height: 200px;
+}
+
+#comment {
+    text-align: left;
+    margin-left: 5em;
+    width: auto;
+}
+
+#comment_input {
+    resize: none;
+    width: 97%;
+    height: 110px;
+}
+
+.footer_botton {
+    display: table;
+    width: 75%;
+    margin-left: 22.5%;
+    margin-right: 2.5%;
+    margin-top: 10px;
+}
+
+.footer_button_zoom {
+    display: table-cell;
+    width: 80%;
+    text-align: center;
+}
+
+.footer_button_send {
+    display: table-cell;
+    width: 20%;
+    text-align: right;
+}
+
+/* コメント表示 */
+
+#view_comment {
+    margin-top: 1em;
+    margin-bottom: 220px;
+    min-width: 850px;
+}
+
+
+.view_comment_content {
+    width: 90%;
+    margin-top: 20px;
+    margin-left: 20px;
+    min-width: 800px;
+    max-width: 90%;
+    word-wrap: break-word;
+    overflow-wrap : break-word;
+}
+
+.user_icon {
+    width: 50px;
+    height: 50px;
+    float: left;
+}
+
+.user_name{
+    float: left;
+}
+
+.comment_date {
+    text-align: right;
+}
+
+.comment_text {
+    white-space: normal;
+    margin-left: 50px;
+    word-wrap: break-word;
+    overflow-wrap : break-word;
+}

@@ -10,10 +10,12 @@ $(function(){
             var main_content_close = $(window).width();
             $('#wrap_side_menu').stop().animate({left:'-320px'}, {queue:false}).removeClass('active');
             $('#wrap_main_content').stop().animate({left:'0px', width: main_content_close + 'px'}, {queue:false});
+            $('#wrap_footer_content').stop().animate({left:'0px', width: main_content_close + 'px'}, {queue:false});
         } else {
             var main_content_open = $(window).width() - 320;
             $('#wrap_side_menu').stop().animate({left:'0'}).addClass('active');
             $('#wrap_main_content').stop().animate({left:'320px', width: main_content_open + 'px'}, {queue:false});
+            $('#wrap_footer_content').stop().animate({left:'320px', width: main_content_open + 'px'}, {queue:false});
         }
     });
 
@@ -46,6 +48,7 @@ $(function(){
     $(window).on('load resize', function(){
         var new_size = $(window).width() - 320 - parseInt($('#wrap_side_menu').css('left'));
         $('#wrap_main_content').css('width', new_size + 'px');
+        $('#wrap_footer_content').css('width', new_size + 'px');
     });
 
     // ================  検索されたタブの反映 ================
