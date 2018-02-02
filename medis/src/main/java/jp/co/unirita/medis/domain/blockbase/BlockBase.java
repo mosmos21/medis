@@ -5,7 +5,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-
 import lombok.Data;
 
 @Data
@@ -19,7 +18,7 @@ public class BlockBase {
 
 	private String blockBaseHtml;
 
-	private boolean isUnique;
+	private boolean isisrRquired;
 
 	private boolean Variable;
 }
