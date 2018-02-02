@@ -30,8 +30,8 @@ public class SettingController {
 		return order;
 	}
 
-	@RequestMapping(value = "/me", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-	List<UserDetail> getUerDetail(@AuthenticationPrincipal UserDetail userdetail) {
+	@RequestMapping(value = "me", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	List<UserDetail> getUserDetail(@AuthenticationPrincipal UserDetail userdetail) {
 		List<UserDetail> detail = userdetailRepository.findAllByEmployeeNumber(userdetail.getEmployeeNumber());
 		return detail;
 	}
