@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="ico/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
+    <link rel="stylesheet" type="text/css" href="css/side_menu.css" />
+    <link rel="stylesheet" type="text/css" href="css/configTop.css" />
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/side_menu.js"></script>
+    <script type="text/javascript" src="js/configTop.js"></script>
+
+    <title>MEDIS - トップページ設定</title>
+</head>
+<body>
+    <div id="wrap_side_menu" class="active">
+        <div id="wrap_side_menu_icon">
+            <div id="menu_user" class="side_menu_icon"></div>
+            <div id="menu_search" class="side_menu_icon"></div>
+            <div id="menu_config" class="side_menu_icon"></div>
+        </div>
+        <div id="wrap_side_menu_content">
+            <div id="menu_user_content" class="menu_content">
+                    <div class="wrap_menu_contet_link">
+                    <div class="menu_content_link">
+                        <img src="image/top.svg"/>
+                        <div class="menu_content_link_text">トップページ</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/new.svg" />
+                        <div class="menu_content_link_text">新規作成</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/new.svg" />
+                        <div class="menu_content_link_text">下書き</div>
+                    </div>
+                </div>
+            </div>
+            <div id="menu_search_content" class="menu_content">
+                <div class="wrap_search_content">
+                    <h2>検索</h2>
+                </div>
+                <div class="wrap_search_content">
+                    <div id="search_box">
+                        <div id="selected_tags"></div>
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="wrap_search_content">
+                    <div id="search_tag_candidate" class="content_scroll_y">
+                    </div>
+                </div>
+            </div>
+            <div id="menu_config_content" class="menu_content">
+                <div class="wrap_menu_contet_link">
+                    <div class="menu_content_link">
+                        <img src="image/user_config.svg" />
+                        <div class="menu_content_link_text">ユーザ設定</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/top_config.svg" />
+                        <div class="menu_content_link_text">トップページ設定</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/tag_config.svg" />
+                        <div class="menu_content_link_text">監視タグ設定</div>
+                    </div>
+                    <div class="menu_content_link">
+                        <img src="image/bell_config.svg" />
+                        <div class="menu_content_link_text">通知設定</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="side_menu_key"></div>
+        <div id="icon_logout"></div>
+    </div>
+
+    <div id="wrap_main_content">
+        <div class="wrap_main_content_center">
+            <form>
+                <div id="wrap_edit_template" class="wrap_edit_content">
+                    <div id="edit_template_header">
+                        <h2>トップページ設定</h2>
+                    </div>
+                    <hr />
+                    <div id="edit_template_body" class="content_scroll_y">
+                        <div id="template_plate">
+                            <div id="template_content_list">
+                                <div id="0">
+                                <div class="block0 template_block_body">
+                                    <div class="content_button remove">X</div>
+                                    <div class="content_button down">↓</div>
+                                    <div class="content_button up">↑</div>
+                                    <div class="block_body block0">
+                                        <div class="list_box">
+                                            <div class="list_box_header">
+                                                <h3>最近の更新</h3>
+                                            </div>
+                                                <div class="list_box_content content_scroll_y">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#">あなたの投稿した文書にコメントがつきました</a>
+                                                            <div class="list_content_time">1970/01/01 00:00</div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">監視登録タグ「新人研修日報」のついた文書が投稿されました</a>
+                                                            <div class="list_content_time">1970/01/01 00:00</div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">あなたがつけたコメントが既読になりました</a>
+                                                            <div class="list_content_time">1970/01/01 00:00</div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">監視登録タグ「新人研修日報」のついた文書が投稿されました</a>
+                                                            <div class="list_content_time">1970/01/01 00:00</div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">監視登録タグ「新人研修日報」のついた文書が投稿されました</a>
+                                                            <div class="list_content_time">1970/01/01 00:00</div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">あなたがつけたコメントが既読になりました</a>
+                                                            <div class="list_content_time">1970/01/01 00:00</div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">あなたがつけたコメントが既読になりました</a>
+                                                            <div class="list_content_time">1970/01/01 00:00</div>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">あなたがつけたコメントが既読になりました</a>
+                                                            <div class="list_content_time">1970/01/01 00:00</div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="1">
+                                    <div class="block1 template_block_body">
+                                        <div class="content_button remove">X</div>
+                                        <div class="content_button down">↓</div>
+                                        <div class="content_button up">↑</div>
+                                        <div class="block_body">
+                                            <div class="list_box">
+                                                <div class="list_box_header">
+                                                    <h3>自分の投稿一覧</h3>
+                                                </div>
+                                                <div class="list_box_content content_scroll_y">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="2">
+                                        <div class="block2 template_block_body">
+                                            <div class="content_button remove">X</div>
+                                            <div class="content_button down">↓</div>
+                                             <div class="content_button up">↑</div>
+                                            <div class="block_body">
+                                                <div class="list_box">
+                                                    <div class="list_box_header">
+                                                        <h3>お気に入り文書一覧</h3>
+                                                    </div>
+                                                    <div class="list_box_content content_scroll_y">                           
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div id="3">
+                                        <div class="block3 template_block_body">
+                                            <div class="content_button remove">X</div>
+                                            <div class="content_button down">↓</div>
+                                            <div class="content_button up">↑</div>
+                                            <div class="block_body">
+                                                <div class="list_box">
+                                                    <div class="list_box_header">
+                                                        <h3>監視タグ付き文書一覧</h3>
+                                                    </div>
+                                                    <div class="list_box_content content_scroll_y">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div id="4">
+                                        <div class="block4 template_block_body">
+                                            <div class="content_button remove">X</div>
+                                            <div class="content_button down">↓</div>
+                                            <div class="content_button up">↑</div>
+                                            <div class="block_body">
+                                                <div class="list_box">
+                                                    <div class="list_box_header">
+                                                        <h3>テンプレート一覧</h3>
+                                                    </div>
+                                                    <div class="list_box_content content_scroll_y">       
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
+                    <h2>テンプレートブロック</h2>
+                    <div id="template_block_list" class="content_scroll_y">
+                        <div id="template_block1" class="wrap_template_block" draggable="true">
+                            <div class="template_block_info">最近の更新の説明</div>
+                            <div class="template_block_body">
+                                <div class="content_button remove">X</div>
+                                <div class="content_button down">↓</div>
+                                <div class="content_button up">↑</div>
+                                <div class="block_body">
+                                    <div class="list_box">
+                                        <div class="list_box_header">
+                                            <h3>最近の更新</h3>
+                                        </div>
+                                            <div class="list_box_content content_scroll_y">
+                                                <ul>
+                                                    <li>
+                                                        <a href="#">あなたの投稿した文書にコメントがつきました</a>
+                                                        <div class="list_content_time">1970/01/01 00:00</div>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">監視登録タグ「新人研修日報」のついた文書が投稿されました</a>
+                                                        <div class="list_content_time">1970/01/01 00:00</div>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">あなたがつけたコメントが既読になりました</a>
+                                                        <div class="list_content_time">1970/01/01 00:00</div>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">監視登録タグ「新人研修日報」のついた文書が投稿されました</a>
+                                                        <div class="list_content_time">1970/01/01 00:00</div>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">監視登録タグ「新人研修日報」のついた文書が投稿されました</a>
+                                                        <div class="list_content_time">1970/01/01 00:00</div>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">あなたがつけたコメントが既読になりました</a>
+                                                        <div class="list_content_time">1970/01/01 00:00</div>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">あなたがつけたコメントが既読になりました</a>
+                                                        <div class="list_content_time">1970/01/01 00:00</div>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">あなたがつけたコメントが既読になりました</a>
+                                                        <div class="list_content_time">1970/01/01 00:00</div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="template_block2" class="wrap_template_block" draggable="true">
+                            <div class="template_block_info">自分の投稿一覧の説明</div>
+                            <div class="template_block_body">
+                                <div class="content_button remove">X</div>
+                                <div class="content_button down">↓</div>
+                                <div class="content_button up">↑</div>
+                                <div class="block_body">
+                                    <div class="list_box">
+                                        <div class="list_box_header">
+                                            <h3>自分の投稿一覧</h3>
+                                        </div>
+                                        <div class="list_box_content content_scroll_y">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="template_block3" class="wrap_template_block" draggable="true">
+                            <div class="template_block_info">お気に入り文書一覧の説明</div>
+                            <div class="template_block_body">
+                                <div class="content_button remove">X</div>
+                                <div class="content_button down">↓</div>
+                                <div class="content_button up">↑</div>
+                                <div class="block_body">
+                                    <div class="list_box">
+                                        <div class="list_box_header">
+                                            <h3>お気に入り文書一覧</h3>
+                                        </div>
+                                        <div class="list_box_content content_scroll_y">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="template_block4" class="wrap_template_block" draggable="true">
+                            <div class="template_block_info">監視タグ付き文書一覧の説明</div>
+                            <div class="template_block_body">
+                                <div class="content_button remove">X</div>
+                                <div class="content_button down">↓</div>
+                                <div class="content_button up">↑</div>
+                                <div class="block_body">
+                                    <div class="list_box">
+                                        <div class="list_box_header">
+                                            <h3>監視タグ付き文書一覧</h3>
+                                        </div>
+                                        <div class="list_box_content content_scroll_y">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="template_block5" class="wrap_template_block" draggable="true">
+                            <div class="template_block_info">テンプレート一覧の説明</div>
+                            <div class="template_block_body">
+                                <div class="content_button remove">X</div>
+                                <div class="content_button down">↓</div>
+                                <div class="content_button up">↑</div>
+                                <div class="block_body">
+                                    <div class="list_box">
+                                        <div class="list_box_header">
+                                            <h3>テンプレート一覧</h3>
+                                        </div>
+                                        <div class="list_box_content content_scroll_y">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="wrap_template_toolbar_button">
+                        <div>
+                            <div class="send_button">保存</div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
