@@ -1,6 +1,6 @@
 $(function(){
     var order = ['0', '1', '2', '3', '4',]; /* （仮）配置情報　*/
-    var sort = ['0','0']; /* 並び替え用　*/
+    var sort = ['0','0' ,'0']; /* 並び替え用　*/
 
     $("#template_block_list .wrap_template_block .template_block_body").hide();
 
@@ -39,14 +39,24 @@ $(function(){
             });
         });
         $(".down").on('click', function(){
-            $(this).parent().parent().before($('#' + order[order.indexOf($(this).parent().parent().attr('id'))+1]));
-            sort[0] = order[order.indexOf($(this).parent().parent().attr('id'))];
-            sort[1] = order[order.indexOf($(this).parent().parent().attr('id'))+1];
-            alert(order.indexOf($(this).parent().parent().attr('id')));
-            order[order.indexOf($(this).parent().parent().attr('id'))] = sort[1];
-            order[order.indexOf($(this).parent().parent().attr('id'))+1] = 99;
-            alert(order.indexOf($(this).parent().parent().attr('id')));
-            alert(order);
+            if(order[order.length -1] != order[order.indexOf($(this).parent().parent().attr('id'))]){
+                $(this).parent().parent().before($('#' + order[order.indexOf($(this).parent().parent().attr('id'))+1]));
+                sort[0] = order.indexOf($(this).parent().parent().attr('id'));
+                sort[1] = order.indexOf($(this).parent().parent().attr('id'))+1;
+                sort[2] = order[order.indexOf($(this).parent().parent().attr('id'))];
+                order[sort[0]] = order[order.indexOf($(this).parent().parent().attr('id'))+1];
+                order[sort[1]] = sort[2];
+            }
+        });
+        $(".up").on('click', function(){
+            if(order[0] != order[order.indexOf($(this).parent().parent().attr('id'))]){
+                $(this).parent().parent().after($('#' + order[order.indexOf($(this).parent().parent().attr('id'))-1]));
+                sort[0] = order.indexOf($(this).parent().parent().attr('id'));
+                sort[1] = order.indexOf($(this).parent().parent().attr('id'))-1;
+                sort[2] = order[order.indexOf($(this).parent().parent().attr('id'))];
+                order[sort[0]] = order[order.indexOf($(this).parent().parent().attr('id'))-1];
+                order[sort[1]] = sort[2];
+            }
         });
         $(function() {
             $('#template_content_list').sortable();
