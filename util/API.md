@@ -16,20 +16,17 @@ medisのAPI情報の一覧
         ---
         - レスポンス
         ```json
-        {
-            "size": "(新しく更新があった情報の数)",
-            "updates": [
-                {
-                    "id": "(updateId)",
-                    "documentId": "(documentId)",
-                    "documentName": "(documentName)",
-                    "type": "(updateType)",
-                    "employeeNumber": "(employeeNumber)",
-                    "date": "(updateDate)"
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "id": "(updateId)",
+                "documentId": "(documentId)",
+                "documentName": "(documentName)",
+                "type": "(updateType)",
+                "employeeNumber": "(employeeNumber)",
+                "date": "(updateDate)"
+            },
+            ...
+        ]
         ```
 
 - ## ドキュメント一覧の情報を取得
@@ -49,16 +46,16 @@ medisのAPI情報の一覧
         | 変数 |  |
         | :---: | --- |
         | user | 情報を取得する社員番号 |
-        | type | all : すべての文書<br>true : 公開済み文書<br>false : 下書き文書 |
+        | type | publish : 公開済み文書<br>private : 下書き文書 |
         | size | 新しいものから何件まで取得するか指定 |
 
         ---
         - レスポンス
         ```json
-        "documents": [
+        [
             {
                 "id": "(documentId)",
-                "title": "(documentTitle)",,
+                "title": "(documentTitle)",
                 "employeeNumber": "(employeeNumber)",
                 "createDate": "(createDate)",
                 "isPublished": "(true|false)"
@@ -81,18 +78,15 @@ medisのAPI情報の一覧
         ---
         - レスポンス
         ```json
-        {
-            "size": "(登録されている文書の数)",
-            "documents": [
-                {
-                    "id": "(documentId)",
-                    "title": "(documentTitle)",,
-                    "employeeNumber": "(employeeNumber)",
-                    "createDate": "(createDate)"
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "id": "(documentId)",
+                "title": "(documentTitle)",
+                "employeeNumber": "(employeeNumber)",
+                "createDate": "(createDate)"
+            },
+            ...
+        ]
         ```
 
 - ## 監視タグ文書の一覧を取得
@@ -109,92 +103,78 @@ medisのAPI情報の一覧
         ---
         - レスポンス
         ```json
-        {
-            "size": "(登録されている文書の数)",
-            "documents": [
-                {
-                    "id": "(documentId)",
-                    "title": "(documentTitle)",,
-                    "employeeNumber": "(employeeNumber)",
-                    "createDate": "(createDate)"
-                },
-                ...
-            ]
-        }
-        ```
-
-
-- ## ログイン時アカウント情報の取得
-    - ### [GET] https://{host}/accounts/{user}
-        ログイン画面から社員番号とパスワードを入力した後のアカウント情報を取得する
-        
-
-        | 変数 |  |
-        | :---: | --- |
-        | user | 入力された社員番号 |
-        
-
-        ---
-        - レスポンス
-        ```json
-        {
-            "isEnabled": "(isEnabled)",
-            "authorityId": "(authorityId)",
-            "passwordhash": "(passwordhash)"
-        }
+        [
+            {
+                "id": "(documentId)",
+                "title": "(documentTitle)",
+                "employeeNumber": "(employeeNumber)",
+                "createDate": "(createDate)"
+            },
+            ...
+        ]
         ```
 
 - ## パスワード再設定用のデータの確認結果の取得
-    - ### [GET] https://{host}/accounts/password/{user}
+    - ### [POST] https://{host}/accounts/usercheck
         パスワード再設定時にユーザが入力する社員番号とメールアドレスが存在するか、またデータが一致するかをチェックし、番号で返す<br>
         問題なかった場合、一時キーの生成とメールを送る処理をおこなうロジックを動かす
 
         | 変数 |  |
         | :---: | --- |
-        | user | 情報を取得する社員番号 |
         
+        - リクエスト
+        ```json
+        {
+            "employeeNumber": "(employeeNumber)",
+            "mailaddress": "(mailaddress)"
+        }
 
         ---
         - レスポンス
         ```json
         {
-            "responseNumber": "(responseNumber)"
+            "result": "(result)",
+            "message": "(message)"
         }
         ```
 
 - ## 一時キーの整合性、使用期限チェックの確認結果の取得
-    - ### [GET] https://{host}/accounts/password/{tempKey}
+    - ### [POST] https://{host}/accounts/keycheck
         送られてきたパスワード再設定用のメールにあるURLに飛んだ際に、一時キーと社員番号の整合性と、一時キーの有効期限のチェックの結果を返す
 
         | 変数 |  |
         | :---: | --- |
-        | tempKey | 社員番号との整合性をとるための一時キー |
         
+        - リクエスト
+        ```json
+        {
+            "tempKey": "(tempKey)"
+        }
 
         ---
         - レスポンス
         ```json
         {
-            "isAvailable": "(isAvailable)"
+            "result": "(result)",
+            "message": "(message)"
         }
         ```
 
 - ## パスワードの更新
-    - ### [PUT] https://{host}/accounts/password
+    - ### [POST] https://{host}/accounts/reset
         パスワードを再設定した際の結果を返す
 
         | 変数 |  |
         | :---: | --- |
 
         
-
         ---
         - リクエスト
         ```json
         {
             "employeeNumber": "(employeeNumber)",
             "mailaddress": "(mailaddress)",
-            "passwordhash": "(passwordhash)"
+            "password": "(password)"
         }
         ```
         - レスポンス
@@ -206,6 +186,7 @@ medisのAPI情報の一覧
 
 - ## ユーザ情報設定情報の取得
     - ### [GET] https://{host}/settings/me
+        「設定」のユーザ情報を表示させる
         
 
         | 変数 |  |
@@ -227,7 +208,8 @@ medisのAPI情報の一覧
         ```
 
 - ## ユーザ情報設定情報の更新
-    - ### [PUT] https://{host}/settings/me
+    - ### [POST] https://{host}/settings/me
+        「設定」のユーザ情報を更新する時に使用
         
 
         | 変数 |  |
@@ -254,6 +236,7 @@ medisのAPI情報の一覧
 
 - ## トップページ設定情報の取得
     - ### [GET] https://{host}/settings/me/toppage
+        「設定」のトップページ設定の情報の取得時に使用
         
 
         | 変数 |  |
@@ -263,9 +246,8 @@ medisのAPI情報の一覧
         ---
         - レスポンス
         ```json
-        "boxList": [
+        [
             {
-                "employeeNumber": "(employeeNumber)",
                 "boxId": "(boxId)",
                 "toppageOrder": "(toppageOrder)",
                 "boxName": "(boxName)"
@@ -275,7 +257,8 @@ medisのAPI情報の一覧
         ```
 
 - ## トップページ設定情報の更新
-    - ### [PUT] https://{host}/settings/me/toppage
+    - ### [POST] https://{host}/settings/me/toppage
+        「設定」のトップページ設定の更新を行うときに使用
         
 
         | 変数 |  |
@@ -285,11 +268,10 @@ medisのAPI情報の一覧
         ---
         - リクエスト
         ```json
-        "boxList": [
+        [
             {
-                "employeeNumber": "(employeeNumber)",
                 "boxId": "(boxId)",
-                "toppageOrder": "(toppageOrder)",
+                "toppageOrder": "(toppageOrder)"
             },
             ...
         ]
@@ -302,6 +284,7 @@ medisのAPI情報の一覧
 
 - ## 監視タグ設定情報の取得
     - ### [GET] https://{host}/settings/me/monitoring_tag
+        「設定」の監視タグの現在選択しているタグ一覧を表示させる
         
 
         | 変数 |  |
@@ -311,21 +294,18 @@ medisのAPI情報の一覧
         ---
         - レスポンス
         ```json
-        {
-            "size": "(監視しているタグの数)",
-            "tags": [
-                {
-                    "employeeNumber": "(employeeNumber)",
-                    "tagId": "(tagId)",
-                    "tagName": "(tagName)"
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "tagId": "(tagId)",
+                "tagName": "(tagName)"
+            },
+            ...
+        ]
         ```
 
 - ## 監視タグ設定情報の更新
-    - ### [PUT] https://{host}/settings/me/monitoring_tag
+    - ### [POST] https://{host}/settings/me/monitoring_tag
+        「設定」の監視タグ一覧を更新する時に使用
         
 
         | 変数 |  |
@@ -335,15 +315,12 @@ medisのAPI情報の一覧
         ---
         - リクエスト
         ```json
-        {
-            "tags": [
-                {
-                    "employeeNumber": "(employeeNumber)",
-                    "tagId": "(tagId)",
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "tagId": "(tagId)"
+            },
+            ...
+        ]
         ```
         - レスポンス
         ```json
@@ -353,7 +330,7 @@ medisのAPI情報の一覧
 
 - ## 通知設定情報の取得
     - ### [GET] https://{host}/settings/me/notification
-        
+        「設定」の通知設定の現在の情報を取得
 
         | 変数 |  |
         | :---: | --- |
@@ -362,23 +339,20 @@ medisのAPI情報の一覧
         ---
         - レスポンス
         ```json
-        {
-            "size": "(監視しているタグの数)",
-            "notification_config": [
-                {
-                    "employeeNumber": "(employeeNumber)",
-                    "tagId": "(tagId)",
-                    "tagName": "(tagName)",
-                    "isMailNotification": "(isMailNotification)",
-                    "isBrowserNotification": "(isBrowserNotification)"
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "tagId": "(tagId)",
+                "tagName": "(tagName)",
+                "isMailNotification": "(isMailNotification)",
+                "isBrowserNotification": "(isBrowserNotification)"
+            },
+            ...
+        ]
         ```
 
 - ## 通知設定情報の更新
-    - ### [PUT] https://{host}/settings/me/notification
+    - ### [POST] https://{host}/settings/me/notification
+        「設定」の通知設定を更新する時に使用
         
 
         | 変数 |  |
@@ -388,17 +362,14 @@ medisのAPI情報の一覧
         ---
         - リクエスト
         ```json
-        {
-            "nitification_config": [
-                {
-                    "employeeNumber": "(employeeNumber)",
-                    "tagId": "(tagId)",
-                    "isMailNotification": "(isMailNotification)",
-                    "isBrowserNotification": "(isBrowserNotification)"
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "tagId": "(tagId)",
+                "isMailNotification": "(isMailNotification)",
+                "isBrowserNotification": "(isBrowserNotification)"
+            },
+            ...
+        ]
         ```
         - レスポンス
         ```json
@@ -407,7 +378,7 @@ medisのAPI情報の一覧
         }
 
 - ## テンプレート一覧情報の取得
-    - ### [GET] https://{host}/settings/templateList
+    - ### [GET] https://{host}/templateList
     - ### [GET] https://{host}/settings/templateList/publish
     - ### [GET] https://{host}/settings/templateList/private
         管理者によるテンプレート編集、文書作成時のテンプレート選択時に使用する
@@ -421,28 +392,25 @@ medisのAPI情報の一覧
         ---
         - レスポンス
         ```json
-        {
-            "size": "(表示させるテンプレートの数)",
-            "templateList": [
-                {
-                    "templateId": "(templateId)",
-                    "templateName": "(templateName)",
-                    "templateCreateDate": "(templateCreateDate)",
-                    "employeeNumber": "(employeeNumber)",
-                    "isTemplatePublish": "(isTemplatePublish)"
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "templateId": "(templateId)",
+                "templateName": "(templateName)",
+                "templateCreateDate": "(templateCreateDate)",
+                "employeeNumber": "(employeeNumber)",
+                "isTemplatePublish": "(isTemplatePublish)"
+            },
+            ...
+        ]
         ```
 
-- ## テンプレート情報の取得
-    - ### [GET] https://{host}/template/{templateId}
+- ## テンプレートベース情報の取得
+    - ### [GET] https://{host}/template/bases
+        テンプレートを作るベースの情報で、テンプレート作成、テンプレート編集、文書作成、文書編集時に使用する
         
 
         | 変数 |  |
         | :---: | --- |
-        | templateId | 情報を取得するテンプレート番号 |
 
 
         ---
@@ -450,23 +418,43 @@ medisのAPI情報の一覧
         ```json
         {
             "templateId": "(templateId)",
-            "fixedTagId": "(fixedTagId)",
-            "tagId": "(tagId)",
-            "tagName": "(tagName)",
-            "templateframe" [
+            "templatebase" [
                 {
                     "templateOrder": "(templateOrder)",
                     "blockId": "(blockId)",
                     "blockBaseHtml": "(blockBaseHtml)",
-                    "isUnique": "(isUnique)",
+                    "isRequired": "(isRequired)",
                     "isVariable": "(isVariable)",
                     "addHtml": "(addHtml)",
+                    "blockBaseInfo": "(blockBaseInfo)"
+                },
+                ...
+            ]
+        }
+        ```
+
+- ## テンプレートコンテント情報の取得
+    - ### [GET] https://{host}/template/contents
+        テンプレートを作る内容の情報で、テンプレート作成、テンプレート編集、文書作成、文書編集時に使用する
+
+        | 変数 |  |
+        | :---: | --- |
+
+
+        ---
+        - レスポンス
+        ```json
+        {
+            "templateId": "(templateId)",
+            "templateContent" [
+                {
+                    "templateOrder": "(templateOrder)",
                     "lineLength": "(lineLength)",
                     "isUserValiable": "(isUserValiable)",
-                    "templateContent": [
+                    "eachOrderContent": [
                         {
                             "lineNumber": "(lineNumber)",
-                            "contentHtml": "(contentHtml)",
+                            "contentHtml": "(contentHtml)"
                         },
                         ...
                     ]
@@ -476,9 +464,9 @@ medisのAPI情報の一覧
         }
         ```
 
-- ## テンプレート情報の更新
-    - ### [PUT] https://{host}/settings/template/{templateId}
-        
+- ## テンプレートコンテント情報の更新
+    - ### [POST] https://{host}/template/{templateId}
+        テンプレート内容の更新用で、テンプレート編集、文章編集時に使用   
 
         | 変数 |  |
         | :---: | --- |
@@ -490,25 +478,16 @@ medisのAPI情報の一覧
         ```json
         {
             "templateId": "(templateId)",
-            "templateCreateDate": "(templateCreateDate)",
             "isTemplatePabulish": "(isTemplatePublish)",
-            "fixedTagId": "(fixedTagId)",
-            "tagId": "(tagId)",
-            "tagName": "(tagName)",
             "templateframe" [
                 {
                     "templateOrder": "(templateOrder)",
-                    "blockId": "(blockId)",
-                    "blockBaseHtml": "(blockBaseHtml)",
-                    "isUnique": "(isUnique)",
-                    "isVariable": "(isVariable)",
-                    "addHtml": "(addHtml)",
                     "lineLength": "(lineLength)",
                     "isUserValiable": "(isUserValiable)",
-                    "templateContent": [
+                    "eachOrderContent": [
                         {
                             "lineNumber": "(lineNumber)",
-                            "contentHtml": "(contentHtml)",
+                            "contentHtml": "(contentHtml)"
                         },
                         ...
                     ]
@@ -523,29 +502,11 @@ medisのAPI情報の一覧
             "isUpdated": "(isUpdated)"
         }
 
-- ## テンプレート新規作成用の情報の取得
-    - ### [GET] https://{host}/settings/template
-        
-
-        | 変数 |  |
-        | :---: | --- |
-        
-
-        ---
-        - レスポンス
-        ```json
-        {
-            "blockId": "(blockId)",
-            "isUserValiable": "(isUserValiable)",
-            "blockBaseHtml": "(blockBaseHtml)",
-            "isUnique": "(isUnique)",
-            "isVariable": "(isVariable)",
-            "addHtml": "(addHtml)"
-        }
-        ```
 
 - ## テンプレート新規作成
-    - ### [POST] https://{host}/settings/template
+    - ### [POST] https://{host}/template/new
+        テンプレート新規作成時に使用
+
         
 
         | 変数 |  |
@@ -556,27 +517,17 @@ medisのAPI情報の一覧
         - リクエスト
         ```json
         {
-            "templateId": "(templateId)",
-            "employeeNumber": "(employeeNumber)",
-            "templateCreateDate": "(templateCreateDate)",
             "isTemplatePabulish": "(isTemplatePublish)",
-            "fixedTagId": "(fixedTagId)",
-            "tagId": "(tagId)",
-            "tagName": "(tagName)",
             "templateframe" [
                 {
                     "templateOrder": "(templateOrder)",
                     "blockId": "(blockId)",
-                    "blockBaseHtml": "(blockBaseHtml)",
-                    "isUnique": "(isUnique)",
-                    "isVariable": "(isVariable)",
-                    "addHtml": "(addHtml)",
                     "lineLength": "(lineLength)",
                     "isUserValiable": "(isUserValiable)",
                     "templateContent": [
                         {
                             "lineNumber": "(lineNumber)",
-                            "contentHtml": "(contentHtml)",
+                            "contentHtml": "(contentHtml)"
                         },
                         ...
                     ]
@@ -592,7 +543,8 @@ medisのAPI情報の一覧
         }
 
 - ## ユーザ管理情報の取得
-    - ### [GET] https://{host}/settings/users
+    - ### [GET] https://{host}/system/users
+        管理者がユーザの設定画面を表示するための情報を取得する時に使用
         
 
         | 変数 |  |
@@ -602,28 +554,24 @@ medisのAPI情報の一覧
         ---
         - レスポンス
         ```json
-        {
-            "size": "(表示させるテンプレートの数)",
-
-            "userList": [
-                {
-                    "employeeNumber": "(employeeNumber)",
-                    "lastName": "(lastName)",
-                    "firstName": "(firstName)",
-                    "lastNamePhonetic": "(lastNamePhonetic)",
-                    "firstNamePhonetic": "(firstNamePhonetic)",
-                    "mailaddress": "(mailaddress)",
-                    "isIcon": "(isIcon)",
-                    "authorityType": "(authorityType)",
-                    "isEnable": "(isEnable)"
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "employeeNumber": "(employeeNumber)",
+                "lastName": "(lastName)",
+                "firstName": "(firstName)",
+                "lastNamePhonetic": "(lastNamePhonetic)",
+                "firstNamePhonetic": "(firstNamePhonetic)",
+                "mailaddress": "(mailaddress)",
+                "isIcon": "(isIcon)",
+                "authorityType": "(authorityType)",
+                "isEnable": "(isEnable)"
+            },
+            ...
+        ]
 
 - ## ユーザ管理情報の更新
-    - ### [PUT] https://{host}/settings/users
-        
+    - ### [POST] https://{host}/system/users/update
+        管理者がユーザの情報を変更する時に使用
 
         | 変数 |  |
         | :---: | --- |
@@ -632,15 +580,14 @@ medisのAPI情報の一覧
         ---
         - リクエスト
         ```json
-        {
-            "userList": [
-                {
-                    "isEnable": "(isEnable)",
-                    "authorityType": "(authorityType)"
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "employeeNumber": "(employeeNumber)",
+                "isEnable": "(isEnable)",
+                "authorityType": "(authorityType)"
+            },
+            ...
+        ]
         ```
         - レスポンス
         ```json
@@ -649,7 +596,8 @@ medisのAPI情報の一覧
         }
 
 - ## ユーザ新規作成
-    - ### [POST] https://{host}/settings/users
+    - ### [POST] https://{host}/system/users/signup
+        管理者が一版ユーザを作成する時に使用
         
 
         | 変数 |  |
@@ -669,7 +617,7 @@ medisのAPI情報の一覧
             "isIcon": "(isIcon)",
             "authorityType": "(authorityType)",
             "isEnable": "(isEnable)",
-            "passwordhash": "(passwordhash)"
+            "password": "(password)"
         }
         ```
         - レスポンス
@@ -678,37 +626,11 @@ medisのAPI情報の一覧
             "isCreated": "(isCreated)"
         }
 
-- ## ユーザ管理情報の取得
-    - ### [GET] https://{host}/settings/users
-        
-
-        | 変数 |  |
-        | :---: | --- |
-
-
-        ---
-        - レスポンス
-        ```json
-        {
-            "size": "(表示させるテンプレートの数)",
-            "userList": [
-                {
-                    "employeeNumber": "(employeeNumber)",
-                    "lastName": "(lastName)",
-                    "firstName": "(firstName)",
-                    "lastNamePhonetic": "(lastNamePhonetic)",
-                    "firstNamePhonetic": "(firstNamePhonetic)",
-                    "mailaddress": "(mailaddress)",
-                    "isIcon": "(isIcon)",
-                    "authorityType": "(authorityType)",
-                    "isEnable": "(isEnable)"
-                },
-                ...
-            ]
-        }
 
 - ## ドキュメント情報の取得
     - ### [GET] https://{host}/documents/{documentId}
+        ユーザがドキュメントを開くときに使用する<br>
+        使用場面として、文章編集時、文章閲覧時がある
         
 
         | 変数 |  |
@@ -718,31 +640,26 @@ medisのAPI情報の一覧
         ---
         - レスポンス
         ```json
-        {
-            "documentId": "(documentId)",
-            "documentTitle": "(documentTitle)",
-            "tagId": "(tagId)",
-            "tagName": "(tagName)",
-            "isFixed": "(isFixed)",
-            "contentframe": [
-                {
-                    "contentOrder": "(contentOrder)",
-                    "contentList": [
-                        {
-                            "lineNumber": "(lineNumber)",
-                            "content": "(content)"
-                        },
-                        ...
-                    ]
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "contentOrder": "(contentOrder)",
+                "contentList": [
+                    {
+                        "lineNumber": "(lineNumber)",
+                        "content": "(content)"
+                    },
+                    ...
+                ]
+            },
+            ...
+        ]
         ```
 
 - ## ドキュメント情報の更新
-    - ### [PUT] https://{host}/documents/{documentId}
+    - ### [POST] https://{host}/documents/{documentId}/update
+        ユーザがドキュメントを編集し、更新する時に使用<bk>
         update関連は、isDocumentがTrueになって以降に更新されたときに記録されていく
+
 
         | 変数 |  |
         | :---: | --- |
@@ -753,11 +670,6 @@ medisのAPI情報の一覧
         - リクエスト
         ```json
         {
-            "documentId": "(documentId)",
-            "documentTitle": "(documentTitle)",
-            "tagId": "(tagId)",
-            "tagName": "(tagName)",
-            "isFixed": "(isFixed)",
             "isDocument": "(isDocument)",
             "updateType": "(updateType)",
             "updateDate": "(updateDate)",
@@ -784,27 +696,9 @@ medisのAPI情報の一覧
             "isUpdated": "(isUpdated)"
         }
 
-- ## ドキュメント新規作成用の情報の取得
-    - ### [GET] https://{host}/documents
-        
-
-        | 変数 |  |
-        | :---: | --- |
-        
-
-        ---
-        - レスポンス
-        ```json
-        {
-            "lastName": "(lastName)",
-            "firstName": "(firstName)",
-            "date": "(date)"
-        }
-        ```
-
-
 - ## ドキュメント新規作成
-    - ### [POST] https://{host}/documents
+    - ### [POST] https://{host}/documents/new
+        ユーザがドキュメントを新規作成する時に使用
         
 
         | 変数 |  |
@@ -815,18 +709,13 @@ medisのAPI情報の一覧
         - リクエスト
         ```json
         {
-            "documentId": "(documentId)",
-            "documentTitle": "(documentTitle)",
-            "documentCreateDate": "(documentCreateDate)",
-            "tagId": "(tagId)",
-            "tagName": "(tagName)",
-            "isFixed": "(isFixed)",
-            "isDocument": "(isDocument)",
-            "contentframe": [
+
+            "templateId": "(templateId)",
+            "isDocumentPublish": "(isDocumentPublish)",
+            "contents": [
                 {
-                    "contentId": "(contentId)",
                     "contentOrder": "(contentOrder)",
-                    "contentList": [
+                    "contentsList": [
                         {
                             "lineNumber": "(lineNumber)",
                             "isTextarea": "(isTextarea)",
@@ -846,7 +735,8 @@ medisのAPI情報の一覧
         }
 
 - ## コメント情報の取得
-    - ### [GET] https://{host}/documents/{documentId}/comment
+    - ### [GET] https://{host}/documents/{documentId}/comments
+        ユーザが文章を開いたときに、コメントを表示させるために使用
         
 
         | 変数 |  |
@@ -857,21 +747,21 @@ medisのAPI情報の一覧
         ---
         - レスポンス
         ```json
-        {
-            "commentList": [
-                {
-                    "commentDate": "(commentDate)",
-                    "lastName": "(lastName)",
-                    "firstName": "(firstName)",
-                    "isRead": "(isRead)",
-                    "commentContent": "(commentContent)"
-                },
-                ...
-            ]
-        }
+        [
+            {
+                "commentDate": "(commentDate)",
+                "isIcon": "(isIcon)",
+                "lastName": "(lastName)",
+                "firstName": "(firstName)",
+                "isRead": "(isRead)",
+                "commentContent": "(commentContent)"
+            },
+            ...
+        ]
 
 - ## コメント投稿
-    - ### [POST] https://{host}/documents/{documentId}/comment
+    - ### [POST] https://{host}/documents/{documentId}/comments/new
+        ユーザが新しくコメントを投稿する時に使用
         
 
         | 変数 |  |
@@ -883,11 +773,6 @@ medisのAPI情報の一覧
         - リクエスト
         ```json
         {
-            "employeeNumber": "(employeeNumber)",
-            "documentId": "(documentId)",
-            "commentDate": "(commentDate)",
-            "lastName": "(lastName)",
-            "firstName": "(firstName)",
             "commentContent": "(commentContent)"
         }
         ```
@@ -898,7 +783,8 @@ medisのAPI情報の一覧
         }
 
 - ## 検索用情報の取得
-    - ### [GET] https://{host}/tags/search
+    - ### [GET] https://{host}/documents/search
+                検索をかける時のために使用
         
 
         | 変数 |  |
@@ -909,5 +795,84 @@ medisのAPI情報の一覧
         - レスポンス
         ```json
         {
+            "tagId": "(tagId)",
             "tagName": "(tagName)"
+        }
+
+- ## 検索結果の取得
+    - ### [POST] https://{host}/documents/search
+        検索するタグを記入し、検索を実行する時に使用
+
+        | 変数 |  |
+        | :---: | --- |
+        
+
+        ---
+        - リクエスト
+        ```json
+        [
+            {
+                "tagId": "(tagId)"
+            },
+            ...
+        ]
+        ```
+        - レスポンス
+        ```json
+        [
+            {
+                "documentId": "(documentId)",
+                "documentTitle": "(documentTitle)",
+                "employeeNumber": "(employeeNumber)",
+                "createDate": "(createDate)",
+                "isDocument": "(isDocument)"
+            },
+            ...
+        ]
+
+- ## タグ情報の取得
+    - ### [GET] https://{host}/tags
+        テンプレートや文章のタグ情報を取得する時に使用
+        
+
+        | 変数 |  |
+        | :---: | --- |  
+
+
+        ---
+        - レスポンス
+        ```json
+        [
+            {
+                "tagId": "(tagId)",
+                "fixedTagId": "(fixedTagId)",
+                "tagName": "(tagName)",
+                "isFixed": "(isFixed)"
+            },
+            ...
+        ]
+
+- ## タグ情報の更新
+    - ### [POST] https://{host}/tags/update
+        テンプレート編集や、ドキュメント編集をしたときに、タグ情報を更新するために使用
+        
+
+        | 変数 |  |
+        | :---: | --- |
+        
+
+        ---
+        - リクエスト
+        ```json
+        [
+            {
+                "tagName": "(tagName)"
+            },
+            ...
+        ]
+        ```
+        - レスポンス
+        ```json
+        {
+            "isUpdated": "(isUpdated)"
         }
