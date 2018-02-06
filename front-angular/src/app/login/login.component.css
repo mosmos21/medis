@@ -77,11 +77,12 @@ form {
     text-align: center;
 }
 
-.form-footer span {
-    color: #888888;
-    transition: text-decoration 0.3s;
+.reset-pass {
+    color: #0000ff;
+    text-decoration: underline;
 }
 
-.form-footer span:hover {
-    text-decoration: underline;
+.reset-pass:hover {
+    text-decoration: none;
+    cursor: pointer;
 }
