@@ -21,24 +21,7 @@
             <input type="submit" class="button" title="LOGIN" value="login" />
         </div>
         <div class="form-footer">
-            <span class="reset-pass">パスワードを忘れた場合はこちら</span>
-        </div>
-        <form action="#" id="reset_pass_form">
-            <div id="reset_pass" style="display:none;">
-                <table width="450">
-                    <tr>
-                        <th>社員番号</th>
-                        <td><input type="text" name="pass" id="employee_id" style="width:100%"></td>
-                    </tr>
-                    <tr>
-                        <th>メールアドレス</th>
-                        <td><input type="text" name="pass" id="mail" style="width:100%"></td>
-                    </tr>
-                </table>
-            </div>
-        </form>
-        <div id="alert" style="display:none;">
-            <p>メールを送信しました。</p>
+            <span class="reset-pass" (click)="openDialog()">パスワードを忘れた場合はこちら</span>
         </div>
     </form>
 </div>

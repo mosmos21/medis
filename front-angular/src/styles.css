@@ -1,1 +1,159 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+ }
+ 
+ html {
+    height: 100%;
+ }
+ 
+ body {
+    background: #e7e7e7;
+    color: #ffffff;
+    height: 100%;
+ }
+ 
+ .content_scroll_y {
+    overflow-x: hidden;
+    overflow-y: scroll;
+ }
+ 
+ .content_scroll_y {
+    overflow-x: hidden;
+    overflow-y: scroll;
+ }
+ 
+ #wrap_main_content {
+    height: 100%;
+    background: #eee;
+    color: black;
+    z-index: 1;
+ }
+ 
+ .wrap_main_content_center {
+    width: 95%;
+    height: 100%;
+    margin: 0;
+    margin-left: 5%;
+    padding: 0;
+ }
+ 
+ .main_content_header {
+    width: 99%;
+    height: 50px;
+    line-height: 50px;
+    margin: 10px;
+ }
+ 
+ /* ここからリストボックス */
+ .wrap_list_box {
+    width: 90%;
+    margin: 30px 10px;
+    margin-left: 5%;
+    padding: 0;
+ }
+ 
+ .list_box {
+    border: 1px black solid;
+    height: 16em;
+    width: 100%;
+    padding: 0;
+    border-radius: 5px;
+    border: 2px #999 solid;
+    box-shadow: 2px 2px 2px #999;
+ }
+ 
+ .wrap_list_box_tall {
+    height: calc(100% - 110px);
+ }
+ 
+ .wrap_list_box_tall .list_box{
+    height: 100%;
+ }
+ 
+ .list_box_header {
+    border: 0;
+    padding: 0.3em;
+    width: 100%;
+    height: 2.6em;
+    background: #6bdba5;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 4px #0f9d58 double;
+ }
+ 
+ .list_box_header h3 {
+    margin-left: 0.5em;
+    padding-left: 0.5em;
+    color: #555;
+    border-left: 4px #0f9d58 solid;
+ }
+ 
+ .list_box_content {
+    margin: 0;
+    margin: 1%;
+    padding: 1em 2em;
+    width: 98%;
+    height: 12em;
+ }
+ 
+ .list_box_content_tall {
+    height: 92%;
+ }
+ 
+ .list_box_content ul li {
+    padding: 0;
+    margin: 0.1em;
+    border-bottom: 1px black dashed;
+ }
+ 
+ .list_content_time {
+    float: right;
+ }
+ 
+ /* ここからテーブルのカラム幅 */
+ table {
+    table-layout: fixed;
+ }
+ 
+ td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+ }
+ 
+ #template_info_list_id {
+    width: 11em;
+ }
+ 
+ #template_info_list_date {
+    width: 10em;
+ }
+ 
+ #template_info_list_flag {
+    width: 8em;
+ }
+ 
+ /* ここまでテーブルのカラム幅 */
+ 
+ /* ここまでリストボックス */
+ 
+ /* ここからスクロールバーカスタマイズ*/
+ ::-webkit-scrollbar {
+    width: 10px;
+ }
+ 
+ ::-webkit-scrollbar-track {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+ }
+ 
+ ::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 50, .5);
+  border-radius: 10px;
+  box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
+ }
+ /* ここまでスクロールバーカスタマイズ*/
