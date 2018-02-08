@@ -33,7 +33,9 @@ import { LoginModule } from './login/login.module';
     AppRoutingModule
   ],
   providers: [],
-  entryComponents: [ResetPassComponent],
+  entryComponents: [
+    ResetPassComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
