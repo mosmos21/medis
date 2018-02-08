@@ -12,8 +12,10 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
 
-import { AppRoutingModule } from './app-routing.module';
 import { LoginModule } from './login/login.module';
+import { EditTemplateModule } from './edit-template/edit-template.module';
+
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { LoginModule } from './login/login.module';
     MatDialogModule,
 
     LoginModule,
+    EditTemplateModule,
 
     AppRoutingModule
   ],
