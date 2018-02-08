@@ -19,6 +19,7 @@ import { ResetPassComponent } from './reset-pass/reset-pass.component';
 import { LoginModule } from './login/login.module';
 import { TopModule } from './top/top.module';
 import { EditTemplateModule } from './edit-template/edit-template.module';
+import { SelectTemplateModule } from './select-template/select-template.module'
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -42,6 +43,7 @@ import { AppRoutingModule } from './app-routing.module';
     LoginModule,
     TopModule,
     EditTemplateModule,
+    SelectTemplateModule,
 
     AppRoutingModule
   ],
