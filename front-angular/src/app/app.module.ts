@@ -10,7 +10,7 @@ import {
   MatMenuModule,
 } from '@angular/material';
 
-import { NavigationService} from './navigation.service';
+import { NavigationService} from './services/navigation.service';
 
 import { AppComponent } from './app.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
