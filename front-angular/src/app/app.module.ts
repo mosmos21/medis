@@ -4,22 +4,25 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatButtonModule,
   MatSidenavModule,
-  MatDialogModule
+  MatToolbarModule,
+  MatListModule,
+  MatIconModule,
+  MatMenuModule,
 } from '@angular/material';
 
+import { NavigationService} from './navigation.service';
 
 import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
 
 import { LoginModule } from './login/login.module';
+import { TopModule } from './top/top.module';
 import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
     ResetPassComponent,
   ],
   imports: [
@@ -27,13 +30,18 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     MatButtonModule,
     MatSidenavModule,
-    MatDialogModule,
+    MatToolbarModule,
+    MatListModule,
+    AppRoutingModule,
+    MatIconModule,
+    MatMenuModule,
 
     LoginModule,
+    TopModule,
 
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ NavigationService ],
   entryComponents: [
     ResetPassComponent
   ],
