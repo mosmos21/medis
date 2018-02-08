@@ -7,19 +7,19 @@ import {
   MatDialogModule
 } from '@angular/material';
 
+
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
-import { LoginComponent } from './login/login.component';
+import { ResetPassComponent } from './reset-pass/reset-pass.component';
 
 import { AppRoutingModule } from './app-routing.module';
-import { ResetPassComponent } from './reset-pass/reset-pass.component';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    LoginComponent,
-    ResetPassComponent
+    ResetPassComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +27,9 @@ import { ResetPassComponent } from './reset-pass/reset-pass.component';
     MatButtonModule,
     MatSidenavModule,
     MatDialogModule,
+
+    LoginModule,
+
     AppRoutingModule
   ],
   providers: [],
