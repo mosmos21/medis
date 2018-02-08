@@ -1,0 +1,26 @@
+#wrap_edit_template{
+    width: calc(100% - 250px);
+}
+
+#wrap_edit_template_toolbar{
+    width: 250px;
+}
+
+#wrap_edit_template_toolbar h2 {
+    text-align: center;
+    line-height: 2em;
+    height: 2em;
+}
+
+.wrap_edit_content{
+    float: left;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.wrap_main_content_center form {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
