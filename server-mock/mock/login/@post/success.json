@@ -1,0 +1,11 @@
+{
+    "employeeNumber": "99999",
+    "authorityId": "0",
+    "password": "hoge",
+    "enabled": "true",
+    "username": "モック用テストユーザ",
+    "authorities": "null",
+    "accountNonLocked": "null",
+    "credentialsNonExpired": "null",
+    "accountNonExpired": "null"
+}
