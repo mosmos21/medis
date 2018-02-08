@@ -17,8 +17,9 @@ import { ResetPassComponent } from './reset-pass/reset-pass.component';
 
 import { LoginModule } from './login/login.module';
 import { TopModule } from './top/top.module';
-import { AppRoutingModule } from './app-routing.module';
+import { EditTemplateModule } from './edit-template/edit-template.module';
 
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AppRoutingModule } from './app-routing.module';
 
     LoginModule,
     TopModule,
+    EditTemplateModule,
 
     AppRoutingModule
   ],
