@@ -3,8 +3,125 @@
 medisのAPI情報の一覧  
 ホスト名 {host} = localhost:8080
 
+
+- ## ログイン
+    - ### [POST] https://{host}/login
+        ログインする
+        | 変数 | |
+        | :---: | --- |
+        
+
+        ---
+        - リクエスト
+        ```json
+        {
+            "employeeNumber": "(employeeNumber)",
+            "password": "(password)"
+        }
+        ```
+
+        - レスポンス
+        ```json
+        {
+            "employeeNumber": "(employeeNumber)",
+            "authorityId": "(authorityId)",
+            "password": "(password)",
+            "enabled": "(enabled)",
+            "username": "(username)",
+            "authorities": "(authorities)",
+            "accountNonLocked": "(accountNonLocked)",
+            "credentialsNonExpired": "(credentialsNonExpired)",
+            "accountNonExpired": "(accountNonExpired)"
+        }
+        ```
+
+
+- ## ログアウト
+    - ### [POST] https://{host}/logout/{user}
+        ログアウトするため、TOKENを削除する
+        | 変数 | |
+        | :---: | --- |
+        | user | ログアウト処理を行う社員番号 |
+        
+
+        ---
+        - リクエスト
+        ```json
+        {
+            "token": "(token)"
+        }
+        ```
+
+        - レスポンス
+        ```json
+        {
+            "result": "(result)",
+            "message": "(message)"
+        }
+        ```
+
+
+
+- ## トップページの更新情報の最新データの取得
+    - ### [POST] https://{host}/updates/infomations/{user}/{lastUpdateId}
+        トップページを随時更新
+
+        | 変数 |  |
+        | :---: | --- |
+        
+        ---
+        - リクエスト
+        ```json
+        {
+            "lastUpdateId": "(lastUpdateId)"
+        }
+        ```
+        - レスポンス
+        ```json
+        [
+            {
+                "id": "(updateId)",
+                "documentId": "(documentId)",
+                "documentName": "(documentName)",
+                "type": "(updateType)",
+                "employeeNumber": "(employeeNumber)",
+                "date": "(updateDate)"
+            },
+            ...
+        ]
+
+
+
+- ## 監視タグ文書の一覧の最新データの取得
+    - ### [POST] https://{host}/updates/documents/{user}/monitoring_tags
+        トップページを随時更新
+
+        | 変数 |  |
+        | :---: | --- |
+        
+        ---
+        - リクエスト
+        ```json
+        {
+            "lastDocumentId": "(lastDocumentId)"
+        }
+        ```
+        - レスポンス
+        ```json
+        [
+            {
+                "id": "(documentId)",
+                "title": "(documentTitle)",
+                "employeeNumber": "(employeeNumber)",
+                "createDate": "(createDate)"
+            },
+            ...
+        ]
+
+
 - ## トップページの更新情報
-    - ### [GET] https://{host}/updates/{user}/{lastUpdateId}/{size}
+    - ### [GET] https://{host}/infomations/{user}/{lastUpdateId}
+    - ### [GET] https://{host}/infomations/{user}/{lastUpdateId}/{size}
         ユーザに関連する更新情報を取得する  
         引数を省略した場合はそのユーザに関連するすべての更新情報を取得する
         | 変数 | |
@@ -28,6 +145,7 @@ medisのAPI情報の一覧
             ...
         ]
         ```
+        
 
 - ## ドキュメント一覧の情報を取得
     - ### [GET] https://{host}/documents/{user}
@@ -90,8 +208,8 @@ medisのAPI情報の一覧
         ```
 
 - ## 監視タグ文書の一覧を取得
-    - ### [GET] https://{host}/documents/{user}/monitoring_tag
-    - ### [GET] https://{host}/documents/{user}/monitoring_tag/{size}
+    - ### [GET] https://{host}/documents/{user}/monitoring_tags
+    - ### [GET] https://{host}/documents/{user}/monitoring_tags/{size}
         ユーザが監視タグに登録したタグが付与されている文書の一覧を取得する
         ログインしている社員番号と異なる社員番号を指定するとエラーになる
 
@@ -283,7 +401,7 @@ medisのAPI情報の一覧
         }
 
 - ## 監視タグ設定情報の取得
-    - ### [GET] https://{host}/settings/me/monitoring_tag
+    - ### [GET] https://{host}/settings/me/monitoring_tags
         「設定」の監視タグの現在選択しているタグ一覧を表示させる
         
 
@@ -304,7 +422,7 @@ medisのAPI情報の一覧
         ```
 
 - ## 監視タグ設定情報の更新
-    - ### [POST] https://{host}/settings/me/monitoring_tag
+    - ### [POST] https://{host}/settings/me/monitoring_tags
         「設定」の監視タグ一覧を更新する時に使用
         
 
@@ -329,7 +447,7 @@ medisのAPI情報の一覧
         }
 
 - ## 通知設定情報の取得
-    - ### [GET] https://{host}/settings/me/notification
+    - ### [GET] https://{host}/settings/me/notifications
         「設定」の通知設定の現在の情報を取得
 
         | 変数 |  |
@@ -351,7 +469,7 @@ medisのAPI情報の一覧
         ```
 
 - ## 通知設定情報の更新
-    - ### [POST] https://{host}/settings/me/notification
+    - ### [POST] https://{host}/settings/me/notifications
         「設定」の通知設定を更新する時に使用
         
 
@@ -378,15 +496,14 @@ medisのAPI情報の一覧
         }
 
 - ## テンプレート一覧情報の取得
-    - ### [GET] https://{host}/templateList
-    - ### [GET] https://{host}/settings/templateList/publish
-    - ### [GET] https://{host}/settings/templateList/private
+    - ### [GET] https://{host}/templates
+    - ### [GET] https://{host}/templates/{size}
         管理者によるテンプレート編集、文書作成時のテンプレート選択時に使用する
         
 
         | 変数 |  |
         | :---: | --- |
-
+        | size | 新しいものから何件まで取得するか指定 |
         
 
         ---
@@ -405,13 +522,13 @@ medisのAPI情報の一覧
         ```
 
 - ## テンプレートベース情報の取得
-    - ### [GET] https://{host}/template/bases
+    - ### [GET] https://{host}/templates/{blockId}
         テンプレートを作るベースの情報で、テンプレート作成、テンプレート編集、文書作成、文書編集時に使用する
         
 
         | 変数 |  |
         | :---: | --- |
-
+        | blockId | 情報を取得するブロック番号 |
 
         ---
         - レスポンス
@@ -434,12 +551,12 @@ medisのAPI情報の一覧
         ```
 
 - ## テンプレートコンテント情報の取得
-    - ### [GET] https://{host}/template/contents
+    - ### [GET] https://{host}/templates/{templateId}
         テンプレートを作る内容の情報で、テンプレート作成、テンプレート編集、文書作成、文書編集時に使用する
 
         | 変数 |  |
         | :---: | --- |
-
+        | templateId | 情報を取得するテンプレート番号 |
 
         ---
         - レスポンス
@@ -465,7 +582,7 @@ medisのAPI情報の一覧
         ```
 
 - ## テンプレートコンテント情報の更新
-    - ### [POST] https://{host}/template/{templateId}
+    - ### [POST] https://{host}/templates/{templateId}/update
         テンプレート内容の更新用で、テンプレート編集、文章編集時に使用   
 
         | 変数 |  |
@@ -504,7 +621,7 @@ medisのAPI情報の一覧
 
 
 - ## テンプレート新規作成
-    - ### [POST] https://{host}/template/new
+    - ### [POST] https://{host}/templates/new
         テンプレート新規作成時に使用
 
         
@@ -596,7 +713,7 @@ medisのAPI情報の一覧
         }
 
 - ## ユーザ新規作成
-    - ### [POST] https://{host}/system/users/signup
+    - ### [POST] https://{host}/system/users/new
         管理者が一版ユーザを作成する時に使用
         
 
@@ -789,7 +906,7 @@ medisのAPI情報の一覧
 
         | 変数 |  |
         | :---: | --- |
-        
+
 
         ---
         - レスポンス
@@ -800,23 +917,15 @@ medisのAPI情報の一覧
         }
 
 - ## 検索結果の取得
-    - ### [POST] https://{host}/documents/search
+    - ### [GET] https://{host}/documents/search/{param}
         検索するタグを記入し、検索を実行する時に使用
 
         | 変数 |  |
         | :---: | --- |
+        | param | ?tagName=の形でパラメータを指定 |
         
 
         ---
-        - リクエスト
-        ```json
-        [
-            {
-                "tagId": "(tagId)"
-            },
-            ...
-        ]
-        ```
         - レスポンス
         ```json
         [
@@ -830,9 +939,9 @@ medisのAPI情報の一覧
             ...
         ]
 
-- ## タグ情報の取得
-    - ### [GET] https://{host}/tags
-        テンプレートや文章のタグ情報を取得する時に使用
+- ## テンプレートタグ情報の取得
+    - ### [GET] https://{host}/template/{templateId}/tags
+        テンプレートのタグ情報を取得する時に使用
         
 
         | 変数 |  |
@@ -846,15 +955,60 @@ medisのAPI情報の一覧
             {
                 "tagId": "(tagId)",
                 "fixedTagId": "(fixedTagId)",
+                "tagName": "(tagName)"
+            },
+            ...
+        ]
+
+- ## テンプレートタグ情報の更新(無ければ新規作成)
+    - ### [POST] https://{host}/template/{templateId}/tags
+        テンプレート編集をしたときに、タグ情報を更新するために使用
+        
+
+        | 変数 |  |
+        | :---: | --- |
+        
+
+        ---
+        - リクエスト
+        ```json
+        [
+            {
+                "tagName": "(tagName)"
+            },
+            ...
+        ]
+        ```
+        - レスポンス
+        ```json
+        {
+            "isUpdated": "(isUpdated)"
+        }
+
+- ## ドキュメントタグ情報の取得
+    - ### [GET] https://{host}/documents/{documentId}/tags
+        ドキュメントのタグ情報を取得する時に使用
+        
+
+        | 変数 |  |
+        | :---: | --- |  
+
+
+        ---
+        - レスポンス
+        ```json
+        [
+            {
+                "tagId": "(tagId)",
                 "tagName": "(tagName)",
                 "isFixed": "(isFixed)"
             },
             ...
         ]
 
-- ## タグ情報の更新
-    - ### [POST] https://{host}/tags/update
-        テンプレート編集や、ドキュメント編集をしたときに、タグ情報を更新するために使用
+- ## ドキュメントタグ情報の更新(無ければ新規作成)
+    - ### [POST] https://{host}/documents/{documentId}/tags
+        ドキュメント編集をしたときに、タグ情報を更新するために使用
         
 
         | 変数 |  |
