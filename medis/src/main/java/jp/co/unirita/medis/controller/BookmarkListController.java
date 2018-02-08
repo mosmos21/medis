@@ -1,5 +1,5 @@
 package jp.co.unirita.medis.controller;
 
-public class ToppageController {
+public class BookmarkListController {
 
 }
