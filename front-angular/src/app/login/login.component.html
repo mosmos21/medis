@@ -1,23 +1,25 @@
 <div class="form-wrapper">
     <div class="image-wrapper">
-            <img src="../assets/image/logo.png">
+        <img src="../assets/image/logo.png">
     </div>
     <form>
         <div class="form-item">
+<<<<<<< Updated upstream
+            <div class="form-error">{{ errorMessage }}</div>
+=======
             <div class="form-error">
-                <div id="error-message">
-                    <!-- 社員番号とパスワードの<br/>組み合わせが異なります -->
-                </div>
+                <li name="errorMessage" [value]="errorMessage"></li>
             </div>
+>>>>>>> Stashed changes
         </div>
         <div class="form-item">
-            <input type="text" name="employeeId" placeholder="社員番号" required="required" value="99999"/>
+            <input type="text" name="employeeNumber" [(ngModel)]="employeeNumber" placeholder="社員番号" required="required"/>
         </div>
         <div class="form-item">
-            <input type="password" name="password" placeholder="パスワード" required="required" value="hoge"/>
+            <input type="password" name="password" [(ngModel)]="password" placeholder="パスワード" required="required"/>
         </div>
         <div class="button-wrapper">
-            <input type="submit" class="button" title="LOGIN" value="login" />
+            <button class="button" (click)="login()">LOGIN</button>
         </div>
         <div class="form-footer">
             <span class="reset-pass" (click)="openDialog()">パスワードを忘れた場合はこちら</span>
