@@ -1,47 +1,20 @@
 <nav *ngIf="nav.visible">
 <!-- ツールバー -->
 <mat-toolbar>
-    <p><button mat-raised-button (click)="sidenav.toggle()">Toggle</button></p>
-    <p>めでぃす</p>
+  <p><button mat-raised-button (click)="sidenav.toggle()">Toggle</button></p>
+  <p>めでぃす</p>
 </mat-toolbar>
 
-<mat-sidenav-container class="sidemenu_parent">
-    <mat-sidenav #sidenav mode="side" opened="false" class="sidemenu_parent_content">
-      <mat-sidenav-container class="sidemenu_child">
-        <mat-sidenav #mynav mode="side" opened="true">
-          <mat-sidenav-container class="sidemenu_child_menu">
-            <!-- サイドメニューボタン -->
-            <p><button mat-raised-button (click)="mymenuOpen()">MyMenu</button></p>
-            <p><button mat-raised-button (click)="searchOpen()">Search</button></p>
-            <p><button mat-raised-button (click)="settingsOpen()">Settings</button></p>
+<mat-sidenav-container class="sidenav_parent">
+  <mat-sidenav #sidenav mode="side" opened="false" class="sidenav_parent_content">
+    <app-sidenav-child></app-sidenav-child>
+  </mat-sidenav>
 
-          </mat-sidenav-container>
-        </mat-sidenav>
-
-        <!-- サイドメニューコンテンツ -->
-        <nav *ngIf="mymenuVisible">
-          <p><button mat-raised-button routerLink="/login">ログイン</button></p>
-          <p><button mat-raised-button routerLink="/top">トップページ</button></p>
-          <p><button mat-raised-button >新規作成</button></p>
-          <p><button mat-raised-button>下書き</button></p>
-        </nav>
-        <nav *ngIf="searchVisible">
-          <p><button mat-raised-button>検索</button></p>
-        </nav>
-        <nav *ngIf="settingsVisible">
-          <p><button mat-raised-button>ユーザ設定</button></p>
-          <p><button mat-raised-button>トップページ設定</button></p>
-          <p><button mat-raised-button>監視タグ設定</button></p>
-          <p><button mat-raised-button>通知設定</button></p>
-        </nav>
-      </mat-sidenav-container>
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-      <!-- メインコンテンツ -->
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+  <mat-sidenav-content>
+    <!-- メインコンテンツ -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
 </nav>
 

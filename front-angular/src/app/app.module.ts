@@ -24,11 +24,13 @@ import { SelectTemplateModule } from './select-template/select-template.module'
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ResetPassComponent,
+    SidenavChildComponent,
   ],
   imports: [
     BrowserModule,
