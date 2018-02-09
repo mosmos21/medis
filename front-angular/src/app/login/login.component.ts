@@ -14,11 +14,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-<<<<<<< Updated upstream
-  public errorMessage: string = '';
-=======
   errorMessage: string = '';
->>>>>>> Stashed changes
 
   employeeNumber: string = '';
   password: string = '';
