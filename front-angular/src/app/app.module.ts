@@ -26,7 +26,6 @@ import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   declarations: [
     AppComponent,
-    ResetPassComponent,
   ],
   imports: [
     BrowserModule,
