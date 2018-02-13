@@ -23,6 +23,7 @@ import { TopModule } from './top/top.module';
 import { EditTemplateModule } from './edit-template/edit-template.module';
 import { SelectTemplateModule } from './select-template/select-template.module'
 import { ViewModule } from './view/view.module';
+import { UserManagementModule } from './user-management/user-management.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './services/auth.service';
@@ -52,6 +53,7 @@ import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
     EditTemplateModule,
     SelectTemplateModule,
     ViewModule,
+    UserManagementModule,
 
     AppRoutingModule
   ],

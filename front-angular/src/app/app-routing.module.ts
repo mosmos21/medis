@@ -6,6 +6,7 @@ import { SelectTemplateComponent } from './select-template/select-template.compo
 import { EditTemplateComponent } from './edit-template/edit-template.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ViewComponent } from './view/view.component';
+import { UserManagementComponent } from './user-management/user-management.component'
 
 const routes: Routes = [
   { path: '', redirectTo: 'top', pathMatch: 'full'},
@@ -13,7 +14,12 @@ const routes: Routes = [
   { path: 'top', component: TopComponent, canActivate: [ AuthGuardService ]},
   { path: 'browsing/view', component: ViewComponent },
   { path: 'admin/template', component: SelectTemplateComponent },
+<<<<<<< HEAD
   { path: 'admin/template/:id', component: EditTemplateComponent},
+=======
+  { path: 'admin/template/configure', component: EditTemplateComponent },
+  { path: 'admin/management', component: UserManagementComponent }
+>>>>>>> close #82: UserManagementComponentの通信の実装
 ];
 
 @NgModule({
