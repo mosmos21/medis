@@ -20,7 +20,7 @@
                             </div>
                         </div>
                         <div id="template_content_list">
-                                
+                            
                         </div>
                     </div>
                 </div>
@@ -28,6 +28,50 @@
             <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
                 <h2>テンプレートブロック</h2>
                 <div id="template_block_list" class="content_scroll_y" [dragula]='"template-block"'>
+                <!--  ここからブロック -->
+                    <div class="template_content">
+                        <div class="template_block_info">固定テキスト</div>
+                        <div class="template_block_body" hidden>
+                            <div class="content_remove">X</div>
+                            <div class="block_header">
+                                <h4>固定テキスト</h4>
+                                <input type="text" placeholder="タイトルを入力してください" />
+                            </div>
+                            <hr/>
+                            <div class="block_body">
+                                <div class="block_item">
+                                    表示する文章を入力してください
+                                </div>
+                                <div class="block_item block_item_tall">
+                                    <textarea cols="100" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="template_content">
+                        <div class="template_block_info">テキスト</div>
+                        <div class="template_block_body" hidden>
+                            <div class="content_remove">X</div>
+                            <div class="block_header">
+                                <h4>テキスト</h4>
+                                <input type="text" placeholder="タイトルを入力してください" />
+                            </div>
+                            <hr/>
+                            <div class="block_body">
+                                <div class="block_item">
+                                    説明文を入力してください
+                                </div>
+                                <div class="block_item block_item_tall">
+                                    <textarea cols="100" rows="3"></textarea>
+                                </div>
+                                <div class="block_item">
+                                    <input type="text" size="50" placeholder="ここに記入者が入力します" disabled/>  [+]:記入時追加ボタン
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="template_content">
                         <div class="template_block_info">ラジオボタン</div>
                         <div class="template_block_body" hidden>
@@ -49,7 +93,30 @@
                                     <input type="text" size="50" style="float: left;" placeholder="表示する文章を入力してください">
                                 </div>
                                 <div class="block_item">
-                                    <input type="radio">
+                                    [+]ボタンを押して追加
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="template_content">
+                        <div class="template_block_info">チェックボックス</div>
+                        <div class="template_block_body" hidden>
+                            <div class="content_remove">X</div>
+                            <div class="block_header">
+                                <h4>チェックボックス</h4>
+                                <input type="text" placeholder="タイトルを入力してください" />
+                            </div>
+                            <hr/>
+                            <div class="block_body">
+                                <div class="block_item">
+                                    説明文を入力してください
+                                </div>
+                                <div class="block_item block_item_tall">
+                                    <textarea cols="100" rows="3"></textarea>
+                                </div>
+                                <div class="block_item">
+                                    <input type="checkbox">
                                     <input type="text" size="50" style="float: left;" placeholder="表示する文章を入力してください">
                                 </div>
                                 <div class="block_item">
@@ -58,6 +125,7 @@
                             </div>
                         </div>
                     </div>
+                <!--  ここまでブロック -->
                 </div>
                 <div id="wrap_template_toolbar_button">
                     <div>
