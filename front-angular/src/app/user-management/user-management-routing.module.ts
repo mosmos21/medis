@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserManagementComponent }       from './user-management.component';
 
 const userManagementRoutes: Routes = [
-  { path: 'login', component: UserManagementComponent }
+  { path: 'admin/management', component: UserManagementComponent }
 ];
 
 @NgModule({
