@@ -1,0 +1,99 @@
+/* テーブルの基本レイアウト */
+
+table {
+    width: 100%;
+}
+
+table tr th,
+table tr td {
+    padding: 5px 10px;
+    border: 2px solid #ddd;
+    vertical-align: middle;
+}
+
+table tr th {
+    background: #aaa;
+}
+
+table tr th {
+    text-align: center;
+    font-weight: bold;
+}
+
+
+tr:nth-child(odd) td {  
+    background-color: #fff;  
+}
+
+/* ユーザ一覧用のテーブル設定 */
+
+#user_list_id {
+    width: 90px;
+}
+
+#user_list_flag{
+    width: 120px;
+}
+
+#user_list_initialization {
+    width: 80px;
+}
+
+.toggle-button_tag {
+    appearance: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    width: 50px;
+    height: 15px;
+    top-margin: 5px;
+    border: 0px solid rgba(0,0,0,0.0);
+    border-radius: 50px;
+    background-color: #ddd;
+    transition: background-color .4s ease;
+}
+
+.toggle-button_tag:checked {
+    background-color: #00bbd3;
+}
+.toggle-button_tag + label {
+    position: relative;
+    display: inline-block;
+    top: 2px;
+    left: -53px;
+    width: 20px;
+    height: 20px;
+    border: 0px solid rgba(0,0,0,0.0);
+    border-radius: 50%;
+    background-color: #eee;
+    box-shadow: 0 0 4px rgba(0,0,0,0.4);
+    transition: left .4s ease, background-color .4s ease;
+}
+
+.toggle-button_tag:checked + label {
+    position: relative;
+    display: inline-block;
+    top: 2px;
+    left: -16px;
+    width: 20px;
+    height: 20px;
+    border: 0px solid rgba(0,0,0,0.0);
+    border-radius: 50%;
+    background-color: #eee;
+    box-shadow: 0 0 4px rgba(0,0,0,0.4);
+}
+.toggle-button_tag {
+	border-collapse: collapse;
+}
+.toggle-button_tag th, .s-tbl td {
+	border: 1px solid #000;
+}
+.toggle-button_tag tr:nth-child(2n+1) {
+	background: #eee;
+}
+.toggle-button_tag tr:first-child, .s-tbl th:first-child {
+	background: #0ff;
+}
+.toggle-button_tag tr:hover {
+	background:#ff0;
+}

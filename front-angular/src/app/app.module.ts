@@ -22,10 +22,15 @@ import { EditTemplateModule } from './edit-template/edit-template.module';
 import { SelectTemplateModule } from './select-template/select-template.module'
 
 import { AppRoutingModule } from './app-routing.module';
+import { AuthService } from './services/auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
+import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ResetPassComponent,
+    SidenavChildComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +51,12 @@ import { AppRoutingModule } from './app-routing.module';
 
     AppRoutingModule
   ],
-  providers: [ NavigationService ],
+  providers: [
+    NavigationService,
+    AuthService,
+    AuthGuardService,
+    {provide: 'hostname', useValue: 'http://localhost:8080/mock/'}
+  ],
   entryComponents: [
     ResetPassComponent
   ],

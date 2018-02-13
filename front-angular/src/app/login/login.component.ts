@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 import { ResetPassComponent } from '../reset-pass/reset-pass.component';
 
 import { NavigationService } from '../services/navigation.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,14 @@ import { NavigationService } from '../services/navigation.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, private nav: NavigationService) {
+  errorMessage: string = '';
+
+  employeeNumber: string = '99999';
+  password: string = 'hoge';
+
+  constructor(
+    public authService: AuthService, public router: Router,
+    public dialog: MatDialog, private nav: NavigationService) {
     this.nav.hide();
   }  
 
@@ -25,4 +34,19 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  login() {
+    this.authService.login(this.employeeNumber, this.password).subscribe(() => {
+      if(this.authService.isLoggedIn) {
+        let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/top';
+        this.router.navigate([redirect]);
+      } else {
+        this.errorMessage = this.authService.message;
+        console.log(this.errorMessage);
+      }
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 }
