@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'top', component: TopComponent, canActivate: [ AuthGuardService ]},
   { path: 'browsing/view', component: ViewComponent },
   { path: 'admin/template', component: SelectTemplateComponent },
-  { path: 'admin/template/configure', component: EditTemplateComponent },
+  { path: 'admin/template/:id', component: EditTemplateComponent},
 ];
 
 @NgModule({

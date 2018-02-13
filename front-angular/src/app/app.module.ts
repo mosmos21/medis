@@ -16,6 +16,8 @@ import { NavigationService} from './services/navigation.service';
 import { AppComponent } from './app.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
 
+import { DragulaModule } from 'ng2-dragula';
+
 import { LoginModule } from './login/login.module';
 import { TopModule } from './top/top.module';
 import { EditTemplateModule } from './edit-template/edit-template.module';
@@ -43,6 +45,7 @@ import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
     AppRoutingModule,
     MatIconModule,
     MatMenuModule,
+    DragulaModule,
 
     LoginModule,
     TopModule,

@@ -1,105 +1,73 @@
 <div id="wrap_main_content">
-  <div class="wrap_main_content_center">
-<form>
-  <div id="wrap_edit_template" class="wrap_edit_content">
-      <div id="edit_template_header">
-          <h2>テンプレート編集</h2>
-      </div>
-      <hr />
-      <div id="edit_template_body" class="content_scroll_y">
-          <div id="template_plate">
-              <div id="wrap_tag_list">
-                  <h2>固定タグ編集</h2>
-                  <div id="tag_list">
-                      <div class="tag_base tag_middle tag_side tag_erasable">2018年度新人研修日報<div class="tag_remove">x</div></div>
-                      <div class="tag_base tag_middle tag_side tag_erasable">ビジネスマナー研修<div class="tag_remove">x</div></div>
-                  </div>
-              </div>
-              <div id="template_content_list">
-              </div>
-          </div>
-      </div>
-  </div>
-  <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
-      <h2>テンプレートブロック</h2>
-      <div id="template_block_list" class="content_scroll_y">
-          <div id="template_block1" class="wrap_template_block" draggable="true">
-              <div class="template_block_info">テキストボックスの説明</div>
-              <div class="template_block_body">
-                  <div class="content_remove">X</div>
-                  <div class="block_header">
-                      <h4>テンプレートパーツ: テキストボックス</h4>
-                  </div>
-                  <hr/>
-                  <div class="block_body">
-                      <span>テキストの説明文を入力してください</span><br/>
-                      <textarea class="template_block_desc" rows="3"></textarea><br />
-                      <input type="text" value="ここに記入者が入力します" size="40" disabled="disabled">
-                  </div>
-              </div>
-          </div>
-          <div id="template_block2" class="wrap_template_block" draggable="true">
-              <div class="template_block_info">テキストエリアの説明</div>
-              <div class="template_block_body">
-                  <div class="content_remove">X</div>
-                  <div class="block_header">
-                      <h4>テンプレートパーツ: テキストエリア</h4>
-                  </div>
-                  <hr/>
-                  <div class="block_body">
-                      <!-- TODO -->
-                  </div>
-              </div>
-          </div>
-          <div id="template_block3" class="wrap_template_block" draggable="true">
-              <div class="template_block_info">ラジオボタンの説明</div>
-              <div class="template_block_body">
-                  <div class="content_remove">X</div>
-                  <div class="block_header">
-                      <h4>テンプレートパーツ: テキストエリア</h4>
-                  </div>
-                  <hr/>
-                  <div class="block_body">
-                      <!-- TODO -->
-                  </div>
-              </div>
-          </div>
-          <div id="template_block4" class="wrap_template_block" draggable="true">
-              <div class="template_block_info">チェックボックスの説明</div>
-              <div class="template_block_body">
-                  <div class="content_remove">X</div>
-                  <div class="block_header">
-                      <h4>テンプレートパーツ: チェックボックス</h4>
-                  </div>
-                  <hr/>
-                  <div class="block_body">
-                      <!-- TODO -->
-                  </div>
-              </div>
-          </div>
-          <div id="template_block5" class="wrap_template_block" draggable="true">
-              <div class="template_block_info">プルダウンの説明</div>
-              <div class="template_block_body">
-                  <div class="content_remove">X</div>
-                  <div class="block_header">
-                      <h4>テンプレートパーツ: プルダウン</h4>
-                  </div>
-                  <hr/>
-                  <div class="block_body">
-                      <!-- TODO -->
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div id="wrap_template_toolbar_button">
-          <div>
-              <div class="send_button">下書き</div>
-          </div>
-          <div>
-              <div class="send_button">保存</div>
-          </div>
-      </div>
-  </div>
-</form>
-</div>
+    <div class="wrap_main_content_center">
+        <form>
+            <div id="wrap_edit_template" class="wrap_edit_content">
+                <div id="edit_template_header">
+                    <h2>テンプレート編集</h2>
+                </div>
+                <hr />
+                <div id="edit_template_body" class="content_scroll_y">
+                    <div id="template_plate" [dragula]='"template-block"'>
+                        <div id="wrap_tag_list">
+                            <h2>固定タグ編集</h2>
+                            <div id="tag_list">
+                                <div class="tag_base tag_middle tag_side tag_erasable">2018年度新人研修日報
+                                    <div class="tag_remove">x</div>
+                                </div>
+                                <div class="tag_base tag_middle tag_side tag_erasable">ビジネスマナー研修
+                                    <div class="tag_remove">x</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="template_content_list">
+                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
+                <h2>テンプレートブロック</h2>
+                <div id="template_block_list" class="content_scroll_y" [dragula]='"template-block"'>
+                    <div class="template_content">
+                        <div class="template_block_info">ラジオボタン</div>
+                        <div class="template_block_body" hidden>
+                            <div class="content_remove">X</div>
+                            <div class="block_header">
+                                <h4>ラジオボタン</h4>
+                                <input type="text" placeholder="タイトルを入力してください" />
+                            </div>
+                            <hr/>
+                            <div class="block_body">
+                                <div class="block_item">
+                                    説明文を入力して下さい
+                                </div>
+                                <div class="block_item block_item_tall">
+                                    <textarea cols="100" rows="3"></textarea>
+                                </div>
+                                <div class="block_item">
+                                    <input type="radio">
+                                    <input type="text" size="50" style="float: left;" placeholder="表示する文章を入力してください">
+                                </div>
+                                <div class="block_item">
+                                    <input type="radio">
+                                    <input type="text" size="50" style="float: left;" placeholder="表示する文章を入力してください">
+                                </div>
+                                <div class="block_item">
+                                    [+]ボタンを押して追加
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="wrap_template_toolbar_button">
+                    <div>
+                        <div class="send_button">下書き</div>
+                    </div>
+                    <div>
+                        <div class="send_button">保存</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

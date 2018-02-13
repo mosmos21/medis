@@ -17,9 +17,15 @@
                 <th id="template_info_list_date">作成日</th>
                 <th id="template_info_list_flag">公開フラグ</th>
               </tr>
+              <tr >
+                <td></td>
+                <td><a href="/admin/template/new">新規テンプレートを作成する</a></td>
+                <td></td>
+                <td></td>
+              </tr>
               <tr *ngFor="let t of templates">
                 <td>{{ t.templateId }}</td>
-                <td>{{ t.templateName }}</td>
+                <td><a href="/admin/template/{{ t.templateId }}">{{ t.templateName }}</a></td>
                 <td>{{ t.templateCreateDate }}</td>
                 <td>{{ t.isTemplatePublish }}</td>
               </tr>

@@ -157,3 +157,58 @@
   box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
  }
  /* ここまでスクロールバーカスタマイズ*/
+
+ /* ======== ここからタグ ======== */
+.tag_base {
+    padding: 0.4em 0.5em;
+    color: #494949;
+    background: #f4f4f4;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.tag_side {
+    float: left;
+}
+
+.tag_large {
+    border-left: solid 6px #0f9d58;
+    border-bottom: solid 4px #d7d7d7;
+}
+
+.tag_middle {
+    font-size: 13px;
+    width: 180px;
+    border-left: solid 5px #0f9d58;
+    /* border-bottom: solid 3px #d7d7d7; */
+}
+
+.tag_small {
+    font-size: 11px;
+    width: 150px;
+    border-left: solid 4px #0f9d58;
+    /* border-bottom: solid 2px #d7d7d7; */
+}
+
+.tag_erasable:hover {
+    color: #ccc;
+}
+
+.tag_remove {
+    margin: -0.2em;
+    padding-right: 5px;
+    font-size: 1.4em;
+    font-weight: bolder;
+    float: right;
+    color: #bbb;
+    opacity: 0;
+    z-index: 0;
+}
+
+.tag_erasable:hover .tag_remove{
+    opacity: 1;
+}
+.tag_erasable:hover .tag_remove:hover{
+    color: #000;
+}
+/* ======== ここまでタグ ======== */
