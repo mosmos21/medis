@@ -29,7 +29,6 @@ import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
 @NgModule({
   declarations: [
     AppComponent,
-    ResetPassComponent,
     SidenavChildComponent,
   ],
   imports: [
