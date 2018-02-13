@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-select-template',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectTemplateComponent implements OnInit {
 
-  constructor() { }
+  private templates;
+
+  constructor(private http: HttpClient, @Inject('hostname') private hostname: string) { }
 
   ngOnInit() {
+    console.log(this.hostname + 'templates');
+    this.http.get(this.hostname + 'templates').subscribe(
+      json => {
+        console.log(json);
+        this.templates = json;
+      },
+      error => {
+        this.templates = error;
+      }
+    );
   }
 
 }

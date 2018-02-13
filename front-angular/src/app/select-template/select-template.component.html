@@ -17,11 +17,11 @@
                 <th id="template_info_list_date">作成日</th>
                 <th id="template_info_list_flag">公開フラグ</th>
               </tr>
-              <tr>
-                <td>t0000000011</td>
-                <td>ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</td>
-                <td>2018/01/30</td>
-                <td>ture</td>
+              <tr *ngFor="let t of templates">
+                <td>{{ t.templateId }}</td>
+                <td>{{ t.templateName }}</td>
+                <td>{{ t.templateCreateDate }}</td>
+                <td>{{ t.isTemplatePublish }}</td>
               </tr>
             </table>
           </div>                  
