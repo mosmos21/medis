@@ -14,12 +14,8 @@ const routes: Routes = [
   { path: 'top', component: TopComponent, canActivate: [ AuthGuardService ]},
   { path: 'browsing/view', component: ViewComponent },
   { path: 'admin/template', component: SelectTemplateComponent },
-<<<<<<< HEAD
   { path: 'admin/template/:id', component: EditTemplateComponent},
-=======
-  { path: 'admin/template/configure', component: EditTemplateComponent },
   { path: 'admin/management', component: UserManagementComponent }
->>>>>>> close #82: UserManagementComponentの通信の実装
 ];
 
 @NgModule({
