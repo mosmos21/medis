@@ -22,8 +22,11 @@ import { EditTemplateModule } from './edit-template/edit-template.module';
 import { SelectTemplateModule } from './select-template/select-template.module'
 
 import { AppRoutingModule } from './app-routing.module';
+<<<<<<< Updated upstream
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+=======
+>>>>>>> Stashed changes
 import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
 
 @NgModule({
