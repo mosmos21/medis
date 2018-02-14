@@ -11,7 +11,7 @@ import {
   MatMenuModule,
 } from '@angular/material';
 
-import { NavigationService} from './services/navigation.service';
+import { NavigationService } from './services/navigation.service';
 
 import { AppComponent } from './app.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
@@ -61,7 +61,7 @@ import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
     NavigationService,
     AuthService,
     AuthGuardService,
-    {provide: 'hostname', useValue: 'http://localhost:8080/mock/'}
+    { provide: 'hostname', useValue: 'http://localhost:8080/mock/' }
   ],
   entryComponents: [
     ResetPassComponent

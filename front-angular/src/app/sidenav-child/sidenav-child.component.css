@@ -36,6 +36,7 @@
     position: absolute;
     background: #ddd;
     height: 100%;
+    width: 100%;
 }
 
 #menu_user {
@@ -105,7 +106,7 @@
     width: 95%;
     margin: 10px 4px;
     padding: 1px;
-    /* border: 1px black solid; */
+    
 }
 
 .wrap_search_content h2 {
