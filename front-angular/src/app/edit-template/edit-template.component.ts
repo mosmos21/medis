@@ -133,6 +133,7 @@ export class EditTemplateComponent implements OnInit {
         let min = this.contentBases[content.blockId].items.length;
         if(len > min){
           content.items.pop();
+          this.values[target].pop();
         }
       }
     }
