@@ -1,88 +1,84 @@
 <div id="wrap_main_content">
     <div class="wrap_main_content_center">
-        <form>
-            <div id="wrap_edit_template" class="wrap_edit_content">
-                <div id="edit_template_header">
-                    <h2>テンプレート編集</h2>
-                </div>
-                <hr />
-                <div id="edit_template_body" class="content_scroll_y">
-                    <div id="template_plate" [dragula]='"template-block"'>
-                        <div id="wrap_tag_list">
-                            <h2>固定タグ編集</h2>
-                            <div id="tag_list">
-                                <div class="tag_base tag_middle tag_side tag_erasable">2018年度新人研修日報
-                                    <div class="tag_remove">x</div>
-                                </div>
-                                <div class="tag_base tag_middle tag_side tag_erasable">ビジネスマナー研修
-                                    <div class="tag_remove">x</div>
-                                </div>
+        <div id="wrap_edit_template" class="wrap_edit_content">
+            <div id="edit_template_header">
+                <h2>テンプレート編集</h2>
+            </div>
+            <hr />
+            <div id="edit_template_body" class="content_scroll_y">
+                <div id="template_plate" [dragula]='"template-block"'>
+                    <div id="wrap_tag_list">
+                        <h2>固定タグ編集</h2>
+                        <div id="tag_list">
+                            <div class="tag_base tag_middle tag_side tag_erasable">2018年度新人研修日報
+                                <div class="tag_remove">x</div>
+                            </div>
+                            <div class="tag_base tag_middle tag_side tag_erasable">ビジネスマナー研修
+                                <div class="tag_remove">x</div>
                             </div>
                         </div>
-                        <div id="template_content_list" [dragula]='"template-block"'>
-                            <!-- コンテントリスト -->
-                            <div class="template_content" *ngFor="let content of contents">
-                                <div class="template_block_body">
-                                    <div *ngIf="!content.isUnique" class="content_remove">X</div>
-                                    <div class="block_header">
-                                        <h4>{{ content.blockName }}</h4>
-                                        <input type="text" placeholder="タイトルを入力してください" />
+                    </div>
+                    <div id="template_content_list" [dragula]='"template-contents"' [dragulaModel]='contents'>
+                        <!-- コンテンツ -->
+                        <div class="template_content" *ngFor="let content of contents;trackBy:trackByIndex;" [id]="content.id">
+                            <div class="template_block_body">
+                                <div *ngIf="!content.isUnique" class="content_remove" (click)="removeBlock($event)">X</div>
+                                <div class="block_header">
+                                    <h4>{{ content.blockName }}</h4>
+                                    <input type="text" [(ngModel)]="values[content.id][0]" placeholder="タイトルを入力してください" />
+                                </div>
+                                <hr>
+                                <div class="block_body">
+                                    <div *ngFor="let item of content.items;let i = index;" [class]="item.size > 1 ? 'block_item block_item_tall' : 'block_item'">
+                                        <div [ngSwitch]="item.templateType">
+                                            <div *ngSwitchCase="'span'">
+                                                <span>{{ item.value }}</span>
+                                            </div>
+                                            <div *ngSwitchCase="'text'" >
+                                                <input type="text" size="50" [(ngModel)]="values[content.id][i]">
+                                            </div>
+                                            <div *ngSwitchCase="'textarea'">
+                                                <textarea rows="4" style="width: 95%;" [(ngModel)]="values[content.id][i]">{{ item.value }}</textarea>
+                                            </div>
+                                            <div *ngSwitchCase="'checkbox'">
+                                                <input type="checkbox" style="line-height: 1.5em;" disabled>
+                                                <input type="text" style="width:50%; line-height:1.5em;" placeholder="{{ item.value }}" [(ngModel)]="values[content.id][i]">
+                                            </div>
+                                            <div *ngSwitchCase="'radio'">
+                                                <input type="radio" disabled>
+                                                <input type="text" style="width:50%; line-height:1.5em;" placeholder="{{ item.value }}" [(ngModel)]="values[content.id][i]">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <hr>
-                                    <div class="block_body">
-                                        <div *ngFor="let item of content.items" [class]="item.size>1 ? 'block_item block_item_tall' : 'block_item'">
-                                            <!-- <div class="block_item"> -->
-                                                <div [ngSwitch]="item.templateType">
-                                                    <div *ngSwitchCase="'span'">
-                                                        <span>{{ item.value }}</span>
-                                                    </div>
-                                                    <div *ngSwitchCase="'text'">
-                                                        <input type="text" size="50">
-                                                    </div>
-                                                    <div *ngSwitchCase="'textarea'">
-                                                        <textarea rows="4" style="width: 95%;"></textarea>
-                                                    </div>
-                                                    <div *ngSwitchCase="'checkbox'">
-                                                        <input type="checkbox" disabled>
-                                                        <input type="text" style="width:50%; line-height:1.5em;" placeholder="{{ item.value }}">
-                                                    </div>
-                                                    <div *ngSwitchCase="'radio'">
-                                                        <input type="radio" disabled>
-                                                        <input type="text" style="width:50%; line-height:1.5em;" placeholder="{{ item.value }}">
-                                                    </div>
-                                                </div>
-                                            <!-- </div> -->
-                                        </div>
-                                        <div *ngIf="content.additionalType == 'template'" class="block_item">
-                                            [+]ボタンを押して追加
-                                        </div>
+                                    <div *ngIf="content.additionalType == 'template'" class="block_item">
+                                        <button (click)="addItem($event)">1行追加</button>
+                                        <button (click)="removeItem($event)">1行削除</button>
                                     </div>
                                 </div>
                             </div>
-                            <!-- コンテントリスト -->
                         </div>
+                        <!-- コンテンツ -->
                     </div>
                 </div>
             </div>
-            <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
-                <h2>テンプレートブロック</h2>
-                <div id="template_block_list" class="content_scroll_y" [dragula]='"template-block"'>
-                    <!-- テンプレートリスト -->
-                    <div *ngFor="let block of blocks">
-                        <div id="{{ block.blockId }}" class="template_block_info">{{ block.blockName }}</div>
-                        
-                    </div>
-                    <!-- テンプレートリスト -->
+        </div>
+        <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
+            <h2>テンプレートブロック</h2>
+            <div id="template_block_list" class="content_scroll_y" [dragula]='"template-block"'>
+                <!-- テンプレートリスト -->
+                <div *ngFor="let block of blocks">
+                    <div id="{{ block.blockId }}" class="template_block_info">{{ block.blockName }}</div>
                 </div>
-                <div id="wrap_template_toolbar_button">
-                    <div>
-                        <div class="send_button">下書き</div>
-                    </div>
-                    <div>
-                        <div class="send_button">保存</div>
-                    </div>
+                <!-- テンプレートリスト -->
+            </div>
+            <div id="wrap_template_toolbar_button">
+                <div>
+                    <div class="send_button">下書き</div>
+                </div>
+                <div>
+                    <div class="send_button" (click)="submit('save')">保存</div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>

@@ -10,11 +10,12 @@ import { DragulaService } from 'ng2-dragula';
 })
 export class EditTemplateComponent implements OnInit {
 
-  private blocks: any;
+  public blocks: any;
   private contentBases: {[key: string]: any} = {};
 
   private templateId: string;
-  private contents: any[] = [];
+  public contents: any[] = [];
+  public values: {[key: string]: string[]} = {};
 
   constructor(@Inject('hostname') private hostname: string, private http: HttpClient,
     private route: ActivatedRoute, private dragulaService: DragulaService) {
@@ -29,11 +30,14 @@ export class EditTemplateComponent implements OnInit {
 
     dragulaService.drop.subscribe((value) => {
       let [e, el] = value.slice(1);
-      var id = e.childNodes[1].id;
-      console.log(id);
+      let id = e.childNodes[1].id;
       if(id != ''){
         e.remove();
-        this.contents.push(this.contentBases[id]);
+        let c = JSON.parse(JSON.stringify(this.contentBases[id]));
+        let newid = 'comp-' + Math.floor( Math.random() * 1000000);
+        c.id = newid;
+        this.contents.push(c);
+        this.values[newid] = new Array();
       }
     });
   }
@@ -58,8 +62,50 @@ export class EditTemplateComponent implements OnInit {
     );
   }
 
-  addContents(): void {
+  addItem(e: any): void {
+    let target = e.path[4].id;
+    for(let content of this.contents){
+      if(content.id == target){
+        let item = this.contentBases[content.blockId].addItem;
+        content.items.push(item);
+      }
+    }
+  }
 
+  removeItem(e: any): void {
+    let target = e.path[4].id;
+    for(let content of this.contents) {
+      if(content.id == target) {
+        let len = content.items.length;
+        let min = this.contentBases[content.blockId].items.length;
+        console.log(len + " " + min);
+        if(len > min){
+          content.items.pop();
+        }
+      }
+    }
+  }
+
+  removeBlock(e: any): void {
+    let target= e.path[2].id;
+    for(let idx in this.contents) {
+      if(this.contents[idx].id == target){
+        this.contents.splice(+idx, 1);
+      }
+    }
+  }
+
+  trackByIndex(index: number, value: number) {
+    return index;
+  }
+
+  submit(type): void {
+    for(let content of this.contents){
+      console.log("content: " + content.blockName + " size: " + this.values[content.id].length);
+      // for(let i in this.values[content.id]){
+        console.log(this.values[content.id]);
+      
+    }
   }
 
 }
