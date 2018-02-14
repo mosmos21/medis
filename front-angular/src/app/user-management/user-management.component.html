@@ -3,7 +3,7 @@
         <div class="main_content_header">
             <h1>トップページ(仮)</h1>
         </div>
-        <button>新規ユーザ登録</button>
+        <button mat-raised-button (click)="createUser()">新規ユーザ登録</button>
         <input type="text">
         <button>検索</button>
         <div class="wrap_list_box wrap_list_box_tall">
@@ -28,7 +28,7 @@
                                 <td>{{ u.lastNamePhonetic }} {{ u.firstNamePhonetic }}</td>
                                 <td>{{ u.mailaddress }}</td>
                                 <td>
-                                    <input type="checkbox" (change)="changeEnable(idx)" id="toggleButton_tag" class="toggle-button_tag" [checked]="u.isEnabled">
+                                    <input type="checkbox" (click)="confirmChangeEnable($event, idx)" id="toggleButton_tag" class="toggle-button_tag" [checked]="u.isEnabled">
                                     <label for="toggleButton_tag1"></label>
                                 </td>
                                 <td>

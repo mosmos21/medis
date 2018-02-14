@@ -21,8 +21,8 @@
     overflow-y: scroll;
  }
  
- .content_scroll_y {
-    overflow-x: hidden;
+ .content_scroll {
+    overflow-x: scroll;
     overflow-y: scroll;
  }
  

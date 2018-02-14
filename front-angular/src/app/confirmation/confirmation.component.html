@@ -1,0 +1,10 @@
+<form id="reset-pass-form">
+	<div id="reset-pass">
+		<div>{{ data.user.lastName }} {{ data.user.firstName }}さんのアカウントを{{ data.enable }}化します。</div>
+		<div>よろしいですか？</div>
+		<div id="buttons">
+			<button id="cancel" (click)="onClose(false)">キャンセル</button>
+			<button id="ok" (click)="onClose(true)">OK</button>
+		</div>
+	</div>
+</form>

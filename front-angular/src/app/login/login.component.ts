@@ -20,8 +20,11 @@ export class LoginComponent implements OnInit {
   password: string = 'hoge';
 
   constructor(
-    public authService: AuthService, public router: Router,
-    public dialog: MatDialog, private nav: NavigationService) {
+    public authService: AuthService,
+    public router: Router,
+    public dialog: MatDialog,
+    private nav: NavigationService
+  ) {
     this.nav.hide();
   }  
 

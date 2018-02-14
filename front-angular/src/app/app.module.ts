@@ -15,6 +15,8 @@ import { NavigationService } from './services/navigation.service';
 
 import { AppComponent } from './app.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { CreateUserComponent } from './create-user/create-user.component';
 
 import { DragulaModule } from 'ng2-dragula';
 
@@ -64,7 +66,9 @@ import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
     { provide: 'hostname', useValue: 'http://localhost:8080/mock/' }
   ],
   entryComponents: [
-    ResetPassComponent
+    ResetPassComponent,
+    ConfirmationComponent,
+    CreateUserComponent,
   ],
   bootstrap: [AppComponent]
 })
