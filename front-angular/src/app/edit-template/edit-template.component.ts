@@ -10,11 +10,12 @@ import { DragulaService } from 'ng2-dragula';
 })
 export class EditTemplateComponent implements OnInit {
 
-  private blocks: any;
+  public blocks: any;
   private contentBases: {[key: string]: any} = {};
 
   private templateId: string;
-  private contents: any[] = [];
+  public contents: any[] = [];
+  public values: {[key: string]: string[]} = {};
 
   constructor(@Inject('hostname') private hostname: string, private http: HttpClient,
     private route: ActivatedRoute, private dragulaService: DragulaService) {
@@ -29,11 +30,10 @@ export class EditTemplateComponent implements OnInit {
 
     dragulaService.drop.subscribe((value) => {
       let [e, el] = value.slice(1);
-      var id = e.childNodes[1].id;
-      console.log(id);
+      let id = e.childNodes[1].id;
       if(id != ''){
         e.remove();
-        this.contents.push(this.contentBases[id]);
+        this.addBlock(id);
       }
     });
   }
@@ -51,6 +51,10 @@ export class EditTemplateComponent implements OnInit {
           }
           this.contentBases[b.blockId] = b;
         }
+
+        if(this.templateId != 'new'){
+          this.assembleTemplate();
+        }
       },
       error => {
         this.blocks = error;
@@ -58,8 +62,88 @@ export class EditTemplateComponent implements OnInit {
     );
   }
 
-  addContents(): void {
+  assembleTemplate(): void {
+    var data;
+    this.http.get(this.hostname + 'templates/' + this.templateId).subscribe(
+      json => {
+        data = json;
+        for(let con of data.contents){
+          var id = this.addBlock(con.blockId);
+          for(var i = 0; i < con.items.length - this.contentBases[con.blockId].items.length; i++){
+            this.addItem(id);
+          }
+          this.values[id] = new Array();
+          for(let i of con.items){
+            this.values[id].push(i);
+          }
+        }
+      },
+      error =>{
+        console.log("情報の取得に失敗しました。");
+      }
+    );
+  }
 
+  trackByIndex(index: number, value: number) {
+    return index;
+  }
+
+  clickRemoveBlock(e: any): void {
+    this.removeBlock(e.path[2].id);
+  }
+
+  clickAddItem(e: any): void {
+    this.addItem(e.path[4].id);
+  }
+
+  clickRemoveItem(e: any): void {
+    this.removeItem(e.path[4].id);
+  }
+
+  addBlock(id: string): string {
+    let c = JSON.parse(JSON.stringify(this.contentBases[id]));
+    let newid = 'comp-' + Math.floor( Math.random() * 1000000);
+    c.id = newid;
+    this.contents.push(c);
+    this.values[newid] = new Array();
+    return newid;
+  }
+
+  removeBlock(target: string): void {
+    for(let idx in this.contents) {
+      if(this.contents[idx].id == target){
+        this.contents.splice(+idx, 1);
+      }
+    }
+  }
+
+  addItem(target: string): void {
+    for(let content of this.contents){
+      if(content.id == target){
+        let item = this.contentBases[content.blockId].addItem;
+        content.items.push(item);
+      }
+    }
+  }
+
+  removeItem(target: string): void {
+  for(let content of this.contents) {
+      if(content.id == target) {
+        let len = content.items.length;
+        let min = this.contentBases[content.blockId].items.length;
+        if(len > min){
+          content.items.pop();
+        }
+      }
+    }
+  }
+
+  submit(type): void {
+    for(let content of this.contents){
+      console.log("content: " + content.blockName + " size: " + this.values[content.id].length);
+        console.log(this.values[content.id]);
+      
+    }
   }
 
 }
