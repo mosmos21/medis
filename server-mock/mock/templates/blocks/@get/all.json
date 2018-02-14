@@ -1,0 +1,101 @@
+[
+    {
+        "blockId": "b0000000000",
+        "blockName": "固定テキスト",
+        "isUnique": true,
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": null,
+        "addItem": null
+    },
+    {
+        "blockId": "b0000000001",
+        "blockName": "テキスト",
+        "isUnique": false,
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": "document",
+        "addItem": {
+            "size": 1,
+            "templateType": "disabledText",
+            "documentType": "text",
+            "value": "ここに入力してください"
+        }
+    },
+    {
+        "blockId": "b0000000002",
+        "blockName": "チェックボックス",
+        "isUnique": false,
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": "template",
+        "addItem": {
+            "size": 1,
+            "templateType": "checkbox",
+            "documentType": "checkbox",
+            "value": "ここに入力してください"
+        }
+    },
+    {
+        "blockId": "b0000000003",
+        "blockName": "ラジオボタン",
+        "isUnique": false,
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": "template",
+        "addItem": {
+            "size": 1,
+            "templateType": "radio",
+            "documentType": "radio",
+            "value": "ここに入力してください"
+        }
+    }
+]

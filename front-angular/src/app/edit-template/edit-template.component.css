@@ -165,13 +165,13 @@
 
 .block_item {
   width: calc(100% - 5px);
-  height: 1.5em;
-  line-height: 1.5em;
-  margin: 2px 0;
+  height: 2em;
+  line-height: 2em;
+  margin: 0.1em 0;
 }
 
 .block_item_tall {
-  height: 3em;
+  height: 4em;
   line-height: 3em;
 }
 
