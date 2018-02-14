@@ -29,11 +29,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
+import { SearchComponent } from './search/search.component';
+
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidenavChildComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +51,7 @@ import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
     MatIconModule,
     MatMenuModule,
     DragulaModule,
+    FormsModule,
 
     LoginModule,
     TopModule,

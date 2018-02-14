@@ -1,0 +1,98 @@
+#wrap_side_menu_content {
+    position: absolute;
+    background: #ddd;
+    height: 100%;
+    width: 100%;
+}
+
+/* 検索 */
+.wrap_search_content {
+    width: 95%;
+    margin: 10px 4px;
+    padding: 1px;
+    
+}
+
+.wrap_search_content h2 {
+    text-align: center;
+}
+
+#search_box {
+    background: white;
+    margin-left: 2%;
+    padding: 10px;
+    width: 96%;
+    height: 200px;
+    border: 1px #999 solid;
+    border-radius: 15px;
+}
+
+#search_box input {
+    border: none;
+    outline: 0;
+    font-size: 12px;
+    height: 25px;
+}
+
+#search_tag_candidate {
+    background: white;
+    border: 1px #999 solid ;
+    margin-left: 10%;
+    width: 80%;
+    height: 300px;
+}
+
+
+/* タグ */
+.tag_base {
+    padding: 0.4em 0.5em;
+    color: #494949;
+    background: #f4f4f4;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.tag_side {
+    float: left;
+}
+
+.tag_large {
+    border-left: solid 6px #0f9d58;
+    border-bottom: solid 4px #d7d7d7;
+}
+
+.tag_middle {
+    font-size: 13px;
+    width: 180px;
+    border-left: solid 5px #0f9d58;
+    /* border-bottom: solid 3px #d7d7d7; */
+}
+
+.tag_small {
+    font-size: 11px;
+    width: 150px;
+    border-left: solid 4px #0f9d58;
+    /* border-bottom: solid 2px #d7d7d7; */
+}
+
+.tag_erasable:hover {
+    color: #ccc;
+}
+
+.tag_remove {
+    margin: -0.2em;
+    padding-right: 5px;
+    font-size: 1.4em;
+    font-weight: bolder;
+    float: right;
+    color: #bbb;
+    opacity: 0;
+    z-index: 0;
+}
+
+.tag_erasable:hover .tag_remove{
+    opacity: 1;
+}
+.tag_erasable:hover .tag_remove:hover{
+    color: #000;
+}
