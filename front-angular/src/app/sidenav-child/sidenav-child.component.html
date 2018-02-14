@@ -1,29 +1,90 @@
-<mat-sidenav-container class="sidenav_child">
-  <mat-sidenav #sidenav_child mode="side" opened="true">
-    <mat-sidenav-container class="sidenav_child_menu">
-      <!-- サイドメニューボタン -->
-      <p><button mat-raised-button (click) = "mymenuOpen()">MyMenu</button></p>
-      <p><button mat-raised-button (click) = "searchOpen()">Search</button></p>
-      <p><button mat-raised-button (click) = "settingsOpen()">Settings</button></p>
+<mat-sidenav-container class="sidenav-child">
+	<mat-sidenav #sidenav_child mode="side" opened="true">
+		<mat-sidenav-container class="sidenav-child-menu">
+			<!-- サイドメニューボタン -->
+			<div id="wrap_side_menu_icon">
+				<div id="menu_user" class="side_menu_icon" (click)="mymenuOpen()"></div>
+				<div id="menu_search" class="side_menu_icon" (click)="searchOpen()"></div>
+				<div id="menu_config" class="side_menu_icon" (click)="settingsOpen()"></div>
+			</div>
+			<div id="icon_logout"></div>
+		</mat-sidenav-container>
+	</mat-sidenav>
 
-    </mat-sidenav-container>
-  </mat-sidenav>
+	<!-- サイドメニューコンテンツ -->
+	<!--メニュー -->
+	<nav *ngIf="mymenuVisible">
+		<div id="wrap_side_menu_content">
+			<div id="menu_user_content" class="menu_content">
+				<div class="wrap_menu_contet_link">
+					<div class="menu_content_link">
+						<img src="/assets/image/top.svg" />
+						<div class="menu_content_link_text">トップページ</div>
+					</div>
+					<div class="menu_content_link">
+						<img src="/assets/image/new.svg" />
+						<div class="menu_content_link_text">新規作成</div>
+					</div>
+					<div class="menu_content_link">
+						<img src="/assets/image/new.svg" />
+						<div class="menu_content_link_text">下書き</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
 
-  <!-- サイドメニューコンテンツ -->
-  <nav *ngIf="mymenuVisible">
-    <p><button mat-raised-button routerLink="/top">トップページ</button></p>
-    <p><button mat-raised-button >新規作成</button></p>
-    <p><button mat-raised-button>下書き</button></p>
-  </nav>
-  
-  <nav *ngIf="searchVisible">
-    <p><button mat-raised-button>検索</button></p>
-  </nav>
+	<!-- 検索 -->
+	<nav *ngIf="searchVisible">
+		<div id="wrap_side_menu_content">
+			<div id="menu_search_content" class="menu_content">
+				<div class="wrap_search_content">
+					<h2>検索</h2>
+				</div>
+				<div class="wrap_search_content">
+					<div id="search_box">
+						<div id="selected_tags"></div>
+						<input type="text">
+					</div>
+				</div>
+				<div class="wrap_search_content">
+					<div id="search_tag_candidate" class="content_scroll_y">
+						<div class="tag_base tag_middle">2017年度新人研修</div>
+						<div class="tag_base tag_middle">2018年度新人研修</div>
+						<div class="tag_base tag_middle">A-AUTO研修</div>
+						<div class="tag_base tag_middle">帳票研修</div>
+						<div class="tag_base tag_middle">Waha!研修</div>
+						<div class="tag_base tag_middle">研修</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
 
-  <nav *ngIf="settingsVisible">
-    <p><button mat-raised-button>ユーザ設定</button></p>
-    <p><button mat-raised-button>トップページ設定</button></p>
-    <p><button mat-raised-button>監視タグ設定</button></p>
-    <p><button mat-raised-button>通知設定</button></p>
-  </nav>
+	<!-- 設定 -->
+	<nav *ngIf="settingsVisible">
+		<div id="wrap_side_menu_content">
+			<div id="menu_config_content" class="menu_content">
+				<div class="wrap_menu_contet_link">
+					<div class="menu_content_link">
+						<img src="/assets/image/user_config.svg" />
+						<div class="menu_content_link_text">ユーザ設定</div>
+					</div>
+					<div class="menu_content_link">
+						<img src="/assets/image/top_config.svg" />
+						<div class="menu_content_link_text">トップページ設定</div>
+					</div>
+					<div class="menu_content_link">
+						<img src="/assets/image/tag_config.svg" />
+						<div class="menu_content_link_text">監視タグ設定</div>
+					</div>
+					<div class="menu_content_link">
+						<img src="/assets/image/bell_config.svg" />
+						<div class="menu_content_link_text">通知設定</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+
 </mat-sidenav-container>
