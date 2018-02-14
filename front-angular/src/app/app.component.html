@@ -1,23 +1,25 @@
 <nav *ngIf="nav.visible">
-<!-- ツールバー -->
-<mat-toolbar>
-  <p><button mat-raised-button (click)="sidenav.toggle()">Toggle</button></p>
-  <p>めでぃす</p>
-</mat-toolbar>
+	<!-- ツールバー -->
+	<mat-toolbar class="toolbar">
+		<div id="toggle_menu" class="toolbar_image" (click)="sidenav.toggle()"></div>
+		<img id="logo" src="../assets/image/logo.png">
+	</mat-toolbar>
 
-<mat-sidenav-container class="sidenav_parent">
-  <mat-sidenav #sidenav mode="side" opened="false" class="sidenav_parent_content">
-    <app-sidenav-child></app-sidenav-child>
-  </mat-sidenav>
+	<mat-sidenav-container class="sidenav_parent">
+		<mat-sidenav #sidenav mode="side" opened="false" class="sidenav_parent_content">
+			<app-sidenav-child></app-sidenav-child>
+		</mat-sidenav>
 
-  <mat-sidenav-content>
-    <!-- メインコンテンツ -->
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+		<mat-sidenav-content>
+			<!-- メインコンテンツ -->
+			<div class="main-content">
+				<router-outlet></router-outlet>
+			</div>
+		</mat-sidenav-content>
+	</mat-sidenav-container>
 
 </nav>
 
 <nav *ngIf="!nav.visible">
-    <router-outlet></router-outlet>
+	<router-outlet></router-outlet>
 </nav>

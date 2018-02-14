@@ -1,0 +1,29 @@
+.toolbar{
+    border-bottom: 1px #777777 solid;
+}
+
+.toolbar_image{
+    padding: 1px;
+	margin-top: 3px;
+	margin-left: 3px;
+	margin-right: 0px;
+	width: 48px;
+	height: 48px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;  
+	cursor: pointer; 
+}
+
+#toggle_menu{
+    background-image: url("/assets/image/menu.png");
+}
+
+#logo{
+    height: 100%;
+    max-width: 50%;
+    margin: 0 auto;
+}
+
+.main-content{
+    height: 94vh;
+}
