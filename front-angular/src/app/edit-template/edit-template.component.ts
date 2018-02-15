@@ -46,8 +46,10 @@ export class EditTemplateComponent implements OnInit {
         this.blocks = json;
 
         for(var b of this.blocks) {
-          if(b.additionalType == "template"){
-            b.items.push(b.addItem);
+          if(b.additionalType != null){
+            for(let add of b.addItems){
+              b.items.push(add);
+            }
           }
           this.contentBases[b.blockId] = b;
         }
@@ -120,8 +122,10 @@ export class EditTemplateComponent implements OnInit {
   addItem(target: string): void {
     for(let content of this.contents){
       if(content.id == target){
-        let item = this.contentBases[content.blockId].addItem;
-        content.items.push(item);
+        let items = this.contentBases[content.blockId].addItems;
+        for(let add of items){
+          content.items.push(add);
+        }
       }
     }
   }
@@ -131,20 +135,49 @@ export class EditTemplateComponent implements OnInit {
       if(content.id == target) {
         let len = content.items.length;
         let min = this.contentBases[content.blockId].items.length;
+        let size = this.contentBases[content.blockId].addItems.length;
         if(len > min){
-          content.items.pop();
-          this.values[target].pop();
+          for(let i = 0; i < size; i++){
+            content.items.pop();
+            this.values[target].pop();
+          }
         }
       }
     }
   }
 
-  submit(type): void {
-    for(let content of this.contents){
-      console.log("content: " + content.blockName + " size: " + this.values[content.id].length);
-        console.log(this.values[content.id]);
-      
+  data2Json(type: string): any {
+    var data = {
+      templateId: this.templateId,
+      isPublish: type == "save"
     }
+    var contents: any[] = [];
+    for(let i = 0; i < this.contents.length; i++){
+      var content = {
+        contentOrder: i + 1,
+        blockId: this.contents[i].blockId,
+      };
+      var items: string[] = [];
+      for(let s of this.values[this.contents[i].id]){
+        items.push(s);
+      }
+      content["items"] = items;
+      contents.push(content);
+    }
+    data["contents"] = contents;
+    return data;
   }
 
+  submit(type): void {
+    let data = this.data2Json(type);
+    console.log(data);
+    this.http.post(this.hostname + "template/" + this.templateId, data).subscribe(
+     json => {
+       // TODO
+     },
+     error => {
+       // TODO
+     }
+    );
+  }
 }

@@ -96,8 +96,9 @@
 .template_block_info {
   margin: 10px 5px;
   padding: 5px;
-  height: 2em;
+  height: auto;
   width: auto;
+  white-space: pre-wrap;
   background: white;
   border: 1px black solid;
   border-radius: 5px;

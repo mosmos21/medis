@@ -22,7 +22,7 @@
                         <!-- コンテンツ -->
                         <div class="template_content" *ngFor="let content of contents;trackBy:trackByIndex;" [id]="content.id">
                             <div class="template_block_body">
-                                <div *ngIf="!content.isUnique" class="content_remove" (click)="removeBlock($event)">X</div>
+                                <div *ngIf="!content.isUnique" class="content_remove" (click)="clickRemoveBlock($event)">X</div>
                                 <div class="block_header">
                                     <h4>{{ content.blockName }}</h4>
                                     <input type="text" [(ngModel)]="values[content.id][0]" placeholder="タイトルを入力してください" />
@@ -35,7 +35,7 @@
                                                 <span>{{ item.value }}</span>
                                             </div>
                                             <div *ngSwitchCase="'text'" >
-                                                <input type="text" size="50" [(ngModel)]="values[content.id][i]">
+                                                <input type="text" size="50" [(ngModel)]="values[content.id][i]" placeholder="{{ item.value }}">
                                             </div>
                                             <div *ngSwitchCase="'textarea'">
                                                 <textarea rows="4" style="width: 95%;" [(ngModel)]="values[content.id][i]">{{ item.value }}</textarea>
@@ -48,11 +48,20 @@
                                                 <input type="radio" disabled>
                                                 <input type="text" style="width:50%; line-height:1.5em;" placeholder="{{ item.value }}" [(ngModel)]="values[content.id][i]">
                                             </div>
+
+                                            <!-- 記入者入力欄 -->
+                                            <div *ngSwitchCase="'disabledText'" >
+                                                <input type="text" size="50" placeholder="記入者入力欄" disabled>
+                                            </div>
+                                            <div *ngSwitchCase="'disabledTextarea'" >
+                                                <textarea rows="4" style="width: 95%;" disabled>記入者入力欄</textarea>
+                                            </div>
+                                            <!-- 記入者入力欄 -->
                                         </div>
                                     </div>
                                     <div *ngIf="content.additionalType == 'template'" class="block_item">
-                                        <button (click)="clickAddItem($event)">1行追加</button>
-                                        <button (click)="clickRemoveItem($event)">1行削除</button>
+                                        <button (click)="clickAddItem($event)">要素追加</button>
+                                        <button (click)="clickRemoveItem($event)">要素削除</button>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +82,7 @@
             </div>
             <div id="wrap_template_toolbar_button">
                 <div>
-                    <div class="send_button">下書き</div>
+                    <div class="send_button" (click)="submit('draft')">下書き</div>
                 </div>
                 <div>
                     <div class="send_button" (click)="submit('save')">保存</div>
