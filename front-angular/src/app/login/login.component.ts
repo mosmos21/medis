@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     private nav: NavigationService
   ) {
     this.nav.hide();
-  }  
+  }
 
   openDialog(): void {
     let dialogRef = this.dialog.open(ResetPassComponent, {

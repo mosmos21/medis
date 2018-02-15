@@ -1,3 +1,14 @@
+/* ユーザ検索用 */
+
+.user_search {
+    float: right;
+    margin-right: 100px;
+}
+
+.button_newuser {
+    margin-left: 50px;
+}
+
 /* テーブルの基本レイアウト */
 
 table {
@@ -36,7 +47,7 @@ tr:nth-child(odd) td {
 }
 
 #user_list_initialization {
-    width: 80px;
+    width: 110px;
 }
 
 .toggle-button_tag {

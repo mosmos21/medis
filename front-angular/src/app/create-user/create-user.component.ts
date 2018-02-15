@@ -8,6 +8,11 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class CreateUserComponent implements OnInit {
 
+  private autorities = [
+    {authorityId: 'a0000000000', authorityType: '一般ユーザ'},
+    {authorityId: 'a0000000001', authorityType: 'アドミニストレータ'}
+  ];
+
   constructor(
     public dialogRef: MatDialogRef<CreateUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

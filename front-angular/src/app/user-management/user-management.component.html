@@ -1,11 +1,15 @@
 <div id="wrap_main_content">
     <div class="wrap_main_content_center content_scroll_y">
         <div class="main_content_header">
-            <h1>トップページ(仮)</h1>
+            <h1>ユーザ管理(仮)</h1>
         </div>
-        <button mat-raised-button (click)="createUser()">新規ユーザ登録</button>
-        <input type="text">
-        <button>検索</button>
+        <div class="user_search">
+            <mat-form-field>
+                <input matInput placeholder="ユーザ検索">
+            </mat-form-field>
+            <button mat-raised-button>検索</button>
+        </div>
+        <button mat-raised-button class="button_newuser" (click)="createUser()">新規ユーザ登録</button>
         <div class="wrap_list_box wrap_list_box_tall">
             <div class="list_box">
                 <div class="list_box_header">
@@ -32,7 +36,7 @@
                                     <label for="toggleButton_tag1"></label>
                                 </td>
                                 <td>
-                                    <button>初期化</button>
+                                    <button mat-raised-button>初期化</button>
                                 </td>
                             </tr>
                         </table>

@@ -1,3 +1,50 @@
-<p>
-  create-user works!
-</p>
+<form id="create-user-form">
+	<div id="create-user">
+		<h2>ユーザ新規登録</h2>
+		<table>
+			<tr>
+				<mat-form-field>
+					<input matInput placeholder="社員番号">
+				</mat-form-field>
+			</tr>
+			<tr>
+				<td>
+					<mat-form-field>
+						<input matInput placeholder="姓">
+					</mat-form-field>
+				</td>
+				<td>
+					<mat-form-field>
+						<input matInput placeholder="名">
+					</mat-form-field>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<mat-form-field>
+						<input matInput placeholder="せい">
+					</mat-form-field>
+				</td>
+				<td>
+					<mat-form-field>
+						<input matInput placeholder="めい">
+					</mat-form-field>
+				</td>
+			</tr>
+			<tr>
+				<mat-form-field>
+					<input matInput placeholder="メールアドレス">
+				</mat-form-field>
+			</tr>
+			<tr>
+				<mat-form-field>
+					<mat-select placeholder="権限">
+						<mat-option *ngFor="let a of autorities" [value]="a.authorityId">
+							{{ a.authorityType }}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</tr>
+		</table>
+	</div>
+</form>

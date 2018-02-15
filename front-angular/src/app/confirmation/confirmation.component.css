@@ -1,0 +1,12 @@
+#confirmation-form {
+    height: 100%;
+}
+
+#cancel {
+    float: right;
+    bottom: -20px;
+}
+
+#ok {
+    bottom: -20px;
+}

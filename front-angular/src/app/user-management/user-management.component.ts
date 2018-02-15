@@ -59,8 +59,8 @@ export class UserManagementComponent implements OnInit {
 
   createUser(): void {
     let dialogRef = this.dialog.open(CreateUserComponent, {
-      width: '500px',
-      height: '200px'
+      width: '700px',
+      height: '900px'
     });
   }
 
