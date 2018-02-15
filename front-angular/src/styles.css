@@ -125,15 +125,15 @@
     white-space: nowrap;
  }
  
- #template_info_list_id {
+ #info_list_id {
     width: 11em;
  }
  
- #template_info_list_date {
+ #info_list_date {
     width: 10em;
  }
  
- #template_info_list_flag {
+ #info_list_flag {
     width: 8em;
  }
  
