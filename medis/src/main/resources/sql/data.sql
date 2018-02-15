@@ -1,21 +1,24 @@
--- ユーザ情報の仮登録用
+-- ???[?U??????o?^?p
 INSERT INTO "user_info"
     (employee_number, authority_id, is_enabled, password)
 VALUES
-    ('medis', '0', 'true', 'medis'),
-    ('gu', '1', 'true', 'gupass');
+   ('medis', '0', 'true', 'medis'),
+   ('gu', '1', 'true', 'gupass'),
+   ('99999', '1', 'true', 'gupass99999'),
+   ('11111', '1', 'true', 'gupass11111'),
+   ('aaaaa', '1', 'true', 'gupassaaaaa');
 
--- トップページのマスタっぽいやつ
+-- ?g?b?v?y?[?W??}?X?^????????
 INSERT INTO "box"
     (box_id, box_logic_name, box_name)
 VALUES
-    ('0', '', '最近の更新'),
-    ('1', '', '自分の投稿した文書'),
-    ('2', '', '監視タグ文書一覧'),
-    ('3', '', 'お気にいり文書一覧'),
-    ('4', '', 'テンプレート一覧');
+    ('0', '', '????X?V'),
+    ('1', '', '????????e????????'),
+    ('2', '', '????^?O??????'),
+    ('3', '', '???C?????????'),
+    ('4', '', '?e???v???[?g??');
 
--- トップページの表示情報
+-- ?g?b?v?y?[?W??\?????
 INSERT INTO "toppage"
     (box_id, employee_number, toppage_order)
 VALUES
@@ -25,7 +28,7 @@ VALUES
     ('3', 'gu', '2'),
     ('4', 'gu', '4');
 
--- ドキュメントの情報
+-- ?h?L???????g????
 INSERT INTO "document_info"
     (document_id, employee_number, template_id, document_create_date, is_document_publish)
 VALUES

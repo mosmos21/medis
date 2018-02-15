@@ -29,4 +29,6 @@ public class Comment {
 	private String commentContent;
 
 	private boolean isRead;
+
+
 }
