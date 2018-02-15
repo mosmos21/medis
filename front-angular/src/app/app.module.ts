@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { InitializationComponent } from './initialization/initialization.component';
 
 import { DragulaModule } from 'ng2-dragula';
 
@@ -84,6 +85,7 @@ import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
     ResetPassComponent,
     ConfirmationComponent,
     CreateUserComponent,
+    InitializationComponent,
   ],
   bootstrap: [AppComponent]
 })

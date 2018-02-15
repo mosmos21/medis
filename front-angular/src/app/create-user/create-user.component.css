@@ -1,0 +1,32 @@
+.modal-title {
+    margin-bottom: 1px;
+}
+
+#create-user-form {
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.half-width {
+    width: 50%;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.buttons {
+    width: 100%;
+}
+
+#cancel {
+    margin-top: 10px;
+}
+
+#ok {
+    margin-top: 10px;
+    float: right;
+}

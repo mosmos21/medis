@@ -3,7 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
+<<<<<<< Updated upstream
 import { CreateUserComponent } from '../create-user/create-user.component';
+=======
+import { CreateUserComponent } from '../create-user/create-user.component'
+import { InitializationComponent } from '../initialization/initialization.component'
+>>>>>>> Stashed changes
 
 @Component({
   selector: 'app-user-management',
@@ -14,6 +19,7 @@ export class UserManagementComponent implements OnInit {
 
   private users;
   private enable;
+  private user;
 
   constructor(
     private http: HttpClient,
@@ -43,8 +49,6 @@ export class UserManagementComponent implements OnInit {
     }
 
     let dialogRef = this.dialog.open(ConfirmationComponent, {
-      width: '500px',
-      height: '200px',
       data: {
         user: this.users[index],
         enable: this.enable,
@@ -58,10 +62,56 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  initialization(index: number): void {
+
+    this.user = {
+      employeeNumber: this.users[index]["employeeNumber"],
+      mailaddress: this.users[index]["mailadress"]
+    }
+
+    let dialogRef = this.dialog.open(InitializationComponent, {
+      data: {
+        user: this.users[index],
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result != null) {
+        this.http.post(this.hostname + "accounts/usercheck", this.user).subscribe(
+          /* postした時の操作があればここにかく */
+        );
+      }
+    });
+  }
+
   createUser(): void {
+
+    this.user = {
+      employeeNumber: '',
+      lastName: '',
+      firstName: '',
+      lastNamePhonetic: '',
+      firstNamePhonetic: '',
+      mailaddress: '',
+      isIcon: false,
+      authorityId: '',
+      isEnabled: true
+    }
+
     let dialogRef = this.dialog.open(CreateUserComponent, {
-      width: '700px',
-      height: '900px'
+      data: {
+        user: this.user
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+        this.users.push(result);
+        this.http.post(this.hostname + "users/new", this.user).subscribe(
+          /* postした時の操作があればここにかく */
+        );
+      }
     });
   }
 

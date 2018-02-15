@@ -18,6 +18,10 @@ export class CreateUserComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
+  onClose(): void {
+    this.dialogRef.close();
+  }
+
   ngOnInit() {
   }
 

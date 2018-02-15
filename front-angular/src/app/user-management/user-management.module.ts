@@ -5,7 +5,9 @@ import { UserManagementComponent } from './user-management.component';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { CreateUserComponent } from '../create-user/create-user.component'
 import { UserManagementRoutingModule } from './user-management-routing.module';
+import { InitializationComponent } from '../initialization/initialization.component'
 import {
+  MatDialogModule,
   MatButtonModule,
   MatInputModule,
   MatSelectModule
@@ -16,6 +18,7 @@ import {
     UserManagementRoutingModule,
     FormsModule,
     CommonModule,
+    MatDialogModule,
     MatButtonModule,
     MatInputModule,
     MatSelectModule
@@ -24,6 +27,7 @@ import {
     UserManagementComponent,
     ConfirmationComponent,
     CreateUserComponent,
+    InitializationComponent,
   ]
 })
 export class UserManagementModule { }
