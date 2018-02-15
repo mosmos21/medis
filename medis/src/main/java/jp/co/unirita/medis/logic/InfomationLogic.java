@@ -1,6 +1,7 @@
 package jp.co.unirita.medis.logic;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -139,18 +140,26 @@ public class InfomationLogic {
 		//値を一意に
 		Set<String> set = new HashSet<>(documentIdListBeforeMap);
 		List<String> documentIdList = new ArrayList<>(set);
-		System.out.println(4);
 
 		//update_infoの値取得
 		List<UpdateInfo> updateInfoTemp = new ArrayList<>();
 		List<UpdateInfo> updateInfo = new ArrayList<>();
 
 //  	List<UpdateInfo> updateInfo = updateInfoRepository.findByDocumentIdAndUpdateIdGreaterThan(documentIdList, updateId);
-		for (int i = 0; i < documentIdList.size(); i++) {
-			updateInfoTemp = updateInfoRepository.findByDocumentIdAndUpdateIdGreaterThan(documentIdList.get(i), updateId);
-			updateInfo = Stream.concat(updateInfo.stream(), updateInfoTemp.stream()).collect(Collectors.toList());
-			updateInfoTemp = null;
+		if (updateId == null) {
+			for (int i = 0; i < documentIdList.size(); i++) {
+				updateInfoTemp = updateInfoRepository.findByDocumentId(documentIdList.get(i));
+				updateInfo = Stream.concat(updateInfo.stream(), updateInfoTemp.stream()).collect(Collectors.toList());
+				updateInfoTemp = null;
+			}
+		} else {
+			for (int i = 0; i < documentIdList.size(); i++) {
+				updateInfoTemp = updateInfoRepository.findByDocumentIdAndUpdateIdGreaterThan(documentIdList.get(i), updateId);
+				updateInfo = Stream.concat(updateInfo.stream(), updateInfoTemp.stream()).collect(Collectors.toList());
+				updateInfoTemp = null;
+			}
 		}
+
 
 		//updateInfoで取得した中のdocumentIdの一覧を取得
 		List<String> lastDocumentIdList = new ArrayList<>();
@@ -197,6 +206,17 @@ public class InfomationLogic {
 
 		for(int i = 0; i < contentMainList.size(); i++) {
 			infomation.add(new InfomationForm(updateInfo.get(i), contentMainList.get(i)));
+		}
+
+		infomation.sort(new Comparator<InfomationForm>(){
+			@Override
+			public int compare(InfomationForm i1, InfomationForm i2) {
+				return i2.getUpdateId().compareTo(i1.getUpdateId());
+			}
+		});
+
+		if (maxSize != -1) {
+			infomation = infomation.subList(0, maxSize);
 		}
 		return infomation;
 	}
