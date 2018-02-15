@@ -6,16 +6,17 @@
 		<div class="wrap_search_content">
 			<div id="search_box">
 				<div id="selected_tags" *ngFor="let selected_tag of selected_tags">
-					<div class="tag_base tag_middle">{{selected_tag}}</div>
+					<div class="tag_base tag_middle" (click)="deleteTags($event)">{{selected_tag}}</div>
 				</div>
-				<!-- <input type="text" [(ngModel)]="search_word"> -->
-				<input type="text" [(ngModel)]="seach_word">
+				<mat-form-field>
+					<input matInput placeholder="タグ" value="" [(ngModel)]="seach_word">
+				</mat-form-field>
 			</div>
 		</div>
 		<div class="wrap_search_content">
 			<div id="search_tag_candidate" class="content_scroll_y">
 				<div *ngFor="let tag of searchTag()">
-					<div class="tag_base tag_middle" (click)="clickEvent($event)">{{tag}}</div>
+					<div class="tag_base tag_middle" (click)="addTags($event)">{{tag}}</div>
 				</div>
 			</div>
 		</div>

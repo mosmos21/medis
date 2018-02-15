@@ -9,6 +9,8 @@ import {
   MatListModule,
   MatIconModule,
   MatMenuModule,
+  MatInputModule,
+  MatFormFieldModule,
 } from '@angular/material';
 
 import { NavigationService } from './services/navigation.service';
@@ -54,6 +56,8 @@ import { FormsModule } from '@angular/forms';
     MatMenuModule,
     DragulaModule,
     FormsModule,
+    MatInputModule,
+    MatFormFieldModule,
 
     LoginModule,
     TopModule,
