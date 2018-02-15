@@ -25,7 +25,8 @@ import { DragulaModule } from 'ng2-dragula';
 import { LoginModule } from './login/login.module';
 import { TopModule } from './top/top.module';
 import { EditTemplateModule } from './edit-template/edit-template.module';
-import { SelectTemplateModule } from './select-template/select-template.module'
+import { SelectTemplateModule } from './select-template/select-template.module';
+import { SelectDocumentModule } from './select-document/select-document.module';
 import { ViewModule } from './view/view.module';
 import { UserManagementModule } from './user-management/user-management.module';
 
@@ -63,6 +64,7 @@ import { FormsModule } from '@angular/forms';
     TopModule,
     EditTemplateModule,
     SelectTemplateModule,
+    SelectDocumentModule,
     ViewModule,
     UserManagementModule,
 
