@@ -18,7 +18,9 @@ public class BlockBase {
 
 	private String blockBaseHtml;
 
-	private boolean isisrRquired;
+	private boolean isRquired;
 
 	private boolean Variable;
+
+	private String blockName;
 }

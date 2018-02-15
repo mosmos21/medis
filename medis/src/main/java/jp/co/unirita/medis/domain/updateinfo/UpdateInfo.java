@@ -21,6 +21,8 @@ public class UpdateInfo {
 	@Size(min = 11, max = 11)
 	private String documentId;
 
+	private String updateType;
+
 	@Size(max = 64)
 	private String employeeNumber;
 
