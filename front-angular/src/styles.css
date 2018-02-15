@@ -34,7 +34,7 @@
  }
  
  .wrap_main_content_center {
-    width: 95%;
+    width: auto;
     height: 100%;
     margin: 0;
     margin-left: 5%;

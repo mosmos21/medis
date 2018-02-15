@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'top', component: TopComponent, canActivate: [AuthGuardService] },
   { path: 'browsing/view', component: ViewComponent },
   { path: 'edit', component:SelectDocumentComponent },
-  { path: 'edit/:id', component: EditDocumentComponent},
+  { path: 'edit/:id', component: EditDocumentComponent },
   { path: 'admin/template', component: SelectTemplateComponent },
   { path: 'admin/template/:id', component: EditTemplateComponent },
   { path: 'admin/management', component: UserManagementComponent }
