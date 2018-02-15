@@ -1,3 +1,28 @@
-<p>
-  select-document works!
-</p>
+<div id="wrap_main_content">
+    <div class="wrap_main_content_center">
+        <div class="main_content_header">
+            <h2>新規文書 - {{ title }}</h2>
+        </div>
+        <div class="wrap_list_box wrap_list_box_tall">
+            <div class="list_box">
+                <div class="list_box_header">
+                    <h3>一覧</h3>
+                </div>
+                <div class="list_box_content list_box_content_tall">
+                    <div class="content_scroll_y">
+                        <table id="info_list">
+                            <tr>
+                                <th id="info_list_id">テンプレートID</th>
+                                <th id="info_list_name">テンプレート名</th>
+                                <th id="info_list_date">作成日</th>
+                                <th id="info_list_flag">公開フラグ</th>
+                            </tr>
+                            <tr *ngFor="let l of list">
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

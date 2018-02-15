@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectDocumentComponent implements OnInit {
 
+  private title: string = "テンプレート選択";
+
   constructor() { }
 
   ngOnInit() {
