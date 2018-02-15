@@ -1,7 +1,9 @@
 <nav *ngIf="nav.visible">
 	<!-- ツールバー -->
 	<mat-toolbar class="toolbar">
-		<div id="toggle_menu" class="toolbar_image" (click)="sidenav.toggle()"></div>
+		<button mat-icon-button class="menu_button" (click)="sidenav.toggle()">
+			<mat-icon>menu</mat-icon>
+		</button>
 		<img id="logo" src="../assets/image/logo.png">
 	</mat-toolbar>
 
