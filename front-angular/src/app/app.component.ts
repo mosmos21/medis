@@ -8,29 +8,30 @@ import { NavigationService } from './services/navigation.service';
 })
 export class AppComponent {
   title = 'app';
-  mymenuVisible: boolean;
-  searchVisible: boolean;
-  settingsVisible: boolean;
+  private mymenuVisible: boolean;
+  private searchVisible: boolean;
+  private settingsVisible: boolean;
 
-  constructor(private nav: NavigationService){ 
+  constructor(private nav: NavigationService) {
     this.nav.show();
-    this.mymenuVisible=true;
+    // this.nav.userMenu();
+    this.mymenuVisible = true;
   }
-  ngOnInit(){ }
+  ngOnInit() { }
 
-  mymenuOpen(){
+  mymenuOpen() {
     this.mymenuVisible = true;
     this.searchVisible = false;
     this.settingsVisible = false;
   }
 
-  searchOpen(){
+  searchOpen() {
     this.mymenuVisible = false;
     this.searchVisible = true;
     this.settingsVisible = false;
   }
 
-  settingsOpen(){
+  settingsOpen() {
     this.mymenuVisible = false;
     this.searchVisible = false;
     this.settingsVisible = true;

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
-import { CreateUserComponent } from '../create-user/create-user.component'
+import { CreateUserComponent } from '../create-user/create-user.component';
 
 @Component({
   selector: 'app-user-management',
@@ -18,8 +18,9 @@ export class UserManagementComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
-    public dialog: MatDialog
-  ) { }
+    public dialog: MatDialog,
+  ) {
+  }
 
   ngOnInit() {
     this.http.get(this.hostname + 'users').subscribe(
@@ -34,13 +35,13 @@ export class UserManagementComponent implements OnInit {
 
   confirmChangeEnable(e: any, index: number): void {
     e.preventDefault();
-    
-    if(this.users[index]["isEnabled"]) {
+
+    if (this.users[index]["isEnabled"]) {
       this.enable = "無効";
     } else {
       this.enable = "有効";
     }
-    
+
     let dialogRef = this.dialog.open(ConfirmationComponent, {
       width: '500px',
       height: '200px',
@@ -51,7 +52,7 @@ export class UserManagementComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.users[index]["isEnabled"] = !this.users[index]["isEnabled"];
       }
     });
@@ -68,7 +69,7 @@ export class UserManagementComponent implements OnInit {
     this.users[index]["isEnabled"] = !this.users[index]["isEnabled"];
   }
 
-  @HostListener('window:unload', [ '$event' ])
+  @HostListener('window:unload', ['$event'])
   unloadHandler() {
     this.http.post(this.hostname + "users/update", this.users).subscribe(
       /* postした時の操作があればここにかく */

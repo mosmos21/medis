@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-sidenav-child',
@@ -7,32 +8,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidenavChildComponent implements OnInit {
 
-  mymenuVisible: boolean;
-  searchVisible: boolean;
-  settingsVisible: boolean;
+  private mymenuVisible: boolean;
+  private searchVisible: boolean;
+  private settingsVisible: boolean;
 
-  constructor() {
+  constructor(private nav: NavigationService) {
     this.mymenuOpen();
   }
 
   ngOnInit() {
   }
 
-  mymenuOpen(){
+  mymenuOpen() {
     this.mymenuVisible = true;
     this.searchVisible = false;
     this.settingsVisible = false;
   }
 
-  searchOpen(){
+  searchOpen() {
     this.mymenuVisible = false;
     this.searchVisible = true;
     this.settingsVisible = false;
   }
 
-  settingsOpen(){
+  settingsOpen() {
     this.mymenuVisible = false;
     this.searchVisible = false;
     this.settingsVisible = true;
+  }
+
+  logout() {
+
   }
 }

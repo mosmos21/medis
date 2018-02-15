@@ -1,0 +1,36 @@
+<mat-sidenav-container class="sidenav-child">
+  <mat-sidenav #sidenav_child mode="side" opened="true">
+    <mat-sidenav-container class="sidenav-child-menu">
+
+      <!-- サイドメニューボタン -->
+      <div id="wrap_side_menu_icon">
+        <div id="menu_user" class="side_menu_icon"></div>
+        <!-- <div id="menu_search" class="side_menu_icon" (click)="searchOpen()"></div>
+        <div id="menu_config" class="side_menu_icon" (click)="settingsOpen()"></div> -->
+      </div>
+
+      <div id="wrap_side_menu_icon">
+        <div id="icon_logout" (click)="logout()"></div>
+      </div>
+    </mat-sidenav-container>
+  </mat-sidenav>
+
+  <!-- サイドメニューコンテンツ -->
+  <!--メニュー -->
+
+  <div id="wrap_side_menu_content">
+    <div id="menu_user_content" class="menu_content">
+      <div class="wrap_menu_contet_link">
+        <div class="menu_content_link">
+          <img src="/assets/image/user_config.svg" />
+          <div class="menu_content_link_text">ユーザ管理</div>
+        </div>
+        <div class="menu_content_link">
+          <img src="/assets/image/new.svg" />
+          <div class="menu_content_link_text">テンプレート一覧</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</mat-sidenav-container>

@@ -7,11 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
-  selected_tags = [];
-  seach_word = "";
+  private selected_tags = [];
+  private seach_word = "";
 
   // タグ一覧
-  tags = [
+  private tags = [
     "2017年度新人研修",
     "2018年度新人研修",
     "A-AUTO研修",

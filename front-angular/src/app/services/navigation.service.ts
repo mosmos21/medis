@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class NavigationService {
-  visible: boolean;
+  private visible: boolean;
+  private isAdmin: boolean = false;
+  private isUser: boolean = true;
 
-  constructor() { 
-    this.visible=false;
+  constructor() {
+    this.visible = false;
   }
 
-  show(){
+  show() {
     this.visible = true;
   }
 
@@ -16,4 +18,13 @@ export class NavigationService {
     this.visible = false;
   }
 
+  adminMenu() {
+    this.isAdmin = true;
+    this.isUser = false;
+  }
+
+  userMenu() {
+    this.isAdmin = false;
+    this.isUser = true;
+  }
 }

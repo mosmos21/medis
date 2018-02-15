@@ -37,12 +37,14 @@ import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
 import { SearchComponent } from './search/search.component';
 
 import { FormsModule } from '@angular/forms';
+import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidenavChildComponent,
     SearchComponent,
+    SidenavAdminComponent,
   ],
   imports: [
     BrowserModule,

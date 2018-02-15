@@ -1,13 +1,16 @@
 <mat-sidenav-container class="sidenav-child">
 	<mat-sidenav #sidenav_child mode="side" opened="true">
 		<mat-sidenav-container class="sidenav-child-menu">
+
 			<!-- サイドメニューボタン -->
 			<div id="wrap_side_menu_icon">
 				<div id="menu_user" class="side_menu_icon" (click)="mymenuOpen()"></div>
 				<div id="menu_search" class="side_menu_icon" (click)="searchOpen()"></div>
 				<div id="menu_config" class="side_menu_icon" (click)="settingsOpen()"></div>
 			</div>
-			<div id="icon_logout"></div>
+			<div id="wrap_side_menu_icon">
+				<div id="icon_logout" (click)="logout()"></div>
+			</div>
 		</mat-sidenav-container>
 	</mat-sidenav>
 
@@ -64,5 +67,4 @@
 			</div>
 		</div>
 	</nav>
-
 </mat-sidenav-container>
