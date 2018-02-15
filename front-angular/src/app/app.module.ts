@@ -27,6 +27,7 @@ import { TopModule } from './top/top.module';
 import { EditTemplateModule } from './edit-template/edit-template.module';
 import { SelectTemplateModule } from './select-template/select-template.module';
 import { SelectDocumentModule } from './select-document/select-document.module';
+import { EditDocumentModule } from './edit-document/edit-document.module';
 import { ViewModule } from './view/view.module';
 import { UserManagementModule } from './user-management/user-management.module';
 
@@ -67,6 +68,7 @@ import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
     EditTemplateModule,
     SelectTemplateModule,
     SelectDocumentModule,
+    EditDocumentModule,
     ViewModule,
     UserManagementModule,
 
