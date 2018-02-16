@@ -59,14 +59,10 @@ public class InfomationLogic {
 		}
 
 		//文書についているタグが付いている文書の一覧
-		List<DocumentTag> documentTagTemp = new ArrayList<>();
 		List<DocumentTag> documentTag = new ArrayList<>();
 
-//		List<DocumentTag> documentTag = documentTagRepository.findByTagId(tagList);
 		for (int i = 0; i < tagList.size(); i++) {
-			documentTagTemp = documentTagRepository.findByTagId(tagList.get(i));
-			documentTag = Stream.concat(documentTag.stream(), documentTagTemp.stream()).collect(Collectors.toList());
-			documentTagTemp = null;
+			documentTag.addAll(documentTagRepository.findByTagId(tagList.get(i)));
 		}
 		List<String> documentList = new ArrayList<>();
 
@@ -75,14 +71,10 @@ public class InfomationLogic {
 		}
 
 		//テンプレートについているタグが付いている文書の一覧
-		List<FixedTag> fixedTagTemp = new ArrayList<>();
 		List<FixedTag> fixedTag = new ArrayList<>();
 
-//		List<FixedTag> fixedTag = fixedTagRepository.findByTagId(tagList);
 		for (int i = 0; i < tagList.size(); i++) {
-			fixedTagTemp = fixedTagRepository.findByTagId(tagList.get(i));
-			fixedTag = Stream.concat(fixedTag.stream(), fixedTagTemp.stream()).collect(Collectors.toList());
-			fixedTagTemp = null;
+			fixedTag.addAll(fixedTagRepository.findByTagId(tagList.get(i)));
 		}
 
 		List<String> templateList = new ArrayList<>();
@@ -92,14 +84,10 @@ public class InfomationLogic {
 		}
 
 		//documentListのidのdocument_info一覧
-		List<DocumentInfo> docDocInfoTemp = new ArrayList<>();
 		List<DocumentInfo> docDocInfo = new ArrayList<>();
 
-//  	List<DocumentInfo> docDocInfo = documentInfoRepository.findByDocumentId(documentList);
 		for (int i = 0; i < documentList.size(); i++) {
-			docDocInfoTemp = documentInfoRepository.findByDocumentId(documentList.get(i));
-			docDocInfo = Stream.concat(docDocInfo.stream(), docDocInfoTemp.stream()).collect(Collectors.toList());
-			docDocInfoTemp = null;
+			docDocInfo.addAll(documentInfoRepository.findByDocumentId(documentList.get(i)));
 		}
 
 		List<String> docDocInfoId = new ArrayList<>();
@@ -109,14 +97,10 @@ public class InfomationLogic {
 		}
 
 		//templateListのidが付いているdocument_info一覧
-		List<DocumentInfo> tempDocInfoTemp = new ArrayList<>();
 		List<DocumentInfo> tempDocInfo = new ArrayList<>();
 
-//  	List<DocumentInfo> tempDocInfo = documentInfoRepository.findByTemplateId(templateList);
 		for (int i = 0; i < templateList.size(); i++) {
-			tempDocInfoTemp = documentInfoRepository.findByTemplateId(templateList.get(i));
-			tempDocInfo = Stream.concat(tempDocInfo.stream(), tempDocInfoTemp.stream()).collect(Collectors.toList());
-			tempDocInfoTemp = null;
+			tempDocInfo.addAll(documentInfoRepository.findByTemplateId(templateList.get(i)));
 		}
 
 		List<String> tempDocInfoId = new ArrayList<>();
@@ -142,21 +126,15 @@ public class InfomationLogic {
 		List<String> documentIdList = new ArrayList<>(set);
 
 		//update_infoの値取得
-		List<UpdateInfo> updateInfoTemp = new ArrayList<>();
 		List<UpdateInfo> updateInfo = new ArrayList<>();
 
-//  	List<UpdateInfo> updateInfo = updateInfoRepository.findByDocumentIdAndUpdateIdGreaterThan(documentIdList, updateId);
 		if (updateId == null) {
 			for (int i = 0; i < documentIdList.size(); i++) {
-				updateInfoTemp = updateInfoRepository.findByDocumentId(documentIdList.get(i));
-				updateInfo = Stream.concat(updateInfo.stream(), updateInfoTemp.stream()).collect(Collectors.toList());
-				updateInfoTemp = null;
+				updateInfo.addAll(updateInfoRepository.findByDocumentId(documentIdList.get(i)));
 			}
 		} else {
 			for (int i = 0; i < documentIdList.size(); i++) {
-				updateInfoTemp = updateInfoRepository.findByDocumentIdAndUpdateIdGreaterThan(documentIdList.get(i), updateId);
-				updateInfo = Stream.concat(updateInfo.stream(), updateInfoTemp.stream()).collect(Collectors.toList());
-				updateInfoTemp = null;
+				updateInfo.addAll(updateInfoRepository.findByDocumentIdAndUpdateIdGreaterThan(documentIdList.get(i), updateId));
 			}
 		}
 
@@ -169,14 +147,10 @@ public class InfomationLogic {
 		}
 
 		//contentOther(documentTitle)の取得
-		List<ContentFlame> contentFlameTemp = new ArrayList<>();
 		List<ContentFlame> contentFlame = new ArrayList<>();
 
-// 		List<ContentFlame> contentFlame = contentFlameRepository.findByDocumentIdAndContentOrderAndLineNumber(lastDocumentIdList, 1, 1);
 		for (int i = 0; i < lastDocumentIdList.size(); i++) {
-			contentFlameTemp = contentFlameRepository.findByDocumentIdAndContentOrderAndLineNumber(lastDocumentIdList.get(i), 1, 1);
-			contentFlame = Stream.concat(contentFlame.stream(), contentFlameTemp.stream()).collect(Collectors.toList());
-			contentFlameTemp = null;
+			contentFlame.addAll(contentFlameRepository.findByDocumentIdAndContentOrderAndLineNumber(lastDocumentIdList.get(i), 1, 1));
 		}
 
 		List<String> contentIdList = new ArrayList<>();
@@ -185,14 +159,10 @@ public class InfomationLogic {
 			contentIdList.add(contentflame.getContentId());
 		}
 
-		List<ContentOther> contentOtherTemp = new ArrayList<>();
 		List<ContentOther> contentOther = new ArrayList<>();
 
-//		List<ContentOther> contentOther = contentOtherRepository.findByContentId(contentIdList);
 		for (int i = 0; i < contentIdList.size(); i++) {
-			contentOtherTemp = contentOtherRepository.findByContentId(contentIdList.get(i));
-			contentOther = Stream.concat(contentOther.stream(), contentOtherTemp.stream()).collect(Collectors.toList());
-			contentOtherTemp = null;
+			contentOther.addAll(contentOtherRepository.findByContentId(contentIdList.get(i)));
 		}
 
 		List<String> contentMainList = new ArrayList<>();
@@ -215,9 +185,10 @@ public class InfomationLogic {
 			}
 		});
 
-		if (maxSize != -1) {
+		if (maxSize != -1 && infomation.size() > maxSize) {
 			infomation = infomation.subList(0, maxSize);
 		}
+
 		return infomation;
 	}
 }
