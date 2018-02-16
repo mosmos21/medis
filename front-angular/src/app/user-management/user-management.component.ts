@@ -3,12 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
-<<<<<<< Updated upstream
-import { CreateUserComponent } from '../create-user/create-user.component';
-=======
 import { CreateUserComponent } from '../create-user/create-user.component'
 import { InitializationComponent } from '../initialization/initialization.component'
->>>>>>> Stashed changes
 
 @Component({
   selector: 'app-user-management',
@@ -17,9 +13,20 @@ import { InitializationComponent } from '../initialization/initialization.compon
 })
 export class UserManagementComponent implements OnInit {
 
-  private users;
+  private users: any = [{
+    employeeNumber: '',
+    lastName: '',
+    firstName: '',
+    lastNamePhonetic: '',
+    firstNamePhonetic: '',
+    mailaddress: '',
+    isIcon: false,
+    authorityId: '',
+    isEnabled: true
+  }];
   private enable;
   private user;
+  private searchWord = "";
 
   constructor(
     private http: HttpClient,
@@ -117,6 +124,27 @@ export class UserManagementComponent implements OnInit {
 
   changeEnable(index: number) {
     this.users[index]["isEnabled"] = !this.users[index]["isEnabled"];
+  }
+
+  searchUser() {
+    var sub = JSON.stringify(this.users);
+    var targetUser = JSON.parse(sub);
+    var i = targetUser.length;
+    var word = this.searchWord;
+    console.log(this.users);
+    while(i--) {
+      if(
+        (String(this.users[i]["employeeNumber"]).indexOf(word) == -1) &&
+        (this.users[i]["lastName"].indexOf(word) == -1) &&
+        (this.users[i]["firstName"].indexOf(word) == -1) &&
+        (this.users[i]["lastNamePhonetic"].indexOf(word) == -1) &&
+        (this.users[i]["firstNamePhonetic"].indexOf(word) == -1) &&
+        (this.users[i]["mailaddress"].indexOf(word) == -1)
+      ){
+        targetUser.splice(i, 1);
+      }
+    }
+    return targetUser;
   }
 
   @HostListener('window:unload', ['$event'])

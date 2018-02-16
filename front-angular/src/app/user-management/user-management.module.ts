@@ -10,7 +10,8 @@ import {
   MatDialogModule,
   MatButtonModule,
   MatInputModule,
-  MatSelectModule
+  MatSelectModule,
+  MatSlideToggleModule,
 } from '@angular/material';
 
 @NgModule({
@@ -21,7 +22,8 @@ import {
     MatDialogModule,
     MatButtonModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSlideToggleModule,
   ],
   declarations: [
     UserManagementComponent,
