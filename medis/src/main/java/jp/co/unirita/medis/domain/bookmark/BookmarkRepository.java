@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookmarkRepository extends JpaRepository<Bookmark, String> {
-	List<Bookmark> findByDocumentIdIs(String enployeeNumber);
+	List<Bookmark> findByEmployeeNumber(String enployeeNumber);
 }
