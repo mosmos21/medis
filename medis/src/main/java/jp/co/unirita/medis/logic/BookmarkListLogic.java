@@ -1,6 +1,7 @@
 package jp.co.unirita.medis.logic;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -80,6 +81,13 @@ public class BookmarkListLogic {
 		for(int i = 0; i < contentMainList.size(); i++) {
 			bookmarkForm.add(new BookmarkForm(documentInfo.get(i), contentMainList.get(i)));
 		}
+
+		bookmarkForm.sort(new Comparator<BookmarkForm>(){
+			@Override
+			public int compare(BookmarkForm i1, BookmarkForm i2) {
+				return i2.getDocumentId().compareTo(i1.getDocumentId());
+			}
+		});
 
 		if (maxSize != -1 && bookmarkForm.size() > maxSize) {
 			bookmarkForm = bookmarkForm.subList(0, maxSize);
