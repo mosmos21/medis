@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { CreateUserComponent } from '../create-user/create-user.component'
 import { InitializationComponent } from '../initialization/initialization.component'
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-user-management',
@@ -32,7 +33,9 @@ export class UserManagementComponent implements OnInit {
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
     public dialog: MatDialog,
+    public nav: NavigationService
   ) {
+    this.nav.showAdminMenu();
   }
 
   ngOnInit() {

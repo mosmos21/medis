@@ -16,7 +16,7 @@ export class SelectTemplateComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     private nav: NavigationService
   ) {
-    this.nav.adminMenu();
+    this.nav.showAdminMenu();
   }
 
   ngOnInit() {
