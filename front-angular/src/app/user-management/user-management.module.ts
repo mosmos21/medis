@@ -10,7 +10,9 @@ import {
   MatDialogModule,
   MatButtonModule,
   MatInputModule,
-  MatSelectModule
+  MatSelectModule,
+  MatToolbarModule,
+  MatFormFieldModule,
 } from '@angular/material';
 
 @NgModule({
@@ -21,7 +23,9 @@ import {
     MatDialogModule,
     MatButtonModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   declarations: [
     UserManagementComponent,

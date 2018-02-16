@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DragulaService } from 'ng2-dragula';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-edit-template',
@@ -11,19 +12,44 @@ import { DragulaService } from 'ng2-dragula';
 export class EditTemplateComponent implements OnInit {
 
   public blocks: any;
-  private contentBases: {[key: string]: any} = {};
+  private contentBases: { [key: string]: any } = {};
 
   private templateId: string;
   public contents: any[] = [];
-  public values: {[key: string]: string[]} = {};
+  public values: { [key: string]: string[] } = {};
 
-  constructor(@Inject('hostname') private hostname: string, private http: HttpClient,
-    private route: ActivatedRoute, private dragulaService: DragulaService) {
+  private showBlocks: boolean;
+  private showTags: boolean;
+
+  private selected_tags = [];
+  private seach_word = "";
+
+  // タグ一覧
+  private tags = [
+    "2017年度新人研修",
+    "2018年度新人研修",
+    "A-AUTO研修",
+    "帳票研修",
+    "Waha!研修",
+    "研修"
+  ];
+
+  constructor(
+    @Inject('hostname') private hostname: string,
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private dragulaService: DragulaService,
+    private nav: NavigationService,
+  ) {
+
+    this.showBlocks = true;
+    this.showTags = false;
+
     dragulaService.setOptions("template-block", {
-      copy: function (el: any , source: any) {
+      copy: function (el: any, source: any) {
         return source.id === "template_block_list";
       },
-      accepts: function(el: any , source: any) {
+      accepts: function (el: any, source: any) {
         return source.id !== "template_block_list";
       }
     });
@@ -31,11 +57,12 @@ export class EditTemplateComponent implements OnInit {
     dragulaService.drop.subscribe((value) => {
       let [e, el] = value.slice(1);
       let id = e.childNodes[1].id;
-      if(id != ''){
+      if (id != '') {
         e.remove();
         this.addBlock(id);
       }
     });
+
   }
 
   ngOnInit() {
@@ -45,16 +72,16 @@ export class EditTemplateComponent implements OnInit {
       json => {
         this.blocks = json;
 
-        for(var b of this.blocks) {
-          if(b.additionalType != null){
-            for(let add of b.addItems){
+        for (var b of this.blocks) {
+          if (b.additionalType != null) {
+            for (let add of b.addItems) {
               b.items.push(add);
             }
           }
           this.contentBases[b.blockId] = b;
         }
 
-        if(this.templateId != 'new'){
+        if (this.templateId != 'new') {
           this.assembleTemplate();
         }
       },
@@ -69,18 +96,18 @@ export class EditTemplateComponent implements OnInit {
     this.http.get(this.hostname + 'templates/' + this.templateId).subscribe(
       json => {
         data = json;
-        for(let con of data.contents){
+        for (let con of data.contents) {
           var id = this.addBlock(con.blockId);
-          for(var i = 0; i < con.items.length - this.contentBases[con.blockId].items.length; i++){
+          for (var i = 0; i < con.items.length - this.contentBases[con.blockId].items.length; i++) {
             this.addItem(id);
           }
           this.values[id] = new Array();
-          for(let i of con.items){
+          for (let i of con.items) {
             this.values[id].push(i);
           }
         }
       },
-      error =>{
+      error => {
         console.log("情報の取得に失敗しました。");
       }
     );
@@ -104,7 +131,7 @@ export class EditTemplateComponent implements OnInit {
 
   addBlock(id: string): string {
     let c = JSON.parse(JSON.stringify(this.contentBases[id]));
-    let newid = 'comp-' + Math.floor( Math.random() * 1000000);
+    let newid = 'comp-' + Math.floor(Math.random() * 1000000);
     c.id = newid;
     this.contents.push(c);
     this.values[newid] = new Array();
@@ -112,18 +139,18 @@ export class EditTemplateComponent implements OnInit {
   }
 
   removeBlock(target: string): void {
-    for(let idx in this.contents) {
-      if(this.contents[idx].id == target){
+    for (let idx in this.contents) {
+      if (this.contents[idx].id == target) {
         this.contents.splice(+idx, 1);
       }
     }
   }
 
   addItem(target: string): void {
-    for(let content of this.contents){
-      if(content.id == target){
+    for (let content of this.contents) {
+      if (content.id == target) {
         let items = this.contentBases[content.blockId].addItems;
-        for(let add of items){
+        for (let add of items) {
           content.items.push(add);
         }
       }
@@ -131,13 +158,13 @@ export class EditTemplateComponent implements OnInit {
   }
 
   removeItem(target: string): void {
-  for(let content of this.contents) {
-      if(content.id == target) {
+    for (let content of this.contents) {
+      if (content.id == target) {
         let len = content.items.length;
         let min = this.contentBases[content.blockId].items.length;
         let size = this.contentBases[content.blockId].addItems.length;
-        if(len > min){
-          for(let i = 0; i < size; i++){
+        if (len > min) {
+          for (let i = 0; i < size; i++) {
             content.items.pop();
             this.values[target].pop();
           }
@@ -152,13 +179,13 @@ export class EditTemplateComponent implements OnInit {
       isPublish: type == "save"
     }
     var contents: any[] = [];
-    for(let i = 0; i < this.contents.length; i++){
+    for (let i = 0; i < this.contents.length; i++) {
       var content = {
         contentOrder: i + 1,
         blockId: this.contents[i].blockId,
       };
       var items: string[] = [];
-      for(let s of this.values[this.contents[i].id]){
+      for (let s of this.values[this.contents[i].id]) {
         items.push(s);
       }
       content["items"] = items;
@@ -172,12 +199,55 @@ export class EditTemplateComponent implements OnInit {
     let data = this.data2Json(type);
     console.log(data);
     this.http.post(this.hostname + "template/" + this.templateId, data).subscribe(
-     json => {
-       // TODO
-     },
-     error => {
-       // TODO
-     }
+      json => {
+        // TODO
+      },
+      error => {
+        // TODO
+      }
     );
+  }
+
+  toggleBlockToTags() {
+    this.showBlocks = false;
+    this.showTags = true;
+  }
+
+  toggleTagsToBlocks() {
+    this.showBlocks = true;
+    this.showTags = false;
+  }
+
+  addTags(event: any) {
+    if (this.selected_tags.length < 5) {
+      var str = event.path[0].innerHTML;
+      this.selected_tags.push(str);
+      var idx = this.tags.indexOf(str);
+      if (idx >= 0) {
+        this.tags.splice(idx, 1);
+      }
+    }
+    this.seach_word = "";
+  }
+
+  deleteTags(event: any) {
+    var str = event.path[0].innerHTML;
+    console.log(str);
+    this.tags.push(str);
+    var idx = this.selected_tags.indexOf(str);
+    if (idx >= 0) {
+      this.selected_tags.splice(idx, 1);
+    }
+  }
+
+  searchTag() {
+    var targetTag = [];
+    var i = this.tags.length;
+    while (i--) {
+      if (this.tags[i].indexOf(this.seach_word) > -1) {
+        targetTag.push(this.tags[i]);
+      }
+    }
+    return targetTag;
   }
 }

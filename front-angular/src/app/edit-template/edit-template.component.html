@@ -10,12 +10,14 @@
                     <div id="wrap_tag_list">
                         <h2>固定タグ編集</h2>
                         <div id="tag_list">
-                            <div class="tag_base tag_middle tag_side tag_erasable">2018年度新人研修日報
-                                <div class="tag_remove">x</div>
+                            <!-- <div class="tag_base tag_middle tag_side tag_erasable">2018年度新人研修日報
+                                <div class="tag_remove" (click)="deleteTags()">x</div>
+                            </div> -->
+
+                            <div id="selected_tags" *ngFor="let selected_tag of selected_tags">
+                                <div class="tag_base tag_middle tag_side tag_erasable" (click)="deleteTags($event)">{{selected_tag}}</div>
                             </div>
-                            <div class="tag_base tag_middle tag_side tag_erasable">ビジネスマナー研修
-                                <div class="tag_remove">x</div>
-                            </div>
+
                         </div>
                     </div>
                     <div id="template_content_list" [dragula]='"template-contents"' [dragulaModel]='contents'>
@@ -34,7 +36,7 @@
                                             <div *ngSwitchCase="'span'">
                                                 <span>{{ item.value }}</span>
                                             </div>
-                                            <div *ngSwitchCase="'text'" >
+                                            <div *ngSwitchCase="'text'">
                                                 <input type="text" size="50" [(ngModel)]="values[content.id][i]" placeholder="{{ item.value }}">
                                             </div>
                                             <div *ngSwitchCase="'textarea'">
@@ -50,10 +52,10 @@
                                             </div>
 
                                             <!-- 記入者入力欄 -->
-                                            <div *ngSwitchCase="'disabledText'" >
+                                            <div *ngSwitchCase="'disabledText'">
                                                 <input type="text" size="50" placeholder="記入者入力欄" disabled>
                                             </div>
-                                            <div *ngSwitchCase="'disabledTextarea'" >
+                                            <div *ngSwitchCase="'disabledTextarea'">
                                                 <textarea rows="4" style="width: 95%;" disabled>記入者入力欄</textarea>
                                             </div>
                                             <!-- 記入者入力欄 -->
@@ -72,14 +74,39 @@
             </div>
         </div>
         <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
-            <h2>テンプレートブロック</h2>
-            <div id="template_block_list" class="content_scroll_y" [dragula]='"template-block"'>
-                <!-- テンプレートリスト -->
-                <div *ngFor="let block of blocks">
-                    <div id="{{ block.blockId }}" class="template_block_info">{{ block.blockName }}</div>
-                </div>
-                <!-- テンプレートリスト -->
-            </div>
+
+            <mat-tab-group class="edit-template-tab">
+                <mat-tab label="ブロック" id="tag_label">
+                    <div id="template_block_list" class="content_scroll_y" [dragula]='"template-block"'>
+                        <!-- テンプレートリスト -->
+                        <div *ngFor="let block of blocks">
+                            <div id="{{ block.blockId }}" class="template_block_info">{{ block.blockName }}</div>
+                        </div>
+                        <!-- テンプレートリスト -->
+                    </div>
+
+                </mat-tab>
+                <mat-tab label="タグ" id="tag_label">
+                    <div id="menu_search_content" class="menu_content">
+                        <div *ngIf="selected_tags.length < 8">
+                            <mat-form-field>
+                                <input matInput placeholder="Tag Name" value="" [(ngModel)]="seach_word">
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="wrap_search_content">
+                            <div id="search_tag_candidate" class="content_scroll_y">
+                                <div *ngFor="let tag of searchTag()">
+                                    <div class="tag_base tag_middle" (click)="addTags($event)">{{tag}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+
+
             <div id="wrap_template_toolbar_button">
                 <div>
                     <div class="send_button" (click)="submit('draft')">下書き</div>
@@ -88,6 +115,7 @@
                     <div class="send_button" (click)="submit('save')">保存</div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

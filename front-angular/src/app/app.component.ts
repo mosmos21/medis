@@ -14,7 +14,7 @@ export class AppComponent {
 
   constructor(private nav: NavigationService) {
     this.nav.show();
-    // this.nav.userMenu();
+    this.nav.showUserMenu();
     this.mymenuVisible = true;
   }
   ngOnInit() { }
