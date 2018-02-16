@@ -49,7 +49,7 @@ public class InfomationLogic {
 
 
 
-	public List<InfomationForm> getInfomationList(String employeeNumber, String updateId, int maxSize) {
+	public List<InfomationForm> getInfomationList(String employeeNumber, String updateId, Integer maxSize) {
 		//userが監視しているタグの一覧
 		List<NotificationConfig> notificationConfig = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
 		List<String> tagList = new ArrayList<>();
