@@ -1,9 +1,11 @@
 package jp.co.unirita.medis.util.response;
 
-import jp.co.unirita.medis.util.exception.InvalidArgumentException;
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import jp.co.unirita.medis.util.exception.ConflictException;
+import jp.co.unirita.medis.util.exception.InvalidArgumentException;
+import lombok.Data;
 
 @Data
 public class ErrorResponse {
@@ -28,4 +30,11 @@ public class ErrorResponse {
                 HttpStatus.BAD_REQUEST
         );
     }
+
+	public static ResponseEntity<ErrorResponse> creaeResponse(ConflictException e) {
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse(e.getConflict(), e.getValue(), e.getMessage()),
+                HttpStatus.CONFLICT
+        );
+	}
 }
