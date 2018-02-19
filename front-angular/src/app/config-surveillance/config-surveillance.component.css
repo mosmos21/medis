@@ -1,0 +1,76 @@
+.list_box {
+    border: 1px black solid;
+    height: auto;
+    width: 100%;
+    min-width: 250px;
+    padding: 0;
+    border-radius: 5px;
+    border: 2px #999 solid;
+    box-shadow: 2px 2px 2px #999;
+    background: rgb(255, 255, 255);
+}
+
+.wrap_surveillance_content {
+    width: 95%;
+    margin: 10px 4px;
+    padding: 1px;
+    /* border: 1px black solid; */
+}
+.wrap_surveillance_content h2 {
+    text-align: center;
+}
+#surveillance_box {
+    white-space: normal;
+    background: white;
+    margin-left: 2%;
+    padding: 10px;
+    width: 100%;
+    height: 200px;
+    border: 1px #999 solid;
+    border-radius: 15px;
+    overflow-y: scroll;
+}
+
+#surveillance_box input {
+    border: none;
+    outline: 0;
+    font-size: 12px;
+    height: 25px;
+}
+
+#surveillance_tag_candidate {
+    white-space: normal;
+    background: rgb(255, 255, 255);
+    border: 1px #999 solid ;
+    margin-left: 5%;
+    width: 94%;
+    height: 440px;
+    overflow-y: scroll;
+}
+
+.surveillance_tag {
+    display:inline-block;
+}
+
+.square_btn {
+    position: relative;
+    display: inline-block;
+    padding: 0.5em 2.5em;
+    text-decoration: none;
+    color: #FFF;
+    background: #479dff;/*背景色*/
+    border-bottom: solid 2px #278bc5;/*少し濃い目の色に*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+    text-transform: uppercase;
+    transition: background 0.3s ease-in-out;
+}
+.square_btn:hover{
+    background: #007bff;
+    border-bottom: solid 4x #037cc2;
+}
+
+.btn_position {
+    text-align: center;
+    margin: 20px; 
+}
