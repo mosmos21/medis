@@ -6,41 +6,61 @@
                     <h1>文書タイトル</h1>
                     <hr />
                     <div id="tag_list">
-                        <div class="tag_base tag_middle tag_side tag_erasable">2018年度新人研修日報</div>
-                        <div class="tag_base tag_middle tag_side tag_erasable">ビジネスマナー研修</div>
+                        <div *ngFor="let t of tags" class="tag_base tag_middle tag_side">{{ t }}</div>
                     </div>
                 </div>
                 <div id="view_content_list">
-                    <div class="view_content_block_header">
-                        <h4>学んだこと</h4>
+                    <!-- コンテンツ -->
+                    <div class="content" *ngFor="let content of contents;let i = index;" [id]="content.id">
+                        <div class="block_body">
+                            <div class="block_header">
+                                <h4>{{i+1}}. {{ templateValues[content.id][0] }}</h4>
+                            </div>
+                            <hr>
+                            <div class="block_body">
+                                <div *ngFor="let item of content.items;let i = index;" 
+                                    [class]="item.documentType == 'hidden'? '' : item.size > 1 ? 'block_item block_item_tall' : 'block_item'">
+                                    <div [ngSwitch]="item.documentType">
+                                        <div *ngSwitchCase="'span'">
+                                            <span>{{ templateValues[content.id][i] }}</span>
+                                        </div>
+                                        <div *ngSwitchCase="'text'">
+                                            <span>{{ templateValues[content.id][i] }}</span>
+                                        </div>
+                                        <div *ngSwitchCase="'textarea'">
+                                            <span>{{ templateValues[content.id][i] }}</span>
+                                        </div>
+                                        <div *ngSwitchCase="'checkbox'">
+                                                {{ isChecked(content.id, i - content.offset) ? "■" : "□" }}
+                                            <span>{{ templateValues[content.id][i] }}</span>
+                                        </div>
+                                        <div *ngSwitchCase="'radio'">
+                                                {{ isChecked(content.id, i - content.offset) ? "●" : "○" }}
+                                            <span>{{ templateValues[content.id][i] }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <hr/>
-                    <div class="view_content_block_body">
-                        <ul type="disc">
-                            <li>学んだこと1</li>
-                            <span>ああああああああ</span>
-                            <li>学んだこと2</li>
-                            <li>学んだこと3</li>
-                            <li>学んだこと4</li>
-                        </ul>
-                    </div>
+                    <!-- コンテンツ -->
                 </div>
             </div>
             <div id="view_comment">
                 <h1>コメント</h1>
                 <hr/>
                 <div id="view_comment_list">
-                    <div class="view_comment_content">
+                    <div *ngFor="let comment of comments" class="view_comment_content">
                         <div class="user_icon">
-                            <img src="image/user.svg">
+                            <img [src]="comment.isIcon ? 'image/' + comment.employeeNumber + '.jpg' : 'image/user.svg'">
                         </div>
                         <div class="comment_info">
-                            <p class="user_name">浅野雅則</p>
-                            <p class="comment_date">2018/01/31 17:16</p>
+                            <p class="user_name">{{ comment.lastName }} {{ comment.firstName }}</p>
+                            <p class="comment_date">{{ time2Date(comment.commentDate) }}</p>
                         </div>
                         <hr/>
                         <div class="comment_text">
-                            <span>コメントの内容あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</span>
+                            <span>{{ comment.commentContent }}</span>
                         </div>
                     </div>
                 </div>
