@@ -1,4 +1,3 @@
--- ???[?U??????o?^?p
 INSERT INTO "user_info"
     (employee_number, authority_id, is_enabled, password)
 VALUES
@@ -8,17 +7,15 @@ VALUES
    ('11111', '1', 'true', 'gupass11111'),
    ('aaaaa', '1', 'true', 'gupassaaaaa');
 
--- ?g?b?v?y?[?W??}?X?^????????
 INSERT INTO "box"
     (box_id, box_logic_name, box_name)
 VALUES
-    ('0', '', '????X?V'),
+    ('0', '', '日本語'),
     ('1', '', '????????e????????'),
     ('2', '', '????^?O??????'),
     ('3', '', '???C?????????'),
     ('4', '', '?e???v???[?g??');
 
--- ?g?b?v?y?[?W??\?????
 INSERT INTO "toppage"
     (box_id, employee_number, toppage_order)
 VALUES
@@ -28,7 +25,6 @@ VALUES
     ('3', 'gu', '2'),
     ('4', 'gu', '4');
 
--- ?h?L???????g????
 INSERT INTO "document_info"
     (document_id, employee_number, template_id, document_create_date, is_document_publish)
 VALUES
@@ -49,3 +45,12 @@ VALUES
     ('d0000000014', '11111', 't0000000014', '2018/01/01', 'false'),
     ('d0000000015', 'aaaaa', 't0000000015', '2018/01/01', 'true');
 
+
+INSERT INTO template_info
+	(template_id, employee_number, is_template_publish, template_create_date, template_name)
+VALUES
+	('t0000000001', '97968', true, now(), 'テストテンプレート2'),
+	('t0000000002', '97968', true, now(), 'テストテンプレート3'),
+	('t0000000003', '97968', true, now(), 'テストテンプレート4'),
+	('t0000000004', '97968', true, now(), 'テストテンプレート5'),
+	('t0000000000', '97968', true, now(), 'テストテンプレート1');

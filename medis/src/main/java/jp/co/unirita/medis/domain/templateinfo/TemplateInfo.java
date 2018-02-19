@@ -21,7 +21,7 @@ public class TemplateInfo {
 	@Size(max = 64)
 	private String employeeNumber;
 
-	private String templateNmae;
+	private String templateName;
 
 	private Timestamp templateCreateDate;
 
