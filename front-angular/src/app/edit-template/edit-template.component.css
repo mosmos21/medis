@@ -298,6 +298,7 @@
 
 /deep/.mat-tab-label{
   min-width: 1px!important;
+  width: 50%;
   padding: 0px;
 }
 

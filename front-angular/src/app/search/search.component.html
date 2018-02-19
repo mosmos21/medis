@@ -8,13 +8,14 @@
 				<div id="selected_tags" *ngFor="let selected_tag of selected_tags">
 					<div class="tag_base tag_middle" (click)="deleteTags($event)">{{selected_tag}}</div>
 				</div>
-				<div *ngIf="selected_tags.length < 5">
+				<nav *ngIf="selected_tags.length < 5">
 					<mat-form-field>
 						<input matInput placeholder="Tag Name" value="" [(ngModel)]="seach_word">
 					</mat-form-field>
-				</div>
+				</nav>
 			</div>
 		</div>
+
 		<div class="wrap_search_content">
 			<div id="search_tag_candidate" class="content_scroll_y">
 				<div *ngFor="let tag of searchTag()">

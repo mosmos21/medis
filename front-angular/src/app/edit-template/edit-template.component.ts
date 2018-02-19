@@ -22,16 +22,15 @@ export class EditTemplateComponent implements OnInit {
   private showTags: boolean;
 
   private selected_tags = [];
+  private temp_tags = [];
   private seach_word = "";
 
   // タグ一覧
-  private tags = [
-    "2017年度新人研修",
-    "2018年度新人研修",
-    "A-AUTO研修",
-    "帳票研修",
-    "Waha!研修",
-    "研修"
+  private tags: any = [
+    {
+      tagId: "",
+      tagName: ""
+    }
   ];
 
   constructor(
@@ -89,6 +88,20 @@ export class EditTemplateComponent implements OnInit {
         this.blocks = error;
       }
     );
+
+    this.http.get(this.hostname + 'tags').subscribe(
+      json => {
+        this.tags = json;
+        var i = this.tags.length;
+        while (i--) {
+          this.temp_tags.push(this.tags[i]["tagName"]);
+        }
+      },
+      error => {
+        this.tags = error;
+      }
+    );
+
   }
 
   assembleTemplate(): void {
