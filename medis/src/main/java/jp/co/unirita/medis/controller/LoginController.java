@@ -51,7 +51,7 @@ public class LoginController {
             }
         }
         User user = repository.findFirstByEmployeeNumber(data.getEmployeeNumber());
-        //return new ResponseEntity<>("test", null, HttpStatus.OK);
+        user.setPassword("");
         return user;
     }
 }

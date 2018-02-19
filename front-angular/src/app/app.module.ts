@@ -79,7 +79,7 @@ import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
     NavigationService,
     AuthService,
     AuthGuardService,
-    { provide: 'hostname', useValue: 'http://localhost:8080/mock/' }
+    { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }
   ],
   entryComponents: [
     ResetPassComponent,
