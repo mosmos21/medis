@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-sidenav-admin',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidenavAdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(private nav: NavigationService) { }
 
   ngOnInit() {
   }

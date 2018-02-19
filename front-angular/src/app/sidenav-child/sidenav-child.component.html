@@ -21,16 +21,20 @@
 			<div id="menu_user_content" class="menu_content">
 				<div class="wrap_menu_contet_link">
 					<div class="menu_content_link">
-						<img src="/assets/image/top.svg" />
-						<div class="menu_content_link_text">トップページ</div>
+						<nav a routerLink="/top">
+							<img src="/assets/image/top.svg" />
+							<div class="menu_content_link_text" (click)="nav.toTop()">トップページ</div>
+						</nav>
 					</div>
 					<div class="menu_content_link">
 						<img src="/assets/image/new.svg" />
-						<div class="menu_content_link_text">新規作成</div>
+						<div class="menu_content_link_text" (click)="nav.toEdit('new')">新規作成</div>
 					</div>
 					<div class="menu_content_link">
-						<img src="/assets/image/new.svg" />
-						<div class="menu_content_link_text">下書き</div>
+						<nav a routerLink="/edit">
+							<img src="/assets/image/new.svg" />
+							<div class="menu_content_link_text" (click)="nav.toEdit()">下書き</div>
+						</nav>
 					</div>
 				</div>
 			</div>
@@ -49,19 +53,19 @@
 				<div class="wrap_menu_contet_link">
 					<div class="menu_content_link">
 						<img src="/assets/image/user_config.svg" />
-						<div class="menu_content_link_text">ユーザ設定</div>
+						<div class="menu_content_link_text" (click)="nav.toMySetting()">ユーザ設定</div>
 					</div>
 					<div class="menu_content_link">
 						<img src="/assets/image/top_config.svg" />
-						<div class="menu_content_link_text">トップページ設定</div>
+						<div class="menu_content_link_text" (click)="nav.toToppageSetting()">トップページ設定</div>
 					</div>
 					<div class="menu_content_link">
 						<img src="/assets/image/tag_config.svg" />
-						<div class="menu_content_link_text">監視タグ設定</div>
+						<div class="menu_content_link_text" (click)="nav.toMonitoringTagsSetting()">監視タグ設定</div>
 					</div>
 					<div class="menu_content_link">
 						<img src="/assets/image/bell_config.svg" />
-						<div class="menu_content_link_text">通知設定</div>
+						<div class="menu_content_link_text" (click)="nav.toNotificationSetting()">通知設定</div>
 					</div>
 				</div>
 			</div>

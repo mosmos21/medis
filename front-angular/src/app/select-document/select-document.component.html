@@ -20,14 +20,18 @@
                             <ng-template #templateBlock>
                                 <tr *ngFor="let l of list">
                                     <td>{{ l.templateId }}</td>
-                                    <td><a href="/edit/new#{{ l.templateId }}">{{ l.templateName }}</a></td>
+                                    <td>
+                                        <a href="/edit/new#{{ l.templateId }}">{{ l.templateName }}</a>
+                                    </td>
                                     <td>{{ l.templateCreateDate }}</td>
                                 </tr>
                             </ng-template>
                             <ng-template #documentBlock>
                                 <tr *ngFor="let l of list">
                                     <td>{{ l.documentId }}</td>
-                                    <td><a href="/edit/{{ l.documentId }}">{{ l.documentName }}</a></td>
+                                    <td>
+                                        <a href="/edit/{{ l.documentId }}">{{ l.documentName }}</a>
+                                    </td>
                                     <td>{{ l.documentCreateDate }}</td>
                                 </tr>
                             </ng-template>

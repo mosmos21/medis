@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-select-document',
@@ -16,15 +17,20 @@ export class SelectDocumentComponent implements OnInit {
   private category: string;
   private list: any;
 
-  constructor(private http: HttpClient, @Inject('hostname') private hostname: string,
-    private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    @Inject('hostname') private hostname: string,
+    private route: ActivatedRoute,
+    private router: Router,
+    private nav: NavigationService,
+  ) { }
 
   ngOnInit() {
     this.route.fragment.subscribe(frag => {
-      if(frag != null && frag != 'new'){
+      if (frag != null && frag != 'new') {
         this.router.navigate(['']);
       }
-      if(frag == null) {
+      if (frag == null) {
         this.title = "下書き文書";
         this.id = "文書ID";
         this.name = "文書タイトル";

@@ -26,11 +26,11 @@ export class EditDocumentComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     private http: HttpClient,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.documentId = this.route.snapshot.paramMap.get('id');
-
+    console.log(this.hostname + 'templates/blocks');
     this.http.get(this.hostname + 'templates/blocks').subscribe(
       json => {
         this.blocks = json;
@@ -76,15 +76,15 @@ export class EditDocumentComponent implements OnInit {
             this.templateValues[id].push(i);
           }
         }
-        if(callback != null) {
-      callback();
-    }
+        if (callback != null) {
+          callback();
+        }
       },
       error => {
         console.log("情報の取得に失敗しました。");
       }
     );
-    
+
   }
 
   assembleDocument() {
@@ -93,12 +93,12 @@ export class EditDocumentComponent implements OnInit {
       json => {
         data = json;
         this.assembleTemplate(data.templateId, () => {
-          for(let i = 0; i < data.contents.length; i++){
+          for (let i = 0; i < data.contents.length; i++) {
             let id = this.contents[i].id;
-            for(let a of data.contents[i].items){
+            for (let a of data.contents[i].items) {
               this.documentValues[id].push(a);
             }
-            while(this.contents[i].items.length < this.documentValues[id].length + this.contents[i].offset){
+            while (this.contents[i].items.length < this.documentValues[id].length + this.contents[i].offset) {
               this.addItem(id);
             }
           }
@@ -126,19 +126,19 @@ export class EditDocumentComponent implements OnInit {
     this.removeItem(e.path[4].id);
   }
 
-  clickRadio(id: string, line: number){
-    for(let c of this.contents){
-      if(c.id == id) {
-        for(let i = 0; i < c.items.length - c.offset; i++){
-          this.documentValues[id][i] = (i == line ? "true": "false");
+  clickRadio(id: string, line: number) {
+    for (let c of this.contents) {
+      if (c.id == id) {
+        for (let i = 0; i < c.items.length - c.offset; i++) {
+          this.documentValues[id][i] = (i == line ? "true" : "false");
         }
       }
     }
   }
 
-  clickCheckBox(id: string, line: number, e: any){
-    for(let c of this.contents){
-      if(c.id == id) {
+  clickCheckBox(id: string, line: number, e: any) {
+    for (let c of this.contents) {
+      if (c.id == id) {
         this.documentValues[id][line] = e.target.checked ? "true" : "false";
       }
     }
@@ -179,7 +179,7 @@ export class EditDocumentComponent implements OnInit {
           for (let i = 0; i < size; i++) {
             content.items.pop();
           }
-          while(content.items.length - content.offset < this.documentValues[target].length){
+          while (content.items.length - content.offset < this.documentValues[target].length) {
             this.documentValues[target].pop();
           }
         }
@@ -192,7 +192,7 @@ export class EditDocumentComponent implements OnInit {
       templateId: this.templateId,
       isPublish: type == "save"
     }
-    if(this.documentId.length > 0){
+    if (this.documentId.length > 0) {
       data["documentId"] = this.documentId;
     }
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class NavigationService {
@@ -6,7 +7,10 @@ export class NavigationService {
   private isAdmin: boolean;
   private isUser: boolean;
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
     this.visible = false;
     this.isUser = true;
   }
@@ -28,4 +32,46 @@ export class NavigationService {
     this.isAdmin = false;
     this.isUser = true;
   }
+
+  //一般ユーザ画面遷移
+  toTop() {
+    this.router.navigate(["/top"]);
+  }
+
+  toEdit(str) {
+    if (!str) {
+      this.router.navigate(["/edit"]);
+    } else if (str == "new") {
+      this.router.navigate(["/edit"], { fragment: "new" });
+    } else if (typeof str == "string") {
+      this.router.navigate(["/edit", str]);
+    }
+  }
+
+  //一般ユーザ設定系
+  toMySetting() {
+    this.router.navigate(["/settings/me"]);
+  }
+
+  toNotificationSetting() {
+    this.router.navigate(["/settings/me/notification"]);
+  }
+
+  toToppageSetting() {
+    this.router.navigate(["/settings/me/toppage"]);
+  }
+
+  toMonitoringTagsSetting() {
+    this.router.navigate(["settings/me/monitoring_tags"]);
+  }
+
+  //Adminユーザ画面遷移
+  toTemplate() {
+    this.router.navigate(["/admin/template"]);
+  }
+
+  toUserManagement() {
+    this.router.navigate(["/admin/management"]);
+  }
+
 }
