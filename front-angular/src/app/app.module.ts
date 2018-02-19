@@ -40,6 +40,7 @@ import { SearchComponent } from './search/search.component';
 
 import { FormsModule } from '@angular/forms';
 import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
+import { MessageModalComponent } from './message-modal/message-modal.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
     ConfirmationComponent,
     CreateUserComponent,
     InitializationComponent,
+    MessageModalComponent,
   ],
   bootstrap: [AppComponent]
 })

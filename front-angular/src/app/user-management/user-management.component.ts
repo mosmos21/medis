@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { CreateUserComponent } from '../create-user/create-user.component'
+import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { InitializationComponent } from '../initialization/initialization.component'
 import { NavigationService } from '../services/navigation.service';
 
@@ -28,6 +29,8 @@ export class UserManagementComponent implements OnInit {
   private enable;
   private user;
   private searchWord = "";
+
+  private message;
 
   constructor(
     private http: HttpClient,
@@ -91,6 +94,11 @@ export class UserManagementComponent implements OnInit {
         this.http.post(this.hostname + "accounts/usercheck", this.user).subscribe(
           /* postした時の操作があればここにかく */
         );
+        let dialogRef = this.dialog.open(MessageModalComponent, {
+          data: {
+            message: this.message
+          }
+        });
       }
     });
   }
@@ -134,7 +142,6 @@ export class UserManagementComponent implements OnInit {
     var targetUser = JSON.parse(sub);
     var i = targetUser.length;
     var word = this.searchWord;
-    console.log(this.users);
     while(i--) {
       if(
         (String(this.users[i]["employeeNumber"]).indexOf(word) == -1) &&

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { UserManagementComponent } from './user-management.component';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { CreateUserComponent } from '../create-user/create-user.component'
+import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { UserManagementRoutingModule } from './user-management-routing.module';
 import { InitializationComponent } from '../initialization/initialization.component'
 import {
@@ -33,6 +34,7 @@ import {
     UserManagementComponent,
     ConfirmationComponent,
     CreateUserComponent,
+    MessageModalComponent,
     InitializationComponent,
   ]
 })
