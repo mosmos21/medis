@@ -1,0 +1,55 @@
+/* ユーザ検索用 */
+
+.user_search {
+    float: right;
+    margin-right: 100px;
+}
+
+.button_newuser {
+    margin-left: 50px;
+}
+
+/* テーブルの基本レイアウト */
+
+table {
+    width: 100%;
+}
+
+table tr th,
+table tr td {
+    padding: 5px 10px;
+    border: 2px solid #ddd;
+    vertical-align: middle;
+}
+
+table tr th {
+    background: #aaa;
+}
+
+table tr th {
+    text-align: center;
+    font-weight: bold;
+}
+
+
+tr:nth-child(odd) td {  
+    background-color: #fff;  
+}
+
+/* ユーザ一覧用のテーブル設定 */
+
+#user_list_id {
+    width: 90px;
+}
+
+#user_list_flag{
+    width: 120px;
+}
+
+#user_list_initialization {
+    width: 110px;
+}
+
+.toggle_button_tag {
+    align-items: center;
+}

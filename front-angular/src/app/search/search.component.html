@@ -1,0 +1,27 @@
+<div id="wrap_side_menu_content">
+	<div id="menu_search_content" class="menu_content">
+		<div class="wrap_search_content">
+			<h2>検索</h2>
+		</div>
+		<div class="wrap_search_content">
+			<div id="search_box">
+				<div id="selected_tags" *ngFor="let selected_tag of selected_tags">
+					<div class="tag_base tag_middle" (click)="deleteTags($event)">{{selected_tag}}</div>
+				</div>
+				<nav *ngIf="selected_tags.length < 5">
+					<mat-form-field>
+						<input matInput placeholder="Tag Name" value="" [(ngModel)]="seach_word">
+					</mat-form-field>
+				</nav>
+			</div>
+		</div>
+
+		<div class="wrap_search_content">
+			<div id="search_tag_candidate" class="content_scroll_y">
+				<div *ngFor="let tag of searchTag()">
+					<div class="tag_base tag_middle" (click)="addTags($event)">{{tag}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

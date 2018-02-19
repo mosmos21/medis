@@ -1,0 +1,32 @@
+- if:
+    params:
+      id: t0000000000
+  then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: template1.json
+
+- if:
+    params:
+      id: t0000000001
+  then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: template2.json
+
+- if:
+    params:
+      id: blocks
+  then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: all.json
+
+- then:
+    status: 404

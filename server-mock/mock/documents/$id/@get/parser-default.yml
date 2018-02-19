@@ -1,0 +1,22 @@
+- if:
+    params:
+      id: d0000000000
+  then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: document1.json
+
+- if:
+    params:
+      id: d0000000001
+  then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: document2.json
+
+- then:
+    status: 404

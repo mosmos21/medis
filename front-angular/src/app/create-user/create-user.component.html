@@ -1,0 +1,52 @@
+<form id="create-user-form">
+	<div id="create-user">
+		<h2 class="modal-title">ユーザ新規登録</h2>
+		<mat-form-field class="half-width">
+			<input matInput [(ngModel)]="data.user.employeeNumber" name="enployeeNumber" placeholder="社員番号">
+		</mat-form-field>
+		<table>
+			<tr>
+				<td>
+					<mat-form-field class="full-width">
+						<input matInput [(ngModel)]="data.user.lastName" name="lastName" placeholder="姓">
+					</mat-form-field>
+				</td>
+				<td>
+					<mat-form-field class="full-width">
+						<input matInput [(ngModel)]="data.user.firstName" name="firstName" placeholder="名">
+					</mat-form-field>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td>
+					<mat-form-field class="full-width">
+						<input matInput [(ngModel)]="data.user.lastNamePhonetic" name="lastNamePhonetic" placeholder="せい">
+					</mat-form-field>
+				</td>
+				<td>
+					<mat-form-field class="full-width">
+						<input matInput [(ngModel)]="data.user.firstNamePhonetic" name="firstNamePhonetic" placeholder="めい">
+					</mat-form-field>
+				</td>
+			</tr>
+		</table>
+		<p>
+			<mat-form-field class="full-width">
+				<input matInput [(ngModel)]="data.user.mailaddress" name="mailaddress" placeholder="メールアドレス">
+			</mat-form-field>
+		</p>
+		<p>
+			<mat-form-field class="half-width">
+				<mat-select [(ngModel)]="data.user.authorityType" name="authorityType" placeholder="権限">
+					<mat-option *ngFor="let a of autorities" [value]="a.authorityId">
+						{{ a.authorityType }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</p>
+		<button mat-raised-button id="cancel" (click)="onClose()">キャンセル</button>
+		<button mat-raised-button color="primary" id="ok" [mat-dialog-close]="data.user">登録</button>
+	</div>
+</form>

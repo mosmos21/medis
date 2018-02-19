@@ -1,0 +1,46 @@
+{
+    "templateId": "t0000000000",
+    "isPublish": true,
+    "contents": [
+        {
+            "contentOrder": 1,
+            "blockId": "b0000000001",
+            "items": [
+                "テキストです",
+                "今日やったことを箇条書きで入力してください。"
+            ]
+        },
+        {
+            "contentOrder": 2,
+            "blockId": "b0000000003",
+            "items": [
+                "ラジオボタンを作れます",
+                "好きなエディタを以下の中から一つ選択してください。",
+                "Atom",
+                "Emacs",
+                "Vim",
+                "Visual Studio Code"
+            ]
+        },
+        {
+            "contentOrder": 3,
+            "blockId": "b0000000006",
+            "items": [
+                "日報に使用できそうなテンプレートブロック",
+                "学んだことを入力してください。"
+            ]
+        },
+        {
+            "contentOrder": 4,
+            "blockId": "b0000000002",
+            "items":[
+                "チェックボックスのサンプル",
+                "以下の選択肢から選択してください(複数可)",
+                "Atom",
+                "Emacs",
+                "Vim",
+                "Visual Studio Code"
+            ]
+        }
+    ]
+}

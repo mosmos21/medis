@@ -1,0 +1,22 @@
+<div class="form-wrapper">
+    <div class="image-wrapper">
+        <img src="../assets/image/logo.png">
+    </div>
+    <form>
+        <div class="form-item">
+            <div class="form-error">{{ errorMessage }}</div>
+        </div>
+        <div class="form-item">
+            <input type="text" name="employeeNumber" [(ngModel)]="employeeNumber" placeholder="社員番号" required="required"/>
+        </div>
+        <div class="form-item">
+            <input type="password" name="password" [(ngModel)]="password" placeholder="パスワード" required="required"/>
+        </div>
+        <div class="button-wrapper">
+            <button class="button" (click)="login()">LOGIN</button>
+        </div>
+        <div class="form-footer">
+            <span class="reset-pass" (click)="openDialog()">パスワードを忘れた場合はこちら</span>
+        </div>
+    </form>
+</div>

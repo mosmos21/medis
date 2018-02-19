@@ -1,0 +1,46 @@
+<div id="wrap_main_content">
+    <div class="wrap_main_content_center content_scroll_y">
+        <div class="main_content_header">
+            <h1>ユーザ管理(仮)</h1>
+        </div>
+        <div class="user_search">
+            <mat-form-field>
+                <input matInput placeholder="ユーザ検索" value="" [(ngModel)]="searchWord">
+            </mat-form-field>
+        </div>
+        <button mat-raised-button class="button_newuser" color="primary" (click)="createUser()">新規ユーザ登録</button>
+        <div class="wrap_list_box wrap_list_box_tall">
+            <div class="list_box">
+                <div class="list_box_header">
+                    <h3>ユーザ一覧</h3>
+                </div>
+                <div class="list_box_content list_box_content_tall">
+                    <div class="content_scroll_y">
+                        <table id="template_info_list">
+                            <tr>
+                                <th id="user_list_id">社員番号</th>
+                                <th id="user_list_name">氏名</th>
+                                <th id="user_list_phonetic">ふりがな</th>
+                                <th id="user_list_,mail">メールアドレス</th>
+                                <th id="user_list_flag">有効／無効</th>
+                                <th id="user_list_initialization">初期化</th>
+                            </tr>
+                            <tr *ngFor="let u of searchUser(); let idx = index;">
+                                <td>{{ u.employeeNumber }}</td>
+                                <td>{{ u.lastName }} {{ u.firstName }}</td>
+                                <td>{{ u.lastNamePhonetic }} {{ u.firstNamePhonetic }}</td>
+                                <td>{{ u.mailaddress }}</td>
+                                <td align="center">
+                                    <mat-slide-toggle (click)="confirmChangeEnable($event, idx)" id="toggleButton_tag" [checked]="u.isEnabled"></mat-slide-toggle>
+                                </td>
+                                <td>
+                                    <button mat-button (click)="initialization(idx)">初期化</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

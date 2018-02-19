@@ -1,0 +1,43 @@
+.main_content {
+    height: 100%;
+}
+
+.toolbar{
+    border-bottom: 1px #777777 solid;
+}
+
+.toolbar_image{
+    padding: 1px;
+	margin-top: 3px;
+	margin-left: 3px;
+	margin-right: 0px;
+	width: 48px;
+	height: 48px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;  
+	cursor: pointer; 
+}
+
+.container{
+	display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.sidenav_parent{
+	flex: 1;
+}
+
+#toggle_menu{
+    background-image: url("/assets/image/menu.png");
+}
+
+#logo{
+    height: 100%;
+    max-width: 50%;
+    margin: 0 auto;
+}

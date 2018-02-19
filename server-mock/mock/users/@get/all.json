@@ -1,0 +1,56 @@
+[
+    {
+        "employeeNumber": 97958,
+        "lastName": "浅野",
+        "firstName": "正則",
+        "lastNamePhonetic": "あさの",
+        "firstNamePhonetic": "まさのり",
+        "mailaddress": "masanori_asano@unirita.co.jp",
+        "isEnabled": true
+    },
+    {
+        "employeeNumber": 97962,
+        "lastName": "加賀谷",
+        "firstName": "優輝",
+        "lastNamePhonetic": "かがや",
+        "firstNamePhonetic": "ゆうき",
+        "mailaddress": "yuuki_kagaya@unirita.co.jp",
+        "isEnabled": false
+    },
+    {
+        "employeeNumber": 97965,
+        "lastName": "新里",
+        "firstName": "亮太",
+        "lastNamePhonetic": "しんざと",
+        "firstNamePhonetic": "りょうた",
+        "mailaddress": "ryota_shinzato@unirita.co.jp",
+        "isEnabled": true
+    },
+    {
+        "employeeNumber": 97966,
+        "lastName": "須藤",
+        "firstName": "宏崇",
+        "lastNamePhonetic": "すどう",
+        "firstNamePhonetic": "ひろたか",
+        "mailaddress": "hirotaka_sudo@unirita.co.jp",
+        "isEnabled": true
+    },
+    {
+        "employeeNumber": 97967,
+        "lastName": "中川路",
+        "firstName": "玄哉",
+        "lastNamePhonetic": "なかかわじ",
+        "firstNamePhonetic": "ひろや",
+        "mailaddress": "hiroya_nakakawaji@unirita.co.jp",
+        "isEnabled": true
+    },
+    {
+        "employeeNumber": 97968,
+        "lastName": "橋本",
+        "firstName": "尚儒",
+        "lastNamePhonetic": "はしもと",
+        "firstNamePhonetic": "たかひと",
+        "mailaddress": "takahito_hashimoto@unirita.co.jp",
+        "isEnabled": true
+    }
+]

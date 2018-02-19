@@ -1,0 +1,26 @@
+- if:
+    query:
+      group: team-a
+  then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: team-a.json
+
+- if:
+    query:
+      group: team-b
+  then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: team-b.json
+
+- then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: all.json

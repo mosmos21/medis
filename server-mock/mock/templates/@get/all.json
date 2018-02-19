@@ -1,0 +1,37 @@
+[
+    {
+        "templateId": "t0000000000",
+        "templateName": "テストテンプレート1",
+        "templateCreateDate": 1517410800,
+        "employeeNumber": "97968",
+        "isTemplatePublish": true
+    },
+    {
+        "templateId": "t0000000001",
+        "templateName": "テストテンプレート2",
+        "templateCreateDate": 1517410800,
+        "employeeNumber": "97968",
+        "isTemplatePublish": true
+    },
+    {
+        "templateId": "t0000000002",
+        "templateName": "テストテンプレート3",
+        "templateCreateDate": 1517410800,
+        "employeeNumber": "97968",
+        "isTemplatePublish": true
+    },
+    {
+        "templateId": "t0000000003",
+        "templateName": "テストテンプレート4",
+        "templateCreateDate": 1517410800,
+        "employeeNumber": "97968",
+        "isTemplatePublish": true
+    },
+    {
+        "templateId": "t0000000004",
+        "templateName": "テストテンプレート5",
+        "templateCreateDate": 1517410800,
+        "employeeNumber": "97968",
+        "isTemplatePublish": false
+    }
+]

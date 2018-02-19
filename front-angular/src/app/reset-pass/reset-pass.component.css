@@ -1,0 +1,12 @@
+.input-form {
+    width: 350px;
+}
+
+#buttons {
+    margin-top: 20px;
+    width: 400px;
+}
+
+#send {
+    float: right;
+}

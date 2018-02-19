@@ -1,0 +1,88 @@
+<div id="wrap_main_content">
+    <div class="wrap_main_content_center content_scroll">
+        <div id="wrap_edit_template" class="wrap_edit_content">
+            <div id="edit_template_header">
+                <h2>テンプレート編集</h2>
+            </div>
+            <hr />
+            <div id="edit_template_body" class="content_scroll_y">
+                <div id="template_plate">
+                    <h3>タグ</h3>
+                    <div id="wrap_tag_list">
+                        <div id="tag_list">
+                            <div *ngFor="let t of fixedtags">
+                                <div class="tag_base tag_middle tag_side">{{ t }}</div>
+                            </div>
+                            <div *ngFor="let t of tags">
+                                <div class="tag_base tag_middle tag_side tag_erasable" (click)="clickDeleteTag($event)">{{ t }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="template_content_list">
+                        <!-- コンテンツ -->
+                        <div class="content" *ngFor="let content of contents;let i = index;trackBy:trackByIndex;" [id]="content.id">
+                            <div class="block_body">
+                                <div class="block_header">
+                                    <h4>{{i+1}}. {{ templateValues[content.id][0] }}</h4>
+                                </div>
+                                <hr>
+                                <div class="block_body">
+                                    <div *ngFor="let item of content.items;let i = index;" 
+                                        [class]="item.documentType == 'hidden'? '' : item.size > 1 ? 'block_item block_item_tall' : 'block_item'">
+                                        <div [ngSwitch]="item.documentType">
+                                            <div *ngSwitchCase="'span'">
+                                                <span>{{ templateValues[content.id][i] }}</span>
+                                            </div>
+                                            <div *ngSwitchCase="'text'">
+                                                <input type="text" size="50"
+                                                [(ngModel)]="documentValues[content.id][i - content.offset]">
+                                            </div>
+                                            <div *ngSwitchCase="'textarea'">
+                                                <textarea rows="4" style="width: 95%;" 
+                                                [(ngModel)]="documentValues[content.id][i - content.offset]"></textarea>
+                                            </div>
+                                            <div *ngSwitchCase="'checkbox'">
+                                                <input type="checkbox" name="{{ content.id }}"
+                                                [checked] = "isChecked(content.id, i - content.offset)"
+                                                (click)="clickCheckBox(content.id, i - content.offset, $event)">
+                                                <span>{{ templateValues[content.id][i] }}</span>
+                                            </div>
+                                            <div *ngSwitchCase="'radio'">
+                                                <input type="radio" name="{{ content.id }}"
+                                                [checked] = "isChecked(content.id, i - content.offset)"
+                                                (click)="clickRadio(content.id, i - content.offset)">
+                                                <span>{{ templateValues[content.id][i] }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="content.additionalType == 'document'" class="block_item">
+                                        <button (click)="clickAddItem($event)">要素追加</button>
+                                        <button (click)="clickRemoveItem($event)">要素削除</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- コンテンツ -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
+            <div id="toolbar_content">
+                <h2>タグ検索</h2>
+                <div>追加ボタン</div>
+                <div>タグ検索領域</div>
+                <div>検索結果</div>
+            </div>
+            <div id="wrap_template_toolbar_button">
+                <div>
+                    <div class="send_button" (click)="submit('draft')">下書き</div>
+                </div>
+                <div>
+                    <div class="send_button" (click)="submit('save')">保存</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
