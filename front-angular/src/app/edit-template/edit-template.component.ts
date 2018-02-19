@@ -14,7 +14,7 @@ export class EditTemplateComponent implements OnInit {
   public blocks: any;
   private contentBases: { [key: string]: any } = {};
 
-  private templateId: string;
+  private templateId: string = "";
   public contents: any[] = [];
   public values: { [key: string]: string[] } = {};
 
@@ -188,9 +188,12 @@ export class EditTemplateComponent implements OnInit {
 
   data2Json(type: string): any {
     var data = {
-      templateId: this.templateId,
       isPublish: type == "save"
     }
+    if(this.templateId.length > 0) {
+      data["templateId"] = this.templateId;
+    }
+    
     var contents: any[] = [];
     for (let i = 0; i < this.contents.length; i++) {
       var content = {

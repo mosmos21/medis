@@ -159,6 +159,12 @@
  /* ここまでスクロールバーカスタマイズ*/
 
  /* ======== ここからタグ ======== */
+#wrap_tag_list {
+    width: 100%;
+    overflow: hidden;
+    height: auto;
+}
+
 .tag_base {
     padding: 0.4em 0.5em;
     color: #494949;
@@ -180,7 +186,6 @@
     font-size: 13px;
     width: 180px;
     border-left: solid 5px #0f9d58;
-    /* border-bottom: solid 3px #d7d7d7; */
 }
 
 .tag_small {
