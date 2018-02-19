@@ -31,6 +31,10 @@ import { SelectDocumentModule } from './select-document/select-document.module';
 import { EditDocumentModule } from './edit-document/edit-document.module';
 import { ViewModule } from './view/view.module';
 import { UserManagementModule } from './user-management/user-management.module';
+import { ConfigNotificationModule } from './config-notification/config-notification.module'
+import { ConfigSurveillanceModule } from './config-surveillance/config-surveillance.module';
+import { ConfigTopModule } from './config-top/config-top.module';
+import { ConfigUserModule } from './config-user/config-user.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './services/auth.service';
@@ -40,6 +44,7 @@ import { SearchComponent } from './search/search.component';
 
 import { FormsModule } from '@angular/forms';
 import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
+import { MessageModalComponent } from './message-modal/message-modal.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +77,10 @@ import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
     EditDocumentModule,
     ViewModule,
     UserManagementModule,
+    ConfigNotificationModule,
+    ConfigSurveillanceModule,
+    ConfigTopModule,
+    ConfigUserModule,
 
     AppRoutingModule
   ],
@@ -86,6 +95,7 @@ import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
     ConfirmationComponent,
     CreateUserComponent,
     InitializationComponent,
+    MessageModalComponent,
   ],
   bootstrap: [AppComponent]
 })

@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'top', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'top', component: TopComponent, canActivate: [AuthGuardService] },
-  { path: 'browsing/view', component: ViewComponent },
+  { path: 'browsing/:id', component: ViewComponent },
   { path: 'edit', component:SelectDocumentComponent },
   { path: 'edit/:id', component: EditDocumentComponent },
   { path: 'admin/template', component: SelectTemplateComponent },

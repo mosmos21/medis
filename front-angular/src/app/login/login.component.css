@@ -19,7 +19,6 @@ form {
 }
 
 .form-item {
-    margin-bottom: 1em;
     width: 100%;
 }
 
@@ -33,19 +32,13 @@ form {
 }
 
 .form-item input {
-    background: #f9f9f9;
-    border: none;
-    border-bottom: 2px solid #bbbbbb;
-    height: 50px;
-    transition: 0.3s;
+    color: #000000;
     width: 100%;
 }
 
-.form-item input:focus {
-    border-bottom: 2px solid #888888;
-    outline: none;
+/deep/.mat-icon {
+    color: #000000;
 }
-
 
 .button-wrapper {
     margin-top: 40px;

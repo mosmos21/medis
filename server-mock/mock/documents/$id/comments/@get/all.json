@@ -1,0 +1,22 @@
+[
+    {
+        "commentId": "m0000000001",
+        "commentDate": "1519017817",
+        "isIcon": false,
+        "employeeNumber": "97958",
+        "lastName": "浅野",
+        "firstName": "雅則",
+        "isRead": false,
+        "commentContent": "私はVi派なのでこの日報は0点です"
+    },
+    {
+        "commentId": "m0000000000",
+        "commentDate": "1519007817",
+        "isIcon": false,
+        "employeeNumber": "97965",
+        "lastName": "新里",
+        "firstName": "亮太",
+        "isRead": false,
+        "commentContent": "Emacsは素晴らしいのでこの日報に100点以上の点数をつけたいです"
+    }
+]

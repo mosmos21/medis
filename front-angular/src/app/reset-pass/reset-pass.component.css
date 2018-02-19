@@ -1,12 +1,16 @@
-.input-form {
-    width: 350px;
+#reset-pass-form {
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
 }
 
 #buttons {
-    margin-top: 20px;
-    width: 400px;
+    margin-top: 50px;
+    width: 300px;
 }
 
-#send {
+#cancel {
     float: right;
 }

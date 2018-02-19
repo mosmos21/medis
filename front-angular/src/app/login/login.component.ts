@@ -1,12 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 
 import { ResetPassComponent } from '../reset-pass/reset-pass.component';
+import { MessageModalComponent } from '../message-modal/message-modal.component'
 
 import { NavigationService } from '../services/navigation.service';
 import { AuthService } from '../services/auth.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,13 @@ export class LoginComponent implements OnInit {
 
   employeeNumber: string = 'gu';
   password: string = 'gupass';
+
+  private message: string;
+
+  private user: any = {
+    employeeNumber: '',
+    mailadress: ''
+  }
 
   constructor(
     @Inject('hostname') private hostname: string,
@@ -33,7 +41,23 @@ export class LoginComponent implements OnInit {
 
   openDialog(): void {
     let dialogRef = this.dialog.open(ResetPassComponent, {
-      width: '500px'
+      width: '400px',
+      data: { user: this.user },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.message = 'パスワード再設定用メールを送信しました。'
+        this.http.post(this.hostname + "users/new", this.user).subscribe(
+          /* postした時の操作があればここにかく */
+        );
+        let dialogRef = this.dialog.open(MessageModalComponent, {
+          data: {
+            message: this.message
+          }
+        });
+      }
     });
   }
 

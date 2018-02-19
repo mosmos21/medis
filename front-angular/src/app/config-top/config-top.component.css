@@ -1,0 +1,205 @@
+/* ここから全体 */
+#wrap_edit_template{
+    width: calc(100% - 250px);
+}
+
+#wrap_edit_template_toolbar{
+    width: 250px;
+}
+
+#wrap_edit_template_toolbar h2 {
+    text-align: center;
+    line-height: 2em;
+    height: 2em;
+}
+
+.wrap_edit_content{
+    float: left;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.wrap_main_content_center form {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+/* ここまで全体 */
+
+/* ここからテンプレ選択画面 */
+table {
+    width: 100%;
+}
+
+table tr th,
+table tr td {
+    padding: 5px 10px;
+    border: 2px solid #ddd;
+    vertical-align: middle;
+}
+
+table tr th {
+    background: #aaa;
+}
+
+table tr th {
+    text-align: center;
+    font-weight: bold;
+}
+
+
+tr:nth-child(odd) td {  
+    background-color: #fff;  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ここまでテンプレ選択画面 */
+
+/* ここからテンプレ部分 */
+#edit_template_header {
+    width: 100%;
+    height: 50px;
+    margin: 10px 0;
+    padding: 10px 30px;
+}
+
+#edit_template_body {
+    margin: 0 3%;
+    padding: 0;
+    height: calc(100% - 50px);
+    width: 94%;
+}
+
+#template_plate {
+    background: #fff;
+    margin-top: 50px;
+    margin-right: 50px;
+    padding: 10px;
+    width: auto;
+    height: auto;
+    border-top: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    box-shadow: 5px 5px 5px #999;
+}
+
+/* ここまでテンプレ部分 */
+
+/* ここからツールバー */
+#template_block_list {
+    margin: 5%;
+    padding: 0;
+    width: 90%;
+    height: calc(100% - 180px);
+    border-top: 2px #666 dashed;
+    border-bottom: 2px #666 dashed;
+}
+
+/*ブロック*/
+.wrap_template_block {
+    margin: 5px;
+    padding: 0;
+    width: auto;
+}
+
+.template_block_info {
+    margin: 10px 5px;
+    padding: 5px;
+    height: 100px;
+    width: auto;
+    background: white;
+    border: 1px black solid;
+    border-radius: 5px;
+}
+
+.template_block_body {
+    background: white;
+    padding: 5px;
+    height: auto;
+    width: 100%;
+    transition: border 0.3s;
+    border: 0px rgb(255, 187, 0) solid;
+}
+
+.content_button {
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0 5px;
+    float: right;
+    color: white;
+    font-weight: bolder;
+    font-size: 20px;
+    opacity: 0;
+    transition: 0.3s;
+    transform: translateX(115%) translateY(-85%);
+    cursor: pointer;
+    display:none;
+}
+
+.template_block_body:hover {
+    border: 30px rgb(255, 187, 0) solid;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px #ddd;
+}
+
+.template_block_body:hover .content_button {
+    opacity: 1;
+    display: inline;
+}
+
+.content_button:hover {
+    color: #fff;
+}
+
+.block_body {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+}
+
+
+/*ボタン*/
+#wrap_template_toolbar_button {
+    height: 120px;
+    width: 100%;
+}
+
+.send_button {
+    text-align: center;
+    line-height: 60px;
+    width: 90%;
+    margin: 5%;
+    height: 60px;
+    font-size: 18px;
+    background: white;
+    color: #0f9d58;
+    border: 2px #0f9d58 solid;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.send_button:hover {
+    background: #0f9d58;
+    color: white;
+}
+
+/* ここまでツールバー */

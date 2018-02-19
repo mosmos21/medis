@@ -1,18 +1,12 @@
 <form id="reset-pass-form">
-  <div id="reset-pass">
-    <table class="input-form">
-      <tr>
-        <th>社員番号</th>
-        <td><input type="text" name="pass" id="employee_id" style="width:100%"></td>
-      </tr>
-      <tr>
-        <th>メールアドレス</th>
-        <td><input type="text" name="pass" id="mail" style="width:100%"></td>
-      </tr>
-    </table>
-    <div id="buttons">
-      <button id="cancel" (click)="onClose()">キャンセル</button>
-      <button id="send">送信</button>
-    </div>
-  </div>
+	<div id="reset-pass">
+		<mat-form-field class="full-width">
+			<input matInput [(ngModel)]="data.user.employeeNumber" name="employeeNumber" placeholder="社員番号">
+		</mat-form-field>
+		<mat-form-field class="full-width">
+			<input matInput [(ngModel)]="data.user.mailadress" name="mailadress" placeholder="メールアドレス">
+		</mat-form-field>
+		<button mat-raised-button id="cancel" (click)="onClose()">キャンセル</button>
+		<button mat-raised-button color="primary" id="send" [mat-dialog-close]="data.user">送信</button>
+	</div>
 </form>

@@ -6,14 +6,15 @@
         <div class="form-item">
             <div class="form-error">{{ errorMessage }}</div>
         </div>
-        <div class="form-item">
-            <input type="text" name="employeeNumber" [(ngModel)]="employeeNumber" placeholder="社員番号" required="required"/>
-        </div>
-        <div class="form-item">
-            <input type="password" name="password" [(ngModel)]="password" placeholder="パスワード" required="required"/>
-        </div>
+        <mat-form-field class="form-item">
+            <input matInput name="employeeNumber" [(ngModel)]="employeeNumber" placeholder="社員番号" required="required"/>
+        </mat-form-field>
+        <mat-form-field class="form-item">
+            <input matInput [type]="hide ? 'text' : 'password'" name="password" [(ngModel)]="password" placeholder="パスワード" required="required"/>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
         <div class="button-wrapper">
-            <button class="button" (click)="login()">LOGIN</button>
+            <button mat-raised-button class="button" (click)="login()">LOGIN</button>
         </div>
         <div class="form-footer">
             <span class="reset-pass" (click)="openDialog()">パスワードを忘れた場合はこちら</span>

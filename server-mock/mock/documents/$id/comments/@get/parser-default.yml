@@ -1,0 +1,11 @@
+- if:
+    params:
+      id: d0000000000
+  then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: all.json
+- then:
+    status: 404
