@@ -2,6 +2,10 @@ package jp.co.unirita.medis.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +37,13 @@ public class BookmarkListController {
 		}
 
 		return bookmarkListLogic.getBookmarkList(employeeNumber, maxSize);
+	}
 
+	@RequestMapping(path = {"{user}/bookmark/{documentId}"}, method = RequestMethod.POST)
+	public void updateBookmark(
+		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
+		@PathVariable(value = "documentId") String documentId, @Valid HttpServletRequest request,
+		HttpServletResponse response) throws InvalidArgumentException {
+		bookmarkListLogic.updatebookmark(employeeNumber, documentId);
 	}
 }
