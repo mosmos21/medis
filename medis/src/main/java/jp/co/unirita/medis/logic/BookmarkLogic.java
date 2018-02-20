@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import jp.co.unirita.medis.domain.bookmark.Bookmark;
 import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
-import jp.co.unirita.medis.domain.contentflame.ContentFlame;
-import jp.co.unirita.medis.domain.contentflame.ContentFlameRepository;
+import jp.co.unirita.medis.domain.contentframe.ContentFrame;
+import jp.co.unirita.medis.domain.contentframe.ContentFrameRepository;
 import jp.co.unirita.medis.domain.contentother.ContentOther;
 import jp.co.unirita.medis.domain.contentother.ContentOtherRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
@@ -28,7 +28,7 @@ public class BookmarkLogic {
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 	@Autowired
-	ContentFlameRepository contentFlameRepository;
+	ContentFrameRepository contentFrameRepository;
 	@Autowired
 	ContentOtherRepository contentOtherRepository;
 
@@ -51,16 +51,16 @@ public class BookmarkLogic {
 		}
 
 		//contentOther(documentTitle)の取得
-		List<ContentFlame> contentFlame = new ArrayList<>();
+		List<ContentFrame> contentFrame = new ArrayList<>();
 
 		for (int i = 0; i < documentIdList.size(); i++) {
-			contentFlame.addAll(contentFlameRepository.findByDocumentIdAndContentOrderAndLineNumber(documentIdList.get(i), 1, 1));
+			contentFrame.addAll(contentFrameRepository.findByDocumentIdAndContentOrderAndLineNumber(documentIdList.get(i), 1, 1));
 		}
 
 		List<String> contentIdList = new ArrayList<>();
 
-		for (ContentFlame contentflame : contentFlame) {
-			contentIdList.add(contentflame.getContentId());
+		for (ContentFrame contentframe : contentFrame) {
+			contentIdList.add(contentframe.getContentId());
 		}
 
 		List<ContentOther> contentOther = new ArrayList<>();

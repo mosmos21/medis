@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.unirita.medis.domain.contentflame.ContentFlame;
-import jp.co.unirita.medis.domain.contentflame.ContentFlameRepository;
+import jp.co.unirita.medis.domain.contentframe.ContentFrame;
+import jp.co.unirita.medis.domain.contentframe.ContentFrameRepository;
 import jp.co.unirita.medis.domain.contentother.ContentOther;
 import jp.co.unirita.medis.domain.contentother.ContentOtherRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
@@ -43,7 +43,7 @@ public class InfomationLogic {
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
 	@Autowired
-	ContentFlameRepository contentFlameRepository;
+	ContentFrameRepository contentFrameRepository;
 	@Autowired
 	ContentOtherRepository contentOtherRepository;
 
@@ -147,16 +147,16 @@ public class InfomationLogic {
 		}
 
 		//contentOther(documentTitle)の取得
-		List<ContentFlame> contentFlame = new ArrayList<>();
+		List<ContentFrame> contentFrame = new ArrayList<>();
 
 		for (int i = 0; i < lastDocumentIdList.size(); i++) {
-			contentFlame.addAll(contentFlameRepository.findByDocumentIdAndContentOrderAndLineNumber(lastDocumentIdList.get(i), 1, 1));
+			contentFrame.addAll(contentFrameRepository.findByDocumentIdAndContentOrderAndLineNumber(lastDocumentIdList.get(i), 1, 1));
 		}
 
 		List<String> contentIdList = new ArrayList<>();
 
-		for (ContentFlame contentflame : contentFlame) {
-			contentIdList.add(contentflame.getContentId());
+		for (ContentFrame contentframe : contentFrame) {
+			contentIdList.add(contentframe.getContentId());
 		}
 
 		List<ContentOther> contentOther = new ArrayList<>();
