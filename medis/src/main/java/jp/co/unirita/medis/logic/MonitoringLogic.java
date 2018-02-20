@@ -47,17 +47,17 @@ public class MonitoringLogic {
 	public List<MonitoringForm> getMonitoringList(String employeeNumber, Integer maxSize) {
 		//userが監視しているタグの一覧
 		List<NotificationConfig> notificationConfig = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
-		List<String> tagList = new ArrayList<>();
+		List<String> tagIdList = new ArrayList<>();
 
 		for (NotificationConfig tag : notificationConfig) {
-			tagList.add(tag.getTagId());
+			tagIdList.add(tag.getTagId());
 		}
 
 		//文書についているタグが付いている文書の一覧
 		List<DocumentTag> documentTag = new ArrayList<>();
 
-		for (int i = 0; i < tagList.size(); i++) {
-			documentTag.addAll(documentTagRepository.findByTagId(tagList.get(i)));
+		for (int i = 0; i < tagIdList.size(); i++) {
+			documentTag.addAll(documentTagRepository.findByTagId(tagIdList.get(i)));
 		}
 		List<String> documentList = new ArrayList<>();
 
@@ -68,8 +68,8 @@ public class MonitoringLogic {
 		//テンプレートについているタグが付いている文書の一覧
 		List<FixedTag> fixedTag = new ArrayList<>();
 
-		for (int i = 0; i < tagList.size(); i++) {
-			fixedTag.addAll(fixedTagRepository.findByTagId(tagList.get(i)));
+		for (int i = 0; i < tagIdList.size(); i++) {
+			fixedTag.addAll(fixedTagRepository.findByTagId(tagIdList.get(i)));
 		}
 
 		List<String> templateList = new ArrayList<>();

@@ -1,6 +1,9 @@
 package jp.co.unirita.medis.logic;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -22,18 +25,17 @@ import jp.co.unirita.medis.domain.documenttag.DocumentTag;
 import jp.co.unirita.medis.domain.documenttag.DocumentTagRepository;
 import jp.co.unirita.medis.domain.fixedtag.FixedTag;
 import jp.co.unirita.medis.domain.fixedtag.FixedTagRepository;
-import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
-import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
-import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
+import jp.co.unirita.medis.domain.tag.Tag;
+import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
-import jp.co.unirita.medis.form.InfomationForm;
+import jp.co.unirita.medis.form.DocumentInfoForm;
 
 @Service
 @Transactional
-public class InfomationLogic {
+public class SearchLogic {
 
 	@Autowired
-	NotificationConfigRepository notificationConfigRepository;
+	TagRepository tagRepository;
 	@Autowired
 	DocumentTagRepository documentTagRepository;
 	@Autowired
@@ -48,20 +50,31 @@ public class InfomationLogic {
 	ContentOtherRepository contentOtherRepository;
 
 
+	public List<DocumentInfoForm> getDocumentInfoList(String tagName) throws UnsupportedEncodingException {
+		//デコードし、タグのリストを作成
+		String tagParam = URLDecoder.decode(tagName, "UTF-8");
+		System.out.println(tagParam);
 
-	public List<InfomationForm> getInfomationList(String employeeNumber, String updateId, Integer maxSize) {
-		//userが監視しているタグの一覧
-		List<NotificationConfig> notificationConfig = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
+		String[] param  = tagParam.split(",", 0);
+		List<String> tagNameList = Arrays.asList(param);
+
+		//tagNameのidを取得
+		List<Tag> tagList = new ArrayList<>();
+
+		for (int i = 0; i < tagNameList.size(); i++) {
+			tagList.addAll(tagRepository.findByTagName(tagNameList.get(i)));
+		}
+
 		List<String> tagIdList = new ArrayList<>();
 
-		for (NotificationConfig tag : notificationConfig) {
+		for (Tag tag : tagList) {
 			tagIdList.add(tag.getTagId());
 		}
 
 		//文書についているタグが付いている文書の一覧
 		List<DocumentTag> documentTag = new ArrayList<>();
 
-		for (int i = 0; i < tagIdList.size(); i++) {
+		for (int i = 0; i < tagList.size(); i++) {
 			documentTag.addAll(documentTagRepository.findByTagId(tagIdList.get(i)));
 		}
 		List<String> documentList = new ArrayList<>();
@@ -73,7 +86,7 @@ public class InfomationLogic {
 		//テンプレートについているタグが付いている文書の一覧
 		List<FixedTag> fixedTag = new ArrayList<>();
 
-		for (int i = 0; i < tagIdList.size(); i++) {
+		for (int i = 0; i < tagList.size(); i++) {
 			fixedTag.addAll(fixedTagRepository.findByTagId(tagIdList.get(i)));
 		}
 
@@ -109,48 +122,26 @@ public class InfomationLogic {
 			tempDocInfoId.add(tiid.getDocumentId());
 		}
 
-		//自分の文書のdocumentId一覧取得
-		List<DocumentInfo> documentInfo = documentInfoRepository.findByEmployeeNumberOrderByDocumentCreateDateAsc(employeeNumber);
-		List<String> myDocInfoId = new ArrayList<>();
-
-		for (DocumentInfo miid : documentInfo) {
-			myDocInfoId.add(miid.getDocumentId());
-		}
-
 		//documentIdのマージ(値は重複している)
-		List<String> documentIdTempListBeforeMap = Stream.concat(docDocInfoId.stream(), tempDocInfoId.stream()).collect(Collectors.toList());
-		List<String> documentIdListBeforeMap = Stream.concat(documentIdTempListBeforeMap.stream(), myDocInfoId.stream()).collect(Collectors.toList());
+		List<String> documentIdListBeforeMap = Stream.concat(docDocInfoId.stream(), tempDocInfoId.stream()).collect(Collectors.toList());
 
 		//値を一意に
 		Set<String> set = new HashSet<>(documentIdListBeforeMap);
 		List<String> documentIdList = new ArrayList<>(set);
 
-		//update_infoの値取得
-		List<UpdateInfo> updateInfo = new ArrayList<>();
+		//documentIdListのdocumentInfoの取得
+		List<DocumentInfo> documentInfoList = new ArrayList<>();
 
-		if (updateId == null) {
-			for (int i = 0; i < documentIdList.size(); i++) {
-				updateInfo.addAll(updateInfoRepository.findByDocumentId(documentIdList.get(i)));
-			}
-		} else {
-			for (int i = 0; i < documentIdList.size(); i++) {
-				updateInfo.addAll(updateInfoRepository.findByDocumentIdAndUpdateIdGreaterThan(documentIdList.get(i), updateId));
-			}
+		for (int i = 0; i < documentIdList.size(); i++) {
+			documentInfoList.addAll(documentInfoRepository.findByDocumentId(documentIdList.get(i)));
 		}
 
-
-		//updateInfoで取得した中のdocumentIdの一覧を取得
-		List<String> lastDocumentIdList = new ArrayList<>();
-
-		for (UpdateInfo updateinfo : updateInfo) {
-			lastDocumentIdList.add(updateinfo.getDocumentId());
-		}
 
 		//contentOther(documentTitle)の取得
 		List<ContentFlame> contentFlame = new ArrayList<>();
 
-		for (int i = 0; i < lastDocumentIdList.size(); i++) {
-			contentFlame.addAll(contentFlameRepository.findByDocumentIdAndContentOrderAndLineNumber(lastDocumentIdList.get(i), 1, 1));
+		for (int i = 0; i < documentIdList.size(); i++) {
+			contentFlame.addAll(contentFlameRepository.findByDocumentIdAndContentOrderAndLineNumber(documentIdList.get(i), 1, 1));
 		}
 
 		List<String> contentIdList = new ArrayList<>();
@@ -171,24 +162,23 @@ public class InfomationLogic {
 			contentMainList.add(contentother.getContentMain());
 		}
 
-		//updateInfoとcontentMainListの値をInfomationFormに格納
-		List<InfomationForm> infomation = new ArrayList<>();
+		//documentInfoListとcontentMainListの値をFormに格納
+		List<DocumentInfoForm> documentInfo = new ArrayList<>();
 
 		for(int i = 0; i < contentMainList.size(); i++) {
-			infomation.add(new InfomationForm(updateInfo.get(i), contentMainList.get(i)));
+			documentInfo.add(new DocumentInfoForm(documentInfoList.get(i), contentMainList.get(i)));
 		}
 
-		infomation.sort(new Comparator<InfomationForm>(){
+		documentInfo.sort(new Comparator<DocumentInfoForm>(){
 			@Override
-			public int compare(InfomationForm i1, InfomationForm i2) {
-				return i2.getUpdateId().compareTo(i1.getUpdateId());
+			public int compare(DocumentInfoForm i1, DocumentInfoForm i2) {
+				return i2.getDocumentId().compareTo(i1.getDocumentId());
 			}
 		});
 
-		if (maxSize != -1 && infomation.size() > maxSize) {
-			infomation = infomation.subList(0, maxSize);
-		}
 
-		return infomation;
+		return documentInfo;
+
 	}
+
 }
