@@ -1,13 +1,12 @@
 package jp.co.unirita.medis.form;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import lombok.Data;
 
 @Data
-public class BookmarkForm implements Serializable {
+public class MonitoringForm {
 
 	public String documentId;
 	public String documentTitle;
@@ -16,15 +15,14 @@ public class BookmarkForm implements Serializable {
 	public boolean documentPublish;
 
 
-	public BookmarkForm(String documentId, String documentTitle, String employeeNumber, Timestamp createDate, boolean documentPublish) {
+	public MonitoringForm(String documentId, String documentTitle, String employeeNumber, Timestamp createDate, boolean documentPublish) {
 		this.documentId = documentId;
 		this.documentTitle = documentTitle;
 		this.employeeNumber = employeeNumber;
 		this.createDate = createDate;
-		this.documentPublish = documentPublish;
 	}
 
-	public BookmarkForm(DocumentInfo documentInfo, String documentName) {
+	public MonitoringForm(DocumentInfo documentInfo, String documentName) {
 		this(documentInfo.getDocumentId(), documentName, documentInfo.getEmployeeNumber(), documentInfo.getDocumentCreateDate(), documentInfo.isDocumentPublish());
 	}
 }

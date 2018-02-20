@@ -21,7 +21,7 @@ import jp.co.unirita.medis.form.BookmarkForm;
 
 @Service
 @Transactional
-public class BookmarkListLogic {
+public class BookmarkLogic {
 
 	@Autowired
 	BookmarkRepository bookmarkRepository;
