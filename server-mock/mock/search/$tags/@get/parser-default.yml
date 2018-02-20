@@ -1,0 +1,11 @@
+- if:
+    query:
+      tags: 研修
+  then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: tag1.json
+- then:
+    status: 404

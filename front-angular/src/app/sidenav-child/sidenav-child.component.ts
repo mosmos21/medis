@@ -12,7 +12,9 @@ export class SidenavChildComponent implements OnInit {
   private searchVisible: boolean;
   private settingsVisible: boolean;
 
-  constructor(private nav: NavigationService) {
+  constructor(
+    private nav: NavigationService,
+  ) {
     this.mymenuOpen();
   }
 
@@ -29,6 +31,7 @@ export class SidenavChildComponent implements OnInit {
     this.mymenuVisible = false;
     this.searchVisible = true;
     this.settingsVisible = false;
+    this.nav.toSearchResult();
   }
 
   settingsOpen() {

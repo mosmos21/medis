@@ -65,6 +65,11 @@ export class NavigationService {
     this.router.navigate(["settings/me/monitoring_tags"]);
   }
 
+  toSearchResult() {
+    console.log("call toSearchResult");
+    this.router.navigate(["search"]);
+  }
+
   //Adminユーザ画面遷移
   toTemplate() {
     this.router.navigate(["/admin/template"]);

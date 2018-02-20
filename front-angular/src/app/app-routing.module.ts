@@ -13,6 +13,7 @@ import { ConfigNotificationComponent } from './config-notification/config-notifi
 import { ConfigSurveillanceComponent } from './config-surveillance/config-surveillance.component';
 import { ConfigTopComponent } from './config-top/config-top.component';
 import { ConfigUserComponent } from './config-user/config-user.component';
+import { SearchResultComponent } from './search-result/search-result.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'top', pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'settings/me/notification', component: ConfigNotificationComponent },
   { path: 'settings/me/toppage', component: ConfigTopComponent },
   { path: 'settings/me/monitoring_tags', component: ConfigSurveillanceComponent },
+  { path: 'search', component: SearchResultComponent }
 ];
 
 @NgModule({

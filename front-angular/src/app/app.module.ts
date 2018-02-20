@@ -40,12 +40,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { ConvertDateService } from './services/convert-date.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { SearchService } from './services/search.service';
 import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
 import { SearchComponent } from './search/search.component';
 
 import { FormsModule } from '@angular/forms';
 import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
 import { MessageModalComponent } from './message-modal/message-modal.component';
+import { SearchResultComponent } from './search-result/search-result.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { MessageModalComponent } from './message-modal/message-modal.component';
     SidenavChildComponent,
     SearchComponent,
     SidenavAdminComponent,
+    SearchResultComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,7 +93,8 @@ import { MessageModalComponent } from './message-modal/message-modal.component';
     NavigationService,
     AuthService,
     AuthGuardService,
-    { provide: 'hostname', useValue: 'http://localhost:8080/mock/' }
+    SearchService,
+    { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }
   ],
   entryComponents: [
     ResetPassComponent,

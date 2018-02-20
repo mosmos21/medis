@@ -10,9 +10,6 @@
                     <div id="wrap_tag_list">
                         <h2>固定タグ編集</h2>
                         <div id="tag_list">
-                            <!-- <div class="tag_base tag_middle tag_side tag_erasable">2018年度新人研修日報
-                                <div class="tag_remove" (click)="deleteTags()">x</div>
-                            </div> -->
 
                             <div id="selected_tags" *ngFor="let selected_tag of selected_tags">
                                 <div class="tag_base tag_middle tag_side tag_erasable" (click)="deleteTags($event)">{{selected_tag}}</div>

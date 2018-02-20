@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-search',
@@ -17,10 +18,12 @@ export class SearchComponent implements OnInit {
       tagName: ''
     }
   ];
+  private msg = [];
 
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
+    private searchService: SearchService,
   ) { }
 
   ngOnInit() {
@@ -42,6 +45,8 @@ export class SearchComponent implements OnInit {
     if (this.selected_tags.length < 5) {
       var str = event.path[0].innerHTML;
       this.selected_tags.push(str);
+      this.msg = this.selected_tags;
+      this.sendMsgToResult(this.msg);
       var i = this.temp_tags.length;
       while (i--) {
         if (this.temp_tags[i] == str) {
@@ -58,6 +63,8 @@ export class SearchComponent implements OnInit {
     var idx = this.selected_tags.indexOf(str);
     if (idx >= 0) {
       this.selected_tags.splice(idx, 1);
+      this.msg = this.selected_tags;
+      this.sendMsgToResult(this.msg);
     }
   }
 
@@ -72,5 +79,9 @@ export class SearchComponent implements OnInit {
       }
     }
     return target_tags;
+  }
+
+  sendMsgToResult(msg: any) {
+    this.searchService.sendMsg(msg);
   }
 }
