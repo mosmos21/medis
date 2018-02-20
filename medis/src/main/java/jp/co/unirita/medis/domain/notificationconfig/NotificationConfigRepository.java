@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NotificationConfigRepository extends JpaRepository<NotificationConfig, String> {
 	List<NotificationConfig> findByEmployeeNumber(String employeeNumber);
+	NotificationConfig findByEmployeeNumberAndTagId(String employeeNumber,String tagId);
 
 }
