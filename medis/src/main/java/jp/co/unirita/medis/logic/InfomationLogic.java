@@ -110,7 +110,7 @@ public class InfomationLogic {
 		}
 
 		//自分の文書のdocumentId一覧取得
-		List<DocumentInfo> documentInfo = documentInfoRepository.findByEmployeeNumberOrderByDocumentCreateDateAsc(employeeNumber);
+		List<DocumentInfo> documentInfo = documentInfoRepository.findByEmployeeNumberOrderByDocumentCreateDateDesc(employeeNumber);
 		List<String> myDocInfoId = new ArrayList<>();
 
 		for (DocumentInfo miid : documentInfo) {

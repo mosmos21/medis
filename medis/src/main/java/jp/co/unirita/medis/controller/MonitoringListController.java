@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.MonitoringForm;
+import jp.co.unirita.medis.form.DocumentInfoForm;
 import jp.co.unirita.medis.logic.MonitoringLogic;
 import jp.co.unirita.medis.util.exception.InvalidArgumentException;
 
@@ -24,7 +24,7 @@ public class MonitoringListController {
 	private MonitoringLogic monitoringLogic;
 
 	@RequestMapping(path = {"{user}/monitoring_tag"}, method = RequestMethod.GET)
-	public List<MonitoringForm> getmonitoringForm(
+	public List<DocumentInfoForm> getMonitoringList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
 		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgumentException {
 

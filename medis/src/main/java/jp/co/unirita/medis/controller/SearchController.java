@@ -24,10 +24,10 @@ public class SearchController {
 	SearchLogic searchLogic;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<DocumentInfoForm> getDocumentInfoFormList(
+	public List<DocumentInfoForm> getSearchResultList(
 			@AuthenticationPrincipal User user, @RequestParam(value = "tags", required = false) String tagName) throws InvalidArgumentException, UnsupportedEncodingException {
 
-		return searchLogic.getDocumentInfoList(tagName);
+		return searchLogic.getSearchResultList(tagName);
 
 	}
 

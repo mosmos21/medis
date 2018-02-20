@@ -50,7 +50,7 @@ public class SearchLogic {
 	ContentOtherRepository contentOtherRepository;
 
 
-	public List<DocumentInfoForm> getDocumentInfoList(String tagName) throws UnsupportedEncodingException {
+	public List<DocumentInfoForm> getSearchResultList(String tagName) throws UnsupportedEncodingException {
 		//デコードし、タグのリストを作成
 		String tagParam = URLDecoder.decode(tagName, "UTF-8");
 		System.out.println(tagParam);

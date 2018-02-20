@@ -17,7 +17,7 @@ import jp.co.unirita.medis.domain.contentother.ContentOther;
 import jp.co.unirita.medis.domain.contentother.ContentOtherRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
-import jp.co.unirita.medis.form.BookmarkForm;
+import jp.co.unirita.medis.form.DocumentInfoForm;
 
 @Service
 @Transactional
@@ -33,7 +33,7 @@ public class BookmarkLogic {
 	ContentOtherRepository contentOtherRepository;
 
 
-	public List<BookmarkForm> getBookmarkList(String employeeNumber, Integer maxSize) {
+	public List<DocumentInfoForm> getBookmarkList(String employeeNumber, Integer maxSize) {
 
 		//ユーザがお気に入りしている文書idの一覧を取得
 		List<Bookmark> bookmark = bookmarkRepository.findByEmployeeNumberAndIsChoiced(employeeNumber, true);
@@ -44,10 +44,10 @@ public class BookmarkLogic {
 		}
 
 		//上で取得した文書idのdocument_infoを取得
-		List<DocumentInfo> documentInfo = new ArrayList<>();
+		List<DocumentInfo> documentInfoList = new ArrayList<>();
 
 		for (int i = 0; i < documentIdList.size(); i++) {
-			documentInfo.addAll(documentInfoRepository.findByDocumentId(documentIdList.get(i)));
+			documentInfoList.addAll(documentInfoRepository.findByDocumentId(documentIdList.get(i)));
 		}
 
 		//contentOther(documentTitle)の取得
@@ -76,28 +76,28 @@ public class BookmarkLogic {
 		}
 
 		//BookmarkListにdocumentInfoとcontentMainListを格納
-		List<BookmarkForm> bookmarkForm = new ArrayList<>();
+		List<DocumentInfoForm> documentInfo = new ArrayList<>();
 
 		for(int i = 0; i < contentMainList.size(); i++) {
-			bookmarkForm.add(new BookmarkForm(documentInfo.get(i), contentMainList.get(i)));
+			documentInfo.add(new DocumentInfoForm(documentInfoList.get(i), contentMainList.get(i)));
 		}
 
-		bookmarkForm.sort(new Comparator<BookmarkForm>(){
+		documentInfo.sort(new Comparator<DocumentInfoForm>(){
 			@Override
-			public int compare(BookmarkForm i1, BookmarkForm i2) {
+			public int compare(DocumentInfoForm i1, DocumentInfoForm i2) {
 				return i2.getDocumentId().compareTo(i1.getDocumentId());
 			}
 		});
 
-		if (maxSize != -1 && bookmarkForm.size() > maxSize) {
-			bookmarkForm = bookmarkForm.subList(0, maxSize);
+		if (maxSize != -1 && documentInfo.size() > maxSize) {
+			documentInfo = documentInfo.subList(0, maxSize);
 		}
 
-		return bookmarkForm;
+		return documentInfo;
 	}
 
 
-	public void updatebookmark(String employeeNumber, String documentId) {
+	public void updateBookmark(String employeeNumber, String documentId) {
 		int count = bookmarkRepository.countByEmployeeNumberAndDocumentId(employeeNumber, documentId);
 
 		if (count == 0) {

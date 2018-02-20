@@ -24,7 +24,7 @@ import jp.co.unirita.medis.domain.fixedtag.FixedTag;
 import jp.co.unirita.medis.domain.fixedtag.FixedTagRepository;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
-import jp.co.unirita.medis.form.MonitoringForm;
+import jp.co.unirita.medis.form.DocumentInfoForm;
 
 @Service
 @Transactional
@@ -44,7 +44,7 @@ public class MonitoringLogic {
 	ContentOtherRepository contentOtherRepository;
 
 
-	public List<MonitoringForm> getMonitoringList(String employeeNumber, Integer maxSize) {
+	public List<DocumentInfoForm> getMonitoringList(String employeeNumber, Integer maxSize) {
 		//userが監視しているタグの一覧
 		List<NotificationConfig> notificationConfig = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
 		List<String> tagIdList = new ArrayList<>();
@@ -145,23 +145,23 @@ public class MonitoringLogic {
 		}
 
 		//documentInfoListとcontentMainListの値をFormに格納
-		List<MonitoringForm> monitoring = new ArrayList<>();
+		List<DocumentInfoForm> documentInfo = new ArrayList<>();
 
 		for(int i = 0; i < contentMainList.size(); i++) {
-			monitoring.add(new MonitoringForm(documentInfoList.get(i), contentMainList.get(i)));
+			documentInfo.add(new DocumentInfoForm(documentInfoList.get(i), contentMainList.get(i)));
 		}
 
-		monitoring.sort(new Comparator<MonitoringForm>(){
+		documentInfo.sort(new Comparator<DocumentInfoForm>(){
 			@Override
-			public int compare(MonitoringForm i1, MonitoringForm i2) {
+			public int compare(DocumentInfoForm i1, DocumentInfoForm i2) {
 				return i2.getDocumentId().compareTo(i1.getDocumentId());
 			}
 		});
 
-		if (maxSize != -1 && monitoring.size() > maxSize) {
-			monitoring = monitoring.subList(0, maxSize);
+		if (maxSize != -1 && documentInfo.size() > maxSize) {
+			documentInfo = documentInfo.subList(0, maxSize);
 		}
 
-		return monitoring;
+		return documentInfo;
 	}
 }
