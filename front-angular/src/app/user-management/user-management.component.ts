@@ -61,10 +61,13 @@ export class UserManagementComponent implements OnInit {
       this.enable = "有効";
     }
 
+    this.message = this.users[index]['lastName'] + this.users[index]['firstName'] + 'さんのアカウントを' + this.enable + '化します。'
+    
+    console.log(this.message)
+
     let dialogRef = this.dialog.open(ConfirmationComponent, {
       data: {
-        user: this.users[index],
-        enable: this.enable,
+        message: this.message
       }
     });
 
@@ -76,6 +79,8 @@ export class UserManagementComponent implements OnInit {
   }
 
   initialization(index: number): void {
+
+    this.message = this.users[index]['lastName'] + this.users[index]['firstName'] + 'さんにパスワード初期化用メールを送信しました。'
 
     this.user = {
       employeeNumber: this.users[index]["employeeNumber"],

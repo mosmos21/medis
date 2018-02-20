@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { ConvertDateService } from '../services/convert-date.service';
+
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -27,6 +29,7 @@ export class ViewComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     private http: HttpClient,
     private route: ActivatedRoute,
+    private convert: ConvertDateService,
   ) { }
 
   ngOnInit() {

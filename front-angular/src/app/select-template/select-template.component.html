@@ -1,38 +1,44 @@
 <div id="wrap_main_content">
-  <div class="wrap_main_content_center">
-    <div class="main_content_header">
-        <h2>テンプレート選択(仮)</h2>
-    </div>
-    <div class="wrap_list_box wrap_list_box_tall">
-      <div class="list_box">
-        <div class="list_box_header">
-          <h3>テンプレート一覧</h3>
-        </div>
-        <div class="list_box_content list_box_content_tall">
-          <div class="content_scroll_y">
-            <table id="info_list">
-              <tr>
-                <th id="info_list_id">テンプレートID</th>
-                <th id="info_list_name">テンプレート名</th>
-                <th id="info_list_date">作成日</th>
-                <th id="info_list_flag">公開フラグ</th>
-              </tr>
-              <tr >
-                <td></td>
-                <td><a href="/admin/template/new">新規テンプレートを作成する</a></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr *ngFor="let t of templates">
-                <td>{{ t.templateId }}</td>
-                <td><a href="/admin/template/{{ t.templateId }}">{{ t.templateName }}</a></td>
-                <td>{{ t.templateCreateDate }}</td>
-                <td>{{ t.isTemplatePublish }}</td>
-              </tr>
-            </table>
-          </div>                  
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="wrap_main_content_center">
+		<div class="main_content_header">
+			<h2>テンプレート選択(仮)</h2>
+		</div>
+		<div class="wrap_list_box wrap_list_box_tall">
+			<div class="list_box">
+				<div class="list_box_header">
+					<h3>テンプレート一覧</h3>
+				</div>
+				<div class="list_box_content list_box_content_tall">
+					<div class="content_scroll_y">
+						<table id="info_list">
+							<tr>
+								<th id="info_list_id">テンプレートID</th>
+								<th id="info_list_name">テンプレート名</th>
+								<th id="info_list_date">作成日</th>
+								<th id="info_list_flag">公開フラグ</th>
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<a href="/admin/template/new">新規テンプレートを作成する</a>
+								</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr *ngFor="let t of templates; let idx = index;">
+								<td>{{ t.templateId }}</td>
+								<td>
+									<a href="/admin/template/{{ t.templateId }}">{{ t.templateName }}</a>
+								</td>
+								<td>{{ convert.time2Date(t.templateCreateDate) }}</td>
+								<td align="center">
+									<mat-slide-toggle (click)="confirmChangePublish($event, idx)" id="toggleButton_tag" [checked]="t.isTemplatePublish"></mat-slide-toggle>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

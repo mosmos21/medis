@@ -37,6 +37,7 @@ import { ConfigTopModule } from './config-top/config-top.module';
 import { ConfigUserModule } from './config-user/config-user.module';
 
 import { AppRoutingModule } from './app-routing.module';
+import { ConvertDateService } from './services/convert-date.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
@@ -85,10 +86,11 @@ import { MessageModalComponent } from './message-modal/message-modal.component';
     AppRoutingModule
   ],
   providers: [
+    ConvertDateService,
     NavigationService,
     AuthService,
     AuthGuardService,
-    { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }
+    { provide: 'hostname', useValue: 'http://localhost:8080/mock/' }
   ],
   entryComponents: [
     ResetPassComponent,
