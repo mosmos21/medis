@@ -48,6 +48,7 @@ import { FormsModule } from '@angular/forms';
 import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
 import { MessageModalComponent } from './message-modal/message-modal.component';
 import { SearchResultComponent } from './search-result/search-result.component';
+import { PageNotFoundComponent } from './error/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { SearchResultComponent } from './search-result/search-result.component';
     SearchComponent,
     SidenavAdminComponent,
     SearchResultComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
