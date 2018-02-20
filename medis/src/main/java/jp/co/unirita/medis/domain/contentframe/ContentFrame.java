@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.domain.contentflame;
+package jp.co.unirita.medis.domain.contentframe;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,8 +9,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "content_flame")
-public class ContentFlame {
+@Table(name = "content_frame")
+public class ContentFrame {
 
 	@Id
 	@Size(min = 11, max = 11)
