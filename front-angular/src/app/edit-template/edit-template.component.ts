@@ -242,7 +242,18 @@ export class EditTemplateComponent implements OnInit {
         }
       );
     }else{
-      // TODO POST
+      this.http.post(this.hostname + "templates/" + this.templateId, dataJson).subscribe(
+        json => {
+          let dialogRef = this.dialog.open(MessageModalComponent, {
+            data: {
+              message: this.message
+            }
+          });
+        },
+        error => {
+          // TODO
+        }
+      );
     }
   }
 

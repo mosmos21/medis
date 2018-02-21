@@ -28,14 +28,22 @@ public class TemplateController {
     }
 
     @GetMapping(value = "{templateId:^t[0-9]{10}+$}")
+    @ResponseStatus(HttpStatus.OK)
     public TemplateForm getTemplate(@PathVariable(value ="templateId") String templateId) {
         System.out.println("get template [id = " + templateId + "]");
 
         // TODO 存在チェック
 
-
         TemplateForm template = templateLogic.getTemplate(templateId);
         System.out.println(template);
+        return template;
+    }
+
+    @PostMapping(value = "{templateId:^t[0-9]{10}+$}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TemplateForm updateTemplate(@RequestBody TemplateForm template) throws Exception {
+        // TODO 社員番号を確認
+        templateLogic.update(template, "99999");
         return template;
     }
 

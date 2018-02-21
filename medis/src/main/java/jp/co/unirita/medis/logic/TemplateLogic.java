@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -57,12 +58,17 @@ public class TemplateLogic {
         // templateForm info
         String id = saveTemplateInfo(templateForm, employeeNumber);
         templateForm.setTemplateId(id);
-        System.out.println("create new templateForm info [id = " + id + ", name = " + templateForm.getTemplateName() + "]");
+
         saveTemplateContent(id, templateForm.getContents());
     }
 
+    public void update(TemplateForm templateForm, String employeeNumber) throws Exception {
+        saveTemplateInfo(templateForm, employeeNumber);
+        updateTemplateContent(templateForm.getTemplateId(), templateForm.getContents());
+    }
+
     private String saveTemplateInfo(TemplateForm templateForm, String employeeNumber) throws Exception {
-        String templateId = createNewTemplateId();
+        String templateId = templateForm.getTemplateId() == null ?  createNewTemplateId() : templateForm.getTemplateId();
         String templateName = templateForm.getTemplateName();
         Timestamp templateCreateDate = new Timestamp(System.currentTimeMillis());
         boolean isTemplatePublish = templateForm.isPublish();
@@ -74,7 +80,7 @@ public class TemplateLogic {
     private void saveTemplateContent(String templateId, List<TemplateContentForm> contenets) {
         int order = 1;
         for(TemplateContentForm content: contenets) {
-            templateContentRepository.save(new TemplateContent(templateId, content.getBlockId(), order, content.getItems().size()));
+            templateContentRepository.save(new TemplateContent(templateId, order, content.getBlockId()));
             saveContentItems(templateId, order, content.getItems());
             order++;
         }
@@ -85,6 +91,59 @@ public class TemplateLogic {
         for(String value: items) {
             templateItemRepository.save(new TemplateItem(templateId, contentOrder, lineNumber, value));
             lineNumber++;
+        }
+    }
+
+    private void updateTemplateContent(String templateId, List<TemplateContentForm> contents) {
+        List<TemplateContent> oldContents = templateContentRepository.findByTemplateIdOrderByContentOrderAsc(templateId);
+
+        int order = 1;
+        int common = Math.min(oldContents.size(), contents.size());
+        for(TemplateContentForm content : contents){
+            if(common < order) {
+                break;
+            }
+            templateContentRepository.save(new TemplateContent(templateId, order, content.getBlockId()));
+            updateContentItem(templateId, order, content.getItems());
+            order++;
+        }
+        if(oldContents.size() < contents.size()) {
+            List<TemplateContentForm> addContents = contents.subList(order-1, contents.size());
+            for(TemplateContentForm content: addContents) {
+                templateContentRepository.save(new TemplateContent(templateId, order, content.getBlockId()));
+                saveContentItems(templateId, order, content.getItems());
+                order++;
+            }
+        } else {
+            for(;order <= oldContents.size(); order++) {
+                templateContentRepository.delete(new TemplateContent.PK(templateId, order));
+            }
+        }
+    }
+
+    private void updateContentItem(String templateId, int contentOrder, List<String> items) {
+        List<TemplateItem> oldItems = templateItemRepository.findByTemplateIdAndContentOrderOrderByLineNumberAsc(templateId, contentOrder);
+
+        int lineNumber = 1;
+        int common = Math.min(oldItems.size(), items.size());
+
+        for(String value: items) {
+            if(common < lineNumber){
+                break;
+            }
+            templateItemRepository.save(new TemplateItem(templateId, contentOrder, lineNumber, value));
+            lineNumber++;
+        }
+        if(oldItems.size() < items.size()) {
+            List<String> addItems = items.subList(lineNumber-1, items.size());
+            for(String value: addItems) {
+                templateItemRepository.save(new TemplateItem(templateId, contentOrder, lineNumber, value));
+                lineNumber++;
+            }
+        } else {
+            for(;lineNumber <= oldItems.size(); lineNumber++) {
+                templateItemRepository.delete(new TemplateItem.PK(templateId, contentOrder, lineNumber));
+            }
         }
     }
 

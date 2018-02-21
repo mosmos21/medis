@@ -30,8 +30,6 @@ public class TemplateContent {
 	@Size(min = 11, max = 11)
 	private String blockId;
 
-	private int lineLength;
-
 	@Data
     @AllArgsConstructor
     @NoArgsConstructor
