@@ -53,7 +53,7 @@ public class UserManagementLogic {
 		if (user == null) {
 			throw new InvalidArgumentException("employeeNumber", userManagementForm.getEmployeeNumber(), "指定したIDのユーザは存在しません。");
 		}
-		user.setEnabled(userManagementForm.isEnabled);
+		user.setEnabled(userManagementForm.Enabled);
 		user.setAuthorityId(userManagementForm.getAuthorityId());
 		userRepository.saveAndFlush(user);
 	}
@@ -73,9 +73,9 @@ public class UserManagementLogic {
 		detail.setLastNmaePhonetic(userManagementForm.getLastNamePhonetic());
 		detail.setFirstNamePhonetic(userManagementForm.getFirstNmaePhonetic());
 		detail.setMailaddress(userManagementForm.getMailaddress());
-		detail.setIcon(userManagementForm.isIcon);
+		detail.setIcon(userManagementForm.Icon);
 		user.setAuthorityId(userManagementForm.getAuthorityId());
-		user.setEnabled(userManagementForm.isEnabled);
+		user.setEnabled(userManagementForm.Enabled);
 		user.setPassword(userManagementForm.getPassword());
 		userRepository.saveAndFlush(user);
 		userDetailRepository.saveAndFlush(detail);

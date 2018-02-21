@@ -1,11 +1,14 @@
 package jp.co.unirita.medis.domain.toppage;
 
-import javax.persistence.*;
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
-
-import java.io.Serializable;
 
 @Data
 @Entity
