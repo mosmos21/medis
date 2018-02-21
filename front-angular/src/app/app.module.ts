@@ -96,7 +96,7 @@ import { PageNotFoundComponent } from './error/page-not-found.component';
     AuthService,
     AuthGuardService,
     SearchService,
-    { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }
+    { provide: 'hostname', useValue: 'http://localhost:8080/mock/' }
   ],
   entryComponents: [
     ResetPassComponent,

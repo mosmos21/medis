@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DragulaService } from 'ng2-dragula';
+import { MatDialog } from '@angular/material';
 import { NavigationService } from '../services/navigation.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class EditTemplateComponent implements OnInit {
   private contentBases: { [key: string]: any } = {};
 
   private templateId: string = "";
+  private templateName: string = "";
   public contents: any[] = [];
   public values: { [key: string]: string[] } = {};
 
@@ -38,6 +40,7 @@ export class EditTemplateComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private dragulaService: DragulaService,
+    public dialog: MatDialog,
     private nav: NavigationService,
   ) {
 
@@ -109,6 +112,7 @@ export class EditTemplateComponent implements OnInit {
     this.http.get(this.hostname + 'templates/' + this.templateId).subscribe(
       json => {
         data = json;
+        this.templateName = data.templateName;
         for (let con of data.contents) {
           var id = this.addBlock(con.blockId);
           for (var i = 0; i < con.items.length - this.contentBases[con.blockId].items.length; i++) {
@@ -190,10 +194,12 @@ export class EditTemplateComponent implements OnInit {
     var data = {
       isPublish: type == "save"
     }
-    if(this.templateId.length > 0) {
+    if (this.templateId.length > 0) {
       data["templateId"] = this.templateId;
     }
-    
+
+    data["templateName"] = "";
+
     var contents: any[] = [];
     for (let i = 0; i < this.contents.length; i++) {
       var content = {
@@ -212,9 +218,10 @@ export class EditTemplateComponent implements OnInit {
   }
 
   submit(type): void {
-    let data = this.data2Json(type);
-    console.log(data);
-    this.http.post(this.hostname + "template/" + this.templateId, data).subscribe(
+    let dataJson = this.data2Json(type);
+
+    dataJson["templateName"] = this.templateName;
+    this.http.post(this.hostname + "template/" + this.templateId, dataJson).subscribe(
       json => {
         // TODO
       },

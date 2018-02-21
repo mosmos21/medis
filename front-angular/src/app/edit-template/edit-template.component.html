@@ -4,9 +4,11 @@
             <div id="edit_template_header">
                 <h2>テンプレート編集</h2>
             </div>
-            <hr />
             <div id="edit_template_body" class="content_scroll_y">
-                <div id="template_plate" [dragula]='"template-block"'>
+                    <mat-form-field id="template_title">
+                            <input matInput [(ngModel)]="this.templateName" name="templateName" placeholder="テンプレート名" required>
+                        </mat-form-field>
+                <div id="template_plate">
                     <div id="wrap_tag_list">
                         <h2>固定タグ編集</h2>
                         <div id="tag_list">
@@ -71,7 +73,7 @@
             </div>
         </div>
         <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
-
+            <div id="wrap_template_toolbar_content">
             <mat-tab-group class="edit-template-tab">
                 <mat-tab label="ブロック" id="tag_label">
                     <div id="template_block_list" class="content_scroll_y" [dragula]='"template-block"'>
@@ -81,8 +83,8 @@
                         </div>
                         <!-- テンプレートリスト -->
                     </div>
-
                 </mat-tab>
+
                 <mat-tab label="タグ" id="tag_label">
                     <div id="menu_search_content" class="menu_content">
                         <div *ngIf="selected_tags.length < 8">
@@ -102,14 +104,14 @@
                     </div>
                 </mat-tab>
             </mat-tab-group>
-
+            </div>
 
             <div id="wrap_template_toolbar_button">
                 <div>
-                    <div class="send_button" (click)="submit('draft')">下書き</div>
+                    <button mat-raised-button class="send_button" (click)="submit('draft')">下書き</button>
                 </div>
                 <div>
-                    <div class="send_button" (click)="submit('save')">保存</div>
+                    <button mat-raised-button class="send_button" (click)="submit('save')">保存</button>
                 </div>
             </div>
 
