@@ -1,7 +1,7 @@
 <div id="wrap_main_content">
     <div class="wrap_main_content_center content_scroll_y">
-        <div class="main_content_header">
-            <h1>ユーザ管理(仮)</h1>
+        <div class="main_content_header main_content_header_text">
+            ユーザ管理(仮)
         </div>
         <div class="user_search">
             <mat-form-field>
@@ -31,10 +31,10 @@
                                 <td>{{ u.lastNamePhonetic }} {{ u.firstNamePhonetic }}</td>
                                 <td>{{ u.mailaddress }}</td>
                                 <td align="center">
-                                    <mat-slide-toggle (click)="confirmChangeEnable($event, idx)" id="toggleButton_tag" [checked]="u.isEnabled"></mat-slide-toggle>
+                                    <mat-slide-toggle (click)="confirmChangeEnable($event, idx)" id="toggleButton_tag" [checked]="u.isEnabled" color="primary"></mat-slide-toggle>
                                 </td>
                                 <td>
-                                    <button mat-button (click)="initialization(idx)">初期化</button>
+                                    <button mat-button (click)=" initialization(idx) ">初期化</button>
                                 </td>
                             </tr>
                         </table>

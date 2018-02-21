@@ -1,0 +1,26 @@
+[
+    {
+        "tagId": "n0000000001",
+        "tagName": "研修",
+        "isMailNotification": "true",
+        "isBrowserNotification": "false"
+    },
+    {
+        "tagId": "n0000000002",
+        "tagName": "新人研修",
+        "isMailNotification": "true",
+        "isBrowserNotification": "true"
+    },
+    {
+        "tagId": "n0000000003",
+        "tagName": "A-AUTO研修",
+        "isMailNotification": "false",
+        "isBrowserNotification": "false"
+    },
+    {
+        "tagId": "n0000000004",
+        "tagName": "帳票研修",
+        "isMailNotification": "false",
+        "isBrowserNotification": "true"
+    }
+]

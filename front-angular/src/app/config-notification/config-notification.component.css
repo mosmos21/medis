@@ -162,3 +162,7 @@ td{
 .toggle-button_tag tr:hover {
 	background:#ff0;
 }
+
+.apply-button{
+    float: right;
+}

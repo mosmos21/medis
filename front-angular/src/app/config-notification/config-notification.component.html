@@ -1,7 +1,11 @@
 <div id="wrap_main_content">
 	<div class="wrap_main_content_center content_scroll">
-		<div class="main_content_header">
-			<h1>通知設定</h1>
+		<div class="main_content_header main_content_header_text">
+			通知設定
+			<div class="apply-button">
+				<button mat-raised-button>キャンセル</button>
+				<button mat-raised-button color="primary">適用</button>
+			</div>
 		</div>
 		<div class="wrap_list_box">
 			<div class="list_box">
@@ -10,11 +14,9 @@
 				</div>
 				<div class="config_text">
 					メール：
-					<input type="checkbox" id="toggleButton" class="toggle-button" checked="checked">
-					<label for="toggleButton1"></label>
+					<mat-slide-toggle color="primary" (change)="toggleCommentMail()" [checked]="isCommentMail"></mat-slide-toggle>
 					&emsp;&emsp;&emsp; プッシュ：
-					<input type="checkbox" id="toggleButton" class="toggle-button" checked="checked">
-					<label for="toggleButton2"></label>
+					<mat-slide-toggle color="accent" (change)="toggleCommentPush()" [checked]="isCommentBrowser"></mat-slide-toggle>
 				</div>
 				<div class="list_box_header_square">
 					<h3>監視タグ通知</h3>
@@ -22,15 +24,10 @@
 				</div>
 				<div class="config_text">
 					メール：
-					<input type="checkbox" id="toggleButton" class="toggle-button" checked="checked">
-					<label for="toggleButton3"></label>
+					<mat-slide-toggle color="primary" (change)="toggleTagMail()" [checked]="isTagMail"></mat-slide-toggle>
 					&emsp;&emsp;&emsp; プッシュ：
-					<input type="checkbox" id="toggleButton" class="toggle-button" checked="checked">
-					<label for="toggleButton4"></label>
+					<mat-slide-toggle color="accent" (change)="toggleTagPush()" [checked]="isTagBrowser"></mat-slide-toggle>
 				</div>
-				<br>
-				<br>
-				<br>
 
 				<div class="config_text">
 					<table class="t-line">
@@ -39,70 +36,13 @@
 							<th>メール</th>
 							<th class="boder-none">プッシュ</th>
 						</tr>
-						<tr>
-							<td>新人研修_A-AUTO</td>
+						<tr *ngFor="let n of tagNotification; let idx = index">
+							<td>{{n.tagName}}</td>
 							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag5"></label>
+								<mat-slide-toggle color="primary" [checked]="n.isMailNotification"></mat-slide-toggle>
 							</td>
 							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag6"></label>
-							</td>
-						</tr>
-						<tr>
-							<td>新人研修_帳票</td>
-							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag7"></label>
-							</td>
-							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag8"></label>
-							</td>
-						</tr>
-						<tr>
-							<td>新人研修_Waha!</td>
-							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag9"></label>
-							</td>
-							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag10"></label>
-							</td>
-						</tr>
-						<tr>
-							<td>新人研修_A-AUTO</td>
-							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag11"></label>
-							</td>
-							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag12"></label>
-							</td>
-						</tr>
-						<tr>
-							<td>新人研修_帳票</td>
-							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag13"></label>
-							</td>
-							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag14"></label>
-							</td>
-						</tr>
-						<tr>
-							<td>新人研修_Waha!</td>
-							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag15"></label>
-							</td>
-							<td>
-								<input type="checkbox" id="toggleButton_tag" class="toggle-button_tag">
-								<label for="toggleButton_tag16"></label>
+								<mat-slide-toggle color="accent" [checked]="n.isBrowserNotification"></mat-slide-toggle>
 							</td>
 						</tr>
 					</table>
