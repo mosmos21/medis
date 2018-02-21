@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @IdClass(value = DocumentItem.PK.class)
-@Table(name = "content_flame")
+@Table(name = "document_item")
 public class DocumentItem {
 
 	@Id

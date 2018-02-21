@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @IdClass(value = TemplateItem.PK.class)
-@Table(name = "template_content")
+@Table(name = "template_item")
 @NoArgsConstructor
 @AllArgsConstructor
 public class TemplateItem {
@@ -33,6 +33,7 @@ public class TemplateItem {
 	private String value;
 
     @Data
+    @AllArgsConstructor
     @NoArgsConstructor
     public static class PK implements Serializable{
         private String templateId;
