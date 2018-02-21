@@ -6,15 +6,14 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import jp.co.unirita.medis.domain.bookmark.Bookmark;
+import jp.co.unirita.medis.domain.documentitem.DocumentItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jp.co.unirita.medis.domain.bookmark.Bookmark;
 import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
-import jp.co.unirita.medis.domain.contentflame.ContentFlame;
-import jp.co.unirita.medis.domain.contentflame.ContentFlameRepository;
-import jp.co.unirita.medis.domain.contentother.ContentOther;
-import jp.co.unirita.medis.domain.contentother.ContentOtherRepository;
+import jp.co.unirita.medis.domain.documentitem.DocumentItem;
+import jp.co.unirita.medis.domain.documentitem.DocumentItemRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.form.BookmarkForm;
@@ -28,9 +27,7 @@ public class BookmarkListLogic {
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 	@Autowired
-	ContentFlameRepository contentFlameRepository;
-	@Autowired
-	ContentOtherRepository contentOtherRepository;
+	DocumentItemRepository documentItemRepository;
 
 
 	public List<BookmarkForm> getBookmarkList(String employeeNumber, Integer maxSize) {
@@ -51,48 +48,11 @@ public class BookmarkListLogic {
 		}
 
 		//contentOther(documentTitle)の取得
-		List<ContentFlame> contentFlame = new ArrayList<>();
+		List<DocumentItem> documentItem = new ArrayList<>();
 
 		for (int i = 0; i < documentIdList.size(); i++) {
-			contentFlame.addAll(contentFlameRepository.findByDocumentIdAndContentOrderAndLineNumber(documentIdList.get(i), 1, 1));
+			documentItem.addAll(documentItemRepository.findByDocumentIdAndContentOrderAndLineNumber(documentIdList.get(i), 1, 1));
 		}
-
-		List<String> contentIdList = new ArrayList<>();
-
-		for (ContentFlame contentflame : contentFlame) {
-			contentIdList.add(contentflame.getContentId());
-		}
-
-		List<ContentOther> contentOther = new ArrayList<>();
-
-		for (int i = 0; i < contentIdList.size(); i++) {
-			contentOther.addAll(contentOtherRepository.findByContentId(contentIdList.get(i)));
-		}
-
-		List<String> contentMainList = new ArrayList<>();
-
-		for (ContentOther contentother : contentOther) {
-			contentMainList.add(contentother.getContentMain());
-		}
-
-		//BookmarkListにdocumentInfoとcontentMainListを格納
-		List<BookmarkForm> bookmarkForm = new ArrayList<>();
-
-		for(int i = 0; i < contentMainList.size(); i++) {
-			bookmarkForm.add(new BookmarkForm(documentInfo.get(i), contentMainList.get(i)));
-		}
-
-		bookmarkForm.sort(new Comparator<BookmarkForm>(){
-			@Override
-			public int compare(BookmarkForm i1, BookmarkForm i2) {
-				return i2.getDocumentId().compareTo(i1.getDocumentId());
-			}
-		});
-
-		if (maxSize != -1 && bookmarkForm.size() > maxSize) {
-			bookmarkForm = bookmarkForm.subList(0, maxSize);
-		}
-
-		return bookmarkForm;
+		return null;
 	}
 }

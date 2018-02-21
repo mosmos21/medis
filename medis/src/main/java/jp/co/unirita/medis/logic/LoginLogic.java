@@ -1,15 +1,13 @@
 package jp.co.unirita.medis.logic;
 
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.UserLoginForm;
+import jp.co.unirita.medis.form.user.UserLoginForm;
 import lombok.Data;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
 
 @Service
 @Data

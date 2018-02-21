@@ -113,6 +113,7 @@ export class EditTemplateComponent implements OnInit {
     this.http.get(this.hostname + 'templates/' + this.templateId).subscribe(
       json => {
         data = json;
+        console.log(data);
         this.templateName = data.templateName;
         for (let con of data.contents) {
           var id = this.addBlock(con.blockId);
@@ -193,9 +194,10 @@ export class EditTemplateComponent implements OnInit {
 
   data2Json(type: string): any {
     var data = {
-      isPublish: type == "save"
+      publish: type == "save",
+      templateName: this.templateName
     }
-    if (this.templateId.length > 0) {
+    if(this.templateId != "new") {
       data["templateId"] = this.templateId;
     }
 
@@ -203,7 +205,7 @@ export class EditTemplateComponent implements OnInit {
     for (let i = 0; i < this.contents.length; i++) {
       var content = {
         contentOrder: i + 1,
-        blockId: this.contents[i].blockId,
+        blockId: this.contents[i].blockId
       };
       var items: string[] = [];
       for (let s of this.values[this.contents[i].id]) {
@@ -213,6 +215,7 @@ export class EditTemplateComponent implements OnInit {
       contents.push(content);
     }
     data["contents"] = contents;
+    console.log(data);
     return data;
   }
 
@@ -225,21 +228,22 @@ export class EditTemplateComponent implements OnInit {
       this.message = "テンプレートを下書きとして保存しました。"
     }
 
-    let dialogRef = this.dialog.open(MessageModalComponent, {
-      data: {
-        message: this.message
-      }
-    });
-
-    dataJson["templateName"] = this.templateName;
-    this.http.post(this.hostname + "template/" + this.templateId, dataJson).subscribe(
-      json => {
-        // TODO
-      },
-      error => {
-        // TODO
-      }
-    );
+    if(this.templateId == 'new'){
+      this.http.put(this.hostname + "templates/new", dataJson).subscribe(
+        json => {
+          let dialogRef = this.dialog.open(MessageModalComponent, {
+            data: {
+              message: this.message
+            }
+          });
+        },
+        error => {
+          // TODO
+        }
+      );
+    }else{
+      // TODO POST
+    }
   }
 
   addTags(event: any) {

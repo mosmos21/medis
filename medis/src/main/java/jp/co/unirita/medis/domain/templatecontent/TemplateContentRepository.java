@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TemplateContentRepository extends JpaRepository<TemplateContent, String>{
-    List<TemplateContent> findByTemplateIdOrderByContentOrder(String id);
+public interface TemplateContentRepository extends JpaRepository<TemplateContent, TemplateContent.PK>{
+    List<TemplateContent> findByTemplateIdOrderByContentOrderAsc(String templateId);
 }

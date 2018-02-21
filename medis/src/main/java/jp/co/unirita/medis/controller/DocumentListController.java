@@ -35,7 +35,7 @@ public class DocumentListController {
 			}
 			list = documentInfoRepository.findByEmployeeNumberOrderByDocumentCreateDateAsc(employeeNumber);
 		} else if (maxSize == null) { // 公開タイプが指定されている場合
-			list = documentInfoRepository.findByEmployeeNumberAndIsDocumentPublishOrderByDocumentCreateDateAsc(
+			list = documentInfoRepository.findByEmployeeNumberAndDocumentPublishOrderByDocumentCreateDateAsc(
 					employeeNumber, publishType.equals("public"));
 		} else { // 公開タイプと最大取得数が指定されている場合
 			list = documentInfoRepository.findByEmployeeNumber(employeeNumber, new PageRequest(1, maxSize))

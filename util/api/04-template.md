@@ -93,17 +93,20 @@
         ---
         - リクエスト
             ```json
-            [
-                {
-                    "contentOrder": (contentOrder),
-                    "blockId": "(blockId)",
-                    "items": [
-                        "(item)",
-                        ...
-                    ]
-                },
-                ...
-            ]
+            {
+                "isPublish": true|false,
+                "contents": [
+                    {
+                        "contentOrder": (contentOrder),
+                        "blockId": "(blockId)",
+                        "items": [
+                            "(item)",
+                            ...
+                        ]
+                    },
+                    ...
+                ]
+            }
             ```
 
         - レスポンス(201 CREATED)

@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jp.co.unirita.medis.domain.contentflame.ContentFlame;
-import jp.co.unirita.medis.domain.contentflame.ContentFlameRepository;
-import jp.co.unirita.medis.domain.contentother.ContentOther;
-import jp.co.unirita.medis.domain.contentother.ContentOtherRepository;
+import jp.co.unirita.medis.domain.documentitem.DocumentItemRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.documenttag.DocumentTag;
@@ -43,9 +40,7 @@ public class InfomationLogic {
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
 	@Autowired
-	ContentFlameRepository contentFlameRepository;
-	@Autowired
-	ContentOtherRepository contentOtherRepository;
+	DocumentItemRepository documentItemRepository;
 
 
 
@@ -145,50 +140,6 @@ public class InfomationLogic {
 		for (UpdateInfo updateinfo : updateInfo) {
 			lastDocumentIdList.add(updateinfo.getDocumentId());
 		}
-
-		//contentOther(documentTitle)の取得
-		List<ContentFlame> contentFlame = new ArrayList<>();
-
-		for (int i = 0; i < lastDocumentIdList.size(); i++) {
-			contentFlame.addAll(contentFlameRepository.findByDocumentIdAndContentOrderAndLineNumber(lastDocumentIdList.get(i), 1, 1));
-		}
-
-		List<String> contentIdList = new ArrayList<>();
-
-		for (ContentFlame contentflame : contentFlame) {
-			contentIdList.add(contentflame.getContentId());
-		}
-
-		List<ContentOther> contentOther = new ArrayList<>();
-
-		for (int i = 0; i < contentIdList.size(); i++) {
-			contentOther.addAll(contentOtherRepository.findByContentId(contentIdList.get(i)));
-		}
-
-		List<String> contentMainList = new ArrayList<>();
-
-		for (ContentOther contentother : contentOther) {
-			contentMainList.add(contentother.getContentMain());
-		}
-
-		//updateInfoとcontentMainListの値をInfomationFormに格納
-		List<InfomationForm> infomation = new ArrayList<>();
-
-		for(int i = 0; i < contentMainList.size(); i++) {
-			infomation.add(new InfomationForm(updateInfo.get(i), contentMainList.get(i)));
-		}
-
-		infomation.sort(new Comparator<InfomationForm>(){
-			@Override
-			public int compare(InfomationForm i1, InfomationForm i2) {
-				return i2.getUpdateId().compareTo(i1.getUpdateId());
-			}
-		});
-
-		if (maxSize != -1 && infomation.size() > maxSize) {
-			infomation = infomation.subList(0, maxSize);
-		}
-
-		return infomation;
+		return null;
 	}
 }

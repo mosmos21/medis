@@ -1,0 +1,203 @@
+[
+    {
+        "blockId": "b0000000000",
+        "blockName": "固定テキスト",
+        "unique": false,
+        "wrapItem": null,
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": null,
+        "addItems": null
+    },
+    {
+        "blockId": "b0000000001",
+        "blockName": "テキスト",
+        "unique": false,
+        "wrapItem": null,
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": "document",
+        "addItems": [
+            {
+                "size": 1,
+                "templateType": "disabledText",
+                "documentType": "text",
+                "value": "ここに入力してください"
+            }
+        ]
+    },
+    {
+        "blockId": "b0000000002",
+        "blockName": "チェックボックス",
+        "unique": false,
+        "wrapItem": null,
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": "template",
+        "addItems": [
+            {
+                "size": 1,
+                "templateType": "checkbox",
+                "documentType": "checkbox",
+                "value": "ここに入力してください"
+            }
+        ]
+    },
+    {
+        "blockId": "b0000000003",
+        "blockName": "ラジオボタン",
+        "unique": false,
+        "wrapItem": null,
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": "template",
+        "addItems": [
+            {
+                "size": 1,
+                "templateType": "radio",
+                "documentType": "radio",
+                "value": "ここに入力してください"
+            }
+        ]
+    },
+    {
+        "blockId": "b0000000004",
+        "blockName": "セレクトボックス\n(プルダウン)",
+        "unique": false,
+        "wrapItem": "select",
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": "template",
+        "addItems": [
+            {
+                "size": 1,
+                "templateType": "text",
+                "documentType": "select",
+                "value": "ここに入力してください"
+            }
+        ]
+    },
+    {
+        "blockId": "b0000000005",
+        "blockName": "セレクトボックス\n(リスト)",
+        "unique": false,
+        "wrapItem": "selectList",
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": "template",
+        "addItems": [
+            {
+                "size": 1,
+                "templateType": "text",
+                "documentType": "selectList",
+                "value": "ここに入力してください"
+            }
+        ]
+    },
+    {
+        "blockId": "b0000000006",
+        "blockName": "テキスト+テキストエリア",
+        "unique": false,
+        "items": [
+            {
+                "size": 1,
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "size": 2,
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": "document",
+        "addItems": [
+            {
+                "size": 1,
+                "templateType": "disabledText",
+                "documentType": "text",
+                "value": "タイトル"
+            },
+            {
+                "size": 2,
+                "templateType": "disabledTextarea",
+                "documentType": "textarea",
+                "value": "説明文を入力してください。"
+            }
+        ]
+    }
+]

@@ -52,7 +52,6 @@ public class CommentLogic {
 			commentinfoform.firstName = userdetail.get(0).getFirstName();
 			commentinfoform.isIcon = userdetail.get(0).isIcon();
 			commentinfoform.isRead = comment.get(0).isRead();
-			commentinfoform.commentContent = comment.get(0).getCommentContent();
 			result.add(commentinfoform);
 			System.out.println(result);
 		}
