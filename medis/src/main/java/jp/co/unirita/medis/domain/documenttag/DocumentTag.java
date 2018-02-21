@@ -24,7 +24,7 @@ public class DocumentTag {
     @Size(min = 11, max = 11)
     private String tagId;
 
-	private boolean isFixed;
+	private boolean fixed;
 
     @Data
     public static class PK implements Serializable{

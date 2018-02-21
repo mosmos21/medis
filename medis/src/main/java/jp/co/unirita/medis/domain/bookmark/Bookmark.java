@@ -22,5 +22,5 @@ public class Bookmark {
 	@Size(min = 11, max = 11)
 	private String documentId;
 
-	private boolean isChoiced;
+	private boolean selected;
 }

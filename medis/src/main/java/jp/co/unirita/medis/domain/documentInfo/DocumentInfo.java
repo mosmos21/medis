@@ -26,5 +26,5 @@ public class DocumentInfo {
 
 	private Timestamp documentCreateDate;
 
-	private boolean isDocumentPublish;
+	private boolean documentPublish;
 }

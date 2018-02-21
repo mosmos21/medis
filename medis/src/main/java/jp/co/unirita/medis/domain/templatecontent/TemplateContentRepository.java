@@ -1,10 +1,9 @@
 package jp.co.unirita.medis.domain.templatecontent;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
+import java.util.List;
 
-@Repository
-public interface TemplateContentRepository extends JpaRepository<TemplateContent, String> {
-	String findByTemplateIdAndTemplateOrderAndLineNumber(Integer templateId, Integer templateOrder, Integer lineNumber);
+public interface TemplateContentRepository extends JpaRepository<TemplateContent, String>{
+    List<TemplateContent> findByTemplateIdOrderByContentOrder(String id);
 }

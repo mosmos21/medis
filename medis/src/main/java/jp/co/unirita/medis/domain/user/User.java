@@ -23,7 +23,7 @@ public class User implements UserDetails{
 	@Size(min = 11, max = 11)
 	private String authorityId;
 
-	private boolean isEnabled;
+	private boolean enabled;
 	
 	@Size(max = 256)
 	private String password;
@@ -55,6 +55,6 @@ public class User implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return this.isEnabled;
+        return this.enabled;
     }
 }

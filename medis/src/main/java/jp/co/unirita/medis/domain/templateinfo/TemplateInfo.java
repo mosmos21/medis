@@ -7,11 +7,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "template_info")
+@AllArgsConstructor
+@NoArgsConstructor
 public class TemplateInfo {
 
 	@Id
@@ -25,6 +29,6 @@ public class TemplateInfo {
 
 	private Timestamp templateCreateDate;
 
-	private boolean isTemplatePublish;
+	private boolean templatePublish;
 
 }

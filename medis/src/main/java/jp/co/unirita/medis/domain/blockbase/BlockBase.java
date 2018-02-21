@@ -5,22 +5,28 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
-@Entity
-@Table(name = "block_base")
+@AllArgsConstructor
+@NoArgsConstructor
 public class BlockBase {
 
 	@Id
 	@Size(min = 11, max = 11)
 	private String blockId;
 
-	private String blockBaseHtml;
-
-	private boolean isRquired;
-
-	private boolean Variable;
-
 	private String blockName;
+
+	private boolean unique;
+
+    private List<Item> items;
+
+    private String additionalType;
+
+    private List<Item> addItems;
 }

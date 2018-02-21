@@ -18,8 +18,5 @@ public class Box {
 	private String boxId;
 
 	@Size(max = 256)
-	private String boxLogicName;
-
-	@Size(max = 256)
 	private String boxName;
 }
