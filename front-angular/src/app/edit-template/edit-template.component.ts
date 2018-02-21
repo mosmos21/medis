@@ -5,6 +5,8 @@ import { DragulaService } from 'ng2-dragula';
 import { MatDialog } from '@angular/material';
 import { NavigationService } from '../services/navigation.service';
 
+import { MessageModalComponent } from '../message-modal/message-modal.component'
+
 @Component({
   selector: 'app-edit-template',
   templateUrl: './edit-template.component.html',
@@ -26,6 +28,8 @@ export class EditTemplateComponent implements OnInit {
   private selected_tags = [];
   private temp_tags = [];
   private seach_word = "";
+
+  private message = "";
 
   // タグ一覧
   private tags: any = [
@@ -214,6 +218,18 @@ export class EditTemplateComponent implements OnInit {
 
   submit(type): void {
     let dataJson = this.data2Json(type);
+
+    if(type == "save") {
+      this.message = "テンプレートを保存し、公開しました。"
+    } else {
+      this.message = "テンプレートを下書きとして保存しました。"
+    }
+
+    let dialogRef = this.dialog.open(MessageModalComponent, {
+      data: {
+        message: this.message
+      }
+    });
 
     dataJson["templateName"] = this.templateName;
     this.http.post(this.hostname + "template/" + this.templateId, dataJson).subscribe(
