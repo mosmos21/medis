@@ -135,3 +135,46 @@ box-shadow: 5px 5px 5px #999;
   height: 4em;
   line-height: 3em;
 }
+
+/* 検索 */
+.wrap_search_content {
+    width: 95%;
+    margin: 10px 4px;
+    padding: 1px;
+    
+}
+
+.wrap_search_content h2 {
+    text-align: center;
+}
+
+#search_box {
+    background: white;
+    margin-left: 2%;
+    padding: 10px;
+    width: 96%;
+    height: 220px;
+    border: 1px #999 solid;
+    border-radius: 15px;
+}
+
+#search_box input {
+    border: none;
+    outline: 0;
+    font-size: 12px;
+    height: 25px;
+}
+
+#search_tag_candidate {
+    background: white;
+    border: 1px #999 solid ;
+    margin-left: 10%;
+    width: 80%;
+    height: 300px;
+}
+
+/deep/.mat-tab-label{
+  min-width: 1px!important;
+  width: 99%;
+  padding: 0px;
+}

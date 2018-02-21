@@ -11,7 +11,7 @@ export class NavigationService {
     private router: Router,
     private route: ActivatedRoute,
   ) {
-    this.visible = false;
+    this.visible = true;
     this.isUser = true;
   }
 
