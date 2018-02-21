@@ -25,11 +25,13 @@ public class UserManagementLogic {
 	@Autowired
 	AuthorityRepository authorityRepository;
 
-	public List<UserManagementForm> loadUserManagement() {
+	public List<UserManagementForm> getUserManagement(int maxSize) {
 		List<UserManagementForm> formList = new ArrayList<UserManagementForm>();
 		UserManagementForm form = new UserManagementForm();
 		List<UserDetail> detail = userDetailRepository.findAll();
-		for(int i=0; i<detail.size(); i++){
+		int size = detail.size();
+		if(maxSize != -1 && maxSize < size) size = maxSize;
+		for(int i=0; i<size; i++){
 			form = new UserManagementForm();
 			form.setEmployeeNumber(detail.get(i).getEmployeeNumber());
 			form.setLastName(detail.get(i).getLastName());
@@ -39,8 +41,6 @@ public class UserManagementLogic {
 			form.setMailaddress(detail.get(i).getMailaddress());
 			form.setIcon(detail.get(i).isIcon());
 			User user = userRepository.findFirstByEmployeeNumber(form.getEmployeeNumber());
-			//Authority auth = authorityRepository.findFirstByAuthorityId(user.getAuthorityId());
-			//form.setAuthorityId(auth.getAuthorityType());
 			form.setAuthorityId(user.getAuthorityId());
 			form.setEnabled(user.isEnabled());
 			formList.add(form);
@@ -58,7 +58,7 @@ public class UserManagementLogic {
 		userRepository.saveAndFlush(user);
 	}
 
-	public void createUserManagement(UserManagementForm userManagementForm) throws ConflictException {
+	public void newUserManagement(UserManagementForm userManagementForm) throws ConflictException {
 		User check = userRepository.findFirstByEmployeeNumber(userManagementForm.getEmployeeNumber());
 		if (check != null) {
 			throw new ConflictException("employeeNumber", userManagementForm.getEmployeeNumber(),
