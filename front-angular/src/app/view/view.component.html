@@ -18,8 +18,7 @@
                             </div>
                             <hr>
                             <div class="block_body">
-                                <div *ngFor="let item of content.items;let i = index;" 
-                                    [class]="item.documentType == 'hidden'? '' : item.size > 1 ? 'block_item block_item_tall' : 'block_item'">
+                                <div *ngFor="let item of content.items;let i = index;" [class]="item.documentType == 'hidden'? '' : item.size > 1 ? 'block_item block_item_tall' : 'block_item'">
                                     <div [ngSwitch]="item.documentType">
                                         <div *ngSwitchCase="'span'">
                                             <span>{{ templateValues[content.id][i] }}</span>
@@ -31,11 +30,11 @@
                                             <span>{{ templateValues[content.id][i] }}</span>
                                         </div>
                                         <div *ngSwitchCase="'checkbox'">
-                                                {{ isChecked(content.id, i - content.offset) ? "■" : "□" }}
+                                            {{ isChecked(content.id, i - content.offset) ? "■" : "□" }}
                                             <span>{{ templateValues[content.id][i] }}</span>
                                         </div>
                                         <div *ngSwitchCase="'radio'">
-                                                {{ isChecked(content.id, i - content.offset) ? "●" : "○" }}
+                                            {{ isChecked(content.id, i - content.offset) ? "●" : "○" }}
                                             <span>{{ templateValues[content.id][i] }}</span>
                                         </div>
                                     </div>
@@ -69,22 +68,22 @@
     </div>
 </div>
 <div id="wrap_footer_content">
-        <div class="footer">
-            <div class="footer_area">
-                <div id="comment">
-                    <p>コメント</p>
-                    <textarea id="comment_input"></textarea>
+    <div class="footer">
+        <div class="footer_area">
+            <div id="comment">
+                <p>コメント</p>
+                <textarea id="comment_input"></textarea>
+            </div>
+            <div class="footer_botton">
+                <div class="footer_button_zoom">
+                    <button class="resize" value="-0.1">縮小</button>
+                    <button class="resize" value="0">元のサイズ</button>
+                    <button class="resize" value="0.1">拡大</button>
                 </div>
-                <div class="footer_botton">
-                    <div class="footer_button_zoom">
-                        <button class="resize" value = "-0.1">縮小</button>
-                        <button class="resize" value = "0">元のサイズ</button>
-                        <button class="resize" value = "0.1">拡大</button>
-                    </div>
-                    <div class="footer_button_send">
-                        <button class="send_comment">送信</button>
-                    </div>
+                <div class="footer_button_send">
+                    <button class="send_comment">送信</button>
                 </div>
             </div>
         </div>
     </div>
+</div>

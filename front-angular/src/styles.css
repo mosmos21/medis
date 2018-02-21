@@ -1,4 +1,4 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 * {
     margin: 0;
@@ -42,12 +42,18 @@
  }
  
  .main_content_header {
-    width: 99%;
+    width: 90%;
     height: 50px;
     line-height: 50px;
     margin: 10px;
+    margin-left: 5%;
  }
  
+ .main_content_header_text{
+     font-size: xx-large;
+     font-weight: bold;
+ }
+
  /* ここからリストボックス */
  .wrap_list_box {
     width: 90%;
