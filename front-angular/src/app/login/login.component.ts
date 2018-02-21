@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
       console.log(result);
       if (result) {
         this.message = 'パスワード再設定用メールを送信しました。'
-        this.http.post(this.hostname + "users/new", this.user).subscribe(
+        this.http.post(this.hostname + "accounts/usercheck", this.user).subscribe(
           /* postした時の操作があればここにかく */
         );
         let dialogRef = this.dialog.open(MessageModalComponent, {
