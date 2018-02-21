@@ -4,16 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { DragulaModule } from 'ng2-dragula';
 import { EditTemplateComponent } from './edit-template.component';
 import { EditTemplateRoutingModule } from './edit-template-routing.module';
-
-import {
-  MatDialogModule,
-  MatButtonModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatTabsModule,
-  MatCardModule,
-  MatIconModule
-} from '@angular/material';
+import { NavigationService } from '../services/navigation.service';
+import { MatButtonModule, MatFormFieldModule, MatInputModule, MatTabsModule, MatCardModule, MatIconModule, MatDialogModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -27,11 +19,11 @@ import {
     MatInputModule,
     MatTabsModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
   ],
   declarations: [
     EditTemplateComponent,
   ],
-  providers: []
+  providers: [NavigationService]
 })
 export class EditTemplateModule { }

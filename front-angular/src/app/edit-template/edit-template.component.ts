@@ -43,11 +43,11 @@ export class EditTemplateComponent implements OnInit {
     public dialog: MatDialog,
     private nav: NavigationService,
   ) {
+    this.nav.showAdminMenu();
+  }
 
-    this.showBlocks = true;
-    this.showTags = false;
-
-    dragulaService.setOptions("template-block", {
+  ngOnInit() {
+    this.dragulaService.setOptions("template-block", {
       copy: function (el: any, source: any) {
         return source.id === "template_block_list";
       },
@@ -56,7 +56,7 @@ export class EditTemplateComponent implements OnInit {
       }
     });
 
-    dragulaService.drop.subscribe((value) => {
+    this.dragulaService.drop.subscribe((value) => {
       let [e, el] = value.slice(1);
       let id = e.childNodes[1].id;
       if (id != '') {
@@ -65,9 +65,6 @@ export class EditTemplateComponent implements OnInit {
       }
     });
 
-  }
-
-  ngOnInit() {
     this.templateId = this.route.snapshot.paramMap.get('id');
 
     this.http.get(this.hostname + 'templates/blocks').subscribe(
@@ -198,8 +195,6 @@ export class EditTemplateComponent implements OnInit {
       data["templateId"] = this.templateId;
     }
 
-    data["templateName"] = "";
-
     var contents: any[] = [];
     for (let i = 0; i < this.contents.length; i++) {
       var content = {
@@ -231,19 +226,9 @@ export class EditTemplateComponent implements OnInit {
     );
   }
 
-  toggleBlockToTags() {
-    this.showBlocks = false;
-    this.showTags = true;
-  }
-
-  toggleTagsToBlocks() {
-    this.showBlocks = true;
-    this.showTags = false;
-  }
-
   addTags(event: any) {
     if (this.selected_tags.length < 4) {
-      var str = event.path[0].innerHTML;
+      var str = event.path[0].innerText;
       this.selected_tags.push(str);
       var i = this.temp_tags.length;
       while (i--) {
@@ -256,9 +241,11 @@ export class EditTemplateComponent implements OnInit {
   }
 
   deleteTags(event: any) {
-    var str = event.path[0].innerHTML;
+    var str = event.path[0].innerText;
     this.temp_tags.push(str);
     var idx = this.selected_tags.indexOf(str);
+    console.log(str);
+    console.log(idx);
     if (idx >= 0) {
       this.selected_tags.splice(idx, 1);
     }

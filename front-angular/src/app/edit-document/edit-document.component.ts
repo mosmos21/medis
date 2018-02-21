@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { DragulaService } from 'ng2-dragula';
 
 @Component({
   selector: 'app-edit-document',
@@ -20,13 +21,40 @@ export class EditDocumentComponent implements OnInit {
   public documentValues: { [key: string]: string[] } = {};
 
   private fixedtags: string[] = ["2018年度新人研修"];
-  private tags: string[] = ["プログラミング研修"];
+  private selected_tags = [];
+  private temp_tags = [];
+  private seach_word = "";
+  private tags: any = [
+    {
+      tagId: "",
+      tagName: ""
+    }
+  ];
 
   constructor(
     @Inject('hostname') private hostname: string,
     private http: HttpClient,
     private route: ActivatedRoute,
-  ) { }
+    private dragulaService: DragulaService,
+  ) {
+    dragulaService.setOptions("template-block", {
+      copy: function (el: any, source: any) {
+        return source.id === "template_block_list";
+      },
+      accepts: function (el: any, source: any) {
+        return source.id !== "template_block_list";
+      }
+    });
+
+    dragulaService.drop.subscribe((value) => {
+      let [e, el] = value.slice(1);
+      let id = e.childNodes[1].id;
+      if (id != '') {
+        e.remove();
+        this.addBlock(id);
+      }
+    });
+  }
 
   ngOnInit() {
     this.documentId = this.route.snapshot.paramMap.get('id');
@@ -55,6 +83,19 @@ export class EditDocumentComponent implements OnInit {
       },
       error => {
         this.blocks = error;
+      }
+    );
+
+    this.http.get(this.hostname + 'tags').subscribe(
+      json => {
+        this.tags = json;
+        var i = this.tags.length;
+        while (i--) {
+          this.temp_tags.push(this.tags[i]["tagName"]);
+        }
+      },
+      error => {
+        this.tags = error;
       }
     );
   }
@@ -112,10 +153,6 @@ export class EditDocumentComponent implements OnInit {
 
   isChecked(id: string, line: number): boolean {
     return this.documentValues[id][line] == "true";
-  }
-
-  clickDeleteTag(e: any): void {
-
   }
 
   clickAddItem(e: any): void {
@@ -215,5 +252,42 @@ export class EditDocumentComponent implements OnInit {
   submit(type: string): void {
     let data = this.data2Json(type);
     console.log(data);
+  }
+
+  //タグ系
+  addTags(event: any) {
+    if (this.selected_tags.length + this.fixedtags.length < 8) {
+      var str = event.path[0].innerText;
+      this.selected_tags.push(str);
+      var i = this.temp_tags.length;
+      while (i--) {
+        if (this.temp_tags[i] == str) {
+          this.temp_tags.splice(i, 1);
+        }
+      }
+    }
+    this.seach_word = "";
+  }
+
+  deleteTags(event: any) {
+    var str = event.path[0].innerText;
+    this.temp_tags.push(str);
+    var idx = this.selected_tags.indexOf(str);
+    if (idx >= 0) {
+      this.selected_tags.splice(idx, 1);
+    }
+  }
+
+  searchTag() {
+    var i = this.temp_tags.length;
+    var str = this.seach_word;
+    var target_tags: any = [];
+    while (i--) {
+      if (this.temp_tags[i].indexOf(str) > -1) {
+        var temp_str = this.temp_tags[i];
+        target_tags.push(temp_str);
+      }
+    }
+    return target_tags;
   }
 }
