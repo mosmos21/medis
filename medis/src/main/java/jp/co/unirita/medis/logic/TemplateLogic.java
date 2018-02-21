@@ -55,7 +55,6 @@ public class TemplateLogic {
     }
 
     public void save(TemplateForm templateForm, String employeeNumber) throws Exception{
-        // templateForm info
         String id = saveTemplateInfo(templateForm, employeeNumber);
         templateForm.setTemplateId(id);
 
@@ -78,11 +77,9 @@ public class TemplateLogic {
     }
 
     private void saveTemplateContent(String templateId, List<TemplateContentForm> contenets) {
-        int order = 1;
         for(TemplateContentForm content: contenets) {
-            templateContentRepository.save(new TemplateContent(templateId, order, content.getBlockId()));
-            saveContentItems(templateId, order, content.getItems());
-            order++;
+            templateContentRepository.save(new TemplateContent(templateId, content.getContentOrder(), content.getBlockId()));
+            saveContentItems(templateId, content.getContentOrder(), content.getItems());
         }
     }
 
@@ -97,26 +94,23 @@ public class TemplateLogic {
     private void updateTemplateContent(String templateId, List<TemplateContentForm> contents) {
         List<TemplateContent> oldContents = templateContentRepository.findByTemplateIdOrderByContentOrderAsc(templateId);
 
-        int order = 1;
         int common = Math.min(oldContents.size(), contents.size());
         for(TemplateContentForm content : contents){
-            if(common < order) {
+            if(common < content.getContentOrder()) {
                 break;
             }
-            templateContentRepository.save(new TemplateContent(templateId, order, content.getBlockId()));
-            updateContentItem(templateId, order, content.getItems());
-            order++;
+            templateContentRepository.save(new TemplateContent(templateId, content.getContentOrder(), content.getBlockId()));
+            updateContentItem(templateId, content.getContentOrder(), content.getItems());
         }
         if(oldContents.size() < contents.size()) {
-            List<TemplateContentForm> addContents = contents.subList(order-1, contents.size());
+            List<TemplateContentForm> addContents = contents.subList(common, contents.size());
             for(TemplateContentForm content: addContents) {
-                templateContentRepository.save(new TemplateContent(templateId, order, content.getBlockId()));
-                saveContentItems(templateId, order, content.getItems());
-                order++;
+                templateContentRepository.save(new TemplateContent(templateId, content.getContentOrder(), content.getBlockId()));
+                saveContentItems(templateId, content.getContentOrder(), content.getItems());
             }
         } else {
-            for(;order <= oldContents.size(); order++) {
-                templateContentRepository.delete(new TemplateContent.PK(templateId, order));
+            for(int i = common + 1;i <= oldContents.size(); i++) {
+                templateContentRepository.delete(new TemplateContent.PK(templateId, i));
             }
         }
     }
