@@ -31,7 +31,7 @@ public class TemplateItem {
     @Data
     public static class PK implements Serializable{
         private String templateId;
-        private int templateOrder;
+        private int contentOrder;
         private int lineNumber;
     }
 

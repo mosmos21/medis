@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TemplateItemRepository extends JpaRepository<TemplateItem, String> {
-	String findByTemplateIdAndContentOrderAndLineNumber(Integer templateId, Integer templateOrder, Integer lineNumber);
+	String findByTemplateIdAndContentOrderAndLineNumber(int templateId, int contentOrder, int lineNumber);
 }

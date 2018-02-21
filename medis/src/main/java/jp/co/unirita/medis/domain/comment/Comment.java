@@ -26,7 +26,7 @@ public class Comment {
 	@Size(max = 64)
 	private String employeeNumber;
 
-	private String commentContent;
+	private String value;
 
 	private boolean read;
 
