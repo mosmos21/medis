@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +24,7 @@ import jp.co.unirita.medis.util.exception.ConflictException;
 import jp.co.unirita.medis.util.exception.InvalidArgumentException;
 
 @RestController
-@RequestMapping("/system")
+@RequestMapping("v1/system")
 public class UserManagementController {
 
 	@Autowired
@@ -32,8 +33,9 @@ public class UserManagementController {
 	AuthorityRepository authorityRepository;
 
 	@RequestMapping(value = "users", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-	List<UserManagementForm> getUserManagement() {
-		List<UserManagementForm> info = userManagementLogic.loadUserManagement();
+	List<UserManagementForm> getUserManagement(@RequestParam(value = "size", required = false) Integer maxSize) {
+		if(maxSize == null) maxSize = -1;
+		List<UserManagementForm> info = userManagementLogic.getUserManagement(maxSize);
 		return info;
 	}
 
@@ -52,8 +54,8 @@ public class UserManagementController {
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "users/new", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	void createUserManagement(@RequestBody @Valid UserManagementForm postData, HttpServletRequest request,
+	void newUserManagement(@RequestBody @Valid UserManagementForm postData, HttpServletRequest request,
 			HttpServletResponse response) throws ConflictException {
-		userManagementLogic.createUserManagement(postData);
+		userManagementLogic.newUserManagement(postData);
 	}
 }
