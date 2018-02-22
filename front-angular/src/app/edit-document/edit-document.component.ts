@@ -12,6 +12,7 @@ export class EditDocumentComponent implements OnInit {
 
   private templateId: string = "";
   private documentId: string = "";
+  private documentName: string = "";
 
   public blocks: any;
   private contentBases: { [key: string]: any } = {};
@@ -58,7 +59,6 @@ export class EditDocumentComponent implements OnInit {
 
   ngOnInit() {
     this.documentId = this.route.snapshot.paramMap.get('id');
-    console.log(this.hostname + 'templates/blocks');
     this.http.get(this.hostname + 'templates/blocks').subscribe(
       json => {
         this.blocks = json;
@@ -133,6 +133,7 @@ export class EditDocumentComponent implements OnInit {
     this.http.get(this.hostname + 'documents/' + this.documentId).subscribe(
       json => {
         data = json;
+        this.documentName = data.documentName;
         this.assembleTemplate(data.templateId, () => {
           for (let i = 0; i < data.contents.length; i++) {
             let id = this.contents[i].id;
@@ -156,11 +157,11 @@ export class EditDocumentComponent implements OnInit {
   }
 
   clickAddItem(e: any): void {
-    this.addItem(e.path[4].id);
+    this.addItem(e.path[5].id);
   }
 
   clickRemoveItem(e: any): void {
-    this.removeItem(e.path[4].id);
+    this.removeItem(e.path[5].id);
   }
 
   clickRadio(id: string, line: number) {
@@ -179,10 +180,6 @@ export class EditDocumentComponent implements OnInit {
         this.documentValues[id][line] = e.target.checked ? "true" : "false";
       }
     }
-  }
-
-  deleteTag(target: string): void {
-
   }
 
   addBlock(id: string): string {
@@ -227,9 +224,10 @@ export class EditDocumentComponent implements OnInit {
   data2Json(type: string): any {
     var data = {
       templateId: this.templateId,
-      isPublish: type == "save"
+      documentName: this.documentName,
+      publish: type == "save"
     }
-    if (this.documentId.length > 0) {
+    if (this.documentId != "new") {
       data["documentId"] = this.documentId;
     }
 
@@ -250,8 +248,26 @@ export class EditDocumentComponent implements OnInit {
   }
 
   submit(type: string): void {
-    let data = this.data2Json(type);
-    console.log(data);
+    let dataJson = this.data2Json(type);
+    console.log(dataJson);
+    if(this.documentId == 'new'){
+      this.http.put(this.hostname + "documents/new", dataJson).subscribe(
+        json => {
+
+        },
+        error => {
+          // TODO
+        }
+      );
+    }else{
+      this.http.post(this.hostname + "documents/" + this.documentId, dataJson).subscribe(
+        json => {
+        },
+        error => {
+          // TODO
+        }
+      );
+    }
   }
 
   //タグ系

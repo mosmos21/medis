@@ -12,6 +12,7 @@ public interface DocumentInfoRepository extends JpaRepository<DocumentInfo, Stri
     List<DocumentInfo> findByEmployeeNumberOrderByDocumentCreateDateAsc(String employeeNumber);
     List<DocumentInfo> findByEmployeeNumberAndDocumentPublishOrderByDocumentCreateDateAsc(String employeeNumber, boolean documentPublish);
     Page<DocumentInfo> findByEmployeeNumber(String EmployeeNumber, Pageable pageble);
+    List<DocumentInfo> findByEmployeeNumber(String employeeNumber);
     List<DocumentInfo> findByDocumentId(String documentId);
     List<DocumentInfo> findByTemplateId(String templateId);
 }

@@ -70,8 +70,8 @@ public class TemplateLogic {
         String templateId = templateForm.getTemplateId() == null ?  createNewTemplateId() : templateForm.getTemplateId();
         String templateName = templateForm.getTemplateName();
         Timestamp templateCreateDate = new Timestamp(System.currentTimeMillis());
-        boolean isTemplatePublish = templateForm.isPublish();
-        TemplateInfo info = new TemplateInfo(templateId, employeeNumber, templateName, templateCreateDate, isTemplatePublish);
+        boolean templatePublish = templateForm.isPublish();
+        TemplateInfo info = new TemplateInfo(templateId, employeeNumber, templateName, templateCreateDate, templatePublish);
         templateInfoRepository.save(info);
         return info.getTemplateId();
     }

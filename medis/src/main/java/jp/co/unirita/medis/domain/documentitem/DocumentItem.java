@@ -6,7 +6,9 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -14,6 +16,8 @@ import java.io.Serializable;
 @Entity
 @IdClass(value = DocumentItem.PK.class)
 @Table(name = "document_item")
+@AllArgsConstructor
+@NoArgsConstructor
 public class DocumentItem {
 
 	@Id
@@ -29,6 +33,8 @@ public class DocumentItem {
 	private String value;
 
 	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
 	public static class PK implements Serializable {
 		private String documentId;
 		private int contentOrder;

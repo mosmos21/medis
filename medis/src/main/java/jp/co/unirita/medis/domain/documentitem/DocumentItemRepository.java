@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DocumentItemRepository extends JpaRepository<DocumentItem, String>{
-	List<DocumentItem> findByDocumentIdAndContentOrderAndLineNumber(String documentId, Integer contentOrder, Integer lineNumber);
+public interface DocumentItemRepository extends JpaRepository<DocumentItem, DocumentItem.PK>{
+	List<DocumentItem> findByDocumentIdOrderByContentOrderAscLineNumberAsc(String documentId);
 }

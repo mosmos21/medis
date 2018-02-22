@@ -6,6 +6,9 @@
             </div>
             <hr />
             <div id="edit_template_body" class="content_scroll_y">
+                <mat-form-field id="document_name">
+                    <input matInput [(ngModel)]="documentName" name="documentName" placeholder="ドキュメント名">
+                </mat-form-field>
                 <div id="template_plate">
                     <h3>タグ</h3>
                     <div id="wrap_tag_list">
