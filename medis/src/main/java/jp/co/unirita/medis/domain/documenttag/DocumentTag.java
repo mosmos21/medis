@@ -8,12 +8,16 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @IdClass(value = DocumentTag.PK.class)
 @Table(name = "document_tag")
+@AllArgsConstructor
+@NoArgsConstructor
 public class DocumentTag {
 
     @Id
@@ -21,14 +25,16 @@ public class DocumentTag {
     private String documentId;
 
     @Id
+    private int tagOrder;
+
     @Size(min = 11, max = 11)
     private String tagId;
 
-	private boolean fixed;
-
     @Data
-    public static class PK implements Serializable{
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class PK {
         private String documentId;
-        private String tagId;
+        private int tagOrder;
     }
 }

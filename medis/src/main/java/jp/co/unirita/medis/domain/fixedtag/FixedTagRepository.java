@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FixedTagRepository extends JpaRepository<FixedTag, String> {
-	List<FixedTag> findByTagId(String tagId);
+public interface FixedTagRepository extends JpaRepository<TemplateTag, String> {
+	List<TemplateTag> findByTagId(String tagId);
 }
