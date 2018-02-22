@@ -70,11 +70,13 @@ public class CommentLogic {
 
         comment.setCommentId(commentId);
         comment.setDocumentId(documentId);
+      /*
         if(flug) {
             comment.setRead(false);
         }else {
+        */
             comment.setRead(true);
-        }
+      //  }
 
         commentRepository.saveAndFlush(comment);
     }
