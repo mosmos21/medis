@@ -13,7 +13,7 @@ import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.UserManagementForm;
 import jp.co.unirita.medis.util.exception.ConflictException;
-import jp.co.unirita.medis.util.exception.InvalidArgumentException;
+import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @Service
 public class UserManagementLogic {
@@ -48,10 +48,10 @@ public class UserManagementLogic {
 		return formList;
 	}
 
-	public void updateUserManagement(UserManagementForm userManagementForm) throws InvalidArgumentException {
+	public void updateUserManagement(UserManagementForm userManagementForm) throws InvalidArgsException {
 		User user = userRepository.findFirstByEmployeeNumber(userManagementForm.getEmployeeNumber());
 		if (user == null) {
-			throw new InvalidArgumentException("employeeNumber", userManagementForm.getEmployeeNumber(), "指定したIDのユーザは存在しません。");
+			throw new InvalidArgsException("employeeNumber", userManagementForm.getEmployeeNumber(), "指定したIDのユーザは存在しません。");
 		}
 		user.setEnabled(userManagementForm.Enabled);
 		user.setAuthorityId(userManagementForm.getAuthorityId());

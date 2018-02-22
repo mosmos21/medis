@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.logic.SearchLogic;
-import jp.co.unirita.medis.util.exception.InvalidArgumentException;
+import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @RequestMapping("/v1/search")
 
@@ -28,7 +28,7 @@ public class SearchController {
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfo> getSearchResultList(
-			@AuthenticationPrincipal User user, @RequestParam(value = "tags", required = false) String tagName) throws InvalidArgumentException, UnsupportedEncodingException {
+			@AuthenticationPrincipal User user, @RequestParam(value = "tags", required = false) String tagName) throws InvalidArgsException, UnsupportedEncodingException {
 
 		return searchLogic.getSearchResultList(tagName);
 
