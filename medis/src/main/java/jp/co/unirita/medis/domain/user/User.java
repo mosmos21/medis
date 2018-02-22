@@ -1,15 +1,16 @@
 package jp.co.unirita.medis.domain.user;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import lombok.Data;
 
 @Data
 @Entity
@@ -23,8 +24,8 @@ public class User implements UserDetails{
 	@Size(min = 11, max = 11)
 	private String authorityId;
 
-	private boolean enabled;
-	
+	private boolean isEnabled;
+
 	@Size(max = 256)
 	private String password;
 
@@ -55,6 +56,6 @@ public class User implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return this.isEnabled;
     }
 }

@@ -18,6 +18,7 @@ public class TempkeyInfo {
 	@Size(max = 64)
 	private String employeeNumber;
 
+	@Id
 	@Size(min = 32, max = 32)
 	private String tempKey;
 
