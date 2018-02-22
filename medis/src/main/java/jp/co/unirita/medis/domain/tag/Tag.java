@@ -8,12 +8,14 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
 @Table(name = "tag")
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Tag {
 
 	@Id

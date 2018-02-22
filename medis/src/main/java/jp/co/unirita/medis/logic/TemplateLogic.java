@@ -1,19 +1,21 @@
 package jp.co.unirita.medis.logic;
 
+import jp.co.unirita.medis.domain.tag.Tag;
+import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.domain.templatecontent.TemplateContent;
 import jp.co.unirita.medis.domain.templatecontent.TemplateContentRepository;
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfoRepository;
 import jp.co.unirita.medis.domain.templateitem.TemplateItem;
 import jp.co.unirita.medis.domain.templateitem.TemplateItemRepository;
+import jp.co.unirita.medis.domain.templatetag.TemplateTag;
+import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.form.template.TemplateContentForm;
 import jp.co.unirita.medis.form.template.TemplateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
-import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +27,26 @@ public class TemplateLogic {
     @Autowired
     TemplateInfoRepository templateInfoRepository;
     @Autowired
+    TagRepository tagRepository;
+    @Autowired
+    TemplateTagRepository templateTagRepository;
+    @Autowired
     TemplateContentRepository templateContentRepository;
     @Autowired
     TemplateItemRepository templateItemRepository;
+
+    @Autowired
+    TagLogic tagLogic;
+
+    public List<Tag> getTemplateTags(String id) {
+        System.out.println("get fix tag[templateId = " + id + "]");
+        List<TemplateTag> templateTagList = templateTagRepository.findByTemplateIdOrderByTagOrderAsc(id);
+        List<Tag> tags = new ArrayList<>();
+        for(TemplateTag t: templateTagList){
+            tags.add(tagRepository.findByTagId(t.getTagId()));
+        }
+        return tags;
+    }
 
     public TemplateForm getTemplate(String id) {
         TemplateForm template = new TemplateForm();
@@ -61,9 +80,45 @@ public class TemplateLogic {
         saveTemplateContent(id, templateForm.getContents());
     }
 
+    public void saveTags(String templateId, List<Tag> tags) throws  Exception{
+        int order = 1;
+        for(Tag tag : tags) {
+            if(tag.getTagId() == null) {
+                tag.setTagId(tagLogic.getNewTagId());
+            }
+            templateTagRepository.save(new TemplateTag(templateId, order, tag.getTagId()));
+            order++;
+        }
+    }
+
     public void update(TemplateForm templateForm, String employeeNumber) throws Exception {
         saveTemplateInfo(templateForm, employeeNumber);
         updateTemplateContent(templateForm.getTemplateId(), templateForm.getContents());
+    }
+
+    public void updateTags(String tempalateId, List<Tag> tags) {
+        List<TemplateTag> oldTags = templateTagRepository.findByTemplateIdOrderByTagOrderAsc(tempalateId);
+
+        int common = Math.min(oldTags.size(), tags.size());
+        int order = 1;
+        for(Tag tag: tags) {
+            if(common < order){
+                break;
+            }
+            templateTagRepository.save(new TemplateTag(tempalateId, order, tag.getTagId()));
+            order++;
+        }
+        if(oldTags.size() < tags.size()) {
+            List<Tag> addTags = tags.subList(common, tags.size());
+            for(Tag tag: addTags) {
+                templateTagRepository.save(new TemplateTag(tempalateId, order, tag.getTagId()));
+                order++;
+            }
+        } else {
+            for(;order <= oldTags.size(); order++) {
+                templateTagRepository.delete(new TemplateTag.PK(tempalateId, order));
+            }
+        }
     }
 
     private String saveTemplateInfo(TemplateForm templateForm, String employeeNumber) throws Exception {

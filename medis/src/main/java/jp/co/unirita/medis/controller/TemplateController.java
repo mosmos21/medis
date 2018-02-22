@@ -2,6 +2,7 @@ package jp.co.unirita.medis.controller;
 
 import jp.co.unirita.medis.domain.blockbase.BlockBase;
 
+import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.form.template.TemplateForm;
 import jp.co.unirita.medis.logic.BlockLogic;
 import jp.co.unirita.medis.logic.TemplateLogic;
@@ -39,6 +40,12 @@ public class TemplateController {
         return template;
     }
 
+    @GetMapping(value = "{templateId:^t[0-9]{10}+$}/tags")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Tag> getTemplateTagList(@PathVariable(value ="templateId") String templateId){
+        return templateLogic.getTemplateTags(templateId);
+    }
+
     @PostMapping(value = "{templateId:^t[0-9]{10}+$}")
     @ResponseStatus(HttpStatus.CREATED)
     public TemplateForm updateTemplate(@RequestBody TemplateForm template) throws Exception {
@@ -47,11 +54,23 @@ public class TemplateController {
         return template;
     }
 
+    @PostMapping(value = "{templateId:^t[0-9]{10}+$}/tags")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateTemplateTagList(@PathVariable String templateId, @RequestBody List<Tag> tags) throws Exception {
+        templateLogic.updateTags(templateId, tags);
+    }
+
     @PutMapping(value = "new")
     @ResponseStatus(HttpStatus.CREATED)
-    public TemplateForm createTemplate(@RequestBody TemplateForm template) throws Exception{
+    public TemplateForm saveTemplate(@RequestBody TemplateForm template) throws Exception{
         // TODO 社員番号を取得するようにする
         templateLogic.save(template, "99999");
         return template;
+    }
+
+    @PutMapping(value = "{templateId:^t[0-9]{10}+$}/tags")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveTemplateTagList(@PathVariable String templateId, @RequestBody List<Tag> tags) throws Exception {
+        templateLogic.saveTags(templateId, tags);
     }
 }

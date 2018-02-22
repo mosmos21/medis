@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @Entity
 @IdClass(value = TemplateTag.PK.class)
@@ -28,7 +30,10 @@ public class TemplateTag {
 	@Size(min = 11, max = 11)
 	private String tagId;
 
-	public static class PK {
+	@Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+	public static class PK implements Serializable {
 	    private String templateId;
 	    private int tagOrder;
     }

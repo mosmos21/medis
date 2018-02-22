@@ -33,7 +33,7 @@ public class DocumentTag {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class PK {
+    public static class PK implements Serializable {
         private String documentId;
         private int tagOrder;
     }

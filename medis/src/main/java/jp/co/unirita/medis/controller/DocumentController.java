@@ -3,6 +3,7 @@ package jp.co.unirita.medis.controller;
 import java.util.List;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
+import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.DocumentLogic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,23 +47,39 @@ public class DocumentController {
         return document;
     }
 
+    @GetMapping(value = "{documentId:^d[0-9]{10}+$}/tags")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Tag> getDocumentTagList(@PathVariable(value ="documentId") String documentId) {
+        return documentLogic.getDocumentTags(documentId);
+    }
+
     @PostMapping(value = "{documentId:^d[0-9]{10}+$}")
     @ResponseStatus(HttpStatus.CREATED)
-    public DocumentForm updatedocument(@RequestBody DocumentForm document) throws Exception {
+    public DocumentForm updateDocument(@RequestBody DocumentForm document) throws Exception {
         // TODO 社員番号を確認
         documentLogic.update(document, "99999");
         return document;
     }
 
+    @PostMapping(value = "{documentId:^d[0-9]{10}+$}/tags")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateDocumentTagList(@PathVariable(value = "documentId") String documentId, @RequestBody List<Tag> tags) throws Exception {
+        documentLogic.updateTags(documentId, tags);
+    }
+
     @PutMapping(value = "new")
     @ResponseStatus(HttpStatus.CREATED)
-    public DocumentForm createdocument(@RequestBody DocumentForm document) throws Exception{
+    public DocumentForm saveDocument(@RequestBody DocumentForm document) throws Exception{
         // TODO 社員番号を取得するようにする
         documentLogic.save(document, "99999");
         return document;
     }
-	
-	
+
+    @PutMapping(value = "{documentId:^d[0-9]{10}+$}/tags")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveDocumentTagList(@PathVariable(value = "documentId") String documentId, @RequestBody List<Tag> tags) throws Exception {
+        documentLogic.saveTags(documentId, tags);
+    }
 }
 
 
