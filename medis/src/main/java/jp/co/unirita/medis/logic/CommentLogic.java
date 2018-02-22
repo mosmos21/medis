@@ -61,24 +61,22 @@ public class CommentLogic {
 
 	}
 
-    public void alreadyRead(String documentId, String commentId) {
-        List<Comment>commentList=commentRepository.findByCommentId(commentId);
+	public void alreadyRead(String documentId, String commentId) {
+		List<Comment> commentList = commentRepository.findByCommentId(commentId);
 
-        boolean flug =commentList.get(0).isRead();
+		//boolean flug = commentList.get(0).isRead();
 
-        Comment comment =new Comment();
+		Comment comment = new Comment();
 
-        comment.setCommentId(commentId);
-        comment.setDocumentId(documentId);
-      /*
-        if(flug) {
-            comment.setRead(false);
-        }else {
-        */
-            comment.setRead(true);
-      //  }
+		comment.setCommentId(commentId);
+		comment.setDocumentId(documentId);
+		/*
+		 * if(flug) { comment.setRead(false); }else {
+		 */
+		comment.setRead(true);
+		// }
 
-        commentRepository.saveAndFlush(comment);
-    }
+		commentRepository.saveAndFlush(comment);
+	}
 
 }
