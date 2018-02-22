@@ -16,10 +16,10 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.documenttag.DocumentTag;
 import jp.co.unirita.medis.domain.documenttag.DocumentTagRepository;
-import jp.co.unirita.medis.domain.templatetag.FixedTag;
-import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
+import jp.co.unirita.medis.domain.templatetag.TemplateTag;
+import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 
 @Service
 @Transactional
@@ -57,15 +57,15 @@ public class MonitoringLogic {
 		}
 
 		//テンプレートについているタグが付いている文書の一覧
-		List<FixedTag> fixedTag = new ArrayList<>();
+		List<TemplateTag> templateTag = new ArrayList<>();
 
 		for (int i = 0; i < tagIdList.size(); i++) {
-			fixedTag.addAll(templateTagRepository.findByTagId(tagIdList.get(i)));
+			templateTag.addAll(templateTagRepository.findByTagId(tagIdList.get(i)));
 		}
 
 		List<String> templateList = new ArrayList<>();
 
-		for (FixedTag tempId : fixedTag) {
+		for (TemplateTag tempId : templateTag) {
 			templateList.add(tempId.getTemplateId());
 		}
 

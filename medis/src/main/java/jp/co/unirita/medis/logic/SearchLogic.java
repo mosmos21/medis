@@ -19,10 +19,10 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.documenttag.DocumentTag;
 import jp.co.unirita.medis.domain.documenttag.DocumentTagRepository;
-import jp.co.unirita.medis.domain.templatetag.TemplateTag;
-import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.tag.TagRepository;
+import jp.co.unirita.medis.domain.templatetag.TemplateTag;
+import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 
 @Service
@@ -75,15 +75,15 @@ public class SearchLogic {
 		}
 
 		//テンプレートについているタグが付いている文書の一覧
-		List<TemplateTag> fixedTag = new ArrayList<>();
+		List<TemplateTag> templateTag = new ArrayList<>();
 
 		for (int i = 0; i < tagList.size(); i++) {
-			fixedTag.addAll(templateTagRepository.findByTagId(tagIdList.get(i)));
+			templateTag.addAll(templateTagRepository.findByTagId(tagIdList.get(i)));
 		}
 
 		List<String> templateList = new ArrayList<>();
 
-		for (TemplateTag tempId : fixedTag) {
+		for (TemplateTag tempId : templateTag) {
 			templateList.add(tempId.getTemplateId());
 		}
 

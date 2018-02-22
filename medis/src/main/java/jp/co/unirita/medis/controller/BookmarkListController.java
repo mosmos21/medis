@@ -7,11 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
@@ -28,6 +30,7 @@ public class BookmarkListController {
 	private BookmarkLogic bookmarkLogic;
 
 	@RequestMapping(path = {"{user}/bookmark"}, method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfo> getBookmarkList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
 		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgumentException {
@@ -40,6 +43,7 @@ public class BookmarkListController {
 	}
 
 	@RequestMapping(path = {"{user}/bookmark/{documentId}"}, method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
 	public void updateBookmark(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
 		@PathVariable(value = "documentId") String documentId, @Valid HttpServletRequest request,

@@ -27,7 +27,7 @@ public class DocumentListLogic {
 
 		if (!user.getEmployeeNumber().equals(employeeNumber)) {
 			System.out.println(user.getEmployeeNumber() + " " + employeeNumber);
-			throw new InvalidArgumentException("employeeNumber", employeeNumber, "他ユーザのすべてのドキュメント一覧は取得することができません");
+			throw new InvalidArgumentException("employeeNumber", employeeNumber, "他ユーザのドキュメント一覧は取得することができません");
 		}
 
 		List<DocumentInfo> documentInfo = new ArrayList<>();

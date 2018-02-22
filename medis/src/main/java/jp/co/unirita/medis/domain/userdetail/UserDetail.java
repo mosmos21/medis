@@ -46,7 +46,7 @@ public class UserDetail {
 	@Email(message = "メールアドレスの入力に誤りがあります。")
 	private String mailaddress;
 
-	private boolean isIcon;
+	private boolean icon;
 
 
 }

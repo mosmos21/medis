@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
@@ -37,6 +38,7 @@ public class DocumentListController {
     }
 
 	@RequestMapping({ "{user}", "{user}/{type}"})
+	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfo> getDocumentList(@AuthenticationPrincipal User user,
 			@PathVariable(value = "user") String employeeNumber,
 			@PathVariable(value = "type", required = false) String publishType,
