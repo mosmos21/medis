@@ -19,6 +19,9 @@ public class DocumentInfo {
 	private String documentId;
 
 	@Size(max = 64)
+	private String documentName;
+
+	@Size(max = 64)
 	private String employeeNumber;
 
 	@Size(min = 11, max = 11)
