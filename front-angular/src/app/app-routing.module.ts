@@ -15,6 +15,7 @@ import { ConfigTopComponent } from './config-top/config-top.component';
 import { ConfigUserComponent } from './config-user/config-user.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { PageNotFoundComponent } from './error/page-not-found.component'
+import { NewPasswordComponent } from './new-password/new-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'top', pathMatch: 'full' },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'settings/me/toppage', component: ConfigTopComponent },
   { path: 'settings/me/monitoring_tags', component: ConfigSurveillanceComponent },
   { path: 'search', component: SearchResultComponent },
+  { path: 'resetpass', component: NewPasswordComponent },
   { path: '**', component:PageNotFoundComponent },
 ];
 

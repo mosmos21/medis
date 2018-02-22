@@ -24,9 +24,9 @@ public class NotificationConfig {
 	@Size(min = 11, max = 11)
 	private String tagId;
 
-	private boolean isMailNotification = true;
+	private boolean MailNotification = true;
 
-	private boolean isBrowserNotification = true;
+	private boolean BrowserNotification = true;
 
     @Data
     public static class PK implements Serializable{
