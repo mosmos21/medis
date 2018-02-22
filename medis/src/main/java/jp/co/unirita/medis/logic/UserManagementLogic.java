@@ -36,7 +36,7 @@ public class UserManagementLogic {
 			form.setEmployeeNumber(detail.get(i).getEmployeeNumber());
 			form.setLastName(detail.get(i).getLastName());
 			form.setFirstName(detail.get(i).getFirstName());
-			form.setLastNamePhonetic(detail.get(i).getLastNmaePhonetic());
+			form.setLastNamePhonetic(detail.get(i).getLastNamePhonetic());
 			form.setFirstNmaePhonetic(detail.get(i).getFirstNamePhonetic());
 			form.setMailaddress(detail.get(i).getMailaddress());
 			form.setIcon(detail.get(i).isIcon());
@@ -70,7 +70,7 @@ public class UserManagementLogic {
 		detail.setEmployeeNumber(userManagementForm.getEmployeeNumber());
 		detail.setLastName(userManagementForm.getLastName());
 		detail.setFirstName(userManagementForm.getFirstName());
-		detail.setLastNmaePhonetic(userManagementForm.getLastNamePhonetic());
+		detail.setLastNamePhonetic(userManagementForm.getLastNamePhonetic());
 		detail.setFirstNamePhonetic(userManagementForm.getFirstNmaePhonetic());
 		detail.setMailaddress(userManagementForm.getMailaddress());
 		detail.setIcon(userManagementForm.Icon);
