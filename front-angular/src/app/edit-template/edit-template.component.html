@@ -74,7 +74,7 @@
         </div>
         <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
             <div id="wrap_template_toolbar_content">
-                <mat-tab-group class="edit-template-tab">
+                <mat-tab-group class="edit_template_tab">
                     <mat-tab label="ブロック" id="tag_label">
                         <div id="template_block_list" class="content_scroll_y" [dragula]='"template-block"'>
                             <!-- テンプレートリスト -->
@@ -89,7 +89,7 @@
                         <div id="menu_search_content" class="menu_content">
                             <div *ngIf="selected_tags.length < 8">
                                 <mat-form-field>
-                                    <input matInput placeholder="Tag Name" value="" [(ngModel)]="seach_word">
+                                    <input matInput placeholder="Tag Name" value="" [(ngModel)]="search_word">
                                 </mat-form-field>
                             </div>
 
@@ -97,7 +97,7 @@
                             <div class="wrap_search_content">
                                 <div id="search_tag_candidate" class="content_scroll_y">
                                     <div *ngFor="let tag of searchTag()">
-                                        <div class="tag_base tag_middle" (click)="addTags($event)">{{tag}}</div>
+                                        <div class="tag_base tag_middle" (click)="addTags($event)">{{ tag.tagName }}</div>
                                     </div>
                                 </div>
                             </div>

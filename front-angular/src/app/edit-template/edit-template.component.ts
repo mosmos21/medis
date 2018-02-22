@@ -27,7 +27,7 @@ export class EditTemplateComponent implements OnInit {
 
   private selected_tags = [];
   private temp_tags = [];
-  private seach_word = "";
+  private search_word = "";
 
   private message = "";
 
@@ -98,7 +98,7 @@ export class EditTemplateComponent implements OnInit {
         this.tags = json;
         var i = this.tags.length;
         while (i--) {
-          this.temp_tags.push(this.tags[i]["tagName"]);
+          this.temp_tags.push(this.tags[i]);
         }
       },
       error => {
@@ -262,18 +262,25 @@ export class EditTemplateComponent implements OnInit {
       var str = event.path[0].innerText;
       this.selected_tags.push(str);
       var i = this.temp_tags.length;
+      console.log(str);
       while (i--) {
-        if (this.temp_tags[i] == str) {
+        if (this.temp_tags[i]["tagName"] == str) {
           this.temp_tags.splice(i, 1);
         }
       }
     }
-    this.seach_word = "";
+    this.search_word = "";
   }
 
   deleteTags(event: any) {
     var str = event.path[0].innerText;
-    this.temp_tags.push(str);
+    var i = this.tags.length;
+    var bool = false;
+    while(i--) {
+      if(this.tags[i]["tagName"] == str) {
+        this.temp_tags.push(this.tags[i]);
+      }
+    }
     var idx = this.selected_tags.indexOf(str);
     console.log(str);
     console.log(idx);
@@ -284,14 +291,31 @@ export class EditTemplateComponent implements OnInit {
 
   searchTag() {
     var i = this.temp_tags.length;
-    var str = this.seach_word;
+    var j = this.selected_tags.length;
+    var str = this.search_word;
+    var bool = true;
     var target_tags: any = [];
     while (i--) {
-      if (this.temp_tags[i].indexOf(str) > -1) {
-        var temp_str = this.temp_tags[i];
-        target_tags.push(temp_str);
+      if(this.temp_tags[i]["tagName"] == str) {
+        bool = false;
+      }
+      if(this.temp_tags[i]["tagName"].indexOf(str) > -1) {
+        target_tags.push(this.temp_tags[i]);
       }
     }
+    while (j--) {
+      if(str == this.selected_tags[j]) {
+        bool = false;
+      }
+    }
+    /*
+    if(str != "" && bool) {
+      target_tags.unshift({
+        tagId: "",
+        tagName: str,
+      });
+    }
+    */
     return target_tags;
   }
 }

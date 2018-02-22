@@ -27,7 +27,7 @@
  }
  
  #wrap_main_content {
-    height: 100%;
+    height: calc(100vh - 64px);
     background: #eee;
     color: black;
     z-index: 1;
