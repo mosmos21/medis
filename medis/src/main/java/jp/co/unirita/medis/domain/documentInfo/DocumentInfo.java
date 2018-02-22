@@ -31,8 +31,6 @@ public class DocumentInfo {
 	@Size(min = 11, max = 11)
 	private String templateId;
 
-	private String documentName;
-
 	private Timestamp documentCreateDate;
 
 	private boolean documentPublish;

@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.domain.fixedtag;
+package jp.co.unirita.medis.domain.templatetag;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -6,7 +6,6 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import jp.co.unirita.medis.domain.templateitem.TemplateItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

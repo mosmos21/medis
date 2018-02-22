@@ -16,8 +16,8 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.documenttag.DocumentTag;
 import jp.co.unirita.medis.domain.documenttag.DocumentTagRepository;
-import jp.co.unirita.medis.domain.fixedtag.FixedTag;
-import jp.co.unirita.medis.domain.fixedtag.FixedTagRepository;
+import jp.co.unirita.medis.domain.templatetag.FixedTag;
+import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
 
@@ -30,7 +30,7 @@ public class MonitoringLogic {
 	@Autowired
 	DocumentTagRepository documentTagRepository;
 	@Autowired
-	FixedTagRepository fixedTagRepository;
+	TemplateTagRepository templateTagRepository;
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 
@@ -60,7 +60,7 @@ public class MonitoringLogic {
 		List<FixedTag> fixedTag = new ArrayList<>();
 
 		for (int i = 0; i < tagIdList.size(); i++) {
-			fixedTag.addAll(fixedTagRepository.findByTagId(tagIdList.get(i)));
+			fixedTag.addAll(templateTagRepository.findByTagId(tagIdList.get(i)));
 		}
 
 		List<String> templateList = new ArrayList<>();

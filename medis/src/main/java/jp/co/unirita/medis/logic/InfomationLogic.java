@@ -16,8 +16,8 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.documenttag.DocumentTag;
 import jp.co.unirita.medis.domain.documenttag.DocumentTagRepository;
-import jp.co.unirita.medis.domain.fixedtag.FixedTag;
-import jp.co.unirita.medis.domain.fixedtag.FixedTagRepository;
+import jp.co.unirita.medis.domain.templatetag.TemplateTag;
+import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
@@ -33,7 +33,7 @@ public class InfomationLogic {
 	@Autowired
 	DocumentTagRepository documentTagRepository;
 	@Autowired
-	FixedTagRepository fixedTagRepository;
+	TemplateTagRepository templateTagRepository;
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 	@Autowired
@@ -63,15 +63,15 @@ public class InfomationLogic {
 		}
 
 		//テンプレートについているタグが付いている文書の一覧
-		List<FixedTag> fixedTag = new ArrayList<>();
+		List<TemplateTag> fixedTag = new ArrayList<>();
 
 		for (int i = 0; i < tagIdList.size(); i++) {
-			fixedTag.addAll(fixedTagRepository.findByTagId(tagIdList.get(i)));
+			fixedTag.addAll(templateTagRepository.findByTagId(tagIdList.get(i)));
 		}
 
 		List<String> templateList = new ArrayList<>();
 
-		for (FixedTag tempId : fixedTag) {
+		for (TemplateTag tempId : fixedTag) {
 			templateList.add(tempId.getTemplateId());
 		}
 
