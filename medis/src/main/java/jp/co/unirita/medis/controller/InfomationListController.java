@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.InfomationForm;
+import jp.co.unirita.medis.logic.ArgumentCheckLogic;
 import jp.co.unirita.medis.logic.InfomationLogic;
 import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
@@ -25,17 +26,25 @@ public class InfomationListController {
 
 	@Autowired
 	private InfomationLogic infomationLogic;
+	@Autowired
+	ArgumentCheckLogic argumentCheckLogic;
 
-	@RequestMapping(path = {"{user}", "{user}/{lastUpdateId}"}, method = RequestMethod.GET)
+	@RequestMapping(path = {"{user}", "{user}/{lastUpdateId:^u[0-9]{10}+$}"}, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public  List<InfomationForm> getInfomationList(
-		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
-		@PathVariable(value = "lastUpdateId", required = false) String updateId, @RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgsException {
+		@AuthenticationPrincipal User user,
+		@PathVariable(value = "user") String employeeNumber,
+		@PathVariable(value = "lastUpdateId", required = false) String updateId,
+		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgsException {
+
+		argumentCheckLogic.userCheck(user, employeeNumber, "更新情報一覧");
+
+		argumentCheckLogic.lastUpdateIdCheck(updateId);
 
 		if (maxSize == null) {
 			maxSize = -1;
 		}
-		return infomationLogic.getInfomationList(employeeNumber, updateId, maxSize);
 
+		return infomationLogic.getInfomationList(employeeNumber, updateId, maxSize);
 	}
 }

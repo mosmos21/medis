@@ -47,7 +47,7 @@ public class DocumentListController {
 			@PathVariable(value = "type", required = false) String publishType,
 			@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgsException {
 
-		argumentCheckLogic.userCheck(user, employeeNumber);
+		argumentCheckLogic.userCheck(user, employeeNumber, "ドキュメント一覧");
 
 		if (publishType == null ) {
 			publishType = "all";
