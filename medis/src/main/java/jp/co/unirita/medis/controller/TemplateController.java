@@ -1,6 +1,6 @@
 package jp.co.unirita.medis.controller;
 
-import jp.co.unirita.medis.domain.blockbase.BlockBase;
+import jp.co.unirita.medis.form.blockbase.BlockBaseForm;
 
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.form.template.TemplateForm;
@@ -24,7 +24,7 @@ public class TemplateController {
 
     @GetMapping(value = "blocks")
     @ResponseStatus(HttpStatus.OK)
-    public List<BlockBase> getBlockList(){
+    public List<BlockBaseForm> getBlockList(){
         return blockLogic.getBlockList();
     }
 
