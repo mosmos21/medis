@@ -6,34 +6,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.logic.DocumentListLogic;
+import jp.co.unirita.medis.logic.MonitoringLogic;
 import jp.co.unirita.medis.util.exception.InvalidArgumentException;
 
-@RestController
 @RequestMapping("/v1/documents")
-public class DocumentListController {
+
+@RestController
+public class MonitoringListController {
 
 	@Autowired
-	DocumentListLogic documentListLogic;
+	private MonitoringLogic monitoringLogic;
 
-	@RequestMapping({ "{user}", "{user}/{type}"})
-	public List<DocumentInfo> getDocumentList(@AuthenticationPrincipal User user,
-			@PathVariable(value = "user") String employeeNumber,
-			@PathVariable(value = "type", required = false) String publishType,
-			@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgumentException {
+	@RequestMapping(path = {"{user}/monitoring_tag"}, method = RequestMethod.GET)
+	public List<DocumentInfo> getMonitoringList(
+		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
+		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgumentException {
 
-		if (publishType == null ) {
-			publishType = "all";
-		}
 		if (maxSize == null) {
 			maxSize = -1;
 		}
 
-		return documentListLogic.getDocumentList(user, employeeNumber, publishType, maxSize);
+		return monitoringLogic.getMonitoringList(employeeNumber, maxSize);
+
 	}
 }
