@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.logic.BookmarkLogic;
-import jp.co.unirita.medis.util.exception.InvalidArgumentException;
+import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @RequestMapping("/v1/documents")
 
@@ -33,7 +33,7 @@ public class BookmarkListController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfo> getBookmarkList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
-		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgumentException {
+		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgsException {
 
 		if (maxSize == null) {
 			maxSize = -1;
@@ -47,7 +47,7 @@ public class BookmarkListController {
 	public void updateBookmark(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
 		@PathVariable(value = "documentId") String documentId, @Valid HttpServletRequest request,
-		HttpServletResponse response) throws InvalidArgumentException {
+		HttpServletResponse response) throws InvalidArgsException {
 		bookmarkLogic.updateBookmark(employeeNumber, documentId);
 	}
 }

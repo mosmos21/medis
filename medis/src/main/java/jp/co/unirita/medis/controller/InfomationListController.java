@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.InfomationForm;
 import jp.co.unirita.medis.logic.InfomationLogic;
-import jp.co.unirita.medis.util.exception.InvalidArgumentException;
+import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 
 @RequestMapping("/v1/infomations")
@@ -30,7 +30,7 @@ public class InfomationListController {
 	@ResponseStatus(HttpStatus.OK)
 	public  List<InfomationForm> getInfomationList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
-		@PathVariable(value = "lastUpdateId", required = false) String updateId, @RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgumentException {
+		@PathVariable(value = "lastUpdateId", required = false) String updateId, @RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgsException {
 
 		if (maxSize == null) {
 			maxSize = -1;

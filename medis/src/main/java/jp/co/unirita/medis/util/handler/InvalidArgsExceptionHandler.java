@@ -6,14 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import jp.co.unirita.medis.util.exception.ConflictException;
+import jp.co.unirita.medis.util.exception.InvalidArgsException;
 import jp.co.unirita.medis.util.response.ErrorResponse;
 
 @ControllerAdvice
-public class ConflictExceptionHandler {
+public class InvalidArgsExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> getException(HttpServletRequest request, ConflictException e) {
+    public ResponseEntity<ErrorResponse> getException(HttpServletRequest request, InvalidArgsException e) {
         return ErrorResponse.createResponse(e);
     }
 }

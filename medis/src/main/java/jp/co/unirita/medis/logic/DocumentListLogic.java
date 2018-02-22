@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
-import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.user.UserRepository;
-import jp.co.unirita.medis.util.exception.InvalidArgumentException;
 
 @Service
 @Transactional
@@ -23,12 +21,7 @@ public class DocumentListLogic {
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 
-	public List<DocumentInfo> getDocumentList(User user, String employeeNumber, String publishType, Integer maxSize) throws InvalidArgumentException {
-
-		if (!user.getEmployeeNumber().equals(employeeNumber)) {
-			System.out.println(user.getEmployeeNumber() + " " + employeeNumber);
-			throw new InvalidArgumentException("employeeNumber", employeeNumber, "他ユーザのドキュメント一覧は取得することができません");
-		}
+	public List<DocumentInfo> getDocumentList(String employeeNumber, String publishType, Integer maxSize) {
 
 		List<DocumentInfo> documentInfo = new ArrayList<>();
 
