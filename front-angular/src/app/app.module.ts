@@ -35,6 +35,7 @@ import { ConfigNotificationModule } from './config-notification/config-notificat
 import { ConfigSurveillanceModule } from './config-surveillance/config-surveillance.module';
 import { ConfigTopModule } from './config-top/config-top.module';
 import { ConfigUserModule } from './config-user/config-user.module';
+import { NewPasswordModule } from './new-password/new-password.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ConvertDateService } from './services/convert-date.service';
@@ -49,6 +50,7 @@ import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
 import { MessageModalComponent } from './message-modal/message-modal.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { PageNotFoundComponent } from './error/page-not-found.component';
+
 
 @NgModule({
   declarations: [
@@ -87,6 +89,7 @@ import { PageNotFoundComponent } from './error/page-not-found.component';
     ConfigSurveillanceModule,
     ConfigTopModule,
     ConfigUserModule,
+    NewPasswordModule,
 
     AppRoutingModule
   ],
