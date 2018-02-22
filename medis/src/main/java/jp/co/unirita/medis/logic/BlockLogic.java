@@ -2,8 +2,8 @@ package jp.co.unirita.medis.logic;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jp.co.unirita.medis.domain.blockbase.BlockBase;
-import jp.co.unirita.medis.domain.blockbase.Item;
+import jp.co.unirita.medis.form.blockbase.BlockBaseForm;
+import jp.co.unirita.medis.form.blockbase.BlockBaseItemForm;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -13,20 +13,21 @@ import java.util.List;
 @Service
 public class BlockLogic {
 
-    public List<BlockBase> getBlockList() {
-        List<BlockBase> list = new ArrayList<>();
+    public List<BlockBaseForm> getBlockList() {
+        List<BlockBaseForm> list = new ArrayList<>();
         try{
             ObjectMapper mapper = new ObjectMapper();
-
             JsonNode root = mapper.readTree(new File("resources/block.json"));
             for(JsonNode node : root) {
                 String blockId = node.get("blockId").asText();
                 String blockName = node.get("blockName").asText();
                 boolean unique = node.get("unique").asBoolean();
-                List<Item> items = createItemList(node, "items");
+                String templateWrapType = node.get("templateWrapType").asText();
+                String documentWrapType = node.get("documentWrapType").asText();
+                List<BlockBaseItemForm> blockBaseItemForm = createItemList(node, "items");
                 String additionalType = node.get("additionalType").asText();
-                List<Item> addItems = createItemList(node, "addItems");
-                list.add(new BlockBase(blockId, blockName, unique, items, additionalType, addItems));
+                List<BlockBaseItemForm> addBlockBaseItemForm = createItemList(node, "addItems");
+                list.add(new BlockBaseForm(blockId, blockName, unique, templateWrapType, documentWrapType, blockBaseItemForm, additionalType, addBlockBaseItemForm));
             }
         }catch (Exception e){
             // TODO 後でどうにかする
@@ -35,15 +36,15 @@ public class BlockLogic {
         return list;
     }
 
-    public List<Item> createItemList(JsonNode node, String key) {
-        List<Item> items = new ArrayList<>();
+    public List<BlockBaseItemForm> createItemList(JsonNode node, String key) {
+        List<BlockBaseItemForm> blockBaseItemForm = new ArrayList<>();
         for(JsonNode item: node.get(key)){
             int size = item.get("size").asInt();
             String templateType = item.get("templateType").asText();
             String documentType = item.get("documentType").asText();
             String value = item.get("value").asText();
-            items.add(new Item(size, templateType, documentType, value));
+            blockBaseItemForm.add(new BlockBaseItemForm(size, templateType, documentType, value));
         }
-        return items;
+        return blockBaseItemForm;
     }
 }

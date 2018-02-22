@@ -3,7 +3,8 @@
         "blockId": "b0000000000",
         "blockName": "固定テキスト",
         "unique": false,
-        "wrapItem": null,
+        "templateWrapType": null,
+        "documentWrapType": null,
         "items": [
             {
                 "size": 1,
@@ -25,7 +26,8 @@
         "blockId": "b0000000001",
         "blockName": "テキスト",
         "unique": false,
-        "wrapItem": null,
+        "templateWrapType": null,
+        "documentWrapType": null,
         "items": [
             {
                 "size": 1,
@@ -54,7 +56,8 @@
         "blockId": "b0000000002",
         "blockName": "チェックボックス",
         "unique": false,
-        "wrapItem": null,
+        "templateWrapType": null,
+        "documentWrapType": null,
         "items": [
             {
                 "size": 1,
@@ -83,7 +86,8 @@
         "blockId": "b0000000003",
         "blockName": "ラジオボタン",
         "unique": false,
-        "wrapItem": null,
+        "templateWrapType": "radio",
+        "documentWrapType": "radio",
         "items": [
             {
                 "size": 1,
@@ -112,7 +116,8 @@
         "blockId": "b0000000004",
         "blockName": "セレクトボックス\n(プルダウン)",
         "unique": false,
-        "wrapItem": "select",
+        "templateWrapType": null,
+        "documentWrapType": "select",
         "items": [
             {
                 "size": 1,
@@ -141,7 +146,8 @@
         "blockId": "b0000000005",
         "blockName": "セレクトボックス\n(リスト)",
         "unique": false,
-        "wrapItem": "selectList",
+        "templateWrapType": null,
+        "documentWrapType": "selectList",
         "items": [
             {
                 "size": 1,
@@ -170,6 +176,8 @@
         "blockId": "b0000000006",
         "blockName": "テキスト+テキストエリア",
         "unique": false,
+        "templateWrapType": null,
+        "documentWrapType": null,
         "items": [
             {
                 "size": 1,
