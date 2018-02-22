@@ -2,21 +2,26 @@ package jp.co.unirita.medis.controller;
 
 import java.util.List;
 
-import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
-import jp.co.unirita.medis.domain.tag.Tag;
-import jp.co.unirita.medis.form.document.DocumentForm;
-import jp.co.unirita.medis.logic.DocumentLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
+import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.CommentInfoForm;
+import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.CommentLogic;
-import jp.co.unirita.medis.util.exception.InvalidArgumentException;
-
-import javax.swing.text.Document;
+import jp.co.unirita.medis.logic.DocumentLogic;
+import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @RestController
 @RequestMapping("/v1/documents")
@@ -29,7 +34,7 @@ public class DocumentController {
 
 	@RequestMapping(value = { "{documentId}/comments" }, method = RequestMethod.GET)
 	public List<CommentInfoForm> getfind(@AuthenticationPrincipal User user,
-			@PathVariable(value = "documentId") String documentId) throws InvalidArgumentException {
+			@PathVariable(value = "documentId") String documentId) throws InvalidArgsException {
 		List<CommentInfoForm> list = commentlogic.getCommentInfo(documentId);
 
 		return list;
