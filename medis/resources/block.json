@@ -7,13 +7,11 @@
         "documentWrapType": null,
         "items": [
             {
-                "size": 1,
                 "templateType": "span",
                 "documentType": "hidden",
                 "value": "説明文を入力してください。"
             },
             {
-                "size": 2,
                 "templateType": "textarea",
                 "documentType": "span",
                 "value": ""
@@ -30,13 +28,11 @@
         "documentWrapType": null,
         "items": [
             {
-                "size": 1,
                 "templateType": "span",
                 "documentType": "hidden",
                 "value": "説明文を入力してください。"
             },
             {
-                "size": 2,
                 "templateType": "textarea",
                 "documentType": "span",
                 "value": ""
@@ -45,7 +41,6 @@
         "additionalType": "document",
         "addItems": [
             {
-                "size": 1,
                 "templateType": "disabledText",
                 "documentType": "text",
                 "value": "ここに入力してください"
@@ -60,13 +55,11 @@
         "documentWrapType": null,
         "items": [
             {
-                "size": 1,
                 "templateType": "span",
                 "documentType": "hidden",
                 "value": "説明文を入力してください。"
             },
             {
-                "size": 2,
                 "templateType": "textarea",
                 "documentType": "span",
                 "value": ""
@@ -75,7 +68,6 @@
         "additionalType": "template",
         "addItems": [
             {
-                "size": 1,
                 "templateType": "checkbox",
                 "documentType": "checkbox",
                 "value": "ここに入力してください"
@@ -90,13 +82,11 @@
         "documentWrapType": "radio",
         "items": [
             {
-                "size": 1,
                 "templateType": "span",
                 "documentType": "hidden",
                 "value": "説明文を入力してください。"
             },
             {
-                "size": 2,
                 "templateType": "textarea",
                 "documentType": "span",
                 "value": ""
@@ -105,7 +95,6 @@
         "additionalType": "template",
         "addItems": [
             {
-                "size": 1,
                 "templateType": "radio",
                 "documentType": "radio",
                 "value": "ここに入力してください"
@@ -120,13 +109,11 @@
         "documentWrapType": "select",
         "items": [
             {
-                "size": 1,
                 "templateType": "span",
                 "documentType": "hidden",
                 "value": "説明文を入力してください。"
             },
             {
-                "size": 2,
                 "templateType": "textarea",
                 "documentType": "span",
                 "value": ""
@@ -135,7 +122,6 @@
         "additionalType": "template",
         "addItems": [
             {
-                "size": 1,
                 "templateType": "text",
                 "documentType": "select",
                 "value": "ここに入力してください"
@@ -150,13 +136,11 @@
         "documentWrapType": "selectList",
         "items": [
             {
-                "size": 1,
                 "templateType": "span",
                 "documentType": "hidden",
                 "value": "説明文を入力してください。"
             },
             {
-                "size": 2,
                 "templateType": "textarea",
                 "documentType": "span",
                 "value": ""
@@ -165,7 +149,6 @@
         "additionalType": "template",
         "addItems": [
             {
-                "size": 1,
                 "templateType": "text",
                 "documentType": "selectList",
                 "value": "ここに入力してください"
@@ -180,13 +163,11 @@
         "documentWrapType": null,
         "items": [
             {
-                "size": 1,
                 "templateType": "span",
                 "documentType": "hidden",
                 "value": "説明文を入力してください。"
             },
             {
-                "size": 2,
                 "templateType": "textarea",
                 "documentType": "span",
                 "value": ""
@@ -195,13 +176,11 @@
         "additionalType": "document",
         "addItems": [
             {
-                "size": 1,
                 "templateType": "disabledText",
                 "documentType": "text",
                 "value": "タイトル"
             },
             {
-                "size": 2,
                 "templateType": "disabledTextarea",
                 "documentType": "textarea",
                 "value": "説明文を入力してください。"

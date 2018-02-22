@@ -39,11 +39,10 @@ public class BlockLogic {
     public List<BlockBaseItemForm> createItemList(JsonNode node, String key) {
         List<BlockBaseItemForm> blockBaseItemForm = new ArrayList<>();
         for(JsonNode item: node.get(key)){
-            int size = item.get("size").asInt();
             String templateType = item.get("templateType").asText();
             String documentType = item.get("documentType").asText();
             String value = item.get("value").asText();
-            blockBaseItemForm.add(new BlockBaseItemForm(size, templateType, documentType, value));
+            blockBaseItemForm.add(new BlockBaseItemForm(templateType, documentType, value));
         }
         return blockBaseItemForm;
     }
