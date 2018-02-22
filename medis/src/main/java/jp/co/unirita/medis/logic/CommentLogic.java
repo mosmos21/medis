@@ -15,9 +15,9 @@ import jp.co.unirita.medis.form.CommentInfoForm;
 @Service
 public class CommentLogic {
 	@Autowired
-	CommentRepository commentrepository;
+	CommentRepository commentRepository;
 	@Autowired
-	UserDetailRepository userdetailrepository;
+	UserDetailRepository userdetailRepository;
 
 	public List<CommentInfoForm> getCommentInfo(String documentId) {
 		List<Comment> comment = new ArrayList<>();
@@ -26,7 +26,7 @@ public class CommentLogic {
 		List<UserDetail> userdetail = new ArrayList<>();
 		List<CommentInfoForm> result = new ArrayList<>();
 
-		comment = commentrepository.findByDocumentIdOrderByCommentDateAsc(documentId);
+		comment = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
 
 		// comment_id取得
 		for (int i = 0; i < comment.size(); i++) {
@@ -36,7 +36,7 @@ public class CommentLogic {
 
 		// employee_number取得
 		for (int i = 0; i < commentId.size(); i++) {
-			comment = commentrepository.findByCommentId(commentId.get(i));
+			comment = commentRepository.findByCommentId(commentId.get(i));
 			employeeNumber.add(comment.get(0).getEmployeeNumber());
 		}
 
@@ -44,8 +44,8 @@ public class CommentLogic {
 		for (int i = 0; i < employeeNumber.size(); i++) {
 			CommentInfoForm commentinfoform = new CommentInfoForm();
 
-			comment = commentrepository.findByCommentId(commentId.get(i));
-			userdetail = userdetailrepository.findAllByEmployeeNumber(employeeNumber.get(i));
+			comment = commentRepository.findByCommentId(commentId.get(i));
+			userdetail = userdetailRepository.findAllByEmployeeNumber(employeeNumber.get(i));
 
 			commentinfoform.commentDate = comment.get(0).getCommentDate();
 			commentinfoform.lastName = userdetail.get(0).getLastName();
@@ -60,4 +60,23 @@ public class CommentLogic {
 		return result;
 
 	}
+
+    public void alreadyRead(String documentId, String commentId) {
+        List<Comment>commentList=commentRepository.findByCommentId(commentId);
+
+        boolean flug =commentList.get(0).isRead();
+
+        Comment comment =new Comment();
+
+        comment.setCommentId(commentId);
+        comment.setDocumentId(documentId);
+        if(flug) {
+            comment.setRead(false);
+        }else {
+            comment.setRead(true);
+        }
+
+        commentRepository.saveAndFlush(comment);
+    }
+
 }
