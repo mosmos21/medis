@@ -21,7 +21,7 @@ import jp.co.unirita.medis.domain.authority.AuthorityRepository;
 import jp.co.unirita.medis.form.UserManagementForm;
 import jp.co.unirita.medis.logic.system.UserManagementLogic;
 import jp.co.unirita.medis.util.exception.ConflictException;
-import jp.co.unirita.medis.util.exception.InvalidArgsException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RestController
 @RequestMapping("v1/system")
@@ -48,7 +48,7 @@ public class UserManagementController {
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "users/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	void updateUserManagement(@RequestBody UserManagementForm postData, HttpServletRequest request,
-			HttpServletResponse response) throws InvalidArgsException {
+			HttpServletResponse response) throws NotExistException {
 		userManagementLogic.updateUserManagement(postData);
 	}
 

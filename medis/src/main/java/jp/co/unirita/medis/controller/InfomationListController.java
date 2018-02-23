@@ -2,6 +2,8 @@ package jp.co.unirita.medis.controller;
 
 import java.util.List;
 
+import jp.co.unirita.medis.util.exception.AuthorityException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,7 +18,6 @@ import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.InfomationForm;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.logic.setting.InfomationLogic;
-import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 
 @RequestMapping("/v1/infomations")
@@ -35,12 +36,12 @@ public class InfomationListController {
 		@AuthenticationPrincipal User user,
 		@PathVariable(value = "user") String employeeNumber,
 		@PathVariable(value = "lastUpdateId", required = false) String updateId,
-		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgsException {
+		@RequestParam(value = "size", required = false) Integer maxSize) throws NotExistException, AuthorityException {
 
-		argumentCheckLogic.userCheck(user, employeeNumber, "更新情報一覧");
+		argumentCheckLogic.checkUser(user, employeeNumber, "更新情報一覧");
 
 		if (updateId != null) {
-			argumentCheckLogic.lastUpdateIdCheck(updateId);
+			argumentCheckLogic.checkLastUpdateId(updateId);
 		}
 
 		if (maxSize == null) {

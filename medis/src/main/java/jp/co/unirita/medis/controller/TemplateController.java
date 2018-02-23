@@ -6,6 +6,8 @@ import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.form.template.TemplateForm;
 import jp.co.unirita.medis.logic.template.BlockLogic;
 import jp.co.unirita.medis.logic.template.TemplateLogic;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.util.exception.NotExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,9 @@ public class TemplateController {
     private static final Logger logger = LoggerFactory.getLogger(TemplateController.class);
 
     @Autowired
+    ArgumentCheckLogic argumentCheckLogic;
+    @Autowired
     BlockLogic blockLogic;
-
     @Autowired
     TemplateLogic templateLogic;
 
@@ -34,10 +37,12 @@ public class TemplateController {
 
     @GetMapping(value = "{templateId:^t[0-9]{10}+$}")
     @ResponseStatus(HttpStatus.OK)
-    public TemplateForm getTemplate(@PathVariable(value ="templateId") String templateId) {
-        System.out.println("get template [id = " + templateId + "]");
+    public TemplateForm getTemplate(@PathVariable(value ="templateId") String templateId) throws NotExistException {
+        String employeeNumber = "99999";
+        logger.info("[method: getTemplate] Template(ID:" + templateId+ ") is acquired by '" + employeeNumber + "'.");
 
         // TODO 存在チェック
+        argumentCheckLogic.checkTemplateId(templateId);
 
         TemplateForm template = templateLogic.getTemplate(templateId);
         System.out.println(template);

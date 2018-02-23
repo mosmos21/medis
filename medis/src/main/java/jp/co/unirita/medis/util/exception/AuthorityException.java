@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConflictException extends Exception{
-    String conflict;
+public class AuthorityException extends Exception {
+    String argument;
     String value;
     String message;
 }

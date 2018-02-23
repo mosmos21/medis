@@ -2,6 +2,7 @@ package jp.co.unirita.medis.controller;
 
 import java.util.List;
 
+import jp.co.unirita.medis.util.exception.AuthorityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,7 +17,7 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.logic.setting.MonitoringLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
-import jp.co.unirita.medis.util.exception.InvalidArgsException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RequestMapping("/v1/documents")
 
@@ -32,9 +33,9 @@ public class MonitoringListController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfo> getMonitoringList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
-		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgsException {
+		@RequestParam(value = "size", required = false) Integer maxSize) throws NotExistException, AuthorityException {
 
-		argumentCheckLogic.userCheck(user, employeeNumber, "監視文書一覧");
+		argumentCheckLogic.checkUser(user, employeeNumber, "監視文書一覧");
 
 		if (maxSize == null) {
 			maxSize = -1;

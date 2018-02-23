@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
+import jp.co.unirita.medis.util.exception.NotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.mail.MailSender;
@@ -14,7 +15,6 @@ import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfo;
 import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
-import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @Service
 @SpringBootApplication
@@ -25,10 +25,10 @@ public class AccountLogic {
 	@Autowired
 	TempkeyInfoRepository tempkeyInfoRepository;
 
-	public void userCheck(UserDetail userDetail) throws InvalidArgsException {
+	public void userCheck(UserDetail userDetail) throws NotExistException {
 		if (userDetailRepository.findByEmployeeNumberAndMailaddress(userDetail.getEmployeeNumber(),
 				userDetail.getMailaddress()) == null)
-			throw new InvalidArgsException("employeeNumber or mailaddress",
+			throw new NotExistException("employeeNumber or mailaddress",
 					userDetail.getEmployeeNumber() + " or " + userDetail.getMailaddress(),
 					"ユーザ情報の確認に失敗しました。入力内容に誤りがあります。");
 		;

@@ -1,10 +1,11 @@
 package jp.co.unirita.medis.util.response;
 
+import jp.co.unirita.medis.util.exception.AuthorityException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import jp.co.unirita.medis.util.exception.ConflictException;
-import jp.co.unirita.medis.util.exception.InvalidArgsException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 import lombok.Data;
 
 @Data
@@ -24,10 +25,17 @@ public class ErrorResponse {
         return new ResponseEntity<ErrorResponse>(this, status);
     }
 
-    public static ResponseEntity<ErrorResponse> createResponse(InvalidArgsException e) {
+    public static ResponseEntity<ErrorResponse> createResponse(AuthorityException e) {
         return new ResponseEntity<ErrorResponse>(
-                new ErrorResponse(e.getInvalidArgument(), e.getValue(), e.getMessage()),
-                HttpStatus.BAD_REQUEST
+                new ErrorResponse(e.getArgument(), e.getValue(), e.getMessage()),
+                HttpStatus.FORBIDDEN
+        );
+    }
+
+    public static ResponseEntity<ErrorResponse> createResponse(NotExistException e) {
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse(e.getArgument(), e.getValue(), e.getMessage()),
+                HttpStatus.NOT_FOUND
         );
     }
 

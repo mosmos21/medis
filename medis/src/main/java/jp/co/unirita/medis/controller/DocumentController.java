@@ -27,7 +27,7 @@ import jp.co.unirita.medis.form.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.document.CommentLogic;
 import jp.co.unirita.medis.logic.document.DocumentLogic;
-import jp.co.unirita.medis.util.exception.InvalidArgsException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RestController
 @RequestMapping("/v1/documents")
@@ -42,7 +42,7 @@ public class DocumentController {
 
 	@RequestMapping(value = { "{documentId}/comments" }, method = RequestMethod.GET)
 	public List<CommentInfoForm> getDocumentInfo(@AuthenticationPrincipal User user,
-			@PathVariable(value = "documentId") String documentId) throws InvalidArgsException {
+			@PathVariable(value = "documentId") String documentId) throws NotExistException {
 		logger.info("[method: getDocumetnInfo] Get document info list by " + documentId + ".");
 		List<CommentInfoForm> documentInfo = commentLogic.getCommentInfo(documentId);
 
@@ -101,7 +101,7 @@ public class DocumentController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void alreadyRead(@AuthenticationPrincipal User user, @PathVariable(value = "documentId") String documentId,
 			@PathVariable(value = "commentId") String commentId, @Valid HttpServletRequest request,
-			HttpServletResponse response) throws InvalidArgsException {
+			HttpServletResponse response) throws NotExistException {
 		logger.info("[method: alreedyRead] Change Rread boolean And Send mail");
 		commentLogic.alreadyRead(documentId, commentId);
 
