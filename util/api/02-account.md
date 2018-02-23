@@ -100,6 +100,22 @@
 
         - レスポンス(201 CREATED)
 
+- ## トップページボックス一覧の取得
+    - ### [GET] https://{hostname}/{version}/settings/toppageboxes
+        トップページの表示順を取得
+        
+        ---
+        - レスポンス(200 OK)
+            ```json
+            [
+                {
+                    "boxId": "(boxId)",
+                    "boxName": "(boxName)"
+                },
+                ...
+            ]
+            ```
+
 - ## トップページ設定情報の取得
     - ### [GET] https://{hostname}/{version}/settings/me/toppage
         トップページの表示順を取得
@@ -169,8 +185,8 @@
 
         - レスポンス(201 CREATED)
 
-- ## 通知設定情報の取得
-    - ### [GET] https://{hostname}/{version}/settings/me/notifications
+- ## 通知設定情報の取得(タグ)
+    - ### [GET] https://{hostname}/{version}/settings/me/tag_notifications
         通知設定情報を取得
 
         ---
@@ -187,8 +203,8 @@
             ]
             ```
 
-- ## 通知設定情報の更新
-    - ### [POST] https://{hostname}/{version}/settings/me/notifications
+- ## 通知設定情報の更新(タグ)
+    - ### [POST] https://{hostname}/{version}/settings/me/tag_notifications
         通知設定情報を更新する
         
         ---
@@ -202,5 +218,39 @@
                 },
                 ...
             ]
+            ```
+        - レスポンス(201 CREATED)
+
+
+- ## 通知設定情報の取得(コメント)
+    - ### [GET] https://{hostname}/{version}/settings/me/comment_notifications
+        通知設定情報を取得<br>
+        tagIdはコメント専用のタグを作る
+
+        ---
+        - レスポンス(200 OK)
+            ```json
+            {
+                "employeeNumber": "(employeeNumber)",
+                "tagId": "(tagId)",
+                "isMailNotification": true|false,
+                "isBrowserNotification": true|false
+            }
+            ```
+
+- ## 通知設定情報の更新(コメント)
+    - ### [POST] https://{hostname}/{version}/settings/me/comment_notifications
+        通知設定情報を更新する<br>
+        tagIdはコメント専用のタグを作る
+        
+        ---
+        - リクエスト
+            ```json
+            {
+                "employeeNumber": "(employeeNumber)",
+                "tagId": "(tagId)",
+                "isMailNotification": true|false,
+                "isBrowserNotification": true|false
+            }
             ```
         - レスポンス(201 CREATED)
