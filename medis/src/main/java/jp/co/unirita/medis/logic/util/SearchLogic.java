@@ -1,7 +1,6 @@
 package jp.co.unirita.medis.logic.util;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -11,10 +10,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jp.co.unirita.medis.controller.TemplateController;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.documenttag.DocumentTag;
@@ -29,6 +31,8 @@ import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 @Transactional
 public class SearchLogic {
 
+	private static final Logger logger = LoggerFactory.getLogger(TemplateController.class);
+
 	@Autowired
 	TagRepository tagRepository;
 	@Autowired
@@ -41,13 +45,26 @@ public class SearchLogic {
 	UpdateInfoRepository updateInfoRepository;
 
 
-	public List<DocumentInfo> getSearchResultList(String tagName) throws UnsupportedEncodingException {
+	public List<DocumentInfo> getSearchResult(String tagName) throws UnsupportedEncodingException {
 		//デコードし、タグのリストを作成
-		String tagParam = URLDecoder.decode(tagName, "UTF-8");
-		System.out.println(tagParam);
+//		String tagParam = URLDecoder.decode(tagName, "UTF-8");
+//		System.out.println(tagParam);
 
-		String[] param  = tagParam.split(",", 0);
-		List<String> tagNameList = Arrays.asList(param);
+//		String[] param  = tagParam.split(",", 0);
+		String[] param  = tagName.split(",", 0);
+		//タグの値が重複している
+		List<String> tempTagNameList = Arrays.asList(param);
+
+		//値を一意に
+		List<String> tagNameList = tempTagNameList.stream().distinct().collect(Collectors.toList());
+
+		for (String tag : tagNameList) {
+			System.out.println(tag);
+		}
+
+		for (String tag : tagNameList) {
+		logger.info("[method: getSearchResult] tagName =" + tag);
+		}
 
 		//tagNameのidを取得
 		List<Tag> tagList = new ArrayList<>();

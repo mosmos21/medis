@@ -27,10 +27,10 @@ public class SearchController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public List<DocumentInfo> getSearchResultList(
+	public List<DocumentInfo> getSearchResult(
 			@AuthenticationPrincipal User user, @RequestParam(value = "tags", required = false) String tagName) throws NotExistException, UnsupportedEncodingException {
 
-		return searchLogic.getSearchResultList(tagName);
+		return searchLogic.getSearchResult(tagName);
 
 	}
 
