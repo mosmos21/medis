@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import jp.co.unirita.medis.domain.comment.Comment;
 import jp.co.unirita.medis.domain.comment.CommentRepository;
+import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
+import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.CommentInfoForm;
@@ -17,7 +21,11 @@ public class CommentLogic {
 	@Autowired
 	CommentRepository commentRepository;
 	@Autowired
-	UserDetailRepository userdetailRepository;
+	UserDetailRepository userDetailRepository;
+	@Autowired
+	DocumentInfoRepository documentInfoRepository;
+	@Autowired
+	private MailSender sender;
 
 	public List<CommentInfoForm> getCommentInfo(String documentId) {
 		List<Comment> commentList = new ArrayList<>();
@@ -45,7 +53,7 @@ public class CommentLogic {
 			CommentInfoForm commentinfoform = new CommentInfoForm();
 
 			commentList = commentRepository.findByCommentId(commentIdList.get(i));
-			userdetailList = userdetailRepository.findAllByEmployeeNumber(employeeNumberList.get(i));
+			userdetailList = userDetailRepository.findAllByEmployeeNumber(employeeNumberList.get(i));
 
 			commentinfoform.commentDate = commentList.get(0).getCommentDate();
 			commentinfoform.lastName = userdetailList.get(0).getLastName();
@@ -62,11 +70,23 @@ public class CommentLogic {
 	}
 
 	public void alreadyRead(String documentId, String commentId) {
-		// Readをtrueに変更
 		List<Comment> commentList = new ArrayList<>();
+		List<UserDetail> toUserDetailList = new ArrayList<>();
+		List<UserDetail> authorUserDetailList = new ArrayList<>();
+		List<DocumentInfo> documentInfoList = new ArrayList<>();
 
 		commentList = commentRepository.findByCommentId(commentId);
+			toUserDetailList = userDetailRepository.findAllByEmployeeNumber(commentList.get(0).getEmployeeNumber());
+			documentInfoList = documentInfoRepository.findByDocumentId(commentList.get(0).getDocumentId());
+			authorUserDetailList = userDetailRepository
+				.findAllByEmployeeNumber(documentInfoList.get(0).getEmployeeNumber());
 
+		String mailaddress = toUserDetailList.get(0).getMailaddress();
+		String documentName = documentInfoList.get(0).getDocumentName();
+		String lastName = authorUserDetailList.get(0).getLastName();
+		String firstName = authorUserDetailList.get(0).getFirstName();
+
+		//Readをtrueにする
 		Comment comment = new Comment();
 
 		comment.setCommentId(commentId);
@@ -78,9 +98,13 @@ public class CommentLogic {
 
 		commentRepository.saveAndFlush(comment);
 
-		// メール送信
-		// SimpleMailMessage msg =new SimpleMailMessage();
+		//メール送信
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo(mailaddress);
+		msg.setSubject("【MEDIS】コメントが読まれました"); // タイトルの設定
+		msg.setText(lastName + firstName + "さんが作成した" + documentName + "のコメントが読まれました。\r\n\r\n");
 
+		this.sender.send(msg);
 	}
 
 }
