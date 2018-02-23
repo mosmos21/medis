@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.logic.setting.MonitoringLogic;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @RequestMapping("/v1/documents")
@@ -24,12 +25,16 @@ public class MonitoringListController {
 
 	@Autowired
 	private MonitoringLogic monitoringLogic;
+	@Autowired
+	ArgumentCheckLogic argumentCheckLogic;
 
 	@RequestMapping(path = {"{user}/monitoring_tag"}, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfo> getMonitoringList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
 		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgsException {
+
+		argumentCheckLogic.userCheck(user, employeeNumber, "監視文書一覧");
 
 		if (maxSize == null) {
 			maxSize = -1;
