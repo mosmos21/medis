@@ -62,9 +62,7 @@ public class SearchLogic {
 			System.out.println(tag);
 		}
 
-		for (String tag : tagNameList) {
-		logger.info("[method: getSearchResult] tagName =" + tag);
-		}
+		logger.info("[method: getSearchResult] tagName =" + String.join(",", tagNameList));
 
 		//tagNameのidを取得
 		List<Tag> tagList = new ArrayList<>();
