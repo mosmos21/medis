@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.logic;
+package jp.co.unirita.medis.logic.util;
 
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.user.UserLoginForm;

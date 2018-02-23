@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.logic;
+package jp.co.unirita.medis.logic.setting;
 
 import java.sql.Timestamp;
 import java.util.List;

@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.logic;
+package jp.co.unirita.medis.logic.template;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

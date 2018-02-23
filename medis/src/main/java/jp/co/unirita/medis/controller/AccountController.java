@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.co.unirita.medis.domain.authority.AuthorityRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
-import jp.co.unirita.medis.logic.AccountLogic;
+import jp.co.unirita.medis.logic.setting.AccountLogic;
 import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @RestController

@@ -24,7 +24,7 @@ import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 //import jp.co.unirita.medis.form.NotificationsForm;
-//import jp.co.unirita.medis.logic.SettingLogic;
+//import jp.co.unirita.medis.logic.setting.SettingLogic;
 
 @RestController
 @RequestMapping("/v1/settings")

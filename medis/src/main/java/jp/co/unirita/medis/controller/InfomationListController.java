@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.InfomationForm;
-import jp.co.unirita.medis.logic.ArgumentCheckLogic;
-import jp.co.unirita.medis.logic.InfomationLogic;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.logic.setting.InfomationLogic;
 import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 

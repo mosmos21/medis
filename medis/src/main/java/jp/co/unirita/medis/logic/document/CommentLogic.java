@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.logic;
+package jp.co.unirita.medis.logic.document;
 
 import java.util.ArrayList;
 import java.util.List;

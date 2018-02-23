@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.logic.MonitoringLogic;
+import jp.co.unirita.medis.logic.setting.MonitoringLogic;
 import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @RequestMapping("/v1/documents")

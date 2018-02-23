@@ -4,8 +4,8 @@ import jp.co.unirita.medis.form.blockbase.BlockBaseForm;
 
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.form.template.TemplateForm;
-import jp.co.unirita.medis.logic.BlockLogic;
-import jp.co.unirita.medis.logic.TemplateLogic;
+import jp.co.unirita.medis.logic.template.BlockLogic;
+import jp.co.unirita.medis.logic.template.TemplateLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -25,8 +25,8 @@ import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
-import jp.co.unirita.medis.logic.CommentLogic;
-import jp.co.unirita.medis.logic.DocumentLogic;
+import jp.co.unirita.medis.logic.document.CommentLogic;
+import jp.co.unirita.medis.logic.document.DocumentLogic;
 import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @RestController

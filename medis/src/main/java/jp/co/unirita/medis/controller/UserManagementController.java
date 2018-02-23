@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.co.unirita.medis.domain.authority.Authority;
 import jp.co.unirita.medis.domain.authority.AuthorityRepository;
 import jp.co.unirita.medis.form.UserManagementForm;
-import jp.co.unirita.medis.logic.UserManagementLogic;
+import jp.co.unirita.medis.logic.system.UserManagementLogic;
 import jp.co.unirita.medis.util.exception.ConflictException;
 import jp.co.unirita.medis.util.exception.InvalidArgsException;
 

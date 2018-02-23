@@ -1,7 +1,7 @@
 package jp.co.unirita.medis.controller;
 
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
-import jp.co.unirita.medis.logic.TemplateLogic;
+import jp.co.unirita.medis.logic.template.TemplateLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

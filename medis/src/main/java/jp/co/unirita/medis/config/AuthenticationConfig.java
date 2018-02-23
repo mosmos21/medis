@@ -1,6 +1,6 @@
 package jp.co.unirita.medis.config;
 
-import jp.co.unirita.medis.logic.UserLogic;
+import jp.co.unirita.medis.logic.system.UserLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
