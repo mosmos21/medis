@@ -41,7 +41,7 @@ public class DocumentController {
 	@Autowired
 	DocumentLogic documentLogic;
 
-	@RequestMapping(value = { "{documentId}/comments" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "{documentId:^d[0-9]{10}+$}/comments" }, method = RequestMethod.GET)
 	public List<CommentInfoForm> getDocumentInfo(@AuthenticationPrincipal User user,
 			@PathVariable(value = "documentId") String documentId) throws NotExistException {
 		logger.info("[method: getDocumetnInfo] Get document info list by " + documentId + ".");
