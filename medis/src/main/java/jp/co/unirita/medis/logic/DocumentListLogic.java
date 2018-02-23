@@ -1,6 +1,7 @@
 package jp.co.unirita.medis.logic;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -34,6 +35,14 @@ public class DocumentListLogic {
 			documentInfo = documentInfoRepository.findByEmployeeNumberAndDocumentPublishOrderByDocumentCreateDateDesc(
 					employeeNumber, false);
 		}
+
+
+		documentInfo.sort(new Comparator<DocumentInfo>(){
+			@Override
+			public int compare(DocumentInfo i1, DocumentInfo i2) {
+				return i2.getDocumentId().compareTo(i1.getDocumentId());
+			}
+		});
 
 		if (maxSize != -1 && documentInfo.size() > maxSize) {
 			documentInfo = documentInfo.subList(0, maxSize);

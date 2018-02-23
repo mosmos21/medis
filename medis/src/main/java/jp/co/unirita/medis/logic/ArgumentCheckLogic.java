@@ -1,5 +1,8 @@
 package jp.co.unirita.medis.logic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +23,23 @@ public class ArgumentCheckLogic {
 
 	public void userCheck(User user, String employeeNumber, String contents) throws InvalidArgsException {
 
-/*		List<String> userList = userRepository.findByEmployeeNumber();
+		List<User> userList = userRepository.findAll();
 
-		if (!userList.contains(employeeNumber)) {
+		for (User user2 : userList) {
+			System.out.println(user2);
+		}
+
+		List<String> employeeNumberList = new ArrayList<>();
+
+		for (User list : userList) {
+			employeeNumberList.add(list.getEmployeeNumber());
+		}
+
+		if (!employeeNumberList.contains(employeeNumber)) {
 			System.out.println(user.getEmployeeNumber() + " " + employeeNumber);
 			throw new InvalidArgsException("employeeNumber", employeeNumber, "存在しないユーザです");
 		}
-*/
+
 		if (!user.getEmployeeNumber().equals(employeeNumber)) {
 			System.out.println(user.getEmployeeNumber() + " " + employeeNumber);
 			throw new InvalidArgsException("employeeNumber", employeeNumber, "他ユーザの"+contents+"は取得することができません");
