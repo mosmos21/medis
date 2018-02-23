@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DragulaService } from 'ng2-dragula';
 import { MatDialog } from '@angular/material';
@@ -42,6 +42,7 @@ export class EditTemplateComponent implements OnInit {
   constructor(
     @Inject('hostname') private hostname: string,
     private http: HttpClient,
+    private router: Router,
     private route: ActivatedRoute,
     private dragulaService: DragulaService,
     public dialog: MatDialog,
@@ -232,30 +233,32 @@ export class EditTemplateComponent implements OnInit {
     if(this.templateId == 'new'){
       this.http.put(this.hostname + "templates/new", dataJson).subscribe(
         json => {
-          let dialogRef = this.dialog.open(MessageModalComponent, {
-            data: {
-              message: this.message
-            }
-          });
+          // TODO
         },
         error => {
           // TODO
         }
       );
-    }else{
+    } else {
       this.http.post(this.hostname + "templates/" + this.templateId, dataJson).subscribe(
         json => {
-          let dialogRef = this.dialog.open(MessageModalComponent, {
-            data: {
-              message: this.message
-            }
-          });
+          // TODO
         },
         error => {
           // TODO
         }
       );
     }
+
+    let dialogRef = this.dialog.open(MessageModalComponent, {
+      data: {
+        message: this.message
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['admin/template']);
+    });
   }
 
   addTags(event: any) {
