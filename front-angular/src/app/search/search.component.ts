@@ -69,6 +69,7 @@ export class SearchComponent implements OnInit {
   }
 
   searchTag() {
+    console.log(this.seach_word);
     var i = this.temp_tags.length;
     var str = this.seach_word;
     var target_tags: any = [];

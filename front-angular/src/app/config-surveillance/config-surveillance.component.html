@@ -10,40 +10,21 @@
 				</div>
 				<div class="wrap_surveillance_content">
 					<div id="surveillance_box">
-						<div id="surveillance_tags"></div>
-						<input type="text">
+						<mat-form-field>
+							<input matInput placeholder="Tag Name" value="" [(ngModel)]="searchWord">
+						</mat-form-field>
+						<br>
+						<div class="tag_base tag_middle surveillance_tag" *ngFor="let stag of selectedTags" (click)="deleteTags($event)">{{stag.tagName}}</div>
 					</div>
 				</div>
 				<div class="wrap_surveillance_content">
 					<div id="surveillance_tag_candidate" class="content_scroll_y">
-						<div class="tag_base tag_middle surveillance_tag">2017年度新人研修</div>
-						<div class="tag_base tag_middle surveillance_tag">2018年度新人研修</div>
-						<div class="tag_base tag_middle surveillance_tag">A-AUTO研修</div>
-						<div class="tag_base tag_middle surveillance_tag">帳票研修</div>
-						<div class="tag_base tag_middle surveillance_tag">Waha!研修</div>
-						<div class="tag_base tag_middle surveillance_tag">研修</div>
-						<div class="tag_base tag_middle surveillance_tag">2017年度新人研修2</div>
-						<div class="tag_base tag_middle surveillance_tag">2018年度新人研修2</div>
-						<div class="tag_base tag_middle surveillance_tag">A-AUTO研修2</div>
-						<div class="tag_base tag_middle surveillance_tag">帳票研修2</div>
-						<div class="tag_base tag_middle surveillance_tag">Waha!研修2</div>
-						<div class="tag_base tag_middle surveillance_tag">研修2</div>
-						<div class="tag_base tag_middle surveillance_tag">2017年度新人研修3</div>
-						<div class="tag_base tag_middle surveillance_tag">2018年度新人研修3</div>
-						<div class="tag_base tag_middle surveillance_tag">A-AUTO研修3</div>
-						<div class="tag_base tag_middle surveillance_tag">帳票研修3</div>
-						<div class="tag_base tag_middle surveillance_tag">Waha!研修3</div>
-						<div class="tag_base tag_middle surveillance_tag">研修3</div>
-						<div class="tag_base tag_middle surveillance_tag">2017年度新人研修4</div>
-						<div class="tag_base tag_middle surveillance_tag">2018年度新人研修4</div>
-						<div class="tag_base tag_middle surveillance_tag">A-AUTO研修4</div>
-						<div class="tag_base tag_middle surveillance_tag">帳票研修4</div>
-						<div class="tag_base tag_middle surveillance_tag">Waha!研修4</div>
-						<div class="tag_base tag_middle surveillance_tag">研修4</div>
+						<div class="tag_base tag_middle surveillance_tag" *ngFor="let tag of searchTag()" (click)="addTags($event)">{{tag.tagName}}</div>
 					</div>
 				</div>
 				<div class="btn_position">
-					<a href="#" class="square_btn">更新</a>
+					<button mat-raised-button (click)="getJSON()">キャンセル</button>
+					<button mat-raised-button color="primary" (click)="save()">保存</button>
 				</div>
 			</div>
 		</div>
