@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { NavigationService } from '../services/navigation.service';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component'
+import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { ConvertDateService } from '../services/convert-date.service';
 
 @Component({
@@ -30,7 +31,7 @@ export class SelectTemplateComponent implements OnInit {
   confirmChangePublish(e: any, index: number): void {
     e.preventDefault();
 
-    if (!this.templates[index]["isTemplatePublish"]) {
+    if (!this.templates[index]["templatePublish"]) {
       this.enable = "公開";
     } else {
       this.enable = "非公開に";
@@ -46,7 +47,22 @@ export class SelectTemplateComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.templates[index]["isTemplatePublish"] = !this.templates[index]["isTemplatePublish"];
+        this.templates[index]["templatePublish"] = !this.templates[index]["templatePublish"];
+
+        let type = this.templates[index].templatePublish ? "public" : "private";
+        let url = this.hostname + "templates/" + this.templates[index].templateId + '/' + type;
+        this.http.post(url, null).subscribe(
+          success => {
+            let dialogRef = this.dialog.open(MessageModalComponent, {
+              data: {
+                message: "変更しました"
+              }
+            });
+          },
+          error => {
+            // TODO 
+          }
+        );
       }
     });
   }
@@ -55,7 +71,6 @@ export class SelectTemplateComponent implements OnInit {
     console.log(this.hostname + 'templates');
     this.http.get(this.hostname + 'templates').subscribe(
       json => {
-        console.log(json);
         this.templates = json;
       },
       error => {

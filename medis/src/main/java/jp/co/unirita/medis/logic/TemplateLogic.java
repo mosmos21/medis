@@ -12,6 +12,8 @@ import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.form.template.TemplateContentForm;
 import jp.co.unirita.medis.form.template.TemplateForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class TemplateLogic {
+
+    private static final Logger logger = LoggerFactory.getLogger(TemplateLogic.class);
 
     @Autowired
     TemplateInfoRepository templateInfoRepository;
@@ -42,7 +46,7 @@ public class TemplateLogic {
         return templateInfoRepository.findAll(new Sort(Sort.Direction.ASC, "templateId"));
     }
 
-    public List<TemplateInfo> getTemplteInfoList() {
+    public List<TemplateInfo> getTemplateInfoList() {
         return templateInfoRepository.findByTemplatePublishOrderByTemplateIdAsc(true);
     }
 
@@ -79,6 +83,13 @@ public class TemplateLogic {
             contents.add(content);
         }
         return contents;
+    }
+
+    public void toggleTemplatePublish(String templateId, boolean templatePublish) {
+        TemplateInfo info = templateInfoRepository.findOne(templateId);
+        info.setTemplatePublish(templatePublish);
+        templateInfoRepository.save(info);
+        logger.info("[method: toggleTemplatePublish] Update info of templateID '" + templateId + "' " + info);
     }
 
     public void save(TemplateForm templateForm, String employeeNumber) throws Exception{

@@ -6,6 +6,8 @@ import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.form.template.TemplateForm;
 import jp.co.unirita.medis.logic.BlockLogic;
 import jp.co.unirita.medis.logic.TemplateLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/templates")
 public class TemplateController {
+
+    private static final Logger logger = LoggerFactory.getLogger(TemplateController.class);
 
     @Autowired
     BlockLogic blockLogic;
@@ -52,6 +56,17 @@ public class TemplateController {
         // TODO 社員番号を確認
         templateLogic.update(template, "99999");
         return template;
+    }
+
+    @PostMapping(value = "{templateId:^t[0-9]{10}+$}/{templatePublish:^public|private$}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void toggleTemplate(
+            @PathVariable(value = "templateId") String templateId,
+            @PathVariable(value = "templatePublish") String templatePublish) throws Exception {
+
+        logger.info("[method: toggleTemplate] Toggle open state of templateID '" + templateId + "' to " + templatePublish + ".");
+        boolean publish = templatePublish.equals("public");
+        templateLogic.toggleTemplatePublish(templateId, publish);
     }
 
     @PostMapping(value = "{templateId:^t[0-9]{10}+$}/tags")
