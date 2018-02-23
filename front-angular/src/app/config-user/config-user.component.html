@@ -1,7 +1,7 @@
 <div id="wrap_main_content">
 	<div class="wrap_main_content_center content_scroll">
-		<div class="main_content_header">
-			<h1>ユーザ情報</h1>
+		<div class="main_content_header main_content_header_text">
+			ユーザ情報
 		</div>
 		<div class="wrap_list_box">
 			<div class="list_box">
@@ -9,77 +9,110 @@
 					<tbody>
 						<tr>
 							<th class="arrow_box">社員番号</th>
-			<td>99999
-				<div class="pen_position">
-					<input type="image" src="image/pen.svg" class="pen_btn">
+							<td>{{settings[0].employeeNumber}}
+							</td>
+						</tr>
+						<tr>
+							<th class="arrow_box">姓</th>
+							<td *ngIf="lastNameInput">
+								<mat-form-field>
+									<input matInput placeholder="姓" value="{{temp_settings[0].lastName}}" [(ngModel)]="temp_settings[0].lastName">
+								</mat-form-field>
+								<button class="apply-button" mat-raised-button (click)="resetLastName()">キャンセル</button>
+								<button class="apply-button" mat-raised-button color="primary" (click)="apply()">適用</button>
+							</td>
+							<td *ngIf="!lastNameInput">{{temp_settings && temp_settings[0].lastName}}
+								<div class="pen_position">
+									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editLastName()">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="arrow_box">名</th>
+							<td *ngIf="firstNameInput">
+								<mat-form-field>
+									<input matInput placeholder="名" value="{{temp_settings[0].firstName}}" [(ngModel)]="temp_settings[0].firstName">
+								</mat-form-field>
+								<button class="apply-button" mat-raised-button (click)="resetFirstName()">キャンセル</button>
+								<button class="apply-button" mat-raised-button color="primary" (click)="apply()">適用</button>
+							</td>
+							<td *ngIf="!firstNameInput">{{temp_settings && temp_settings[0].firstName}}
+								<div class="pen_position">
+									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editFirstName()">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>せい</th>
+							<td *ngIf="lastNamePhoneticInput">
+								<mat-form-field>
+									<input matInput placeholder="せい" value="{{temp_settings[0].lastNamePhonetic}}" [(ngModel)]="temp_settings[0].lastNamePhonetic">
+								</mat-form-field>
+								<button class="apply-button" mat-raised-button (click)="resetLastNamePhonetic()">キャンセル</button>
+								<button class="apply-button" mat-raised-button color="primary" (click)="apply()">適用</button>
+							</td>
+							<td *ngIf="!lastNamePhoneticInput">{{temp_settings && temp_settings[0].lastNamePhonetic}}
+								<div class="pen_position">
+									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editLastNamePhonetic()">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>めい</th>
+							<td *ngIf="firstNamePhoneticInput">
+								<mat-form-field>
+									<input matInput placeholder="めい" value="{{temp_settings[0].firstNamePhonetic}}" [(ngModel)]="temp_settings[0].firstNamePhonetic">
+								</mat-form-field>
+								<button class="apply-button" mat-raised-button (click)="resetFirstNamePhonetic()">キャンセル</button>
+								<button class="apply-button" mat-raised-button color="primary" (click)="apply()">適用</button>
+							</td>
+							<td *ngIf="!firstNamePhoneticInput">{{temp_settings && temp_settings[0].firstNamePhonetic}}
+								<div class="pen_position">
+									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editFirstNamePhonetic()">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>メールアドレス</th>
+							<td *ngIf="mailaddressInput">
+								<mat-form-field>
+									<input matInput placeholder="メールアドレス" value="{{temp_settings[0].mailaddress}}" [(ngModel)]="temp_settings[0].mailaddress">
+								</mat-form-field>
+								<button class="apply-button" mat-raised-button (click)="resetMailaddress()">キャンセル</button>
+								<button class="apply-button" mat-raised-button color="primary" (click)="apply()">適用</button>
+							</td>
+							<td *ngIf="!mailaddressInput">{{temp_settings && temp_settings[0].mailaddress}}
+								<div class="pen_position">
+									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editMailaddress()">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>アイコン</th>
+							<td *ngIf="isIconInput">
+								<p>アイコンのアップロード</p>
+							</td>
+							<td *ngIf="!isIconInput">
+								<div class="icon_position">
+									<img src="../../assets/image/account_def.svg" class="account_icon" />
+								</div>
+								<div class="pen_position">
+									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editIsIcon()">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>パスワード</th>
+							<td>
+								<button mat-raised-button (click)="initialization()">パスワード初期化</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="btn_position">
+					<button mat-raised-button (click)="resetAll()">キャンセル</button>
+					<button mat-raised-button color="primary" (click)="submit()">保存</button>
 				</div>
-			</td>
-			</tr>
-			<tr>
-				<th class="arrow_box">姓</th>
-				<td>ユニリタ
-					<div class="pen_position">
-						<input type="image" src="image/pen.svg" class="pen_btn">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th class="arrow_box">名</th>
-				<td>太郎
-					<div class="pen_position">
-						<input type="image" src="image/pen.svg" class="pen_btn">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>せい</th>
-				<td>ゆにりた
-					<div class="pen_position">
-						<input type="image" src="image/pen.svg" class="pen_btn">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>めい</th>
-				<td>たろう
-					<div class="pen_position">
-						<input type="image" src="image/pen.svg" class="pen_btn">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>メールアドレス</th>
-				<td>hogehoge@unirita.co.jp
-					<div class="pen_position">
-						<input type="image" src="image/pen.svg" class="pen_btn">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>アイコン</th>
-				<td>
-					<div class="icon_position">
-						<img src="image/account_def.svg" class="account_icon" />
-					</div>
-					<div class="pen_position">
-						<input type="image" src="image/pen.svg" class="pen_btn">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>パスワード</th>
-				<td>
-					<a href="#">パスワード変更</a>
-					<div class="pen_position">
-						<input type="image" src="image/pen.svg" class="pen_btn">
-					</div>
-				</td>
-			</tr>
-			</tbody>
-			</table>
-			<div class="btn_position">
-				<a href="#" class="square_btn">更新</a>
 			</div>
 		</div>
 	</div>
-</div>

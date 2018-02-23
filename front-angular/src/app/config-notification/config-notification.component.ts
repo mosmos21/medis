@@ -60,4 +60,12 @@ export class ConfigNotificationComponent implements OnInit {
       this.tagNotification[i]["isBrowserNotification"] = this.isTagBrowser;
     }
   }
+
+  submit() {
+
+  }
+
+  reset() {
+
+  }
 }
