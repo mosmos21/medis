@@ -92,7 +92,7 @@ public class DocumentController {
 		documentLogic.saveTags(documentId, tags);
 	}
 
-	@RequestMapping(path = { "{documentId:^d[0-9]{10}+$}}/comments/{commentId}/read" }, method = RequestMethod.POST)
+	@RequestMapping(path = { "{documentId:^d[0-9]{10}+$}/comments/{commentId}/read" }, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void alreadyRead(@AuthenticationPrincipal User user, @PathVariable(value = "documentId") String documentId,
 			@PathVariable(value = "commentId") String commentId, @Valid HttpServletRequest request,
