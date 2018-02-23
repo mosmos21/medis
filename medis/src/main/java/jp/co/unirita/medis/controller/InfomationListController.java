@@ -39,7 +39,9 @@ public class InfomationListController {
 
 		argumentCheckLogic.userCheck(user, employeeNumber, "更新情報一覧");
 
-		argumentCheckLogic.lastUpdateIdCheck(updateId);
+		if (updateId != null) {
+			argumentCheckLogic.lastUpdateIdCheck(updateId);
+		}
 
 		if (maxSize == null) {
 			maxSize = -1;

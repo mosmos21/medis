@@ -10,6 +10,8 @@ import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.form.document.DocumentContentForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class DocumentLogic {
+
+    private static final Logger logger = LoggerFactory.getLogger(DocumentLogic.class);
 
     @Autowired
     DocumentInfoRepository documentInfoRepository;
@@ -70,6 +74,13 @@ public class DocumentLogic {
         }
         contents.add(content);
         return contents;
+    }
+
+    public void toggleDocumentPublish(String documentId, boolean documentPublish) {
+        DocumentInfo info = documentInfoRepository.findOne(documentId);
+        info.setDocumentPublish(documentPublish);
+        documentInfoRepository.save(info);
+        logger.info("[method: toggleDocumentPublish] Update info of documentID '" + documentId + "' " + info);
     }
 
     public void save(DocumentForm documentForm, String employeeNumber) throws Exception {
