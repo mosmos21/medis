@@ -25,6 +25,17 @@
                 ...
             ]
             ```
+    
+- ## テンプレートの公開状態の変更
+    - ### [POST] http://{hostname}/{version}/templates/{templateId}/{type}
+
+        テンプレートの公開、非公開を変更する
+
+        | パラメータ | 省略 |  |  
+        | :---: | :---: | --- |
+        | templateId | x | テンプレートID |
+        | type| x | public: 公開する<br>private: 非公開にする |
+
 
 - ## テンプレートブロック情報の取得
     - ### [GET] https://{hostname}/{version}/templates/blocks
