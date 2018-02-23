@@ -5,7 +5,17 @@ import { DragulaModule } from 'ng2-dragula';
 import { EditTemplateComponent } from './edit-template.component';
 import { EditTemplateRoutingModule } from './edit-template-routing.module';
 import { NavigationService } from '../services/navigation.service';
-import { MatButtonModule, MatFormFieldModule, MatInputModule, MatTabsModule, MatCardModule, MatIconModule, MatDialogModule } from '@angular/material';
+import { 
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatRadioModule,
+  MatCheckboxModule,
+  MatTabsModule,
+  MatCardModule,
+  MatIconModule,
+  MatDialogModule
+} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -17,6 +27,8 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule, MatTabsModule, Mat
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCheckboxModule,
+    MatRadioModule,
     MatTabsModule,
     MatCardModule,
     MatIconModule,

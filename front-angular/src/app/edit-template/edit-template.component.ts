@@ -166,6 +166,7 @@ export class EditTemplateComponent implements OnInit {
   }
 
   addItem(target: string): void {
+    console.log(target)
     for (let content of this.contents) {
       if (content.id == target) {
         let items = this.contentBases[content.blockId].addItems;

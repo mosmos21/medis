@@ -103,60 +103,6 @@
     },
     {
         "blockId": "b0000000004",
-        "blockName": "セレクトボックス\n(プルダウン)",
-        "unique": false,
-        "templateWrapType": null,
-        "documentWrapType": "select",
-        "items": [
-            {
-                "templateType": "span",
-                "documentType": "hidden",
-                "value": "説明文を入力してください。"
-            },
-            {
-                "templateType": "textarea",
-                "documentType": "span",
-                "value": ""
-            }
-        ],
-        "additionalType": "template",
-        "addItems": [
-            {
-                "templateType": "text",
-                "documentType": "select",
-                "value": "ここに入力してください"
-            }
-        ]
-    },
-    {
-        "blockId": "b0000000005",
-        "blockName": "セレクトボックス\n(リスト)",
-        "unique": false,
-        "templateWrapType": null,
-        "documentWrapType": "selectList",
-        "items": [
-            {
-                "templateType": "span",
-                "documentType": "hidden",
-                "value": "説明文を入力してください。"
-            },
-            {
-                "templateType": "textarea",
-                "documentType": "span",
-                "value": ""
-            }
-        ],
-        "additionalType": "template",
-        "addItems": [
-            {
-                "templateType": "text",
-                "documentType": "selectList",
-                "value": "ここに入力してください"
-            }
-        ]
-    },
-    {
-        "blockId": "b0000000006",
         "blockName": "テキスト+テキストエリア",
         "unique": false,
         "templateWrapType": null,
