@@ -160,17 +160,12 @@
 
 .block_header {
   margin: 5px;
-  height: 2em;
+  height: 4.5em;
 }
 
-.block_header h4, input {
-  float: left;
+#block_title {
   margin-left: 1em;
-}
-
-.block_header input {
-  line-height: 1.5em;
-  width: 50%;
+  width: 95%;
 }
 
 .block_body {
@@ -180,16 +175,14 @@
   padding: 5px;
 }
 
-.block_item {
-  width: calc(100% - 5px);
-  height: 2em;
-  line-height: 2em;
-  margin: 0.1em 0;
+.block_body_content_full {
+  margin-left: 1em;
+  width: 95%;
 }
 
-.block_item_tall {
-  height: 4em;
-  line-height: 3em;
+.block_body_content_half {
+  margin-left: 1em;
+  width: 50%;
 }
 
 /*ボタン*/

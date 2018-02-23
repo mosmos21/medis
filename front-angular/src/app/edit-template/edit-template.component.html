@@ -26,43 +26,58 @@
                                 <div *ngIf="!content.isUnique" class="content_remove" (click)="clickRemoveBlock($event)">X</div>
                                 <div class="block_header">
                                     <h4>{{ content.blockName }}</h4>
-                                    <input type="text" [(ngModel)]="values[content.id][0]" placeholder="タイトルを入力してください" />
+                                    <mat-form-field id="block_title">
+                                        <input matInput [(ngModel)]="values[content.id][0]" placeholder="タイトル">
+                                    </mat-form-field>
                                 </div>
-                                <hr>
                                 <div class="block_body">
-                                    <div *ngFor="let item of content.items;let i = index;" [class]="item.size > 1 ? 'block_item block_item_tall' : 'block_item'">
+                                    <div *ngFor="let item of content.items;let i = index;">
                                         <div [ngSwitch]="item.templateType">
                                             <div *ngSwitchCase="'span'">
                                                 <span>{{ item.value }}</span>
                                             </div>
                                             <div *ngSwitchCase="'text'">
-                                                <input type="text" size="50" [(ngModel)]="values[content.id][i]" placeholder="{{ item.value }}">
+                                                <mat-form-field class="block_body_content_half">
+                                                    <input matInput [(ngModel)]="values[content.id][i]" placeholder="{{ item.value }}">
+                                                </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'textarea'">
-                                                <textarea rows="4" style="width: 95%;" [(ngModel)]="values[content.id][i]">{{ item.value }}</textarea>
+                                                <mat-form-field class="block_body_content_full">
+                                                    <textarea matInput rows="3" [(ngModel)]="values[content.id][i]">{{ item.value }}</textarea>
+                                                </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'checkbox'">
-                                                <input type="checkbox" style="line-height: 1.5em;" disabled>
-                                                <input type="text" style="width:50%; line-height:1.5em;" placeholder="{{ item.value }}" [(ngModel)]="values[content.id][i]">
+                                                <mat-checkbox class="block_body_content_half" disabled>
+                                                    <mat-form-field>
+                                                        <input matInput placeholder="{{ item.value }}" [(ngModel)]="values[content.id][i]">
+                                                    </mat-form-field>
+                                                </mat-checkbox>
                                             </div>
                                             <div *ngSwitchCase="'radio'">
-                                                <input type="radio" disabled>
-                                                <input type="text" style="width:50%; line-height:1.5em;" placeholder="{{ item.value }}" [(ngModel)]="values[content.id][i]">
+                                                <mat-radio-button value="i" class="block_body_content_half" disabled>
+                                                    <mat-form-field>
+                                                        <input matInput placeholder="{{ item.value }}" [(ngModel)]="values[content.id][i]">
+                                                    </mat-form-field>
+                                                </mat-radio-button>
                                             </div>
 
                                             <!-- 記入者入力欄 -->
                                             <div *ngSwitchCase="'disabledText'">
-                                                <input type="text" size="50" placeholder="記入者入力欄" disabled>
+                                                <mat-form-field class="block_body_content_full">
+                                                    <input matInput placeholder="記入者入力欄" disabled>
+                                                </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'disabledTextarea'">
-                                                <textarea rows="4" style="width: 95%;" disabled>記入者入力欄</textarea>
+                                                <mat-form-field class="block_body_content_full">
+                                                    <textarea matInput rows="3" disabled>記入者入力欄</textarea>
+                                                </mat-form-field>
                                             </div>
                                             <!-- 記入者入力欄 -->
                                         </div>
                                     </div>
                                     <div *ngIf="content.additionalType == 'template'" class="block_item">
-                                        <button (click)="clickAddItem($event)">要素追加</button>
-                                        <button (click)="clickRemoveItem($event)">要素削除</button>
+                                        <button mat-raised-button (click)="addItem(content.id)">要素追加</button>
+                                        <button mat-raised-button (click)="removeItem(content.id)">要素削除</button>
                                     </div>
                                 </div>
                             </div>
