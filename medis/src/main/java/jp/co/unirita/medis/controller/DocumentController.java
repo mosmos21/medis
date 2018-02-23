@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,6 +33,8 @@ import jp.co.unirita.medis.util.exception.InvalidArgsException;
 @RequestMapping("/v1/documents")
 public class DocumentController {
 
+	private static final Logger logger = LoggerFactory.getLogger(TemplateListController.class);
+
 	@Autowired
 	CommentLogic commentLogic;
 	@Autowired
@@ -39,6 +43,7 @@ public class DocumentController {
 	@RequestMapping(value = { "{documentId}/comments" }, method = RequestMethod.GET)
 	public List<CommentInfoForm> getDocumentInfo(@AuthenticationPrincipal User user,
 			@PathVariable(value = "documentId") String documentId) throws InvalidArgsException {
+		logger.info("[method: getDocumetnInfo] Get document info list by " + documentId + ".");
 		List<CommentInfoForm> documentInfo = commentLogic.getCommentInfo(documentId);
 
 		return documentInfo;
@@ -97,6 +102,7 @@ public class DocumentController {
 	public void alreadyRead(@AuthenticationPrincipal User user, @PathVariable(value = "documentId") String documentId,
 			@PathVariable(value = "commentId") String commentId, @Valid HttpServletRequest request,
 			HttpServletResponse response) throws InvalidArgsException {
+		logger.info("[method: alreedyRead] Change Rread boolean And Send mail");
 		commentLogic.alreadyRead(documentId, commentId);
 
 	}
