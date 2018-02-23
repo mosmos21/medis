@@ -49,6 +49,33 @@
     },
     {
         "blockId": "b0000000002",
+        "blockName": "テキストエリア",
+        "unique": false,
+        "templateWrapType": null,
+        "documentWrapType": null,
+        "items": [
+            {
+                "templateType": "span",
+                "documentType": "hidden",
+                "value": "説明文を入力してください。"
+            },
+            {
+                "templateType": "textarea",
+                "documentType": "span",
+                "value": ""
+            }
+        ],
+        "additionalType": "document",
+        "addItems": [
+            {
+                "templateType": "disabledTextarea",
+                "documentType": "textarea",
+                "value": "ここに入力してください"
+            }
+        ]
+    },
+    {
+        "blockId": "b0000000003",
         "blockName": "チェックボックス",
         "unique": false,
         "templateWrapType": null,
@@ -75,7 +102,7 @@
         ]
     },
     {
-        "blockId": "b0000000003",
+        "blockId": "b0000000004",
         "blockName": "ラジオボタン",
         "unique": false,
         "templateWrapType": "radio",
@@ -102,7 +129,7 @@
         ]
     },
     {
-        "blockId": "b0000000004",
+        "blockId": "b0000000005",
         "blockName": "テキスト+テキストエリア",
         "unique": false,
         "templateWrapType": null,
