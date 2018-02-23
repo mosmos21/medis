@@ -25,10 +25,6 @@ public class ArgumentCheckLogic {
 
 		List<User> userList = userRepository.findAll();
 
-		for (User user2 : userList) {
-			System.out.println(user2);
-		}
-
 		List<String> employeeNumberList = new ArrayList<>();
 
 		for (User list : userList) {
@@ -48,12 +44,12 @@ public class ArgumentCheckLogic {
 
 	public void lastUpdateIdCheck(String updateId) throws InvalidArgsException {
 
-/*		List<String> updateIdList = updateInfoRepository.findByUpdateId();
+		int count = updateInfoRepository.countByUpdateId(updateId);
 
-		if (!updateIdList.contains(updateId)) {
+		if (count == 0) {
 			System.out.println(updateId);
 			throw new InvalidArgsException("lastUpdateId", updateId, "存在しない更新IDです");
 		}
-*/
+
 	}
 }
