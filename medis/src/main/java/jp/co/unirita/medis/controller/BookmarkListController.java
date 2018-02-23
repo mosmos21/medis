@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.logic.ArgumentCheckLogic;
 import jp.co.unirita.medis.logic.BookmarkLogic;
 import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
@@ -28,12 +29,16 @@ public class BookmarkListController {
 
 	@Autowired
 	private BookmarkLogic bookmarkLogic;
+	@Autowired
+	ArgumentCheckLogic argumentCheckLogic;
 
 	@RequestMapping(path = {"{user}/bookmark"}, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfo> getBookmarkList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
 		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgsException {
+
+		argumentCheckLogic.userCheck(user, employeeNumber, "お気に入り文書一覧");
 
 		if (maxSize == null) {
 			maxSize = -1;
@@ -42,12 +47,17 @@ public class BookmarkListController {
 		return bookmarkLogic.getBookmarkList(employeeNumber, maxSize);
 	}
 
-	@RequestMapping(path = {"{user}/bookmark/{documentId}"}, method = RequestMethod.POST)
+	@RequestMapping(path = {"{user}/bookmark/{documentId:^d[0-9]{10}+$}"}, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updateBookmark(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
 		@PathVariable(value = "documentId") String documentId, @Valid HttpServletRequest request,
 		HttpServletResponse response) throws InvalidArgsException {
+
+		argumentCheckLogic.userCheck(user, employeeNumber, "お気に入り情報");
+
+		argumentCheckLogic.documentIdCheck(documentId);
+
 		bookmarkLogic.updateBookmark(employeeNumber, documentId);
 	}
 }
