@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DragulaService } from 'ng2-dragula';
 import { MatDialog } from '@angular/material';
 import { NavigationService } from '../services/navigation.service';
+import { ValidatorService } from '../services/validator.service'
 
 import { MessageModalComponent } from '../message-modal/message-modal.component'
 
@@ -47,6 +48,7 @@ export class EditTemplateComponent implements OnInit {
     private dragulaService: DragulaService,
     public dialog: MatDialog,
     private nav: NavigationService,
+    private valid: ValidatorService,
   ) {
     this.nav.showAdminMenu();
   }
@@ -224,41 +226,50 @@ export class EditTemplateComponent implements OnInit {
   submit(type): void {
     let dataJson = this.data2Json(type);
 
-    if(type == "save") {
-      this.message = "テンプレートを保存し、公開しました。"
-    } else {
-      this.message = "テンプレートを下書きとして保存しました。"
-    }
-
-    if(this.templateId == 'new'){
-      this.http.put(this.hostname + "templates/new", dataJson).subscribe(
-        json => {
-          // TODO
-        },
-        error => {
-          // TODO
+    if(this.valid.empty(this.templateName)) {
+      this.message = "テンプレート名を入力してください。"
+      let dialogRef = this.dialog.open(MessageModalComponent, {
+        data: {
+          message: this.message
         }
-      );
+      });
     } else {
-      this.http.post(this.hostname + "templates/" + this.templateId, dataJson).subscribe(
-        json => {
-          // TODO
-        },
-        error => {
-          // TODO
-        }
-      );
-    }
-
-    let dialogRef = this.dialog.open(MessageModalComponent, {
-      data: {
-        message: this.message
+      if(type == "save") {
+        this.message = "テンプレートを保存し、公開しました。"
+      } else {
+        this.message = "テンプレートを下書きとして保存しました。"
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.router.navigate(['admin/template']);
-    });
+  
+      if(this.templateId == 'new'){
+        this.http.put(this.hostname + "templates/new", dataJson).subscribe(
+          json => {
+            // TODO
+          },
+          error => {
+            // TODO
+          }
+        );
+      } else {
+        this.http.post(this.hostname + "templates/" + this.templateId, dataJson).subscribe(
+          json => {
+            // TODO
+          },
+          error => {
+            // TODO
+          }
+        );
+      }
+  
+      let dialogRef = this.dialog.open(MessageModalComponent, {
+        data: {
+          message: this.message
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        this.router.navigate(['admin/template']);
+      });
+    }
   }
 
   addTags(event: any) {

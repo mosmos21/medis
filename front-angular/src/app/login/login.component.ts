@@ -8,6 +8,7 @@ import { MessageModalComponent } from '../message-modal/message-modal.component'
 
 import { NavigationService } from '../services/navigation.service';
 import { AuthService } from '../services/auth.service';
+import { ValidatorService } from '../services/validator.service'
 
 @Component({
   selector: 'app-login',
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit {
     public router: Router,
     public dialog: MatDialog,
     private nav: NavigationService,
+    private valid: ValidatorService,
     private http: HttpClient
   ) {
     this.nav.hide();
@@ -48,15 +50,24 @@ export class LoginComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result) {
-        this.message = 'パスワード再設定用メールを送信しました。'
         this.http.post(this.hostname + "accounts/usercheck", this.user).subscribe(
-          /* postした時の操作があればここにかく */
-        );
-        let dialogRef = this.dialog.open(MessageModalComponent, {
-          data: {
-            message: this.message
+          json => {
+            this.message = 'パスワード再設定用メールを送信しました。'
+            let dialogRef = this.dialog.open(MessageModalComponent, {
+              data: {
+                message: this.message
+              }
+            });
+          },
+          error => {
+            this.message = '入力された社員番号とメールアドレスが不正です。'
+            let dialogRef = this.dialog.open(MessageModalComponent, {
+              data: {
+                message: this.message
+              }
+            });
           }
-        });
+        );
       }
     });
   }
@@ -64,10 +75,18 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSubmit() {
+    if (!this.valid.empty(this.employeeNumber) && !this.valid.empty(this.password)) {
+      this.login();
+    } else {
+      this.errorMessage = "入力必須項目が未入力です。"
+    }
+  }
+
   login() {
-    this.authService.login(this.http, this.hostname + 'login', this.employeeNumber, this.password, () =>{
+    this.authService.login(this.http, this.hostname + 'login', this.employeeNumber, this.password, () => {
       console.log(this.authService.isLoggedIn);
-      if(this.authService.isLoggedIn) {
+      if (this.authService.isLoggedIn) {
         let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/top';
         this.router.navigate([redirect]);
       } else {
