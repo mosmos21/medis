@@ -9,9 +9,9 @@ import { SearchService } from '../services/search.service';
 })
 export class SearchComponent implements OnInit {
 
-  private selected_tags = [];
+  private selectedTags: any = [];
   private temp_tags = [];
-  private seach_word = "";
+  private searchWord = "";
   private tags: any = [
     {
       tagId: '',
@@ -30,10 +30,6 @@ export class SearchComponent implements OnInit {
     this.http.get(this.hostname + 'tags').subscribe(
       json => {
         this.tags = json;
-        var i = this.tags.length;
-        while (i--) {
-          this.temp_tags.push(this.tags[i]["tagName"]);
-        }
       },
       error => {
         this.tags = error;
@@ -42,44 +38,41 @@ export class SearchComponent implements OnInit {
   }
 
   addTags(event: any) {
-    if (this.selected_tags.length < 5) {
+    if (this.selectedTags.length < 5) {
+      var i = this.tags.length;
       var str = event.path[0].innerHTML;
-      this.selected_tags.push(str);
-      this.msg = this.selected_tags;
-      this.sendMsgToResult(this.msg);
-      var i = this.temp_tags.length;
       while (i--) {
-        if (this.temp_tags[i] == str) {
-          this.temp_tags.splice(i, 1);
+        if (this.tags[i]["tagName"] == str) {
+          this.selectedTags[this.selectedTags.length] = this.tags[i];
+          this.sendMsgToResult(this.selectedTags);
+          this.tags.splice(i, 1);
         }
       }
     }
-    this.seach_word = "";
   }
 
   deleteTags(event: any) {
+    var i = this.selectedTags.length;
     var str = event.path[0].innerHTML;
-    this.temp_tags.push(str);
-    var idx = this.selected_tags.indexOf(str);
-    if (idx >= 0) {
-      this.selected_tags.splice(idx, 1);
-      this.msg = this.selected_tags;
-      this.sendMsgToResult(this.msg);
+    while (i--) {
+      if (this.selectedTags[i]["tagName"] == str) {
+        this.tags[this.tags.length] = this.selectedTags[i];
+        this.sendMsgToResult(this.selectedTags);
+        this.selectedTags.splice(i, 1);
+      }
     }
   }
 
   searchTag() {
-    console.log(this.seach_word);
-    var i = this.temp_tags.length;
-    var str = this.seach_word;
-    var target_tags: any = [];
+    var sub = JSON.stringify(this.tags);
+    var targetTags = JSON.parse(sub);
+    var i = targetTags.length;
     while (i--) {
-      if (this.temp_tags[i].indexOf(str) > -1) {
-        var temp_str = this.temp_tags[i];
-        target_tags.push(temp_str);
+      if (this.tags[i]["tagName"].indexOf(this.searchWord) == -1) {
+        targetTags.splice(i, 1);
       }
     }
-    return target_tags;
+    return targetTags;
   }
 
   sendMsgToResult(msg: any) {

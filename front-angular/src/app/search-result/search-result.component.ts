@@ -27,7 +27,6 @@ export class SearchResultComponent implements OnInit {
     this.searchService.searchTagsData$.subscribe(
       msg => {
         this.msg = msg;
-        console.log(msg);
         msg.length > 0 ? this.getList(msg) : this.list = [];
       }
     );
@@ -38,6 +37,7 @@ export class SearchResultComponent implements OnInit {
     this.http.get(this.hostname + "search?tags=" + this.encodeStringToUri(msg)).subscribe(
       json => {
         this.list = json;
+        console.log(this.list);
       },
       error => {
         // TODO;
