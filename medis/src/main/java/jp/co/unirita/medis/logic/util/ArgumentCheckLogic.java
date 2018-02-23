@@ -34,7 +34,7 @@ public class ArgumentCheckLogic {
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 
-	public void checkAdminAuthority(String employeeNumber) throws AuthorityException {
+	public void checkAdminAuthority(String employeeNumber) throws AuthorityException, NotExistException {
 	    checkUserExist(employeeNumber);
 	    String authorityId = userRepository.findOne(employeeNumber).getAuthorityId();
         if(!authorityId.equals(ADMINISTRATOR_AUTHORITY_ID)) {

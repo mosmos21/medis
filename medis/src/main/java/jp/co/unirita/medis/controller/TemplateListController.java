@@ -29,13 +29,13 @@ public class TemplateListController {
     /**
      * すべてのテンプレート情報のリストを取得する
      * @param user ログインしているユーザ
-     * @return テンプレート情報(@see jp.co.unirita.medis.domain.tempkeyInfo)のリスト
+     * @return テンプレート情報(@see jp.co.unirita.medis.domain.templateinfo.TemplateInfo)のリスト
      * @throws AuthorityException ログイン中のユーザに管理者権限がない場合に発生する例外
      */
     @GetMapping
     public List<TemplateInfo> getAllTemplateInfoList(@AuthenticationPrincipal User user) throws AuthorityException {
         String employeeNumber = user.getEmployeeNumber();
-        logger.info("[method: getAllTemplateInfoList] Employee number '" + employeeNumber + "' gets template info list.");
+        logger.info("[method: getAllTemplateInfoList] employeeNumber = " + employeeNumber);
         argumentCheckLogic.checkAdminAuthority(employeeNumber);
         return templateListLogic.getAllTemplateInfoList();
     }
@@ -43,12 +43,12 @@ public class TemplateListController {
     /**
      * 公開済みのテンプレート情報のリストを取得する
      * @param user ログインしているユーザ
-     * @return テンプレート情報(@see jp.co.unirita.medis.domain.tempkeyInfo)のリスト
+     * @return テンプレート情報(@see jp.co.unirita.medis.domain.templateinfo.TemplateInfo)のリスト
      */
     @GetMapping(value = "public")
     public List<TemplateInfo> getTemplateInfoList(@AuthenticationPrincipal User user) {
         String employeeNumber = user.getEmployeeNumber();
-        logger.info("[method: getTemplateInfoList] Get template info list by " + employeeNumber + ".");
+        logger.info("[method: getTemplateInfoList] employeeNumber" + employeeNumber);
         return templateListLogic.getAllTemplateInfoList(true);
     }
 }

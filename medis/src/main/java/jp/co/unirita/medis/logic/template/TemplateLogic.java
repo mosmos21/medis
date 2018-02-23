@@ -13,6 +13,7 @@ import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.form.template.TemplateContentForm;
 import jp.co.unirita.medis.form.template.TemplateForm;
 import jp.co.unirita.medis.logic.util.TagLogic;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,14 +86,14 @@ public class TemplateLogic {
         logger.info("[method: toggleTemplatePublish] Update info of templateID '" + templateId + "' " + info);
     }
 
-    public void save(TemplateForm templateForm, String employeeNumber) throws Exception{
+    public void save(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException{
         String id = saveTemplateInfo(templateForm, employeeNumber);
         templateForm.setTemplateId(id);
 
         saveTemplateContent(id, templateForm.getContents());
     }
 
-    public void saveTags(String templateId, List<Tag> tags) throws  Exception{
+    public void saveTags(String templateId, List<Tag> tags) throws  IdIssuanceUpperException {
         int order = 1;
         for(Tag tag : tags) {
             if(tag.getTagId() == null) {
@@ -103,12 +104,13 @@ public class TemplateLogic {
         }
     }
 
-    public void update(TemplateForm templateForm, String employeeNumber) throws Exception {
+    public void update(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException {
         saveTemplateInfo(templateForm, employeeNumber);
         updateTemplateContent(templateForm.getTemplateId(), templateForm.getContents());
     }
 
-    public void updateTags(String tempalateId, List<Tag> tags) {
+    // TODO IDがついていないものにはつける
+    public void updateTags(String tempalateId, List<Tag> tags) throws IdIssuanceUpperException {
         List<TemplateTag> oldTags = templateTagRepository.findByTemplateIdOrderByTagOrderAsc(tempalateId);
 
         int common = Math.min(oldTags.size(), tags.size());
@@ -133,7 +135,7 @@ public class TemplateLogic {
         }
     }
 
-    private String saveTemplateInfo(TemplateForm templateForm, String employeeNumber) throws Exception {
+    private String saveTemplateInfo(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException {
         String templateId = templateForm.getTemplateId() == null ?  createNewTemplateId() : templateForm.getTemplateId();
         String templateName = templateForm.getTemplateName();
         Timestamp templateCreateDate = new Timestamp(System.currentTimeMillis());
@@ -208,14 +210,14 @@ public class TemplateLogic {
         }
     }
 
-    private String createNewTemplateId() throws Exception{
+    private String createNewTemplateId() throws IdIssuanceUpperException{
         List<TemplateInfo> list = templateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "templateId"));
         if(list.size()  == 0) {
             return "t0000000000";
         }
         long idNum = Long.parseLong(list.get(0).getTemplateId().substring(1));
         if(idNum == 9999999999L){
-            throw new Exception("文書の発行限界");
+            throw new IdIssuanceUpperException("Can not issue any more ID");
         }
         return String.format("t%010d", idNum + 1);
     }

@@ -1,5 +1,6 @@
 package jp.co.unirita.medis.controller;
 
+import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.blockbase.BlockBaseForm;
 
 import jp.co.unirita.medis.domain.tag.Tag;
@@ -7,11 +8,14 @@ import jp.co.unirita.medis.form.template.TemplateForm;
 import jp.co.unirita.medis.logic.template.BlockLogic;
 import jp.co.unirita.medis.logic.template.TemplateLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.util.exception.AuthorityException;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import jp.co.unirita.medis.util.exception.NotExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,68 +33,167 @@ public class TemplateController {
     @Autowired
     TemplateLogic templateLogic;
 
+    /**
+     * テンプレートブロックの情報一覧を取得する
+     * @return テンプレートブロックのリスト
+     */
     @GetMapping(value = "blocks")
     @ResponseStatus(HttpStatus.OK)
     public List<BlockBaseForm> getBlockList(){
         return blockLogic.getBlockList();
     }
 
+    /**
+     * テンプレートを取得する
+     * @param user ログインしているユーザ
+     * @param templateId 取得するテンプレートID
+     * @return テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
+     * @throws NotExistException 取得しようとしているテンプレートIDが存在していない場合に発生する例外
+     */
     @GetMapping(value = "{templateId:^t[0-9]{10}+$}")
     @ResponseStatus(HttpStatus.OK)
-    public TemplateForm getTemplate(@PathVariable(value ="templateId") String templateId) throws NotExistException {
-        String employeeNumber = "99999";
-        logger.info("[method: getTemplate] Template(ID:" + templateId+ ") is acquired by '" + employeeNumber + "'.");
+    public TemplateForm getTemplate(
+            @AuthenticationPrincipal User user,
+            @PathVariable(value ="templateId") String templateId
+    ) throws NotExistException {
+        String employeeNumber = user.getEmployeeNumber();
+        logger.info("[method: getTemplate] employeeNumber = " + employeeNumber);
 
-        // TODO 存在チェック
         argumentCheckLogic.checkTemplateId(templateId);
-
         TemplateForm template = templateLogic.getTemplate(templateId);
         System.out.println(template);
         return template;
     }
 
+    /**
+     * テンプレートにつけられたタグ一覧を取得する
+     * @param user ログインしているユーザ
+     * @param templateId 取得するテンプレートID
+     * @return タグ情報(@see jp.co.unirita.medis.domain.tag.Tag)のリスト
+     * @throws NotExistException 取得しようとしているテンプレートIDが存在していない場合に発生する例外
+     */
     @GetMapping(value = "{templateId:^t[0-9]{10}+$}/tags")
     @ResponseStatus(HttpStatus.OK)
-    public List<Tag> getTemplateTagList(@PathVariable(value ="templateId") String templateId){
+    public List<Tag> getTemplateTagList(
+            @AuthenticationPrincipal User user,
+            @PathVariable(value ="templateId") String templateId
+    ) throws NotExistException{
+        logger.info("[method: getTemplateTagList] employeeNumber = " + user.getEmployeeNumber());
+        argumentCheckLogic.checkTemplateId(templateId);
         return templateLogic.getTemplateTags(templateId);
     }
 
+    /**
+     * テンプレートの内容を更新する
+     * @param user ログインしているユーザ
+     * @param template テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
+     * @return 更新済みテンプレートフォーム
+     * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
+     * @throws IdIssuanceUpperException 新規IDの発行が上限に達した場合に発生する例外
+     * @throws NotExistException 更新しようとしているテンプレートIDが存在していない場合に発生する例外
+     */
     @PostMapping(value = "{templateId:^t[0-9]{10}+$}")
     @ResponseStatus(HttpStatus.CREATED)
-    public TemplateForm updateTemplate(@RequestBody TemplateForm template) throws Exception {
-        // TODO 社員番号を確認
-        templateLogic.update(template, "99999");
+    public TemplateForm updateTemplate(
+            @AuthenticationPrincipal User user,
+            @RequestBody TemplateForm template
+    ) throws AuthorityException, IdIssuanceUpperException, NotExistException {
+        logger.info("[method: updateTemplate] employeeNumber = " + user.getEmployeeNumber());
+
+        argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
+        argumentCheckLogic.checkTemplateId(template.getTemplateId());
+        templateLogic.update(template, user.getEmployeeNumber());
         return template;
     }
 
+    /**
+     * テンプレートの公開状態を、変更する
+     * @param user ログインしているユーザ
+     * @param templateId 更新するテンプレートID
+     * @param templatePublish public: 公開する, private: 非公開にする
+     * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
+     * @throws NotExistException 更新するテンプレートIDが存在しない場合に発生する例外
+     */
     @PostMapping(value = "{templateId:^t[0-9]{10}+$}/{templatePublish:^public|private$}")
     @ResponseStatus(HttpStatus.CREATED)
     public void toggleTemplate(
+            @AuthenticationPrincipal User user,
             @PathVariable(value = "templateId") String templateId,
-            @PathVariable(value = "templatePublish") String templatePublish) throws Exception {
-
-        logger.info("[method: toggleTemplate] Toggle open state of templateID '" + templateId + "' to " + templatePublish + ".");
+            @PathVariable(value = "templatePublish") String templatePublish
+    ) throws AuthorityException, NotExistException {
+        logger.info("[method: toggleTemplate] employeeNumber = " + user.getEmployeeNumber() + ", publishType = " + templatePublish);
         boolean publish = templatePublish.equals("public");
+
+        argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
+        argumentCheckLogic.checkTemplateId(templateId);
         templateLogic.toggleTemplatePublish(templateId, publish);
     }
 
+    /**
+     * テンプレートに付けられたタグを更新する
+     * @param user ログインしているユーザ
+     * @param templateId　付けられたタグを更新するテンプレートID
+     * @param tags タグ情報(@see jp.co.unirita.medis.domain.tag.Tag)のリスト
+     * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
+     * @throws IdIssuanceUpperException 新規IDの発行が上限に達した場合に発生する例外
+     * @throws NotExistException 更新するテンプレートIDが存在しない場合に発生する例外
+     */
     @PostMapping(value = "{templateId:^t[0-9]{10}+$}/tags")
     @ResponseStatus(HttpStatus.CREATED)
-    public void updateTemplateTagList(@PathVariable String templateId, @RequestBody List<Tag> tags) throws Exception {
+    public void updateTemplateTagList(
+            @AuthenticationPrincipal User user,
+            @PathVariable String templateId,
+            @RequestBody List<Tag> tags
+    ) throws AuthorityException, IdIssuanceUpperException, NotExistException {
+        logger.info("[method: updateTemplateTagList] employeeNumber = " + user.getEmployeeNumber());
+
+        argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
+        argumentCheckLogic.checkTemplateId(templateId);
         templateLogic.updateTags(templateId, tags);
     }
 
+    /**
+     * 新規テンプレートを保存し、ドキュメントIDを付与する
+     * @param user ログインしているユーザ
+     * @param template テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
+     * @return 保存されたテンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
+     * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
+     * @throws IdIssuanceUpperException 新規IDの発行が上限に達した場合に発生する例外
+     * @throws NotExistException ユーザが存在しない場合に発生する例外
+     */
     @PutMapping(value = "new")
     @ResponseStatus(HttpStatus.CREATED)
-    public TemplateForm saveTemplate(@RequestBody TemplateForm template) throws Exception{
-        // TODO 社員番号を取得するようにする
-        templateLogic.save(template, "99999");
+    public TemplateForm saveTemplate(
+            @AuthenticationPrincipal User user,
+            @RequestBody TemplateForm template
+    ) throws AuthorityException, IdIssuanceUpperException, NotExistException {
+        logger.info("[method: saveTemplate] employeeNumber = " + user.getEmployeeNumber());
+
+        argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
+        templateLogic.save(template, user.getEmployeeNumber());
         return template;
     }
 
+    /**
+     * 新規テンプレートについているタグを保存する
+     * @param user ログインしているユーザ
+     * @param templateId 付けられたタグを保存するテンプレートID
+     * @param tags タグ情報(@see jp.co.unirita.medis.domain.tag.Tag)のリスト
+     * @throws AuthorityException　ログインしているユーザに管理者権限がない場合に発生する例外
+     * @throws IdIssuanceUpperException　新規IDの発行が上限に達した場合に発生する例外
+     * @throws NotExistException　ユーザが存在しない場合に発生する例外
+     */
     @PutMapping(value = "{templateId:^t[0-9]{10}+$}/tags")
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveTemplateTagList(@PathVariable String templateId, @RequestBody List<Tag> tags) throws Exception {
+    public void saveTemplateTagList(
+            @AuthenticationPrincipal User user,
+            @PathVariable String templateId,
+            @RequestBody List<Tag> tags
+     ) throws AuthorityException, IdIssuanceUpperException, NotExistException {
+        logger.info("[method: saveTemplateTagList] employeeNumber = " + user.getEmployeeNumber());
+
+        argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
+        argumentCheckLogic.checkTemplateId(templateId);
         templateLogic.saveTags(templateId, tags);
     }
 }
