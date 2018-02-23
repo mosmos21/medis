@@ -36,7 +36,7 @@ export class SelectDocumentComponent implements OnInit {
         this.name = "文書タイトル";
         this.category = 'documents'
       } else {
-        this.category = 'templates';
+        this.category = 'templates/public';
       }
       this.loadList();
     });

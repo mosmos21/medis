@@ -16,16 +16,7 @@
                                 <th id="info_list_name">{{ name }}</th>
                                 <th id="info_list_date">作成日</th>
                             </tr>
-                            <div *ngIf="category == 'templates'; then templateBlock; else documentBlock"></div>
-                            <ng-template #templateBlock>
-                                <tr *ngFor="let l of list">
-                                    <td>{{ l.templateId }}</td>
-                                    <td>
-                                        <a href="/edit/new#{{ l.templateId }}">{{ l.templateName }}</a>
-                                    </td>
-                                    <td>{{ l.templateCreateDate }}</td>
-                                </tr>
-                            </ng-template>
+                            <div *ngIf="category == 'documents'; then documentBlock; else templateBlock"></div>
                             <ng-template #documentBlock>
                                 <tr *ngFor="let l of list">
                                     <td>{{ l.documentId }}</td>
@@ -35,6 +26,16 @@
                                     <td>{{ l.documentCreateDate }}</td>
                                 </tr>
                             </ng-template>
+                            <ng-template #templateBlock>
+                                <tr *ngFor="let l of list">
+                                    <td>{{ l.templateId }}</td>
+                                    <td>
+                                        <a href="/edit/new#{{ l.templateId }}">{{ l.templateName }}</a>
+                                    </td>
+                                    <td>{{ l.templateCreateDate }}</td>
+                                </tr>
+                            </ng-template>
+                            
                         </table>
                     </div>
                 </div>
