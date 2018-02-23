@@ -43,14 +43,6 @@ public class TemplateLogic {
     @Autowired
     TagLogic tagLogic;
 
-    public List<TemplateInfo> getAllTemplateInfoList() {
-        return templateInfoRepository.findAll(new Sort(Sort.Direction.ASC, "templateId"));
-    }
-
-    public List<TemplateInfo> getTemplateInfoList() {
-        return templateInfoRepository.findByTemplatePublishOrderByTemplateIdAsc(true);
-    }
-
     public List<Tag> getTemplateTags(String id) {
         System.out.println("get fix tag[templateId = " + id + "]");
         List<TemplateTag> templateTagList = templateTagRepository.findByTemplateIdOrderByTagOrderAsc(id);

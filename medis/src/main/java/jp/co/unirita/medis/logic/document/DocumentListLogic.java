@@ -18,37 +18,21 @@ import jp.co.unirita.medis.domain.user.UserRepository;
 public class DocumentListLogic {
 
 	@Autowired
-	UserRepository userRepository;
-	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 
-	public List<DocumentInfo> getDocumentList(String employeeNumber, String publishType, Integer maxSize) {
+	public List<DocumentInfo> getAllDocumentInfoList() {
+		return documentInfoRepository.findAll();
+	}
 
-		List<DocumentInfo> documentInfo = new ArrayList<>();
+	public List<DocumentInfo> getAllDocumentInfoList(String employeeNumber) {
+		return documentInfoRepository.findByEmployeeNumber(employeeNumber);
+	}
 
-		if (publishType.equals("all")) { // ユーザのすべてのドキュメントを取得する場合
-			documentInfo = documentInfoRepository.findByEmployeeNumberOrderByDocumentCreateDateDesc(employeeNumber);
-		} else if (publishType.equals("public")) { // 公開タイプが指定されている場合
-			documentInfo = documentInfoRepository.findByEmployeeNumberAndDocumentPublishOrderByDocumentCreateDateDesc(
-					employeeNumber, true);
-		} else if (publishType.equals("private")) { // 公開タイプが指定されている場合
-			documentInfo = documentInfoRepository.findByEmployeeNumberAndDocumentPublishOrderByDocumentCreateDateDesc(
-					employeeNumber, false);
-		}
+	public List<DocumentInfo> getDocumentInfoList(boolean publish) {
+		return documentInfoRepository.findByDocumentPublish(publish);
+	}
 
-
-		documentInfo.sort(new Comparator<DocumentInfo>(){
-			@Override
-			public int compare(DocumentInfo i1, DocumentInfo i2) {
-				return i2.getDocumentId().compareTo(i1.getDocumentId());
-			}
-		});
-
-		if (maxSize != -1 && documentInfo.size() > maxSize) {
-			documentInfo = documentInfo.subList(0, maxSize);
-		}
-
-		return documentInfo;
-
+	public List<DocumentInfo> getDocumentInfoList(String emplouyeeNumber, boolean publish) {
+		return documentInfoRepository.findByEmployeeNumberAndDocumentPublish(emplouyeeNumber, publish);
 	}
 }

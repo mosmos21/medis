@@ -1,6 +1,7 @@
 package jp.co.unirita.medis.controller;
 
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
+import jp.co.unirita.medis.logic.template.TemplateListLogic;
 import jp.co.unirita.medis.logic.template.TemplateLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,20 +19,20 @@ public class TemplateListController {
     private static final Logger logger = LoggerFactory.getLogger(TemplateListController.class);
 
     @Autowired
-    TemplateLogic templateLogic;
+    TemplateListLogic templateListLogic;
 
     @GetMapping
     public List<TemplateInfo> getAllTemplateInfoList() {
         String employeeNumber = "99999";// TODO 社員番号を取得するようにする
         logger.info("[method: getAllTemplateInfoList] Get template info list by " + employeeNumber + ".");
         // TODO ユーザ権限が一般ユーザの場合エラーにする
-        return templateLogic.getAllTemplateInfoList();
+        return templateListLogic.getAllTemplateInfoList();
     }
 
     @GetMapping(value = "public")
     public List<TemplateInfo> getTemplateInfoList() {
         String employeeNumber = "99999"; // TODO 社員番号を取得するようにする
         logger.info("[method: getTemplateInfoList] Get template info list by " + employeeNumber + ".");
-        return templateLogic.getTemplateInfoList();
+        return templateListLogic.getAllTemplateInfoList(true);
     }
 }

@@ -9,11 +9,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DocumentInfoRepository extends JpaRepository<DocumentInfo, String>{
-    List<DocumentInfo> findByEmployeeNumberOrderByDocumentCreateDateDesc(String employeeNumber);
-    List<DocumentInfo> findByEmployeeNumberAndDocumentPublishOrderByDocumentCreateDateDesc(String employeeNumber, boolean documentPublish);
-    Page<DocumentInfo> findByEmployeeNumber(String EmployeeNumber, Pageable pageble);
-    List<DocumentInfo> findByEmployeeNumber(String employeeNumber);
+
     List<DocumentInfo> findByDocumentId(String documentId);
     List<DocumentInfo> findByTemplateId(String templateId);
+    List<DocumentInfo> findByEmployeeNumber(String employeeNumber);
+    List<DocumentInfo> findByDocumentPublish(boolean templatePublish);
+
+    List<DocumentInfo> findByEmployeeNumberAndDocumentPublish(String employeeNumber, boolean documentPublish);
+
+    Page<DocumentInfo> findByEmployeeNumber(String EmployeeNumber, Pageable pageble);
+
     int countBydocumentId(String documentId);
 }

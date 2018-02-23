@@ -6,5 +6,7 @@ import org.thymeleaf.Template;
 import java.util.List;
 
 public interface TemplateInfoRepository extends JpaRepository<TemplateInfo, String> {
-    List<TemplateInfo> findByTemplatePublishOrderByTemplateIdAsc(boolean templatePublish);
+    List<TemplateInfo> findByEmployeeNumber(String employeeNumber);
+    List<TemplateInfo> findByTemplatePublish(boolean templatePublish);
+    List<TemplateInfo> findByEmployeeNumberAndTemplatePublish(String employeeNumber, boolean templatePublish);
 }

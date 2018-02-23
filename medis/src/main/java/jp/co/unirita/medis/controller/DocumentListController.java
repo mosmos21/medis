@@ -1,5 +1,6 @@
 package jp.co.unirita.medis.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,6 @@ import jp.co.unirita.medis.util.exception.InvalidArgsException;
 @RequestMapping("/v1/documents")
 public class DocumentListController {
 
-    @Autowired
-    DocumentInfoRepository documentInfoRepository;
 	@Autowired
 	DocumentListLogic documentListLogic;
 	@Autowired
@@ -35,12 +34,10 @@ public class DocumentListController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfo> getDocumentInfo() {
         // TODO 社員番号を取得する
-        List<DocumentInfo> list = documentInfoRepository.findByEmployeeNumber("99999");
-        list.sort((i1, i2) -> i1.getDocumentId().compareTo(i2.getDocumentId()));
-        return list;
+        return documentListLogic.getAllDocumentInfoList("99999");
     }
 
-	@RequestMapping({ "{user}", "{user}/{type:^public|private$}"})
+	@RequestMapping({ "{user:^[0-9a-z-A-Z]{5,10}$}", "{user:^[0-9a-z-A-Z]{5,10}$}/{type:^public|private$}"})
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfo> getDocumentList(@AuthenticationPrincipal User user,
 			@PathVariable(value = "user") String employeeNumber,
@@ -49,14 +46,13 @@ public class DocumentListController {
 
 		argumentCheckLogic.userCheck(user, employeeNumber, "ドキュメント一覧");
 
-		if (publishType == null ) {
-			publishType = "all";
-		}
+		List<DocumentInfo> list = new ArrayList<>();
 
-		if (maxSize == null) {
-			maxSize = -1;
-		}
-
-		return documentListLogic.getDocumentList(employeeNumber, publishType, maxSize);
+		if(publishType == null) {
+		    list = documentListLogic.getAllDocumentInfoList(employeeNumber);
+        } else {
+		    list = documentListLogic.getDocumentInfoList(employeeNumber, publishType.equals("public"));
+        }
+        return list;
 	}
 }
