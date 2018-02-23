@@ -3,6 +3,7 @@ package jp.co.unirita.medis.logic.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.unirita.medis.domain.authority.Authority;
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfoRepository;
 import jp.co.unirita.medis.util.exception.AuthorityException;
 import jp.co.unirita.medis.util.exception.NotExistException;
@@ -22,6 +23,8 @@ public class ArgumentCheckLogic {
 
     private static final Logger logger = LoggerFactory.getLogger(ArgumentCheckLogic.class);
 
+    private static final String ADMINISTRATOR_AUTHORITY_ID = "0";
+
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
@@ -30,6 +33,25 @@ public class ArgumentCheckLogic {
     TemplateInfoRepository templateInfoRepository;
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
+
+	public void checkAdminAuthority(String employeeNumber) throws AuthorityException {
+	    checkUserExist(employeeNumber);
+	    String authorityId = userRepository.findOne(employeeNumber).getAuthorityId();
+        if(!authorityId.equals(ADMINISTRATOR_AUTHORITY_ID)) {
+            AuthorityException e = new AuthorityException("authorityId", authorityId, "User does not have administrator authority.");
+            logger.error("[method: checkAdminAuthority] The employee number '" + employeeNumber + "' does not have administrator authoriry.", e);
+            throw e;
+        }
+    }
+
+    public void checkUserExist(String employeeNumber) throws AuthorityException{
+	    User user = userRepository.findOne(employeeNumber);
+	    if(user == null) {
+            AuthorityException e =  new AuthorityException("user", null, "User does not exist.");
+            logger.error("[method: checkUserExist] The employee number '" + employeeNumber + "' does not exist.", e);
+            throw e;
+        }
+    }
 
 	public void checkUser(User user, String employeeNumber, String contents) throws NotExistException, AuthorityException {
 
