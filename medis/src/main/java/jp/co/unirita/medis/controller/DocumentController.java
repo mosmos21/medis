@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.form.CommentCreateForm;
 import jp.co.unirita.medis.form.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.document.CommentLogic;
@@ -104,6 +105,16 @@ public class DocumentController {
 			HttpServletResponse response) throws NotExistException {
 		logger.info("[method: alreedyRead] Change Rread boolean And Send mail");
 		commentLogic.alreadyRead(documentId, commentId);
+
+	}
+
+	@RequestMapping(path = { "{documentId:^d[0-9]{10}+$}/comments/create"}, method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public void commetAdd(@RequestBody @Valid CommentCreateForm postData,@PathVariable(value = "documentId") String documentId,
+			@Valid HttpServletRequest request,
+			HttpServletResponse response) throws NotExistException {
+		logger.info("[method: save] Add Comment EmployeeNumber:"+postData.getEmployeeNumber()+"value:"+postData.getValue());
+		commentLogic.sava(documentId, postData);
 
 	}
 }
