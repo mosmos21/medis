@@ -14,7 +14,7 @@ import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfo;
 import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
-import jp.co.unirita.medis.util.exception.InvalidArgumentException;
+import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @Service
 @SpringBootApplication
@@ -25,10 +25,10 @@ public class AccountLogic {
 	@Autowired
 	TempkeyInfoRepository tempkeyInfoRepository;
 
-	public void userCheck(UserDetail userDetail) throws InvalidArgumentException {
+	public void userCheck(UserDetail userDetail) throws InvalidArgsException {
 		if (userDetailRepository.findByEmployeeNumberAndMailaddress(userDetail.getEmployeeNumber(),
 				userDetail.getMailaddress()) == null)
-			throw new InvalidArgumentException("employeeNumber or mailaddress",
+			throw new InvalidArgsException("employeeNumber or mailaddress",
 					userDetail.getEmployeeNumber() + " or " + userDetail.getMailaddress(),
 					"ユーザ情報の確認に失敗しました。入力内容に誤りがあります。");
 		;

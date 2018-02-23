@@ -17,7 +17,7 @@ import jp.co.unirita.medis.domain.authority.AuthorityRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.logic.AccountLogic;
-import jp.co.unirita.medis.util.exception.InvalidArgumentException;
+import jp.co.unirita.medis.util.exception.InvalidArgsException;
 
 @RestController
 @RequestMapping("v1/accounts")
@@ -33,7 +33,7 @@ public class AccountController {
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "usercheck", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	void userCheck(@RequestBody UserDetail postData, HttpServletRequest request, HttpServletResponse response)
-			throws InvalidArgumentException {
+			throws InvalidArgsException {
 		accountLogic.userCheck(postData);
 	}
 
