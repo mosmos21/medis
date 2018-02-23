@@ -25,7 +25,31 @@
                 ...
             ]
             ```
-    
+
+- ## 公開済みテンプレート一覧情報の取得
+    - ### [GET] http://{hostname}/{version}/templates/public?size={size}
+
+        公開済みテンプレートの一覧を取得する
+
+        | パラメータ | 省略 |  |  
+        | :---: | :---: | --- |
+        | size | o | 取得件数(省略時全件取得) |
+
+        ---
+        - レスポンス(200 OK)
+            ```json
+            [
+                {
+                    "templateId": "(templateId)",
+                    "templateName": "(templateName)",
+                    "templateCreateDate": "(templateCreateDate)",
+                    "employeeNumber": "(employeeNumber)",
+                    "isTemplatePublish": true|false
+                },
+                ...
+            ]
+            ```
+
 - ## テンプレートの公開状態の変更
     - ### [POST] http://{hostname}/{version}/templates/{templateId}/{type}
 
@@ -35,6 +59,9 @@
         | :---: | :---: | --- |
         | templateId | x | テンプレートID |
         | type| x | public: 公開する<br>private: 非公開にする |
+
+        ---
+        - レスポンス(201 CREATED)
 
 
 - ## テンプレートブロック情報の取得

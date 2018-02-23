@@ -36,6 +36,9 @@
         | documentId | x | ドキュメントID |
         | type| x | public: 公開する<br>private: 非公開にする |
 
+        ---
+        - レスポンス(201 CREATED)
+
 - ## ドキュメント新規作成
     - ### [PUT] https://{hostname}/{version}/documents/create
         ドキュメントの新規作成
