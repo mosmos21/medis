@@ -24,3 +24,4 @@ nbdist/
 .nb-gradle/
 
 .sts4-cache
+log/
