@@ -15,4 +15,5 @@ public interface DocumentInfoRepository extends JpaRepository<DocumentInfo, Stri
     List<DocumentInfo> findByEmployeeNumber(String employeeNumber);
     List<DocumentInfo> findByDocumentId(String documentId);
     List<DocumentInfo> findByTemplateId(String templateId);
+    int countBydocumentId(String documentId);
 }

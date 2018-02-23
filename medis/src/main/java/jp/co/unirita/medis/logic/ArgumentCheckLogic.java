@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.user.UserRepository;
@@ -20,6 +21,8 @@ public class ArgumentCheckLogic {
 	UserRepository userRepository;
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
+	@Autowired
+	DocumentInfoRepository documentInfoRepository;
 
 	public void userCheck(User user, String employeeNumber, String contents) throws InvalidArgsException {
 
@@ -50,6 +53,15 @@ public class ArgumentCheckLogic {
 			System.out.println(updateId);
 			throw new InvalidArgsException("lastUpdateId", updateId, "存在しない更新IDです");
 		}
+	}
 
+	public void documentIdCheck(String documentId) throws InvalidArgsException {
+
+		int count = documentInfoRepository.countBydocumentId(documentId);
+
+		if (count == 0) {
+			System.out.println(documentId);
+			throw new InvalidArgsException("documentId", documentId, "存在しないドキュメントIDです");
+		}
 	}
 }
