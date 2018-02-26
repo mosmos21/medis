@@ -231,8 +231,6 @@
         - レスポンス(200 OK)
             ```json
             {
-                "employeeNumber": "(employeeNumber)",
-                "tagId": "(tagId)",
                 "isMailNotification": true|false,
                 "isBrowserNotification": true|false
             }
@@ -247,8 +245,6 @@
         - リクエスト
             ```json
             {
-                "employeeNumber": "(employeeNumber)",
-                "tagId": "(tagId)",
                 "isMailNotification": true|false,
                 "isBrowserNotification": true|false
             }
