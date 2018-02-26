@@ -118,10 +118,6 @@ public class InfomationLogic {
 		List<String> documentIdList = new ArrayList<>(set);
 
 
-		for (String string : documentIdList) {
-			System.out.println(string);
-		}
-
 		//update_infoの値取得
 		List<UpdateInfo> updateInfo = new ArrayList<>();
 
@@ -135,22 +131,12 @@ public class InfomationLogic {
 			}
 		}
 
-		for (UpdateInfo updateInfo2 : updateInfo) {
-			System.out.println(updateInfo2);
-		}
-
-
 		//updateInfoで取得した中のdocumentIdの一覧を取得
 		List<String> lastDocumentIdList = new ArrayList<>();
 
 		for (UpdateInfo updateinfo : updateInfo) {
 			lastDocumentIdList.add(updateinfo.getDocumentId());
 		}
-
-		for (String string : lastDocumentIdList) {
-			System.out.println(string);
-		}
-		System.out.println(0);
 
 		//documentNameの取得
 		List<DocumentInfo> lastDocumentInfo = new ArrayList<>();
@@ -159,21 +145,12 @@ public class InfomationLogic {
 			lastDocumentInfo.addAll(documentInfoRepository.findByDocumentId(lastDocumentIdList.get(i)));
 		}
 
-		for (DocumentInfo documentInfo2 : lastDocumentInfo) {
-			System.out.println(documentInfo2);
-		}
-		System.out.println(1);
-
 		List<String> documentNameList = new ArrayList<>();
 
 		for (DocumentInfo lastDocInfo : lastDocumentInfo) {
 			documentNameList.add(lastDocInfo.getDocumentName());
 		}
 
-		for (String string : documentNameList) {
-			System.out.println(string);
-		}
-		System.out.println(2);
 
 		//updateInfoとcontentMainListの値をInfomationFormに格納
 		List<InfomationForm> infomation = new ArrayList<>();

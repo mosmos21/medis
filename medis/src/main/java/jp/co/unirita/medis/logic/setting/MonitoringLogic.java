@@ -20,6 +20,9 @@ import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
 import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
+import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
+import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
+import jp.co.unirita.medis.form.DocumentInfoForm;
 
 @Service
 @Transactional
@@ -33,9 +36,11 @@ public class MonitoringLogic {
 	TemplateTagRepository templateTagRepository;
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
+	@Autowired
+	UpdateInfoRepository updateInfoRepository;
 
 
-	public List<DocumentInfo> getMonitoringList(String employeeNumber, Integer maxSize) {
+	public List<DocumentInfoForm> getMonitoringList(String employeeNumber, Integer maxSize) {
 		//userが監視しているタグの一覧
 		List<NotificationConfig> notificationConfig = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
 		List<String> tagIdList = new ArrayList<>();
@@ -102,25 +107,45 @@ public class MonitoringLogic {
 		Set<String> set = new HashSet<>(documentIdListBeforeMap);
 		List<String> documentIdList = new ArrayList<>(set);
 
-		//documentIdListのdocumentInfoの取得
-		List<DocumentInfo> documentInfo = new ArrayList<>();
+		//各documentIdごとの最新のupdateIdをもったupdate_infoのリストの取得
+		List<UpdateInfo> updateInfoList = new ArrayList<>();
 
 		for (int i = 0; i < documentIdList.size(); i++) {
-			documentInfo.addAll(documentInfoRepository.findByDocumentId(documentIdList.get(i)));
+			updateInfoList.addAll(updateInfoRepository.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(documentIdList.get(i), "v0000000000", "v0000000001"));
 		}
 
+		//updateInfoListのdocumentIdの一覧の取得
+		List<String> updateDocIdList = new ArrayList<>();
 
-		documentInfo.sort(new Comparator<DocumentInfo>(){
+		for (UpdateInfo upDocId : updateInfoList) {
+			updateDocIdList.add(upDocId.getDocumentId());
+		}
+
+		//updateDocIdのdocumentInfoの取得
+		List<DocumentInfo> documentInfoList = new ArrayList<>();
+
+		for (int i = 0; i < updateDocIdList.size(); i++) {
+			documentInfoList.addAll(documentInfoRepository.findByDocumentId(updateDocIdList.get(i)));
+		}
+
+		//documentInfoListとupdateInfoListの値をDocumentInfoFormに格納
+		List<DocumentInfoForm> documentInfoForm = new ArrayList<>();
+
+		for(int i = 0; i < documentInfoList.size(); i++) {
+			documentInfoForm.add(new DocumentInfoForm(documentInfoList.get(i), updateInfoList.get(i)));
+		}
+
+		documentInfoForm.sort(new Comparator<DocumentInfoForm>(){
 			@Override
-			public int compare(DocumentInfo i1, DocumentInfo i2) {
-				return i2.getDocumentId().compareTo(i1.getDocumentId());
+			public int compare(DocumentInfoForm i1, DocumentInfoForm i2) {
+				return i2.getUpdateDate().compareTo(i1.getUpdateDate());
 			}
 		});
 
-		if (maxSize != -1 && documentInfo.size() > maxSize) {
-			documentInfo = documentInfo.subList(0, maxSize);
+		if (maxSize != -1 && documentInfoForm.size() > maxSize) {
+			documentInfoForm = documentInfoForm.subList(0, maxSize);
 		}
 
-		return documentInfo;
+		return documentInfoForm;
 	}
 }
