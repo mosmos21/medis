@@ -1,10 +1,7 @@
 package jp.co.unirita.medis.controller;
 
-import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
-import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.logic.template.TemplateListLogic;
-import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
-import jp.co.unirita.medis.util.exception.AuthorityException;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
+import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.logic.template.TemplateListLogic;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.util.exception.AuthorityException;
 
 @RestController
 @RequestMapping("/v1/templates")
@@ -36,7 +37,7 @@ public class TemplateListController {
     public List<TemplateInfo> getAllTemplateInfoList(@AuthenticationPrincipal User user) throws AuthorityException {
         String employeeNumber = user.getEmployeeNumber();
         logger.info("[method: getAllTemplateInfoList] employeeNumber = " + employeeNumber);
-        argumentCheckLogic.checkAdminAuthority(employeeNumber);
+      //argumentCheckLogic.checkAdminAuthority(employeeNumber);
         return templateListLogic.getAllTemplateInfoList();
     }
 
