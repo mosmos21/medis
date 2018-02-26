@@ -33,7 +33,6 @@ import { ViewModule } from './view/view.module';
 import { UserManagementModule } from './user-management/user-management.module';
 import { ConfigNotificationModule } from './config-notification/config-notification.module'
 import { ConfigSurveillanceModule } from './config-surveillance/config-surveillance.module';
-import { ConfigTopModule } from './config-top/config-top.module';
 import { ConfigUserModule } from './config-user/config-user.module';
 import { NewPasswordModule } from './new-password/new-password.module';
 
@@ -88,7 +87,6 @@ import { PageNotFoundComponent } from './error/page-not-found.component';
     UserManagementModule,
     ConfigNotificationModule,
     ConfigSurveillanceModule,
-    ConfigTopModule,
     ConfigUserModule,
     NewPasswordModule,
 

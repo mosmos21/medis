@@ -1,0 +1,11 @@
+- if:
+    params:
+      user: 97965
+  then:
+    status: 200
+    headers:
+      Content-Type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: info1.json
+- then:
+    status: 404
