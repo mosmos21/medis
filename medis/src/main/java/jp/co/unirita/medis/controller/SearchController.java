@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.form.DocumentInfoForm;
 import jp.co.unirita.medis.logic.util.SearchLogic;
 import jp.co.unirita.medis.util.exception.NotExistException;
 
@@ -27,7 +27,7 @@ public class SearchController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public List<DocumentInfo> getSearchResult(
+	public List<DocumentInfoForm> getSearchResult(
 			@AuthenticationPrincipal User user, @RequestParam(value = "tags", required = false) String tagName) throws NotExistException, UnsupportedEncodingException {
 
 		return searchLogic.getSearchResult(tagName);
