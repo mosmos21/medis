@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import jp.co.unirita.medis.util.exception.AuthorityException;
-import jp.co.unirita.medis.util.exception.NotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.form.DocumentInfoForm;
 import jp.co.unirita.medis.logic.setting.BookmarkLogic;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.util.exception.AuthorityException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RequestMapping("/v1/documents")
 
@@ -35,7 +35,7 @@ public class BookmarkListController {
 
 	@RequestMapping(path = {"{user}/bookmark"}, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public List<DocumentInfo> getBookmarkList(
+	public List<DocumentInfoForm> getBookmarkList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
 		@RequestParam(value = "size", required = false) Integer maxSize) throws NotExistException, AuthorityException {
 
