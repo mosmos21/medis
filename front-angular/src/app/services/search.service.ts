@@ -10,6 +10,7 @@ export class SearchService {
   private searchTagsDataSource = new Subject<string>();
   public searchTagsData$ = this.searchTagsDataSource.asObservable();
 
+  public newTag = "";
   public selectedTags: any = [];
   public searchWord: string = "";
   private tags: any = [
@@ -100,5 +101,17 @@ export class SearchService {
     }
     console.log(targetTags);
     return targetTags;
+  }
+
+  addNewTag() {
+    var i = this.tags.length;
+    var count = 0;
+    while (i--) {
+      if (this.tags[i]["tagName"] == this.searchWord) {
+        count++;
+      }
+    }
+    count == 0 ? this.newTag = this.searchWord : this.newTag = "";
+    return this.newTag;
   }
 }

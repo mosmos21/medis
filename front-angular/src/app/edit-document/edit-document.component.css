@@ -175,6 +175,6 @@ box-shadow: 5px 5px 5px #999;
 
 /deep/.mat-tab-label{
   min-width: 1px!important;
-  width: 99%;
+  width: 98%;
   padding: 0px;
 }
