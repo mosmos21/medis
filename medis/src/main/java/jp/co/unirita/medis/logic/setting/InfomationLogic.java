@@ -117,17 +117,26 @@ public class InfomationLogic {
 		Set<String> set = new HashSet<>(documentIdListBeforeMap);
 		List<String> documentIdList = new ArrayList<>(set);
 
+
+		for (String string : documentIdList) {
+			System.out.println(string);
+		}
+
 		//update_infoの値取得
 		List<UpdateInfo> updateInfo = new ArrayList<>();
 
 		if (updateId == null) {
 			for (int i = 0; i < documentIdList.size(); i++) {
-				updateInfo.addAll(updateInfoRepository.findByDocumentId(documentIdList.get(i)));
+				updateInfo.addAll(updateInfoRepository.findByDocumentIdAndUpdateTypeBetween(documentIdList.get(i), "v0000000002", "v0000000003"));
 			}
 		} else {
 			for (int i = 0; i < documentIdList.size(); i++) {
-				updateInfo.addAll(updateInfoRepository.findByDocumentIdAndUpdateIdGreaterThan(documentIdList.get(i), updateId));
+				updateInfo.addAll(updateInfoRepository.findByDocumentIdAndUpdateTypeBetweenAndUpdateIdGreaterThan(documentIdList.get(i), "v0000000002", "v0000000003" , updateId));
 			}
+		}
+
+		for (UpdateInfo updateInfo2 : updateInfo) {
+			System.out.println(updateInfo2);
 		}
 
 
@@ -138,18 +147,33 @@ public class InfomationLogic {
 			lastDocumentIdList.add(updateinfo.getDocumentId());
 		}
 
-		//contentOther(documentTitle)の取得
+		for (String string : lastDocumentIdList) {
+			System.out.println(string);
+		}
+		System.out.println(0);
+
+		//documentNameの取得
 		List<DocumentInfo> lastDocumentInfo = new ArrayList<>();
 
 		for (int i = 0; i < lastDocumentIdList.size(); i++) {
-			documentInfo.addAll(documentInfoRepository.findByDocumentId(lastDocumentIdList.get(i)));
+			lastDocumentInfo.addAll(documentInfoRepository.findByDocumentId(lastDocumentIdList.get(i)));
 		}
+
+		for (DocumentInfo documentInfo2 : lastDocumentInfo) {
+			System.out.println(documentInfo2);
+		}
+		System.out.println(1);
 
 		List<String> documentNameList = new ArrayList<>();
 
 		for (DocumentInfo lastDocInfo : lastDocumentInfo) {
 			documentNameList.add(lastDocInfo.getDocumentName());
 		}
+
+		for (String string : documentNameList) {
+			System.out.println(string);
+		}
+		System.out.println(2);
 
 		//updateInfoとcontentMainListの値をInfomationFormに格納
 		List<InfomationForm> infomation = new ArrayList<>();
