@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
+import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.toppage.ToppageRepository;
 import jp.co.unirita.medis.domain.user.User;
@@ -34,39 +35,45 @@ public class SettingController {
 	@Autowired
 	UserDetailRepository userdetailRepository;
 	@Autowired
+	NotificationConfigRepository notificationConfigRepository;
+	@Autowired
 	SettingLogic settingLogic;
 
-	//ユーザ情報設定情報の取得
+	// ユーザ情報設定情報の取得
 	@RequestMapping(value = "me", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 	List<UserDetail> getUserDetail(@AuthenticationPrincipal User user) {
 		List<UserDetail> info = userdetailRepository.findAllByEmployeeNumber(user.getEmployeeNumber());
 		return info;
 	}
 
-	//ユーザ情報設定情報の更新
+	// ユーザ情報設定情報の更新
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "me", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	void updateUserDetail(@AuthenticationPrincipal User user, @RequestBody @Valid UserDetail postData, HttpServletRequest request,
-			HttpServletResponse response) {
-		settingLogic.updateUserDetail(user,postData);
-	}
-/*
-	//トップページ設定情報の取得
-	@RequestMapping(value = "me/toppage", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-	List<Toppage> getToppageOrder(@AuthenticationPrincipal User user) {
-		List<Toppage> info = toppageRepository.findAllByEmployeeNumberOrderByToppageOrderAsc(user.getEmployeeNumber());
-		return info;
+	void updateUserDetail(@AuthenticationPrincipal User user, @RequestBody @Valid UserDetail postData,
+			HttpServletRequest request, HttpServletResponse response) {
+		settingLogic.updateUserDetail(user, postData);
 	}
 
-	//トップページ設定情報の更新
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "me/toppage", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	void updateToppageOrder(@AuthenticationPrincipal User user, @RequestBody @Valid List<Toppage> postData, HttpServletRequest request,
-			HttpServletResponse response) {
-		settingLogic.updateToppageOrder(user,postData);
-	}
-*/
-	//監視タグ設定情報の取得
+	/*
+	 * //トップページ設定情報の取得
+	 *
+	 * @RequestMapping(value = "me/toppage", method = RequestMethod.GET, consumes =
+	 * MediaType.APPLICATION_JSON_VALUE) List<Toppage>
+	 * getToppageOrder(@AuthenticationPrincipal User user) { List<Toppage> info =
+	 * toppageRepository.findAllByEmployeeNumberOrderByToppageOrderAsc(user.
+	 * getEmployeeNumber()); return info; }
+	 *
+	 * //トップページ設定情報の更新
+	 *
+	 * @ResponseStatus(HttpStatus.OK)
+	 *
+	 * @RequestMapping(value = "me/toppage", method = RequestMethod.POST, consumes =
+	 * MediaType.APPLICATION_JSON_VALUE) void
+	 * updateToppageOrder(@AuthenticationPrincipal User user, @RequestBody @Valid
+	 * List<Toppage> postData, HttpServletRequest request, HttpServletResponse
+	 * response) { settingLogic.updateToppageOrder(user,postData); }
+	 */
+	// 監視タグ設定情報の取得
 	@RequestMapping(value = "me/monitoring_tags", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 	List<Tag> getMonitoringTags(@AuthenticationPrincipal User user) {
 		List<Tag> infoList = null;
@@ -74,27 +81,38 @@ public class SettingController {
 		return infoList;
 	}
 
-	//監視タグ設定情報の更新
+	// 監視タグ設定情報の更新
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "me/monitoring_tags", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	void updateMonitoring_Tags(@AuthenticationPrincipal User user, @RequestBody @Valid List<NotificationConfig> postData, HttpServletRequest request,
+	void updateMonitoring_Tags(@AuthenticationPrincipal User user,
+			@RequestBody @Valid List<NotificationConfig> postData, HttpServletRequest request,
 			HttpServletResponse response) {
-		settingLogic.updateMonitoringTags(user,postData);
+		settingLogic.updateMonitoringTags(user, postData);
 	}
 
-	//通知設定情報の取得
-	@RequestMapping(value = "me/notifications", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-	List<NotificationsForm> getNotification(@AuthenticationPrincipal User user) {
+	// 通知設定情報の取得(タグ)
+	@RequestMapping(value = "me/tag_notifications", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	List<NotificationsForm> getNotificationTag(@AuthenticationPrincipal User user) {
 		List<NotificationsForm> infoList = null;
-		infoList = settingLogic.getNotification(user);
+		infoList = settingLogic.getNotificationTag(user);
 		return infoList;
 	}
 
-	//通知設定情報の更新
+	// 通知設定情報の更新(タグ)
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "me/notifications", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	void updateNotification(@AuthenticationPrincipal User user, @RequestBody @Valid List<NotificationConfig> postData, HttpServletRequest request,
+	@RequestMapping(value = "me/tag_notifications", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	void updateNotificationTag(@AuthenticationPrincipal User user,
+			@RequestBody @Valid List<NotificationConfig> postData, HttpServletRequest request,
 			HttpServletResponse response) {
-		settingLogic.updateNotification(user,postData);
+		settingLogic.updateNotificationTag(user, postData);
+	}
+
+	// 通知設定情報の取得(コメント)
+	@RequestMapping(value = "me/comment_notifications", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	List<NotificationConfig> getNotificationComment(@AuthenticationPrincipal User user) {
+		List<NotificationConfig> infoList = null;
+		infoList = notificationConfigRepository.findByEmployeeNumberAndTagIdOrderByEmployeeNumberDesc(user.getEmployeeNumber(), "commentpushtag");
+		System.out.println("AAAA"+infoList);
+		return infoList;
 	}
 }
