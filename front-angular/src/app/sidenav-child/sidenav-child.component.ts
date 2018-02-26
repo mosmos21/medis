@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { NavigationService } from '../services/navigation.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-sidenav-child',
@@ -11,14 +12,19 @@ export class SidenavChildComponent implements OnInit {
   private mymenuVisible: boolean;
   private searchVisible: boolean;
   private settingsVisible: boolean;
+  private list: any;
+  private num;
 
   constructor(
     private nav: NavigationService,
+    private http: HttpClient,
+    @Inject('hostname') private hostname: string,
   ) {
     this.mymenuOpen();
   }
 
   ngOnInit() {
+    this.loadList();
   }
 
   mymenuOpen() {
@@ -42,5 +48,19 @@ export class SidenavChildComponent implements OnInit {
 
   logout() {
 
+  }
+
+  loadList(): void {
+    this.http.get(this.hostname + "documents").subscribe(
+      json => {
+        this.list = json;
+        this.num = this.list.length;
+        console.log(this.num);
+        console.log(this.list);
+      },
+      error => {
+        // TODO;
+      }
+    );
   }
 }

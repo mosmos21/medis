@@ -99,7 +99,6 @@ export class SearchService {
         targetTags.splice(i, 1);
       }
     }
-    console.log(targetTags);
     return targetTags;
   }
 
