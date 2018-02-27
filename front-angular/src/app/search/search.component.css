@@ -65,7 +65,7 @@
     font-size: 13px;
     width: 180px;
     border-left: solid 5px #0f9d58;
-    border-bottom: solid 3px #d7d7d7;
+    /* border-bottom: solid 3px #d7d7d7; */
 }
 
 .tag_small {

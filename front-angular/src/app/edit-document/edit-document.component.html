@@ -73,10 +73,10 @@
                         </mat-form-field>
                         <div class="wrap_search_content">
                             <div id="search_tag_candidate" class="content_scroll_y">
-                                <nav *ngIf="searchService.addNewTag() != ''">
+                                <nav *ngIf="searchService.createNewTag() != ''">
                                     <div class="tag_base tag_new" (click)="searchService.addTags($event)">{{searchService.newTag}}</div>
                                 </nav>
-                                <div *ngFor="let tag of searchService.searchTag()">
+                                <div *ngFor="let tag of searchService.tags">
                                     <div class="tag_base tag_middle" (click)="searchService.addTags($event)">{{tag.tagName}}</div>
                                 </div>
                             </div>

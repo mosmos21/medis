@@ -251,4 +251,8 @@ export class EditDocumentComponent implements OnInit {
       );
     }
   }
+
+  hoge() {
+    console.log("hoge");
+  }
 }

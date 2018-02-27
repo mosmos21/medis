@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SearchService } from './search.service';
 
 @Injectable()
 export class NavigationService {
@@ -10,6 +11,7 @@ export class NavigationService {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private searchService: SearchService,
   ) {
     this.visible = true;
     this.isUser = true;
@@ -35,10 +37,12 @@ export class NavigationService {
 
   //一般ユーザ画面遷移
   toTop() {
+    this.searchService.selectedTags = [];
     this.router.navigate(["/top"]);
   }
 
   toEdit(str) {
+    this.searchService.selectedTags = [];
     if (!str) {
       this.router.navigate(["/edit"]);
     } else if (str == "new") {
@@ -50,19 +54,21 @@ export class NavigationService {
 
   //一般ユーザ設定系
   toMySetting() {
+    this.searchService.selectedTags = [];
     this.router.navigate(["/settings/me"]);
   }
 
   toNotificationSetting() {
+    this.searchService.selectedTags = [];
     this.router.navigate(["/settings/me/notification"]);
   }
 
   toMonitoringTagsSetting() {
+    this.searchService.selectedTags = [];
     this.router.navigate(["settings/me/monitoring_tags"]);
   }
 
   toSearchResult() {
-    console.log("call toSearchResult");
     this.router.navigate(["search"]);
   }
 

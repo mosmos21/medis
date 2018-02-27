@@ -11,8 +11,8 @@ export class SearchService {
   public searchTagsData$ = this.searchTagsDataSource.asObservable();
 
   public newTag = "";
-  public selectedTags: any = [];
-  public searchWord: string = "";
+  public selectedTags = [];
+  public searchWord = "";
   private tags: any = [
     {
       tagId: '',
@@ -41,7 +41,7 @@ export class SearchService {
   }
 
   addTags(event: any) {
-    if (this.selectedTags.length < 5) {
+    if (this.selectedTags.length < 4) {
       var i = this.tags.length;
       var str = event.path[0].innerHTML;
       while (i--) {
@@ -54,8 +54,10 @@ export class SearchService {
   }
 
   deleteTags(event: any) {
+    console.log("deleteTags");
     var i = this.selectedTags.length;
-    var str = event.path[0].innerHTML;
+    var str = event.path[0].innerText;
+    console.log(event);
     while (i--) {
       if (this.selectedTags[i]["tagName"] == str) {
         this.tags[this.tags.length] = this.selectedTags[i];
@@ -94,6 +96,7 @@ export class SearchService {
     var sub = JSON.stringify(this.tags);
     var targetTags = JSON.parse(sub);
     var i = targetTags.length;
+    var j = this.selectedTags.length;
     while (i--) {
       if (this.tags[i]["tagName"].indexOf(this.searchWord) == -1) {
         targetTags.splice(i, 1);
@@ -102,7 +105,7 @@ export class SearchService {
     return targetTags;
   }
 
-  addNewTag() {
+  createNewTag() {
     var i = this.tags.length;
     var count = 0;
     while (i--) {
@@ -112,5 +115,9 @@ export class SearchService {
     }
     count == 0 ? this.newTag = this.searchWord : this.newTag = "";
     return this.newTag;
+  }
+
+  hoge() {
+    console.log("hoge");
   }
 }
