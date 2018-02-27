@@ -1,19 +1,24 @@
 package jp.co.unirita.medis.logic.util;
 
-import jp.co.unirita.medis.domain.tag.Tag;
-import jp.co.unirita.medis.domain.tag.TagRepository;
-import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import jp.co.unirita.medis.domain.tag.Tag;
+import jp.co.unirita.medis.domain.tag.TagRepository;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service
 public class TagLogic {
 
     @Autowired
     TagRepository tagRepository;
+
+    public List<Tag> getTagList() {
+    	return tagRepository.findBytagIdNot("s9999999999"); //コメント通知設定用のタグだけ除く
+    }
 
     public String getNewTagId() throws IdIssuanceUpperException{
         List<Tag> list = tagRepository.findAll(new Sort(Sort.Direction.DESC, "tagId"));
