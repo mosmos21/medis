@@ -57,10 +57,6 @@ export class NavigationService {
     this.router.navigate(["/settings/me/notification"]);
   }
 
-  toToppageSetting() {
-    this.router.navigate(["/settings/me/toppage"]);
-  }
-
   toMonitoringTagsSetting() {
     this.router.navigate(["settings/me/monitoring_tags"]);
   }

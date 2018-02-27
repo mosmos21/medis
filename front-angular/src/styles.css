@@ -194,6 +194,12 @@
     border-left: solid 5px #0f9d58;
 }
 
+.tag_new{
+    font-size: 13px;
+    width: 180px;
+    border-left: solid 5px #9d0f0f;
+}
+
 .tag_small {
     font-size: 11px;
     width: 150px;

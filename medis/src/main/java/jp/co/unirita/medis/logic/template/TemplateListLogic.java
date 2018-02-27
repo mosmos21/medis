@@ -3,9 +3,11 @@ package jp.co.unirita.medis.logic.template;
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class TemplateListLogic {
 
     @Autowired

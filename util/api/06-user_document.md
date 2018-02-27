@@ -1,7 +1,8 @@
-- ## 更新情報の一覧を取得
+- ## コメント情報の一覧を取得
     - ### [GET] https://{hostname}/{version}/infomations/{user}?size={size}
     - ### [GET] https://{hostname}/{version}/infomations/{user}/{lastUpdateId}?size={size}
-        トップページに表示する更新情報の一覧を取得する  
+        トップページに表示するコメント情報の一覧を取得する<br>
+        コメントが記入された場合、コメントが既読された場合に情報が更新される<br>
         ログインしている社員番号と異なる社員番号を指定するとエラーになる
 
 
@@ -31,7 +32,8 @@
 - ## ドキュメント一覧の情報を取得
     - ### [GET] https://{hostname}/{version}/documents/{user}?size={size}
     - ### [GET] https://{hostname}/{version}/documents/{user}/{type}?size={size}
-        トップページに表示する更新情報の一覧を取得する  
+        トップページに表示する更新情報の一覧を取得する<br>
+        文書が新規作成された時、または更新された時に最新で表示されるようになる<br>
         ログインしている社員番号と異なる社員番号を指定するとエラーになる
 
 
@@ -50,7 +52,9 @@
                     "documentTitle": "(documentTitle)",
                     "employeeNumber": "(employeeNumber)",
                     "documentCreateDate": "(documentCreateDate)",
-                    "isPublished": true|false
+                    "isPublished": true|false,
+                    "updateType": "(updateType)",
+                    "updateDate": "(updateDate)"
                 },
                 ...
             ]
@@ -59,7 +63,8 @@
 
 - ## お気に入り文書の一覧を取得
     - ### [GET] https://{hostname}/{version}/documents/{user}/bookmark?size={size}
-        ユーザが登録しているお気に入り文書の情報の一覧を取得する  
+        ユーザが登録しているお気に入り文書の情報の一覧を取得する<br>
+        文書が新規作成された時、または更新された時に最新で表示されるようになる<br>
         ログインしている社員番号と異なる社員番号を指定するとエラーになる
 
 
@@ -77,7 +82,9 @@
                     "documentTitle": "(documentTitle)",
                     "employeeNumber": "(employeeNumber)",
                     "documentCreateDate": "(documentCreateDate)",
-                    "isPublished": true|false
+                    "isPublished": true|false,
+                    "updateType": "(updateType)",
+                    "updateDate": "(updateDate)"
                 },
                 ...
             ]
@@ -85,7 +92,7 @@
 
 - ## お気に入りボタンを押した時
     - ### [POST] https://{hostname}/{version}/documents/{user}/bookmark/{documentId}
-        ユーザがお気に入りボタンを押した時に情報を更新する  
+        ユーザがお気に入りボタンを押した時に情報を更新する<br>
         ログインしている社員番号と異なる社員番号を指定するとエラーになる
 
 
@@ -99,7 +106,8 @@
         
 - ## 監視タグ文書の一覧を取得
     - ### [GET] https://{hostname}/{version}/documents/{user}/monitoring_tags?size={size}
-        ユーザが監視タグに登録したタグが付与されている文書の一覧を取得する
+        ユーザが監視タグに登録したタグが付与されている文書の一覧を取得する<br>
+        文書が新規作成された時、または更新された時に最新で表示されるようになる<br>
         ログインしている社員番号と異なる社員番号を指定するとエラーになる
 
         | パラメータ | 省略 |  |  
@@ -116,7 +124,9 @@
                     "documentTitle": "(documentTitle)",
                     "employeeNumber": "(employeeNumber)",
                     "documentCreateDate": "(documentCreateDate)",
-                    "isPublished": true|false
+                    "isPublished": true|false,
+                    "updateType": "(updateType)",
+                    "updateDate": "(updateDate)"
                 },
                 ...
             ]

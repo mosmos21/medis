@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DragulaService } from 'ng2-dragula';
+import { SearchService } from '../services/search.service';
 
 import { MatDialog } from '@angular/material'
 
@@ -29,15 +30,6 @@ export class EditDocumentComponent implements OnInit {
   public documentValues: { [key: string]: string[] } = {};
 
   private fixedtags: string[] = ["2018年度新人研修"];
-  private selected_tags = [];
-  private temp_tags = [];
-  private seach_word = "";
-  private tags: any = [
-    {
-      tagId: "",
-      tagName: ""
-    }
-  ];
 
   constructor(
     @Inject('hostname') private hostname: string,
@@ -47,6 +39,7 @@ export class EditDocumentComponent implements OnInit {
     private dragulaService: DragulaService,
     private valid: ValidatorService,
     public dialog: MatDialog,
+    private searchService: SearchService,
   ) {
     dragulaService.setOptions("template-block", {
       copy: function (el: any, source: any) {
@@ -96,18 +89,7 @@ export class EditDocumentComponent implements OnInit {
       }
     );
 
-    this.http.get(this.hostname + 'tags').subscribe(
-      json => {
-        this.tags = json;
-        var i = this.tags.length;
-        while (i--) {
-          this.temp_tags.push(this.tags[i]["tagName"]);
-        }
-      },
-      error => {
-        this.tags = error;
-      }
-    );
+    this.searchService.getTags();
   }
 
   assembleTemplate(templateId: string, callback: any): void {
@@ -304,42 +286,5 @@ export class EditDocumentComponent implements OnInit {
         this.router.navigate(['admin/template']);
       });
     }
-  }
-
-  //タグ系
-  addTags(event: any) {
-    if (this.selected_tags.length + this.fixedtags.length < 8) {
-      var str = event.path[0].innerText;
-      this.selected_tags.push(str);
-      var i = this.temp_tags.length;
-      while (i--) {
-        if (this.temp_tags[i] == str) {
-          this.temp_tags.splice(i, 1);
-        }
-      }
-    }
-    this.seach_word = "";
-  }
-
-  deleteTags(event: any) {
-    var str = event.path[0].innerText;
-    this.temp_tags.push(str);
-    var idx = this.selected_tags.indexOf(str);
-    if (idx >= 0) {
-      this.selected_tags.splice(idx, 1);
-    }
-  }
-
-  searchTag() {
-    var i = this.temp_tags.length;
-    var str = this.seach_word;
-    var target_tags: any = [];
-    while (i--) {
-      if (this.temp_tags[i].indexOf(str) > -1) {
-        var temp_str = this.temp_tags[i];
-        target_tags.push(temp_str);
-      }
-    }
-    return target_tags;
   }
 }

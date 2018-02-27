@@ -23,11 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.form.CommentCreateForm;
 import jp.co.unirita.medis.form.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.document.CommentLogic;
 import jp.co.unirita.medis.logic.document.DocumentLogic;
-import jp.co.unirita.medis.util.exception.InvalidArgsException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RestController
 @RequestMapping("/v1/documents")
@@ -40,9 +41,9 @@ public class DocumentController {
 	@Autowired
 	DocumentLogic documentLogic;
 
-	@RequestMapping(value = { "{documentId}/comments" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "{documentId:^d[0-9]{10}+$}/comments" }, method = RequestMethod.GET)
 	public List<CommentInfoForm> getDocumentInfo(@AuthenticationPrincipal User user,
-			@PathVariable(value = "documentId") String documentId) throws InvalidArgsException {
+			@PathVariable(value = "documentId") String documentId) throws NotExistException {
 		logger.info("[method: getDocumetnInfo] Get document info list by " + documentId + ".");
 		List<CommentInfoForm> documentInfo = commentLogic.getCommentInfo(documentId);
 
@@ -101,9 +102,19 @@ public class DocumentController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void alreadyRead(@AuthenticationPrincipal User user, @PathVariable(value = "documentId") String documentId,
 			@PathVariable(value = "commentId") String commentId, @Valid HttpServletRequest request,
-			HttpServletResponse response) throws InvalidArgsException {
+			HttpServletResponse response) throws NotExistException {
 		logger.info("[method: alreedyRead] Change Rread boolean And Send mail");
 		commentLogic.alreadyRead(documentId, commentId);
+
+	}
+
+	@RequestMapping(path = { "{documentId:^d[0-9]{10}+$}/comments/create"}, method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public void commetAdd(@RequestBody @Valid CommentCreateForm postData,@PathVariable(value = "documentId") String documentId,
+			@Valid HttpServletRequest request,
+			HttpServletResponse response) throws NotExistException {
+		logger.info("[method: save] Add Comment EmployeeNumber:"+postData.getEmployeeNumber()+"value:"+postData.getValue());
+		commentLogic.sava(documentId, postData);
 
 	}
 }

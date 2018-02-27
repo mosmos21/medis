@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-top',
@@ -7,9 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopComponent implements OnInit {
 
-  constructor() { }
+  private updateList: any;
+  private ownDocList: any;
+  private favDocList: any;
+  private MonDocList: any;
+
+  private employeeNumber = 97965;
+
+  constructor(
+    private http: HttpClient,
+    @Inject('hostname') private hostname: string,
+  ) { }
 
   ngOnInit() {
+    this.http.get(this.hostname + "infomations/" + this.employeeNumber).subscribe(
+      json => {
+        this.updateList = json;
+        console.log(this.updateList);
+      },
+      error => {
+        // TODO;
+      }
+    );
   }
 
 }

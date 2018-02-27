@@ -42,7 +42,7 @@ public class SettingLogic {
 
 	}
 
-	public List<NotificationsForm> getNotification(User user) {
+	public List<NotificationsForm> getNotificationTag(User user) {
 		List<NotificationConfig> notification = notificationConfigRepository.findByEmployeeNumber(user.getEmployeeNumber());
 		Tag tag = new Tag();
 		NotificationsForm info = null;
@@ -59,7 +59,15 @@ public class SettingLogic {
 		return infoList;
 
 	}
+public List<NotificationsForm> getNotificationCommnet(User user){
+ List <NotificationConfig> notification = notificationConfigRepository.findByEmployeeNumber(user.getEmployeeNumber());
+	Tag tag =new Tag();
+	List<NotificationsForm> infoList=new ArrayList<>();
 
+	return null;
+
+
+}
 	public void updateUserDetail(User user, UserDetail userDetail) {
 		userDetail.setEmployeeNumber(user.getEmployeeNumber());
 		userDetailRepository.saveAndFlush(userDetail);
@@ -94,7 +102,7 @@ public class SettingLogic {
 
 	}
 
-	public void updateNotification(User user, List<NotificationConfig> notification) {
+	public void updateNotificationTag(User user, List<NotificationConfig> notification) {
 		for (int i = 0; i < notification.size(); i++) {
 			notification.get(i).setEmployeeNumber(user.getEmployeeNumber());
 			notificationConfigRepository.saveAndFlush(notification.get(i));

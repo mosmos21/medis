@@ -1,7 +1,6 @@
 package jp.co.unirita.medis.logic.util;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -11,10 +10,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jp.co.unirita.medis.controller.TemplateController;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.documenttag.DocumentTag;
@@ -23,11 +25,15 @@ import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
+import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
+import jp.co.unirita.medis.form.DocumentInfoForm;
 
 @Service
 @Transactional
 public class SearchLogic {
+
+	private static final Logger logger = LoggerFactory.getLogger(TemplateController.class);
 
 	@Autowired
 	TagRepository tagRepository;
@@ -41,13 +47,24 @@ public class SearchLogic {
 	UpdateInfoRepository updateInfoRepository;
 
 
-	public List<DocumentInfo> getSearchResultList(String tagName) throws UnsupportedEncodingException {
+	public List<DocumentInfoForm> getSearchResult(String tagName) throws UnsupportedEncodingException {
 		//デコードし、タグのリストを作成
-		String tagParam = URLDecoder.decode(tagName, "UTF-8");
-		System.out.println(tagParam);
+//		String tagParam = URLDecoder.decode(tagName, "UTF-8");
+//		System.out.println(tagParam);
 
-		String[] param  = tagParam.split(",", 0);
-		List<String> tagNameList = Arrays.asList(param);
+//		String[] param  = tagParam.split(",", 0);
+		String[] param  = tagName.split(",", 0);
+		//タグの値が重複している
+		List<String> tempTagNameList = Arrays.asList(param);
+
+		//値を一意に
+		List<String> tagNameList = tempTagNameList.stream().distinct().collect(Collectors.toList());
+
+		for (String tag : tagNameList) {
+			System.out.println(tag);
+		}
+
+		logger.info("[method: getSearchResult] tagName =" + String.join(",", tagNameList));
 
 		//tagNameのidを取得
 		List<Tag> tagList = new ArrayList<>();
@@ -120,22 +137,51 @@ public class SearchLogic {
 		Set<String> set = new HashSet<>(documentIdListBeforeMap);
 		List<String> documentIdList = new ArrayList<>(set);
 
-		//documentIdListのdocumentInfoの取得
+
+		//各documentIdごとの最新のupdateIdをもったupdate_infoのリストの取得
+		List<UpdateInfo> updateInfoList = new ArrayList<>();
+
+		for (int i = 0; i < documentIdList.size(); i++) {
+			updateInfoList.addAll(updateInfoRepository.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(documentIdList.get(i), "v0000000000", "v0000000001"));
+		}
+
+		//updateInfoListのdocumentIdの一覧の取得
+		List<String> updateDocIdList = new ArrayList<>();
+
+		for (UpdateInfo upDocId : updateInfoList) {
+			updateDocIdList.add(upDocId.getDocumentId());
+		}
+
+		//updateDocIdのdocumentInfoの取得
+		List<DocumentInfo> documentInfoList = new ArrayList<>();
+
+		for (int i = 0; i < updateDocIdList.size(); i++) {
+			documentInfoList.addAll(documentInfoRepository.findByDocumentId(updateDocIdList.get(i)));
+		}
+
+		//documentInfoListとupdateInfoListの値をDocumentInfoFormに格納
+		List<DocumentInfoForm> documentInfoForm = new ArrayList<>();
+
+		for(int i = 0; i < documentInfoList.size(); i++) {
+			documentInfoForm.add(new DocumentInfoForm(documentInfoList.get(i), updateInfoList.get(i)));
+		}
+
+
+/*		//documentIdListのdocumentInfoの取得
 		List<DocumentInfo> documentInfo = new ArrayList<>();
 
 		for (int i = 0; i < documentIdList.size(); i++) {
 			documentInfo.addAll(documentInfoRepository.findByDocumentId(documentIdList.get(i)));
 		}
-
-		documentInfo.sort(new Comparator<DocumentInfo>(){
+*/
+		documentInfoForm.sort(new Comparator<DocumentInfoForm>(){
 			@Override
-			public int compare(DocumentInfo i1, DocumentInfo i2) {
-				return i2.getDocumentId().compareTo(i1.getDocumentId());
+			public int compare(DocumentInfoForm i1, DocumentInfoForm i2) {
+				return i2.getUpdateDate().compareTo(i1.getUpdateDate());
 			}
 		});
 
-		return documentInfo;
+		return documentInfoForm;
 
 	}
-
 }

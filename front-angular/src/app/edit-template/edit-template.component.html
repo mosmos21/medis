@@ -13,8 +13,8 @@
                         <h2>固定タグ編集</h2>
                         <div id="tag_list">
 
-                            <div id="selected_tags" *ngFor="let selected_tag of selected_tags">
-                                <div class="tag_base tag_small tag_side tag_erasable" (click)="deleteTags($event)">{{selected_tag}}</div>
+                            <div id="selected_tags" *ngFor="let stag of searchService.selectedTags">
+                                <div class="tag_base tag_small tag_side tag_erasable" (click)="searchService.deleteTags($event)">{{stag.tagName}}</div>
                             </div>
 
                         </div>
@@ -102,20 +102,18 @@
 
                     <mat-tab label="タグ" id="tag_label">
                         <div id="menu_search_content" class="menu_content">
-                            <div *ngIf="selected_tags.length < 8">
-                                <mat-form-field>
-                                    <input matInput placeholder="Tag Name" value="" [(ngModel)]="search_word">
-                                </mat-form-field>
-                            </div>
-
+                            <mat-form-field>
+                                <input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord">
+                            </mat-form-field>
 
                             <div class="wrap_search_content">
                                 <div id="search_tag_candidate" class="content_scroll_y">
-                                    <div *ngFor="let tag of searchTag()">
-                                        <div class="tag_base tag_middle" (click)="addTags($event)">{{ tag.tagName }}</div>
+                                    <div *ngFor="let tag of searchService.searchTag()">
+                                        <div class="tag_base tag_middle" (click)="searchService.addTags($event)">{{tag.tagName}}</div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </mat-tab>
                 </mat-tab-group>

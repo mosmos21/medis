@@ -5,6 +5,7 @@ import { DragulaService } from 'ng2-dragula';
 import { MatDialog } from '@angular/material';
 import { NavigationService } from '../services/navigation.service';
 import { ValidatorService } from '../services/validator.service'
+import { SearchService } from '../services/search.service';
 
 import { MessageModalComponent } from '../message-modal/message-modal.component'
 
@@ -26,19 +27,7 @@ export class EditTemplateComponent implements OnInit {
   private showBlocks: boolean;
   private showTags: boolean;
 
-  private selected_tags = [];
-  private temp_tags = [];
-  private search_word = "";
-
   private message = "";
-
-  // タグ一覧
-  private tags: any = [
-    {
-      tagId: "",
-      tagName: ""
-    }
-  ];
 
   constructor(
     @Inject('hostname') private hostname: string,
@@ -49,6 +38,7 @@ export class EditTemplateComponent implements OnInit {
     public dialog: MatDialog,
     private nav: NavigationService,
     private valid: ValidatorService,
+    private searchService: SearchService,
   ) {
     this.nav.showAdminMenu();
   }
@@ -96,19 +86,7 @@ export class EditTemplateComponent implements OnInit {
       }
     );
 
-    this.http.get(this.hostname + 'tags').subscribe(
-      json => {
-        this.tags = json;
-        var i = this.tags.length;
-        while (i--) {
-          this.temp_tags.push(this.tags[i]);
-        }
-      },
-      error => {
-        this.tags = error;
-      }
-    );
-
+    this.searchService.getTags();
   }
 
   assembleTemplate(): void {
@@ -201,7 +179,7 @@ export class EditTemplateComponent implements OnInit {
       publish: type == "save",
       templateName: this.templateName
     }
-    if(this.templateId != "new") {
+    if (this.templateId != "new") {
       data["templateId"] = this.templateId;
     }
 
@@ -226,7 +204,7 @@ export class EditTemplateComponent implements OnInit {
   submit(type): void {
     let dataJson = this.data2Json(type);
 
-    if(this.valid.empty(this.templateName)) {
+    if (this.valid.empty(this.templateName)) {
       this.message = "テンプレート名を入力してください。"
       let dialogRef = this.dialog.open(MessageModalComponent, {
         data: {
@@ -234,13 +212,13 @@ export class EditTemplateComponent implements OnInit {
         }
       });
     } else {
-      if(type == "save") {
+      if (type == "save") {
         this.message = "テンプレートを保存し、公開しました。"
       } else {
         this.message = "テンプレートを下書きとして保存しました。"
       }
-  
-      if(this.templateId == 'new'){
+
+      if (this.templateId == 'new') {
         this.http.put(this.hostname + "templates/new", dataJson).subscribe(
           json => {
             // TODO
@@ -259,78 +237,16 @@ export class EditTemplateComponent implements OnInit {
           }
         );
       }
-  
+
       let dialogRef = this.dialog.open(MessageModalComponent, {
         data: {
           message: this.message
         }
       });
-  
+
       dialogRef.afterClosed().subscribe(result => {
         this.router.navigate(['admin/template']);
       });
     }
-  }
-
-  addTags(event: any) {
-    if (this.selected_tags.length < 4) {
-      var str = event.path[0].innerText;
-      this.selected_tags.push(str);
-      var i = this.temp_tags.length;
-      console.log(str);
-      while (i--) {
-        if (this.temp_tags[i]["tagName"] == str) {
-          this.temp_tags.splice(i, 1);
-        }
-      }
-    }
-    this.search_word = "";
-  }
-
-  deleteTags(event: any) {
-    var str = event.path[0].innerText;
-    var i = this.tags.length;
-    var bool = false;
-    while(i--) {
-      if(this.tags[i]["tagName"] == str) {
-        this.temp_tags.push(this.tags[i]);
-      }
-    }
-    var idx = this.selected_tags.indexOf(str);
-    console.log(str);
-    console.log(idx);
-    if (idx >= 0) {
-      this.selected_tags.splice(idx, 1);
-    }
-  }
-
-  searchTag() {
-    var i = this.temp_tags.length;
-    var j = this.selected_tags.length;
-    var str = this.search_word;
-    var bool = true;
-    var target_tags: any = [];
-    while (i--) {
-      if(this.temp_tags[i]["tagName"] == str) {
-        bool = false;
-      }
-      if(this.temp_tags[i]["tagName"].indexOf(str) > -1) {
-        target_tags.push(this.temp_tags[i]);
-      }
-    }
-    while (j--) {
-      if(str == this.selected_tags[j]) {
-        bool = false;
-      }
-    }
-    /*
-    if(str != "" && bool) {
-      target_tags.unshift({
-        tagId: "",
-        tagName: str,
-      });
-    }
-    */
-    return target_tags;
   }
 }

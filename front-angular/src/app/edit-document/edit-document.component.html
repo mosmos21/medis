@@ -13,11 +13,11 @@
                     <h3>タグ</h3>
                     <div id="wrap_tag_list">
                         <div id="tag_list">
-                            <div *ngFor="let t of fixedtags">
+                            <div *ngFor="let t of fixedTags">
                                 <div class="tag_base tag_middle tag_side">{{ t }}</div>
                             </div>
-                            <div *ngFor="let t of selected_tags">
-                                <div class="tag_base tag_middle tag_side tag_erasable" (click)="deleteTags($event)">{{ t }}
+                            <div *ngFor="let t of searchService.selectedTags">
+                                <div class="tag_base tag_middle tag_side tag_erasable" (click)="searchService.deleteTags($event)">{{ t.tagName }}
                                 </div>
                             </div>
                         </div>
@@ -83,8 +83,11 @@
 
                             <div class="wrap_search_content">
                                 <div id="search_tag_candidate" class="content_scroll_y">
-                                    <div *ngFor="let tag of searchTag()">
-                                        <div class="tag_base tag_middle" (click)="addTags($event)">{{tag}}</div>
+                                    <nav *ngIf="searchService.addNewTag() != ''">
+                                        <div class="tag_base tag_new" (click)="searchService.addTags($event)">{{searchService.newTag}}</div>
+                                    </nav>
+                                    <div *ngFor="let tag of searchService.searchTag()">
+                                        <div class="tag_base tag_middle" (click)="searchService.addTags($event)">{{tag.tagName}}</div>
                                     </div>
                                 </div>
                             </div>

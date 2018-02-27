@@ -1,5 +1,6 @@
 package jp.co.unirita.medis.logic.document;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
+import jp.co.unirita.medis.form.CommentCreateForm;
 import jp.co.unirita.medis.form.CommentInfoForm;
 
 @Service
@@ -76,9 +78,9 @@ public class CommentLogic {
 		List<DocumentInfo> documentInfoList = new ArrayList<>();
 
 		commentList = commentRepository.findByCommentId(commentId);
-			toUserDetailList = userDetailRepository.findAllByEmployeeNumber(commentList.get(0).getEmployeeNumber());
-			documentInfoList = documentInfoRepository.findByDocumentId(commentList.get(0).getDocumentId());
-			authorUserDetailList = userDetailRepository
+		toUserDetailList = userDetailRepository.findAllByEmployeeNumber(commentList.get(0).getEmployeeNumber());
+		documentInfoList = documentInfoRepository.findByDocumentId(commentList.get(0).getDocumentId());
+		authorUserDetailList = userDetailRepository
 				.findAllByEmployeeNumber(documentInfoList.get(0).getEmployeeNumber());
 
 		String mailaddress = toUserDetailList.get(0).getMailaddress();
@@ -86,7 +88,7 @@ public class CommentLogic {
 		String lastName = authorUserDetailList.get(0).getLastName();
 		String firstName = authorUserDetailList.get(0).getFirstName();
 
-		//Readをtrueにする
+		// Readをtrueにする
 		Comment comment = new Comment();
 
 		comment.setCommentId(commentId);
@@ -98,13 +100,33 @@ public class CommentLogic {
 
 		commentRepository.saveAndFlush(comment);
 
-		//メール送信
+		// メール送信
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setTo(mailaddress);
 		msg.setSubject("【MEDIS】コメントが読まれました"); // タイトルの設定
 		msg.setText(lastName + firstName + "さんが作成した" + documentName + "のコメントが読まれました。\r\n\r\n");
 
 		this.sender.send(msg);
+	}
+
+	public void sava(String documentId, CommentCreateForm postData) {
+		List<Comment> commentList = commentRepository.findByOrderByCommentIdDesc();
+		String lastCommentId = commentList.get(0).getCommentId();
+		String head = lastCommentId.substring(0, 1);
+		String body = lastCommentId.substring(1, 11);
+		int temp = Integer.parseInt(body);
+		temp++;
+		body = String.format("%010d", temp);
+		lastCommentId = head + body;
+
+		Timestamp commentDate = new Timestamp(System.currentTimeMillis());
+		String employeeNumber = postData.getEmployeeNumber();
+		String value =postData.getValue();
+		boolean read =false;
+
+		Comment comment =new Comment(lastCommentId,documentId,commentDate,employeeNumber,value,read);
+		commentRepository.save(comment);
+
 	}
 
 }

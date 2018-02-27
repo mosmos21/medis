@@ -100,3 +100,14 @@
 	height: 40px;
 	float: left;
 }
+
+.badge{
+	float: right;
+	width: 50px;
+	font-size: 90%;
+	border-radius: 50%;
+	box-shadow: 0 0 3px #ddd;
+	white-space: nowrap;
+	font-weight: bold;
+	background: #bbb;
+}

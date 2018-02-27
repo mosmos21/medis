@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.form.DocumentInfoForm;
 import jp.co.unirita.medis.logic.setting.BookmarkLogic;
-import jp.co.unirita.medis.util.exception.InvalidArgsException;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.util.exception.AuthorityException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RequestMapping("/v1/documents")
 
@@ -34,11 +35,11 @@ public class BookmarkListController {
 
 	@RequestMapping(path = {"{user}/bookmark"}, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public List<DocumentInfo> getBookmarkList(
+	public List<DocumentInfoForm> getBookmarkList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
-		@RequestParam(value = "size", required = false) Integer maxSize) throws InvalidArgsException {
+		@RequestParam(value = "size", required = false) Integer maxSize) throws NotExistException, AuthorityException {
 
-		argumentCheckLogic.userCheck(user, employeeNumber, "お気に入り文書一覧");
+		argumentCheckLogic.checkUser(user, employeeNumber, "お気に入り文書一覧");
 
 		if (maxSize == null) {
 			maxSize = -1;
@@ -52,11 +53,11 @@ public class BookmarkListController {
 	public void updateBookmark(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,
 		@PathVariable(value = "documentId") String documentId, @Valid HttpServletRequest request,
-		HttpServletResponse response) throws InvalidArgsException {
+		HttpServletResponse response) throws NotExistException, AuthorityException {
 
-		argumentCheckLogic.userCheck(user, employeeNumber, "お気に入り情報");
+		argumentCheckLogic.checkUser(user, employeeNumber, "お気に入り情報");
 
-		argumentCheckLogic.documentIdCheck(documentId);
+		argumentCheckLogic.checkDocumentId(documentId);
 
 		bookmarkLogic.updateBookmark(employeeNumber, documentId);
 	}

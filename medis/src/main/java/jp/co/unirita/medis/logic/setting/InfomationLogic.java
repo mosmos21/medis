@@ -117,19 +117,19 @@ public class InfomationLogic {
 		Set<String> set = new HashSet<>(documentIdListBeforeMap);
 		List<String> documentIdList = new ArrayList<>(set);
 
+
 		//update_infoの値取得
 		List<UpdateInfo> updateInfo = new ArrayList<>();
 
 		if (updateId == null) {
 			for (int i = 0; i < documentIdList.size(); i++) {
-				updateInfo.addAll(updateInfoRepository.findByDocumentId(documentIdList.get(i)));
+				updateInfo.addAll(updateInfoRepository.findByDocumentIdAndUpdateTypeBetween(documentIdList.get(i), "v0000000002", "v0000000003"));
 			}
 		} else {
 			for (int i = 0; i < documentIdList.size(); i++) {
-				updateInfo.addAll(updateInfoRepository.findByDocumentIdAndUpdateIdGreaterThan(documentIdList.get(i), updateId));
+				updateInfo.addAll(updateInfoRepository.findByDocumentIdAndUpdateTypeBetweenAndUpdateIdGreaterThan(documentIdList.get(i), "v0000000002", "v0000000003" , updateId));
 			}
 		}
-
 
 		//updateInfoで取得した中のdocumentIdの一覧を取得
 		List<String> lastDocumentIdList = new ArrayList<>();
@@ -138,11 +138,11 @@ public class InfomationLogic {
 			lastDocumentIdList.add(updateinfo.getDocumentId());
 		}
 
-		//contentOther(documentTitle)の取得
+		//documentNameの取得
 		List<DocumentInfo> lastDocumentInfo = new ArrayList<>();
 
 		for (int i = 0; i < lastDocumentIdList.size(); i++) {
-			documentInfo.addAll(documentInfoRepository.findByDocumentId(lastDocumentIdList.get(i)));
+			lastDocumentInfo.addAll(documentInfoRepository.findByDocumentId(lastDocumentIdList.get(i)));
 		}
 
 		List<String> documentNameList = new ArrayList<>();
@@ -150,6 +150,7 @@ public class InfomationLogic {
 		for (DocumentInfo lastDocInfo : lastDocumentInfo) {
 			documentNameList.add(lastDocInfo.getDocumentName());
 		}
+
 
 		//updateInfoとcontentMainListの値をInfomationFormに格納
 		List<InfomationForm> infomation = new ArrayList<>();
