@@ -1,10 +1,11 @@
 package jp.co.unirita.medis.domain.templateinfo;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.thymeleaf.Template;
-
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface TemplateInfoRepository extends JpaRepository<TemplateInfo, String> {
     List<TemplateInfo> findByEmployeeNumber(String employeeNumber);
     List<TemplateInfo> findByTemplatePublish(boolean templatePublish);
