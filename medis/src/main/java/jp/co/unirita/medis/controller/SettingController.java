@@ -23,6 +23,7 @@ import jp.co.unirita.medis.domain.toppage.ToppageRepository;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
+import jp.co.unirita.medis.form.NotificationCommentForm;
 import jp.co.unirita.medis.form.NotificationsForm;
 import jp.co.unirita.medis.logic.setting.SettingLogic;
 
@@ -109,10 +110,19 @@ public class SettingController {
 
 	// 通知設定情報の取得(コメント)
 	@RequestMapping(value = "me/comment_notifications", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-	List<NotificationConfig> getNotificationComment(@AuthenticationPrincipal User user) {
-		List<NotificationConfig> infoList = null;
-		infoList = notificationConfigRepository.findByEmployeeNumberAndTagIdOrderByEmployeeNumberDesc(user.getEmployeeNumber(), "commentpushtag");
+	List<NotificationCommentForm> getNotificationComment(@AuthenticationPrincipal User user) {
+		List<NotificationCommentForm> infoList = null;
+		infoList = settingLogic.getNotificationCommentInfo(user);
 		System.out.println("AAAA"+infoList);
 		return infoList;
 	}
+
+	// 通知設定情報の更新(コメント)
+		@ResponseStatus(HttpStatus.OK)
+		@RequestMapping(value = "me/comment_notifications", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+		void updateNotificationComment(@AuthenticationPrincipal User user,
+				@RequestBody @Valid  NotificationCommentForm postData, HttpServletRequest request,
+				HttpServletResponse response) {
+			settingLogic.updateNotificationComment(user, postData);
+		}
 }

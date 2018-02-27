@@ -15,6 +15,7 @@ import jp.co.unirita.medis.domain.toppage.ToppageRepository;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
+import jp.co.unirita.medis.form.NotificationCommentForm;
 import jp.co.unirita.medis.form.NotificationsForm;
 
 @Service
@@ -30,10 +31,11 @@ public class SettingLogic {
 	ToppageRepository toppageRepository;
 
 	public List<Tag> getMonitoringTags(User user) {
-		List<NotificationConfig> notification = notificationConfigRepository.findByEmployeeNumber(user.getEmployeeNumber());
+		List<NotificationConfig> notification = notificationConfigRepository
+				.findByEmployeeNumber(user.getEmployeeNumber());
 		Tag info = null;
 		List<Tag> infoList = new ArrayList<>();
-		for(int i=0; i < notification.size(); i++){
+		for (int i = 0; i < notification.size(); i++) {
 			info = new Tag();
 			info = tagRepository.findByTagId(notification.get(i).getTagId());
 			infoList.add(info);
@@ -43,11 +45,12 @@ public class SettingLogic {
 	}
 
 	public List<NotificationsForm> getNotificationTag(User user) {
-		List<NotificationConfig> notification = notificationConfigRepository.findByEmployeeNumber(user.getEmployeeNumber());
+		List<NotificationConfig> notification = notificationConfigRepository
+				.findByEmployeeNumber(user.getEmployeeNumber());
 		Tag tag = new Tag();
 		NotificationsForm info = null;
 		List<NotificationsForm> infoList = new ArrayList<>();
-		for(int i=0; i < notification.size(); i++){
+		for (int i = 0; i < notification.size(); i++) {
 			info = new NotificationsForm();
 			tag = tagRepository.findByTagId(notification.get(i).getTagId());
 			info.setTagId(tag.getTagId());
@@ -59,15 +62,7 @@ public class SettingLogic {
 		return infoList;
 
 	}
-public List<NotificationsForm> getNotificationCommnet(User user){
- List <NotificationConfig> notification = notificationConfigRepository.findByEmployeeNumber(user.getEmployeeNumber());
-	Tag tag =new Tag();
-	List<NotificationsForm> infoList=new ArrayList<>();
 
-	return null;
-
-
-}
 	public void updateUserDetail(User user, UserDetail userDetail) {
 		userDetail.setEmployeeNumber(user.getEmployeeNumber());
 		userDetailRepository.saveAndFlush(userDetail);
@@ -88,7 +83,7 @@ public List<NotificationsForm> getNotificationCommnet(User user){
 			ref = notificationConfigRepository.findByEmployeeNumberAndTagId(user.getEmployeeNumber(),
 					notification.get(i).getTagId());
 			notification.get(i).setEmployeeNumber(user.getEmployeeNumber());
-			if (ref != null){
+			if (ref != null) {
 				notification.get(i).setMailNotification(ref.isMailNotification());
 				notification.get(i).setBrowserNotification(ref.isBrowserNotification());
 			}
@@ -96,7 +91,7 @@ public List<NotificationsForm> getNotificationCommnet(User user){
 		}
 		List<NotificationConfig> del = notificationConfigRepository.findByEmployeeNumber(user.getEmployeeNumber());
 		notificationConfigRepository.delete(del);
-		for(int i = 0; i < notification.size(); i++){
+		for (int i = 0; i < notification.size(); i++) {
 			notificationConfigRepository.saveAndFlush(notification.get(i));
 		}
 
@@ -107,5 +102,33 @@ public List<NotificationsForm> getNotificationCommnet(User user){
 			notification.get(i).setEmployeeNumber(user.getEmployeeNumber());
 			notificationConfigRepository.saveAndFlush(notification.get(i));
 		}
+	}
+
+	public List<NotificationCommentForm> getNotificationCommentInfo(User user) {
+		List<NotificationConfig> infoList = new ArrayList<>();
+		List<NotificationCommentForm> result = new ArrayList<>();
+		infoList = notificationConfigRepository
+				.findByEmployeeNumberAndTagIdOrderByEmployeeNumberDesc(user.getEmployeeNumber(), "s9999999999");
+		NotificationCommentForm notificationCommentForm = new NotificationCommentForm();
+		notificationCommentForm.setMailNotification(infoList.get(0).isMailNotification());
+		notificationCommentForm.setBrowserNotification(infoList.get(0).isBrowserNotification());
+		result.add(notificationCommentForm);
+		return result;
+	}
+
+	public void updateNotificationComment(User user, NotificationCommentForm postData) {
+		List<NotificationConfig> notification = notificationConfigRepository
+				.findByEmployeeNumberAndTagIdOrderByEmployeeNumberDesc(user.getEmployeeNumber(), "s9999999999");
+		NotificationConfig notificationConfig = new NotificationConfig();
+		System.out.println("before" + notification);
+		System.out.println(postData);
+		notificationConfig.setEmployeeNumber(notification.get(0).getEmployeeNumber());
+		notificationConfig.setTagId(notification.get(0).getTagId());
+		notificationConfig.setBrowserNotification(postData.isBrowserNotification());
+		notificationConfig.setMailNotification(postData.isMailNotification());
+
+		System.out.println("AAA" + notificationConfig);
+
+		notificationConfigRepository.save(notificationConfig);
 	}
 }
