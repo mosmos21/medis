@@ -65,6 +65,16 @@
   width: 90%;
 }
 
+.block_body_content_full {
+  margin-left: 1em;
+  width: 95%;
+}
+
+.block_body_content_half {
+  margin-left: 1em;
+  width: 50%;
+}
+
 /*固定タグ*/
 
 #tag_list {
@@ -173,16 +183,6 @@
   height: auto;
   margin: 5px;
   padding: 5px;
-}
-
-.block_body_content_full {
-  margin-left: 1em;
-  width: 95%;
-}
-
-.block_body_content_half {
-  margin-left: 1em;
-  width: 50%;
 }
 
 /*ボタン*/

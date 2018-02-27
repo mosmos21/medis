@@ -2,6 +2,10 @@
   width: calc(100% - 250px);
 }
 
+.edit_template_tab {
+  height: 100%;
+}
+
 #wrap_edit_template_toolbar {
 width: 250px;
 }
@@ -14,7 +18,7 @@ height: 2em;
 
 .wrap_edit_content {
   float: left;
-  height: 100%;
+  height: calc(100% - 30px);
   margin: 0;
   padding: 0;
 }
@@ -23,6 +27,14 @@ height: 2em;
 margin: 0;
 padding: 0;
 height: 100%;
+}
+
+#document_title {
+  margin-top: 50px;
+  margin-left: calc(50% - 400px);
+  max-width: 400px;
+  width: 50%;
+  height: auto;
 }
 
 #edit_template_header {
@@ -39,18 +51,30 @@ height: calc(100% - 50px);
 width: 94%;
 }
 
-#template_plate {
-background: #fff;
-margin-top: 50px;
-margin-left: calc(50% - 400px);
-padding: 10px;
-max-width: 800px;
-width: auto;
-min-height: 800px;
-height: auto;
-border-top: 1px #ddd solid;
-border-left: 1px #ddd solid;
-box-shadow: 5px 5px 5px #999;
+#document_plate {
+  background: #fff;
+  margin-top: 5px;
+  margin-left: calc(50% - 400px);
+  padding: 10px;
+  max-width: 800px;
+  width: auto;
+  min-height: 800px;
+  height: auto;
+  border-top: 1px #ddd solid;
+  border-left: 1px #ddd solid;
+  box-shadow: 5px 5px 5px #999;
+}
+
+.block_body_content_full {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 1em;
+  width: 95%;
+}
+
+.block_body_content_half {
+  margin-left: 1em;
+  width: 50%;
 }
 
 /* ここからツールバー */
@@ -60,9 +84,12 @@ box-shadow: 5px 5px 5px #999;
   height: calc(100% - 160px);
 }
 
+#wrap_template_toolbar_content {
+  height: calc(100% - 220px);
+}
 
 #wrap_template_toolbar_button {
-  height: 160px;
+  bottom: 0;
   width: 100%;
 }
 
@@ -128,12 +155,6 @@ box-shadow: 5px 5px 5px #999;
   width: calc(100% - 5px);
   height: 2em;
   line-height: 2em;
-  margin: 0.1em 0;
-}
-
-.block_item_tall {
-  height: 4em;
-  line-height: 3em;
 }
 
 /* 検索 */

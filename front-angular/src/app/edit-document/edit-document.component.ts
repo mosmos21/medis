@@ -1,8 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DragulaService } from 'ng2-dragula';
 import { SearchService } from '../services/search.service';
+
+import { MatDialog } from '@angular/material'
+
+import { MessageModalComponent } from '../message-modal/message-modal.component'
+import { ValidatorService } from '../services/validator.service'
 
 @Component({
   selector: 'app-edit-document',
@@ -10,6 +15,8 @@ import { SearchService } from '../services/search.service';
   styleUrls: ['./edit-document.component.css']
 })
 export class EditDocumentComponent implements OnInit {
+
+  private message: string = "";
 
   private templateId: string = "";
   private documentId: string = "";
@@ -27,8 +34,11 @@ export class EditDocumentComponent implements OnInit {
   constructor(
     @Inject('hostname') private hostname: string,
     private http: HttpClient,
+    private router: Router,
     private route: ActivatedRoute,
     private dragulaService: DragulaService,
+    private valid: ValidatorService,
+    public dialog: MatDialog,
     private searchService: SearchService,
   ) {
     dragulaService.setOptions("template-block", {
@@ -232,23 +242,49 @@ export class EditDocumentComponent implements OnInit {
   submit(type: string): void {
     let dataJson = this.data2Json(type);
     console.log(dataJson);
-    if (this.documentId == 'new') {
-      this.http.put(this.hostname + "documents/new", dataJson).subscribe(
-        json => {
-
-        },
-        error => {
-          // TODO
+    if(this.valid.empty(this.documentName)) {
+      this.message = "ドキュメント名を入力してください。"
+      let dialogRef = this.dialog.open(MessageModalComponent, {
+        data: {
+          message: this.message
         }
-      );
+      });
     } else {
-      this.http.post(this.hostname + "documents/" + this.documentId, dataJson).subscribe(
-        json => {
-        },
-        error => {
-          // TODO
+      if(type == "save") {
+        this.message = "ドキュメントを保存し、公開しました。"
+      } else {
+        this.message = "ドキュメントを下書きとして保存しました。"
+      }
+  
+      if(this.documentId == 'new'){
+        this.http.put(this.hostname + "documents/new", dataJson).subscribe(
+          json => {
+            // TODO
+          },
+          error => {
+            // TODO
+          }
+        );
+      } else {
+        this.http.post(this.hostname + "documents/" + this.documentId, dataJson).subscribe(
+          json => {
+            // TODO
+          },
+          error => {
+            // TODO
+          }
+        );
+      }
+  
+      let dialogRef = this.dialog.open(MessageModalComponent, {
+        data: {
+          message: this.message
         }
-      );
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        this.router.navigate(['admin/template']);
+      });
     }
   }
 

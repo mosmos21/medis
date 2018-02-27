@@ -7,6 +7,8 @@ import { DragulaModule } from 'ng2-dragula';
 import {
   MatButtonModule,
   MatTabsModule,
+  MatCheckboxModule,
+  MatRadioModule,
   MatFormFieldModule,
   MatInputModule,
 } from '@angular/material';
@@ -19,6 +21,8 @@ import {
     HttpClientModule,
     MatButtonModule,
     MatTabsModule,
+    MatCheckboxModule,
+    MatRadioModule,
     MatFormFieldModule,
     MatInputModule,
     DragulaModule,
