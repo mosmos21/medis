@@ -14,77 +14,49 @@
 						</tr>
 						<tr>
 							<th class="arrow_box">姓</th>
-							<td *ngIf="lastNameInput">
-								<mat-form-field>
-									<input matInput placeholder="姓" value="{{temp_settings[0].lastName}}" [(ngModel)]="temp_settings[0].lastName">
+							<td>
+								<mat-form-field class="input-form">
+									<input matInput placeholder="姓" value="{{tempSettings[0].lastName}}" [(ngModel)]="tempSettings[0].lastName">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetLastName()">キャンセル</button>
-								<button class="apply-button" mat-raised-button color="primary" (click)="apply()">適用</button>
-							</td>
-							<td *ngIf="!lastNameInput">{{temp_settings && temp_settings[0].lastName}}
-								<div class="pen_position">
-									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editLastName()">
-								</div>
+
 							</td>
 						</tr>
 						<tr>
 							<th class="arrow_box">名</th>
-							<td *ngIf="firstNameInput">
-								<mat-form-field>
-									<input matInput placeholder="名" value="{{temp_settings[0].firstName}}" [(ngModel)]="temp_settings[0].firstName">
+							<td>
+								<mat-form-field class="input-form">
+									<input matInput placeholder="名" value="{{tempSettings[0].firstName}}" [(ngModel)]="tempSettings[0].firstName">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetFirstName()">キャンセル</button>
-								<button class="apply-button" mat-raised-button color="primary" (click)="apply()">適用</button>
-							</td>
-							<td *ngIf="!firstNameInput">{{temp_settings && temp_settings[0].firstName}}
-								<div class="pen_position">
-									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editFirstName()">
-								</div>
 							</td>
 						</tr>
 						<tr>
 							<th>せい</th>
-							<td *ngIf="lastNamePhoneticInput">
-								<mat-form-field>
-									<input matInput placeholder="せい" value="{{temp_settings[0].lastNamePhonetic}}" [(ngModel)]="temp_settings[0].lastNamePhonetic">
+							<td>
+								<mat-form-field class="input-form">
+									<input matInput placeholder="せい" value="{{tempSettings[0].lastNamePhonetic}}" [(ngModel)]="tempSettings[0].lastNamePhonetic">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetLastNamePhonetic()">キャンセル</button>
-								<button class="apply-button" mat-raised-button color="primary" (click)="apply()">適用</button>
-							</td>
-							<td *ngIf="!lastNamePhoneticInput">{{temp_settings && temp_settings[0].lastNamePhonetic}}
-								<div class="pen_position">
-									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editLastNamePhonetic()">
-								</div>
+
 							</td>
 						</tr>
 						<tr>
 							<th>めい</th>
-							<td *ngIf="firstNamePhoneticInput">
-								<mat-form-field>
-									<input matInput placeholder="めい" value="{{temp_settings[0].firstNamePhonetic}}" [(ngModel)]="temp_settings[0].firstNamePhonetic">
+							<td>
+								<mat-form-field class="input-form">
+									<input matInput placeholder="めい" value="{{tempSettings[0].firstNamePhonetic}}" [(ngModel)]="tempSettings[0].firstNamePhonetic">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetFirstNamePhonetic()">キャンセル</button>
-								<button class="apply-button" mat-raised-button color="primary" (click)="apply()">適用</button>
-							</td>
-							<td *ngIf="!firstNamePhoneticInput">{{temp_settings && temp_settings[0].firstNamePhonetic}}
-								<div class="pen_position">
-									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editFirstNamePhonetic()">
-								</div>
 							</td>
 						</tr>
 						<tr>
 							<th>メールアドレス</th>
-							<td *ngIf="mailaddressInput">
-								<mat-form-field>
-									<input matInput placeholder="メールアドレス" value="{{temp_settings[0].mailaddress}}" [(ngModel)]="temp_settings[0].mailaddress">
+							<td>
+								<mat-form-field class="input-form">
+									<input matInput placeholder="メールアドレス" value="{{tempSettings[0].mailaddress}}" [(ngModel)]="tempSettings[0].mailaddress">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetMailaddress()">キャンセル</button>
-								<button class="apply-button" mat-raised-button color="primary" (click)="apply()">適用</button>
-							</td>
-							<td *ngIf="!mailaddressInput">{{temp_settings && temp_settings[0].mailaddress}}
-								<div class="pen_position">
-									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editMailaddress()">
-								</div>
 							</td>
 						</tr>
 						<tr>
@@ -104,7 +76,7 @@
 						<tr>
 							<th>パスワード</th>
 							<td>
-								<button mat-raised-button (click)="initialization()">パスワード初期化</button>
+								<button mat-raised-button color="primary" (click)="initialization()">パスワード初期化</button>
 							</td>
 						</tr>
 					</tbody>

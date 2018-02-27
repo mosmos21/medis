@@ -22,15 +22,19 @@ export class ConfigUserComponent implements OnInit {
       isIcon: ""
     }
   ];
-  private temp_settings;
+  private tempSettings: any = [
+    {
+      employeeNumber: "",
+      lastName: "",
+      firstName: "",
+      lastNamePhonetic: "",
+      firstNamePhonetic: "",
+      mailaddress: "",
+      isIcon: ""
+    }
+  ];
   private message;
-
-  private lastNameInput: boolean = false;
-  private firstNameInput: boolean = false;
-  private lastNamePhoneticInput: boolean = false;
-  private firstNamePhoneticInput: boolean = false;
-  private mailaddressInput: boolean = false;
-  private isIconInput: boolean = false;
+  private isIconInput: boolean;
 
   constructor(
     private http: HttpClient,
@@ -43,7 +47,8 @@ export class ConfigUserComponent implements OnInit {
       json => {
         this.settings = json;
         var sub = JSON.stringify(this.settings);
-        this.temp_settings = JSON.parse(sub);
+        this.tempSettings = JSON.parse(sub);
+        console.log(this.tempSettings[0]);
       },
       error => {
         this.settings = error;
@@ -80,41 +85,12 @@ export class ConfigUserComponent implements OnInit {
     });
   }
 
-  editLastName() {
-    this.lastNameInput = true;
-  }
-
-  editFirstName() {
-    this.firstNameInput = true;
-  }
-
-  editLastNamePhonetic() {
-    this.lastNamePhoneticInput = true;
-  }
-
-  editFirstNamePhonetic() {
-    this.firstNamePhoneticInput = true;
-  }
-
-  editMailAddress() {
-    this.mailaddressInput = true;
-  }
-
   editIsIcon() {
     this.isIconInput = true;
   }
 
-  apply() {
-    this.lastNameInput = false;
-    this.firstNameInput = false;
-    this.lastNamePhoneticInput = false;
-    this.lastNamePhoneticInput = false;
-    this.mailaddressInput = false;
-    this.isIconInput = false;
-  }
-
   submit() {
-    console.log(this.settings);
+    this.settings = this.tempSettings;
   }
 
   resetAll() {
@@ -127,32 +103,27 @@ export class ConfigUserComponent implements OnInit {
   }
 
   resetLastName() {
-    this.lastNameInput = false;
-    this.temp_settings[0].lastName = this.settings[0].lastName;
+    this.tempSettings[0].lastName = this.settings[0].lastName;
   }
 
   resetFirstName() {
-    this.firstNameInput = false;
-    this.temp_settings[0].firstName = this.settings[0].firstName;
+    this.tempSettings[0].firstName = this.settings[0].firstName;
   }
 
   resetLastNamePhonetic() {
-    this.lastNamePhoneticInput = false;
-    this.temp_settings[0].lastNamePhonetic = this.settings[0].lastNamePhonetic;
+    this.tempSettings[0].lastNamePhonetic = this.settings[0].lastNamePhonetic;
   }
 
   resetFirstNamePhonetic() {
-    this.firstNamePhoneticInput = false;
-    this.temp_settings[0].firstNamePhonetic = this.settings[0].firstNamePhonetic;
+    this.tempSettings[0].firstNamePhonetic = this.settings[0].firstNamePhonetic;
   }
 
   resetMailaddress() {
-    this.mailaddressInput = false;
-    this.temp_settings[0].mailaddress = this.settings[0].mailaddress;
+    this.tempSettings[0].mailaddress = this.settings[0].mailaddress;
   }
 
   resetIsIcon() {
     this.isIconInput = false;
-    this.temp_settings[0].isIcon = this.settings[0].isIcon;
+    this.tempSettings[0].isIcon = this.settings[0].isIcon;
   }
 }
