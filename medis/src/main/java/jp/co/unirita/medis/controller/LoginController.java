@@ -30,7 +30,7 @@ public class LoginController {
     private final LoginLogic loginLogic;
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     //ResponseEntity<String>
@@ -50,7 +50,7 @@ public class LoginController {
                 response.addCookie(cookie);
             }
         }
-        User user = repository.findFirstByEmployeeNumber(data.getEmployeeNumber());
+        User user = userRepository.findOne(data.getEmployeeNumber());
         user.setPassword("");
         return user;
     }
