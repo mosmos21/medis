@@ -6,10 +6,10 @@
             </div>
             <hr />
             <div id="edit_template_body" class="content_scroll_y">
-                <mat-form-field id="document_name">
+                <mat-form-field id="document_title">
                     <input matInput [(ngModel)]="documentName" name="documentName" placeholder="ドキュメント名">
                 </mat-form-field>
-                <div id="template_plate">
+                <div id="document_plate">
                     <h3>タグ</h3>
                     <div id="wrap_tag_list">
                         <div id="tag_list">
@@ -31,30 +31,36 @@
                                 </div>
                                 <hr>
                                 <div class="block_body">
-                                    <div *ngFor="let item of content.items;let i = index;" [class]="item.documentType == 'hidden'? '' : item.size > 1 ? 'block_item block_item_tall' : 'block_item'">
+                                    <div *ngFor="let item of content.items;let i = index;">
                                         <div [ngSwitch]="item.documentType">
                                             <div *ngSwitchCase="'span'">
                                                 <span>{{ templateValues[content.id][i] }}</span>
                                             </div>
                                             <div *ngSwitchCase="'text'">
-                                                <input type="text" size="50" [(ngModel)]="documentValues[content.id][i - content.offset]">
+                                                <mat-form-field class="block_body_content_full">
+                                                    <input matInput [(ngModel)]="documentValues[content.id][i - content.offset]">
+                                                </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'textarea'">
-                                                <textarea rows="4" style="width: 95%;" [(ngModel)]="documentValues[content.id][i - content.offset]"></textarea>
+                                                <mat-form-field class="block_body_content_full">
+                                                    <textarea matInput rows="3" [(ngModel)]="documentValues[content.id][i - content.offset]"></textarea>
+                                                </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'checkbox'">
-                                                <input type="checkbox" name="{{ content.id }}" [checked]="isChecked(content.id, i - content.offset)" (click)="clickCheckBox(content.id, i - content.offset, $event)">
-                                                <span>{{ templateValues[content.id][i] }}</span>
+                                                <mat-checkbox name="{{ content.id }}" [checked]="isChecked(content.id, i - content.offset)" (click)="clickCheckBox(content.id, i - content.offset, $event)">
+                                                    {{ templateValues[content.id][i] }}
+                                                </mat-checkbox>
                                             </div>
                                             <div *ngSwitchCase="'radio'">
-                                                <input type="radio" name="{{ content.id }}" [checked]="isChecked(content.id, i - content.offset)" (click)="clickRadio(content.id, i - content.offset)">
-                                                <span>{{ templateValues[content.id][i] }}</span>
+                                                <mat-radio-button value="i" name="{{ content.id }}" [checked]="isChecked(content.id, i - content.offset)" (click)="clickRadio(content.id, i - content.offset)">
+                                                    {{ templateValues[content.id][i] }}
+                                                </mat-radio-button>
                                             </div>
                                         </div>
                                     </div>
                                     <div *ngIf="content.additionalType == 'document'" class="block_item">
-                                        <button mat-raised-button (click)="clickAddItem($event)">要素追加</button>
-                                        <button mat-raised-button (click)="clickRemoveItem($event)">要素削除</button>
+                                        <button mat-raised-button (click)="addItem(content.id)">要素追加</button>
+                                        <button mat-raised-button (click)="removeItem(content.id)">要素削除</button>
                                     </div>
                                 </div>
                             </div>
@@ -65,32 +71,33 @@
             </div>
         </div>
         <div id="wrap_edit_template_toolbar" class="wrap_edit_content">
-            <mat-tab-group class="edit-template-tab">
-                <mat-tab label="タグ" id="tag_label">
-                    <div id="menu_search_content" class="menu_content">
-                        <div *ngIf="selected_tags.length < 8">
-                            <mat-form-field>
-                                <input matInput placeholder="Tag Name" value="" [(ngModel)]="seach_word">
-                            </mat-form-field>
-                        </div>
+            <div id="wrap_template_toolbar_content">
+                <mat-tab-group class="edit_template_tab">
+                    <mat-tab label="タグ" id="tag_label">
+                        <div id="menu_search_content" class="menu_content">
+                            <div *ngIf="selected_tags.length < 8">
+                                <mat-form-field>
+                                    <input matInput placeholder="Tag Name" value="" [(ngModel)]="seach_word">
+                                </mat-form-field>
+                            </div>
 
-
-                        <div class="wrap_search_content">
-                            <div id="search_tag_candidate" class="content_scroll_y">
-                                <div *ngFor="let tag of searchTag()">
-                                    <div class="tag_base tag_middle" (click)="addTags($event)">{{tag}}</div>
+                            <div class="wrap_search_content">
+                                <div id="search_tag_candidate" class="content_scroll_y">
+                                    <div *ngFor="let tag of searchTag()">
+                                        <div class="tag_base tag_middle" (click)="addTags($event)">{{tag}}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </mat-tab>
-            </mat-tab-group>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
             <div id="wrap_template_toolbar_button">
                 <div>
-                    <div class="send_button" (click)="submit('draft')">下書き</div>
+                    <button mat-raised-button class="send_button" (click)="submit('draft')">下書き</button>
                 </div>
                 <div>
-                    <div class="send_button" (click)="submit('save')">保存</div>
+                    <button mat-raised-button class="send_button" (click)="submit('save')">保存</button>
                 </div>
             </div>
         </div>
