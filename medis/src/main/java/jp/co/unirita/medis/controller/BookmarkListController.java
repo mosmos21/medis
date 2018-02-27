@@ -33,7 +33,7 @@ public class BookmarkListController {
 	@Autowired
 	ArgumentCheckLogic argumentCheckLogic;
 
-	@RequestMapping(path = {"{user}/bookmark"}, method = RequestMethod.GET)
+	@RequestMapping(path = {"{user:^[0-9a-z-A-Z]{4,10}$}/bookmark"}, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfoForm> getBookmarkList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,

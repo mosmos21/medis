@@ -2,8 +2,6 @@ package jp.co.unirita.medis.controller;
 
 import java.util.List;
 
-import jp.co.unirita.medis.util.exception.AuthorityException;
-import jp.co.unirita.medis.util.exception.NotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.InfomationForm;
-import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.logic.setting.InfomationLogic;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.util.exception.AuthorityException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 
 
 @RequestMapping("/v1/infomations")
@@ -30,7 +30,7 @@ public class InfomationListController {
 	@Autowired
 	ArgumentCheckLogic argumentCheckLogic;
 
-	@RequestMapping(path = {"{user}", "{user}/{lastUpdateId:^u[0-9]{10}+$}"}, method = RequestMethod.GET)
+	@RequestMapping(path = {"{user:^[0-9a-z-A-Z]{4,10}$}", "{user:^[0-9a-z-A-Z]{4,10}$}/{lastUpdateId:^u[0-9]{10}+$}"}, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public  List<InfomationForm> getInfomationList(
 		@AuthenticationPrincipal User user,

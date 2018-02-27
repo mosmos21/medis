@@ -29,7 +29,7 @@ public class MonitoringListController {
 	@Autowired
 	ArgumentCheckLogic argumentCheckLogic;
 
-	@RequestMapping(path = {"{user}/monitoring_tag"}, method = RequestMethod.GET)
+	@RequestMapping(path = {"{user:^[0-9a-z-A-Z]{4,10}$}/monitoring_tag"}, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfoForm> getMonitoringList(
 		@AuthenticationPrincipal User user, @PathVariable(value = "user") String employeeNumber,

@@ -53,7 +53,7 @@ public class BookmarkLogic {
 			updateDocIdList.add(upDocId.getDocumentId());
 		}
 
-		//updateDocIdのdocumentInfoの取得
+		//updateDocIdListのdocumentInfoの取得
 		List<DocumentInfo> documentInfoList = new ArrayList<>();
 
 		for (int i = 0; i < updateDocIdList.size(); i++) {
