@@ -34,8 +34,7 @@ public class ArgumentCheckLogic {
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 
-	public void checkAdminAuthority(String employeeNumber) throws AuthorityException, NotExistException {
-	    checkUserExist(employeeNumber);
+	public void checkAdminAuthority(String employeeNumber) throws AuthorityException {
 	    String authorityId = userRepository.findOne(employeeNumber).getAuthorityId();
         if(!authorityId.equals(ADMINISTRATOR_AUTHORITY_ID)) {
             AuthorityException e = new AuthorityException("authorityId", authorityId, "User does not have administrator authority.");
@@ -44,10 +43,10 @@ public class ArgumentCheckLogic {
         }
     }
 
-    public void checkUserExist(String employeeNumber) throws AuthorityException{
+    public void checkUserExist(String employeeNumber) throws NotExistException{
 	    User user = userRepository.findOne(employeeNumber);
 	    if(user == null) {
-            AuthorityException e =  new AuthorityException("user", null, "User does not exist.");
+            NotExistException e =  new NotExistException("user", null, "User does not exist.");
             logger.error("[method: checkUserExist] The employee number '" + employeeNumber + "' does not exist.", e);
             throw e;
         }
