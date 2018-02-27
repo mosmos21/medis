@@ -20,6 +20,10 @@
                                 <div class="tag_base tag_middle tag_side tag_erasable" (click)="searchService.deleteTags($event)">{{ t.tagName }}
                                 </div>
                             </div>
+                            <div *ngFor="let t of searchService.newTags">
+                                <div class="tag_base tag_new tag_side tag_erasable" (click)="searchService.deleteNewTags($event)">{{ t.tagName }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="template_content_list">
@@ -77,18 +81,19 @@
                         <div id="menu_search_content" class="menu_content">
                             <div *ngIf="searchService.selectedTags.length < 8">
                                 <mat-form-field>
-                                    <input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord">
+                                    <input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord" (keyup)="searchService.searchTag()">
                                 </mat-form-field>
                             </div>
 
                             <div class="wrap_search_content">
                                 <div id="search_tag_candidate" class="content_scroll_y">
-                                    <nav *ngIf="searchService.addNewTag() != ''">
-                                        <div class="tag_base tag_new" (click)="searchService.addTags($event)">{{searchService.newTag}}</div>
+                                    <nav *ngIf="searchService.createNewTag() != ''">
+                                        <div class="tag_base tag_new" (click)="searchService.addNewTags($event)">{{searchService.newTagName}}</div>
                                     </nav>
-                                    <div *ngFor="let tag of searchService.searchTag()">
+                                    <div *ngFor="let tag of searchService.targetTags">
                                         <div class="tag_base tag_middle" (click)="searchService.addTags($event)">{{tag.tagName}}</div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

@@ -10,13 +10,20 @@ export class SearchService {
   private searchTagsDataSource = new Subject<string>();
   public searchTagsData$ = this.searchTagsDataSource.asObservable();
 
-  public newTag = "";
+  public newTagName = "";
   public selectedTags = [];
+  public newTags = [];
   public searchWord = "";
   private tags: any = [
     {
-      tagId: '',
-      tagName: ''
+      tagId: "",
+      tagName: ""
+    }
+  ];
+  public targetTags: any = [
+    {
+      tagId: "",
+      tagName: ""
     }
   ];
 
@@ -33,6 +40,9 @@ export class SearchService {
     this.http.get(this.hostname + 'tags').subscribe(
       json => {
         this.tags = json;
+        const sub = JSON.stringify(this.tags);
+        this.targetTags = JSON.parse(sub);
+        console.log(this.tags);
       },
       error => {
         this.tags = error;
@@ -41,51 +51,88 @@ export class SearchService {
   }
 
   addTags(event: any) {
-    if (this.selectedTags.length < 4) {
-      var i = this.tags.length;
-      var str = event.path[0].innerHTML;
+    console.log("add");
+    if (this.selectedTags.length + this.newTags.length < 4) {
+      var i = this.targetTags.length;
+      var str = event.path[0].innerText;
       while (i--) {
-        if (this.tags[i]["tagName"] == str) {
-          this.selectedTags[this.selectedTags.length] = this.tags[i];
-          this.tags.splice(i, 1);
+        if (this.targetTags[i]["tagName"] == str) {
+          this.selectedTags[this.selectedTags.length] = this.targetTags[i];
+          this.targetTags.splice(i, 1);
         }
       }
+      console.log(this.selectedTags);
     }
   }
 
   deleteTags(event: any) {
-    console.log("deleteTags");
+    console.log("delete");
     var i = this.selectedTags.length;
     var str = event.path[0].innerText;
-    console.log(event);
     while (i--) {
       if (this.selectedTags[i]["tagName"] == str) {
-        this.tags[this.tags.length] = this.selectedTags[i];
+        this.targetTags[this.targetTags.length] = this.selectedTags[i];
         this.selectedTags.splice(i, 1);
       }
     }
   }
 
-  addTagsToResult(event: any) {
-    if (this.selectedTags.length < 5) {
-      var i = this.tags.length;
-      var str = event.path[0].innerHTML;
-      while (i--) {
-        if (this.tags[i]["tagName"] == str) {
-          this.selectedTags[this.selectedTags.length] = this.tags[i];
-          this.sendMsg(this.selectedTags);
-          this.tags.splice(i, 1);
+  addNewTags(event: any) {
+    console.log("addNew");
+    if (this.selectedTags.length + this.newTags.length < 4) {
+      var str = event.path[0].innerText;
+      var i = this.newTags.length;
+      if (i == 0) {
+        this.newTags[this.newTags.length] = {
+          tagId: "",
+          tagName: str
+        };
+      } else {
+        var count = 0;
+        while (i--) {
+          if (this.newTags[i]["tagName"] == str) {
+            count++;
+          }
         }
+        count == 0 ? this.newTags[this.newTags.length] = { tagId: "", tagName: str } : false;
       }
     }
   }
 
+  deleteNewTags(event: any) {
+    console.log("deleteNew");
+    var i = this.newTags.length;
+    var str = event.path[0].innerText;
+    while (i--) {
+      if (this.newTags[i]["tagName"] == str) {
+        this.newTags.splice(i, 1);
+      }
+    }
+  }
+
+  addTagsToResult(event: any) {
+    console.log("add");
+    if (this.selectedTags.length < 5) {
+      var i = this.targetTags.length;
+      var str = event.path[0].innerText;
+      while (i--) {
+        if (this.targetTags[i]["tagName"] == str) {
+          this.selectedTags[this.selectedTags.length] = this.targetTags[i];
+          this.targetTags.splice(i, 1);
+          this.sendMsg(this.selectedTags);
+        }
+      }
+      console.log(this.selectedTags);
+    }
+  }
+
   deleteTagsToResult(event: any) {
+    console.log("delete");
     var i = this.selectedTags.length;
-    var str = event.path[0].innerHTML;
+    var str = event.path[0].innerText;
     while (i--) {
       if (this.selectedTags[i]["tagName"] == str) {
-        this.tags[this.tags.length] = this.selectedTags[i];
+        this.targetTags[this.targetTags.length] = this.selectedTags[i];
         this.sendMsg(this.selectedTags);
         this.selectedTags.splice(i, 1);
       }
@@ -93,16 +140,16 @@ export class SearchService {
   }
 
   searchTag() {
-    var sub = JSON.stringify(this.tags);
-    var targetTags = JSON.parse(sub);
-    var i = targetTags.length;
-    var j = this.selectedTags.length;
+    console.log("search");
+    const sub = JSON.stringify(this.tags);
+    this.targetTags = JSON.parse(sub);
+    let i = this.targetTags.length;
     while (i--) {
       if (this.tags[i]["tagName"].indexOf(this.searchWord) == -1) {
-        targetTags.splice(i, 1);
+        this.targetTags.splice(i, 1);
       }
     }
-    return targetTags;
+    return this.targetTags;
   }
 
   createNewTag() {
@@ -113,11 +160,7 @@ export class SearchService {
         count++;
       }
     }
-    count == 0 ? this.newTag = this.searchWord : this.newTag = "";
-    return this.newTag;
-  }
-
-  hoge() {
-    console.log("hoge");
+    count == 0 ? this.newTagName = this.searchWord : this.newTagName = "";
+    return this.newTagName;
   }
 }
