@@ -13,11 +13,14 @@ import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 @Service
 public class TagLogic {
 
+	private static final String COMMENT_NOTIFICATION_TAG_ID = "g0000000000";
+
     @Autowired
     TagRepository tagRepository;
 
+
     public List<Tag> getTagList() {
-    	return tagRepository.findBytagIdNot("s9999999999"); //コメント通知設定用のタグだけ除く
+    	return tagRepository.findBytagIdNot(COMMENT_NOTIFICATION_TAG_ID); //コメント通知設定用のタグだけ除く
     }
 
     public String getNewTagId() throws IdIssuanceUpperException{
