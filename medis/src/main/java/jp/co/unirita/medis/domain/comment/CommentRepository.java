@@ -10,5 +10,5 @@ public interface CommentRepository extends JpaRepository<Comment, String> {
 	List<Comment> findByDocumentIdOrderByCommentDateAsc(String documentId);
 	List<Comment> findByCommentId(String commentId);
 	List<Comment> findByOrderByCommentIdDesc();
-
+	int countByCommentId(String commentId);
 }

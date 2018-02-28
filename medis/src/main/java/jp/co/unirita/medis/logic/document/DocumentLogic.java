@@ -1,5 +1,17 @@
 package jp.co.unirita.medis.logic.document;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.documentitem.DocumentItem;
@@ -11,17 +23,6 @@ import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.form.document.DocumentContentForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.util.TagLogic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class DocumentLogic {
@@ -106,7 +107,7 @@ public class DocumentLogic {
         updateDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
     }
 
-    public void updateTags(String documentId, List<Tag> tags) {
+    public void updateTags(String documentId, List<Tag> tags) throws Exception{
         List<DocumentTag> oldTags = documentTagRepository.findByDocumentIdOrderByTagOrderAsc(documentId);
 
         int common = Math.min(oldTags.size(), tags.size());

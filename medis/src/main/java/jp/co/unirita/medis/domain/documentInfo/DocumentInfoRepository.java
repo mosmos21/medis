@@ -19,5 +19,5 @@ public interface DocumentInfoRepository extends JpaRepository<DocumentInfo, Stri
 
     Page<DocumentInfo> findByEmployeeNumber(String EmployeeNumber, Pageable pageble);
 
-    int countBydocumentId(String documentId);
+    int countByDocumentId(String documentId);
 }

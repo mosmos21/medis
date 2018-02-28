@@ -28,6 +28,7 @@ import jp.co.unirita.medis.form.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.document.CommentLogic;
 import jp.co.unirita.medis.logic.document.DocumentLogic;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RestController
@@ -40,12 +41,15 @@ public class DocumentController {
 	CommentLogic commentLogic;
 	@Autowired
 	DocumentLogic documentLogic;
+	@Autowired
+	ArgumentCheckLogic argumentCheckLogic;
 
 	@GetMapping(value = "{documentId:^d[0-9]{10}+$}/comments")
 	@ResponseStatus(HttpStatus.OK)
 	public List<CommentInfoForm> getComment(@AuthenticationPrincipal User user,
 			@PathVariable(value = "documentId") String documentId) throws NotExistException {
 		logger.info("[method: getComment] Get comment info list by " + documentId + ".");
+		argumentCheckLogic.checkDocumentId(documentId);
 		List<CommentInfoForm> documentInfo = commentLogic.getCommentInfo(documentId);
 
 		return documentInfo;
@@ -53,26 +57,28 @@ public class DocumentController {
 
 	@GetMapping(value = "{documentId:^d[0-9]{10}+$}")
 	@ResponseStatus(HttpStatus.OK)
-	public DocumentForm getDocument(@PathVariable(value = "documentId") String documentId) {
+	public DocumentForm getDocument(@PathVariable(value = "documentId") String documentId) throws NotExistException {
 		logger.info("[method: getDocument] Get document list by " + documentId + ".");
 		// TODO 存在チェック
-
+		argumentCheckLogic.checkDocumentId(documentId);
 		DocumentForm document = documentLogic.getDocument(documentId);
 		return document;
 	}
 
 	@GetMapping(value = "{documentId:^d[0-9]{10}+$}/tags")
 	@ResponseStatus(HttpStatus.OK)
-	public List<Tag> getDocumentTagList(@PathVariable(value = "documentId") String documentId) {
+	public List<Tag> getDocumentTagList(@PathVariable(value = "documentId") String documentId) throws NotExistException{
 		logger.info("[method: getDocumentTagList] Get documentTagList list by " + documentId + ".");
+		argumentCheckLogic.checkDocumentId(documentId);
 		return documentLogic.getDocumentTags(documentId);
 	}
 
 	@PostMapping(value = "{documentId:^d[0-9]{10}+$}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public DocumentForm updateDocument(@RequestBody DocumentForm document) throws Exception {
+	public DocumentForm updateDocument(@PathVariable(value = "documentId") String documentId,@RequestBody DocumentForm document) throws Exception {
 		// TODO 社員番号を確認
 		logger.info("[method: updateDocument] Get updateDocument list by " + document.getDocumentId()+ ".");
+		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.update(document, "99999");
 		return document;
 	}
@@ -80,14 +86,15 @@ public class DocumentController {
 	@PostMapping(value = "{documentId:^d[0-9]{10}+$}/tags")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updateDocumentTagList(@PathVariable(value = "documentId") String documentId,
-			@RequestBody List<Tag> tags) throws Exception {
+			@RequestBody List<Tag> tags) throws Exception,NotExistException {
 		logger.info("[method: updateDocumentTagList] Get updateDocumentTagList list by DocumentId:"+documentId +"TagId"+ tags.get(0).getTagId() + ".");
+		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.updateTags(documentId, tags);
 	}
 
 	@PutMapping(value = "new")
 	@ResponseStatus(HttpStatus.CREATED)
-	public DocumentForm saveDocument(@RequestBody DocumentForm document) throws Exception {
+	public DocumentForm saveDocument(@RequestBody DocumentForm document) throws Exception{
 		logger.info("[method: saveDocument] Get saveDocument list by " + document.getDocumentId() + ".");
 		// TODO 社員番号を取得するようにする
 		documentLogic.save(document, "99999");
@@ -97,17 +104,20 @@ public class DocumentController {
 	@PutMapping(value = "{documentId:^d[0-9]{10}+$}/tags")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void saveDocumentTagList(@PathVariable(value = "documentId") String documentId, @RequestBody List<Tag> tags)
-			throws Exception {
+			throws Exception ,NotExistException{
 		logger.info("[method: saveDocumentTagList] Get saveDocumentTagList list by " + documentId + ".");
+		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.saveTags(documentId, tags);
 	}
 
-	@RequestMapping(path = { "{documentId:^d[0-9]{10}+$}/comments/{commentId}/read" }, method = RequestMethod.POST)
+	@RequestMapping(path = { "{documentId:^d[0-9]{10}+$}/comments/{commentId:^m[0-9]{10}+$}/read" }, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void alreadyRead(@AuthenticationPrincipal User user, @PathVariable(value = "documentId") String documentId,
 			@PathVariable(value = "commentId") String commentId, @Valid HttpServletRequest request,
 			HttpServletResponse response) throws NotExistException {
 		logger.info("[method: alreedyRead] Change alreadyRead boolean And Send mail");
+		argumentCheckLogic.checkDocumentId(documentId);
+		argumentCheckLogic.checkCommentId(commentId);
 		commentLogic.alreadyRead(documentId, commentId);
 
 	}
@@ -119,6 +129,7 @@ public class DocumentController {
 			HttpServletResponse response) throws NotExistException {
 		logger.info("[method: save] Add Comment EmployeeNumber:" + postData.getEmployeeNumber() + "value:"
 				+ postData.getValue());
+		argumentCheckLogic.checkDocumentId(documentId);
 		commentLogic.sava(documentId, postData);
 
 	}

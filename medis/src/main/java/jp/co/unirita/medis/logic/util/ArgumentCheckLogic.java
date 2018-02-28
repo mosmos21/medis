@@ -3,19 +3,19 @@ package jp.co.unirita.medis.logic.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.co.unirita.medis.domain.authority.Authority;
-import jp.co.unirita.medis.domain.templateinfo.TemplateInfoRepository;
-import jp.co.unirita.medis.util.exception.AuthorityException;
-import jp.co.unirita.medis.util.exception.NotExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jp.co.unirita.medis.domain.comment.CommentRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
+import jp.co.unirita.medis.domain.templateinfo.TemplateInfoRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.user.UserRepository;
+import jp.co.unirita.medis.util.exception.AuthorityException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 
 
 @Service
@@ -33,6 +33,8 @@ public class ArgumentCheckLogic {
     TemplateInfoRepository templateInfoRepository;
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
+	@Autowired
+	CommentRepository commentRepository;
 
 	public void checkAdminAuthority(String employeeNumber) throws AuthorityException {
 	    String authorityId = userRepository.findOne(employeeNumber).getAuthorityId();
@@ -94,11 +96,23 @@ public class ArgumentCheckLogic {
 
 	public void checkDocumentId(String documentId) throws NotExistException {
 
-		int count = documentInfoRepository.countBydocumentId(documentId);
+		int count = documentInfoRepository.countByDocumentId(documentId);
 
 		if (count == 0) {
 			System.out.println(documentId);
 			throw new NotExistException("documentId", documentId, "存在しないドキュメントIDです");
 		}
 	}
+
+	public void checkCommentId(String commentId) throws NotExistException {
+
+		int count = commentRepository.countByCommentId(commentId);
+
+		if (count == 0) {
+			System.out.println(commentId);
+			throw new NotExistException("commentId", commentId, "存在しないコメントIDです");
+		}
+	}
+
+
 }
