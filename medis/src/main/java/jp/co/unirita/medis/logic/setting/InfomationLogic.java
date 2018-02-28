@@ -1,6 +1,10 @@
 package jp.co.unirita.medis.logic.setting;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -48,7 +52,7 @@ public class InfomationLogic {
                 .stream().map(DocumentTag::getDocumentId).collect(Collectors.toList());
         List<String> templateIds = templateTagRepository.findByTagIdIn(tagIds)
                 .stream().map(TemplateTag::getTagId).collect(Collectors.toList());
-        List<String> docInfos = documentInfoRepository.findByDocumentidIn(documentIds)
+        List<String> docInfos = documentInfoRepository.findByDocumentIdIn(documentIds)
                 .stream().map(DocumentInfo::getDocumentId).collect(Collectors.toList());
         List<String> tmpInfos = documentInfoRepository.findByTemplateIdIn(templateIds)
                 .stream().map(DocumentInfo::getDocumentId).collect(Collectors.toList());
