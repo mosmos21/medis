@@ -1,8 +1,13 @@
 package jp.co.unirita.medis.logic.setting;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.mail.MailSender;
@@ -22,59 +27,85 @@ import jp.co.unirita.medis.util.exception.NotExistException;
 @SpringBootApplication
 public class AccountLogic {
 
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final long MILLIS_OF_30_MINUTES = 1800000L;
+
+    @Autowired
+    UserRepository userRepository;
 	@Autowired
 	UserDetailRepository userDetailRepository;
 	@Autowired
 	TempkeyInfoRepository tempkeyInfoRepository;
-	@Autowired
-	UserRepository userRepository;
+    @Autowired
+    private MailSender sender;
 
-	public void userCheck(AccountForm form) throws NotExistException {
-		if (userDetailRepository.findByEmployeeNumberAndMailaddress(form.getEmployeeNumber(),
-				form.getMailaddress()) == null)
-			throw new NotExistException("employeeNumber or mailaddress",
-					form.getEmployeeNumber() + " or " + form.getMailaddress(),
-					"ユーザ情報の確認に失敗しました。入力内容に誤りがあります。");
-		;
-		TempkeyInfo info = new TempkeyInfo();
-		info.setEmployeeNumber(form.getEmployeeNumber());
-		info.setTempKey(UUID.randomUUID().toString().replace("-", ""));
-		info.setChangeDate(new Timestamp(System.currentTimeMillis()));
-		tempkeyInfoRepository.delete(tempkeyInfoRepository.findByEmployeeNumber(form.getEmployeeNumber())); // 上書きするとエラーになるので仮措置
-		tempkeyInfoRepository.saveAndFlush(info);
-		sendMail(info.getTempKey(),form.getMailaddress());
-	}
+    public UserDetail getUserDetail(String employeeNumber) {
+        return userDetailRepository.findOne(employeeNumber);
+    }
 
-	public UserDetail keyCheck(String key) throws NotExistException {
+    public Map<String, String> checkUserIntegrity(String employeeNumber, String mailaddress) {
+        Map<String, String> result = new HashMap<>();
+        UserDetail detail = userDetailRepository.findOne(employeeNumber);
+        if (detail == null) {
+            result.put("result", "NG");
+            result.put("message", "ユーザが見つかりませんでした");
+            return result;
+        }
+        if (mailaddress.equals(detail.getMailaddress())) {
+            result.put("result", "NG");
+            result.put("message", "社員番号とメールアドレスの組み合わせが一致しません");
+            return result;
+        }
+        result.put("result", "OK");
+        return result;
+    }
+
+    public String issueTempKey(String employeeNumber) {
+        TempkeyInfo info = new TempkeyInfo();
+        info.setEmployeeNumber(employeeNumber);
+        info.setTempKey(UUID.randomUUID().toString().replace("-", ""));
+        info.setChangeDate(new Timestamp(System.currentTimeMillis()));
+        tempkeyInfoRepository.saveAndFlush(info);
+        return info.getTempKey();
+    }
+
+	public Map<String, String> checkTempKeyIntegrity(String key) {
+        Map<String, String> result = new HashMap<>();
 		TempkeyInfo info = tempkeyInfoRepository.findByTempKey(key);
-		// System.out.println(new SimpleDateFormat("yyyy/MM/dd
-		// HH:mm:ss").format(System.currentTimeMillis() - 1800000));
-		if (key == null || key.length() != 32 || info == null
-				|| new Timestamp(System.currentTimeMillis() - 1800000).after(info.getChangeDate())) {
-			throw new NotExistException("temp_key", key, "メール発行から30分を過ぎているか、URLアドレスに誤りがあります。");
+        if(!key.equals(info.getTempKey())) {
+            result.put("result", "NG");
+            result.put("message", "登録されていないキーを使用しています");
+            return result;
+
+        }
+		if (new Timestamp(System.currentTimeMillis() - MILLIS_OF_30_MINUTES).after(info.getChangeDate())) {
+            result.put("result", "NG");
+            result.put("message", "メール発行から30分を過ぎています");
+            return result;
 		}
-		;
-		UserDetail detail = userDetailRepository.findByEmployeeNumber(info.getEmployeeNumber());
-		return(detail);
+        result.put("result", "OK");
+        return result;
 	}
 
-	public void passwordReset(AccountForm form) throws NotExistException {
-		if (userDetailRepository.findByEmployeeNumberAndMailaddress(form.getEmployeeNumber(),
-				form.getMailaddress()) == null)
-			throw new NotExistException("employeeNumber or mailaddress",
-					form.getEmployeeNumber() + " or " + form.getMailaddress(),
-					"ユーザ情報の確認に失敗しました。入力内容に誤りがあります。");
-		;
-		User user = userRepository.findFirstByEmployeeNumber(form.getEmployeeNumber());
-		user.setPassword(form.getPassword());
+	public void passwordReset(String employeeNumber, String mailadress, String password) throws NotExistException {
+        UserDetail detail = userDetailRepository.findOne(employeeNumber);
+        if(detail == null) {
+            NotExistException e =  new NotExistException("employeeNumber", employeeNumber, "存在していない社員番号を参照しています");
+            logger.error("error in passwordRest()", e);
+            throw e;
+        }
+		if (userDetailRepository.findByEmployeeNumberAndMailaddress(employeeNumber,mailadress) == null) {
+            NotExistException e = new NotExistException("mailaddress", mailadress,"ユーザ名とメールアドレスの組み合わせが間違っています");
+            logger.error("error in passwordRest()", e);
+            throw e;
+        }
+		User user = userRepository.findOne(employeeNumber);
+		user.setPassword(password);
 		userRepository.saveAndFlush(user);
 
 	}
 
-    @Autowired
-    private MailSender sender;
-
-    public void sendMail(String key,String mailaddress) {
+    public void sendMail(String mailaddress, String key) {
         SimpleMailMessage msg = new SimpleMailMessage();
 
         msg.setTo(mailaddress);
@@ -83,7 +114,6 @@ public class AccountLogic {
         			+ "以下のURLにてパスワードを再設定することができます。\r\n\r\n"
         			+ "http://localhost:8080/v1/accounts/keycheck?secret=" + key + "\r\n\r\n"
         			+ "有効期間は30分です。それ以降は再送してください。"); //本文の設定
-
         this.sender.send(msg);
     }
 }

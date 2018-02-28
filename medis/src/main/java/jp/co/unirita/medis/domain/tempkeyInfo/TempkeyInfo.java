@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@IdClass(TempkeyInfo.PK.class)
 @Table(name = "tempkey_info")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,17 +24,8 @@ public class TempkeyInfo {
 	@Size(max = 64)
 	private String employeeNumber;
 
-	@Id
 	@Size(min = 32, max = 32)
 	private String tempKey;
 
 	private Timestamp changeDate;
-
-	@Data
-	@AllArgsConstructor
-	@NoArgsConstructor
-	public static class PK implements Serializable {
-		private String employeeNumber;
-		private String tempKey;
-	}
 }
