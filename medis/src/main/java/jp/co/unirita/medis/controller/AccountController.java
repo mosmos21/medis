@@ -2,6 +2,7 @@ package jp.co.unirita.medis.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.co.unirita.medis.domain.authority.AuthorityRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
+import jp.co.unirita.medis.form.AccountForm;
 import jp.co.unirita.medis.logic.setting.AccountLogic;
 import jp.co.unirita.medis.util.exception.NotExistException;
 
@@ -28,11 +30,11 @@ public class AccountController {
 	@Autowired
 	AuthorityRepository authorityRepository;
 	@Autowired
-	UserDetailRepository userDetaiRepository;
+	UserDetailRepository userDetailRepository;
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "usercheck", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	void userCheck(@RequestBody UserDetail postData, HttpServletRequest request, HttpServletResponse response)
+	void userCheck(@RequestBody @Valid AccountForm postData, HttpServletRequest request, HttpServletResponse response)
 			throws NotExistException {
 		accountLogic.userCheck(postData);
 	}
@@ -40,13 +42,13 @@ public class AccountController {
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "keycheck", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	UserDetail keyCheck(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value = "secret", required = true) String key) {
+			@RequestParam(value = "secret", required = false) String key) throws NotExistException {
 		return accountLogic.keyCheck(key);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "reset", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	void passwordReset(@RequestBody UserDetail postData, HttpServletRequest request, HttpServletResponse response) {
+	void passwordReset(@RequestBody @Valid AccountForm postData, HttpServletRequest request, HttpServletResponse response) throws NotExistException {
 		accountLogic.passwordReset(postData);
 	}
 }

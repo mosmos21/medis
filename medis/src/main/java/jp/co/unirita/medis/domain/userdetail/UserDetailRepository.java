@@ -1,8 +1,11 @@
 package jp.co.unirita.medis.domain.userdetail;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-@Repository
+import org.springframework.data.jpa.repository.JpaRepository;
+
 public interface UserDetailRepository extends JpaRepository<UserDetail,String>{
+	UserDetail findByEmployeeNumber(String employeeNumber);
+	List<UserDetail> findAllByEmployeeNumber(String employeeNumber);
+	UserDetail findByEmployeeNumberAndMailaddress(String employeeNumber,String mailaddress);
 }
