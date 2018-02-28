@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface TemplateInfoRepository extends JpaRepository<TemplateInfo, String> {
     List<TemplateInfo> findByEmployeeNumber(String employeeNumber);
     List<TemplateInfo> findByTemplatePublish(boolean templatePublish);
-    List<TemplateInfo> findByEmployeeNumberAndTemplatePublish(String employeeNumber, boolean templatePublish);
 
+    List<TemplateInfo> findByEmployeeNumberAndTemplatePublish(String employeeNumber, boolean templatePublish);
     int countByTemplateId(String templateId);
 }

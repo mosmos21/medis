@@ -13,11 +13,8 @@ public interface DocumentInfoRepository extends JpaRepository<DocumentInfo, Stri
     List<DocumentInfo> findByDocumentId(String documentId);
     List<DocumentInfo> findByTemplateId(String templateId);
     List<DocumentInfo> findByEmployeeNumber(String employeeNumber);
-    List<DocumentInfo> findByDocumentPublish(boolean templatePublish);
-
+    List<DocumentInfo> findByDocumentidIn(List<String> documentIds);
+    List<DocumentInfo> findByTemplateIdIn(List<String> templateIds);
     List<DocumentInfo> findByEmployeeNumberAndDocumentPublish(String employeeNumber, boolean documentPublish);
-
-    Page<DocumentInfo> findByEmployeeNumber(String EmployeeNumber, Pageable pageble);
-
     int countByDocumentId(String documentId);
 }

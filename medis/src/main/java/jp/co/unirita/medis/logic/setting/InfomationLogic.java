@@ -1,10 +1,6 @@
 package jp.co.unirita.medis.logic.setting;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,6 +24,9 @@ import jp.co.unirita.medis.form.InfomationForm;
 @Transactional
 public class InfomationLogic {
 
+    private final static String TYPE_WRITE_COMMENT = "v0000000002";
+    private final static String TYPE_READ_COMMENT  = "v0000000003";
+
 	@Autowired
 	NotificationConfigRepository notificationConfigRepository;
 	@Autowired
@@ -39,9 +38,43 @@ public class InfomationLogic {
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
 
+    public List<InfomationForm> getAllInfomationList(String employeeNumber) {
+        // 監視しているタグの一覧を取得
+        List<String> tagIds = notificationConfigRepository.findByEmployeeNumber(employeeNumber)
+                .stream().map(NotificationConfig::getTagId).collect(Collectors.toList());
 
+        // タグが付与されている各文書の情報を取得
+        List<String> documentIds = documentTagRepository.findByTagIdIn(tagIds)
+                .stream().map(DocumentTag::getDocumentId).collect(Collectors.toList());
+        List<String> templateIds = templateTagRepository.findByTagIdIn(tagIds)
+                .stream().map(TemplateTag::getTagId).collect(Collectors.toList());
+        List<String> docInfos = documentInfoRepository.findByDocumentidIn(documentIds)
+                .stream().map(DocumentInfo::getDocumentId).collect(Collectors.toList());
+        List<String> tmpInfos = documentInfoRepository.findByTemplateIdIn(templateIds)
+                .stream().map(DocumentInfo::getDocumentId).collect(Collectors.toList());
+        List<String> mydocIds = documentInfoRepository.findByEmployeeNumber(employeeNumber)
+                .stream().map(DocumentInfo::getDocumentId).collect(Collectors.toList());
 
-	public List<InfomationForm> getInfomationList(String employeeNumber, String updateId, Integer maxSize) {
+        // 結合して更新情報フォームに変換
+        List<String> ids = Stream.concat(Stream.concat(docInfos.stream(), tmpInfos.stream()), mydocIds.stream())
+                .distinct().collect(Collectors.toList());
+        List<UpdateInfo> updateInfos = updateInfoRepository.findByDocumentIdIn(ids);
+        List<InfomationForm> list = updateInfos.stream()
+                .filter(info -> info.getUpdateType().equals(TYPE_WRITE_COMMENT) || info.getUpdateType().equals(TYPE_READ_COMMENT))
+                .map(info -> new InfomationForm(info, documentInfoRepository.findOne(info.getDocumentId()).getDocumentName()))
+                .sorted((form1, form2) -> form2.getUpdateId().compareTo(form1.getDocumentId()))
+                .collect(Collectors.toList());
+        return list;
+    }
+
+    public List<InfomationForm> getInfomationList(String employeeNumber, String lastUpadteId) {
+        List<InfomationForm> list = getAllInfomationList(employeeNumber).stream()
+                .filter(info -> info.getUpdateId().compareTo(lastUpadteId) == 1)
+                .collect(Collectors.toList());
+        return list;
+    }
+
+    public List<InfomationForm> getInfomationList(String employeeNumber, String updateId, Integer maxSize) {
 		//userが監視しているタグの一覧
 		List<NotificationConfig> notificationConfig = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
 		List<String> tagIdList = new ArrayList<>();
@@ -172,4 +205,6 @@ public class InfomationLogic {
 
 		return infomation;
 	}
+
+
 }

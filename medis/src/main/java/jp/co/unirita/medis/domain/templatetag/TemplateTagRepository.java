@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface TemplateTagRepository extends JpaRepository<TemplateTag, TemplateTag.PK> {
 	List<TemplateTag> findByTemplateIdOrderByTagOrderAsc(String templateId);
 	List<TemplateTag> findByTagId(String tagId);
+	List<TemplateTag> findByTagIdIn(List<String> tagIds);
 }
