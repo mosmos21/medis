@@ -30,24 +30,26 @@ public class CommentLogic {
 	private MailSender sender;
 
 	public List<CommentInfoForm> getCommentInfo(String documentId) {
-		List<Comment> commentList = new ArrayList<>();
+		Comment commentList;
 		List<String> commentIdList = new ArrayList<>();
 		List<String> employeeNumberList = new ArrayList<>();
-		List<UserDetail> userdetailList = new ArrayList<>();
+		UserDetail userdetailList;
 		List<CommentInfoForm> result = new ArrayList<>();
 
-		commentList = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
+		List<Comment> commentLength = new ArrayList<>();
+
+		commentLength = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
 
 		// comment_id取得
-		for (int i = 0; i < commentList.size(); i++) {
-			Comment count = commentList.get(i);
+		for (int i = 0; i < commentLength.size(); i++) {
+			Comment count = commentLength.get(i);
 			commentIdList.add(count.getCommentId());
 		}
 
 		// employee_number取得
 		for (int i = 0; i < commentIdList.size(); i++) {
 			commentList = commentRepository.findByCommentId(commentIdList.get(i));
-			employeeNumberList.add(commentList.get(0).getEmployeeNumber());
+			employeeNumberList.add(commentList.getEmployeeNumber());
 		}
 
 		// レスポンスJSON作成
@@ -55,14 +57,14 @@ public class CommentLogic {
 			CommentInfoForm commentinfoform = new CommentInfoForm();
 
 			commentList = commentRepository.findByCommentId(commentIdList.get(i));
-			userdetailList = userDetailRepository.findAllByEmployeeNumber(employeeNumberList.get(i));
+			userdetailList = userDetailRepository.findOne(employeeNumberList.get(i));
 
-			commentinfoform.commentDate = commentList.get(0).getCommentDate();
-			commentinfoform.lastName = userdetailList.get(0).getLastName();
-			commentinfoform.firstName = userdetailList.get(0).getFirstName();
-			commentinfoform.isIcon = userdetailList.get(0).isIcon();
-			commentinfoform.isRead = commentList.get(0).isRead();
-			commentinfoform.commentContent = commentList.get(0).getValue();
+			commentinfoform.commentDate = commentList.getCommentDate();
+			commentinfoform.lastName = userdetailList.getLastName();
+			commentinfoform.firstName = userdetailList.getFirstName();
+			commentinfoform.isIcon = userdetailList.isIcon();
+			commentinfoform.isRead = commentList.isRead();
+			commentinfoform.commentContent = commentList.getValue();
 			result.add(commentinfoform);
 			System.out.println(result);
 		}
@@ -72,30 +74,29 @@ public class CommentLogic {
 	}
 
 	public void alreadyRead(String documentId, String commentId) {
-		List<Comment> commentList = new ArrayList<>();
-		List<UserDetail> toUserDetailList = new ArrayList<>();
-		List<UserDetail> authorUserDetailList = new ArrayList<>();
+		Comment commentList;
+		UserDetail toUserDetail;
+		UserDetail authorUserDetail;
 		List<DocumentInfo> documentInfoList = new ArrayList<>();
 
 		commentList = commentRepository.findByCommentId(commentId);
-		toUserDetailList = userDetailRepository.findAllByEmployeeNumber(commentList.get(0).getEmployeeNumber());
-		documentInfoList = documentInfoRepository.findByDocumentId(commentList.get(0).getDocumentId());
-		authorUserDetailList = userDetailRepository
-				.findAllByEmployeeNumber(documentInfoList.get(0).getEmployeeNumber());
+		toUserDetail = userDetailRepository.findOne(commentList.getEmployeeNumber());
+		documentInfoList = documentInfoRepository.findByDocumentId(commentList.getDocumentId());
+		authorUserDetail = userDetailRepository.findOne(documentInfoList.get(0).getEmployeeNumber());
 
-		String mailaddress = toUserDetailList.get(0).getMailaddress();
+		String mailaddress = toUserDetail.getMailaddress();
 		String documentName = documentInfoList.get(0).getDocumentName();
-		String lastName = authorUserDetailList.get(0).getLastName();
-		String firstName = authorUserDetailList.get(0).getFirstName();
+		String lastName = authorUserDetail.getLastName();
+		String firstName = authorUserDetail.getFirstName();
 
 		// Readをtrueにする
 		Comment comment = new Comment();
 
 		comment.setCommentId(commentId);
 		comment.setDocumentId(documentId);
-		comment.setCommentDate(commentList.get(0).getCommentDate());
-		comment.setEmployeeNumber(commentList.get(0).getEmployeeNumber());
-		comment.setValue(commentList.get(0).getValue());
+		comment.setCommentDate(commentList.getCommentDate());
+		comment.setEmployeeNumber(commentList.getEmployeeNumber());
+		comment.setValue(commentList.getValue());
 		comment.setRead(true);
 
 		commentRepository.saveAndFlush(comment);
@@ -121,10 +122,10 @@ public class CommentLogic {
 
 		Timestamp commentDate = new Timestamp(System.currentTimeMillis());
 		String employeeNumber = postData.getEmployeeNumber();
-		String value =postData.getValue();
-		boolean read =false;
+		String value = postData.getValue();
+		boolean read = false;
 
-		Comment comment =new Comment(lastCommentId,documentId,commentDate,employeeNumber,value,read);
+		Comment comment = new Comment(lastCommentId, documentId, commentDate, employeeNumber, value, read);
 		commentRepository.save(comment);
 
 	}
