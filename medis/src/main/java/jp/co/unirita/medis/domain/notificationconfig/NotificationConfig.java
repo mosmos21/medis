@@ -8,6 +8,7 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
@@ -29,6 +30,7 @@ public class NotificationConfig {
 	private boolean browserNotification = true;
 
     @Data
+	@AllArgsConstructor
     public static class PK implements Serializable{
         private String employeeNumber;
         private String tagId;

@@ -3,11 +3,13 @@ package jp.co.unirita.medis.form;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class NotificationsForm {
 	@Size(min = 11, max = 11, message = "タグIDは11文字で入力してください。")
 	@NotBlank(message = "タグIDが入力されていません。")

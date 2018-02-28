@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NotificationConfigRepository extends JpaRepository<NotificationConfig, String> {
+public interface NotificationConfigRepository extends JpaRepository<NotificationConfig, NotificationConfig.PK> {
 	List<NotificationConfig> findByEmployeeNumber(String employeeNumber);
 	NotificationConfig findByEmployeeNumberAndTagId(String employeeNumber,String tagId);
 	List <NotificationConfig> findByEmployeeNumberAndTagIdOrderByEmployeeNumberDesc(String employeeNumber,String tagId);
