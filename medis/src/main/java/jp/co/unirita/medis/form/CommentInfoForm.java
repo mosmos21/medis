@@ -8,16 +8,16 @@ import lombok.Data;
 @Data
 public class CommentInfoForm implements Serializable {
 
-	public Timestamp commentDate;
+	private Timestamp commentDate;
 
-	public boolean isIcon;
+	private boolean isIcon;
 
-	public String lastName;
+	private String lastName;
 
-	public String firstName;
+	private String firstName;
 
-	public boolean isRead;
+	private boolean isRead;
 
-	public String commentContent;
+	private String commentContent;
 
 }

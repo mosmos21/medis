@@ -77,7 +77,7 @@ public class DocumentController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public DocumentForm updateDocument(@PathVariable(value = "documentId") String documentId,@RequestBody DocumentForm document) throws Exception {
 		// TODO 社員番号を確認
-		logger.info("[method: updateDocument] Get updateDocument list by " + document.getDocumentId()+ ".");
+		logger.info("[method: updateDocument] UpdateDocument list by " + document.getDocumentId()+ ".");
 		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.update(document, "99999");
 		return document;
