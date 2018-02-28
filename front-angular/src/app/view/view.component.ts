@@ -13,7 +13,7 @@ export class ViewComponent implements OnInit {
 
   private templateId: string = "";
   private documentId: string = "";
-  
+
   public tags: string[] = ["2018年度新人研修", "プログラミング研修"];
 
   public blocks: any;
@@ -24,17 +24,18 @@ export class ViewComponent implements OnInit {
   public documentValues: { [key: string]: string[] } = {};
 
   public comments: any;
+  public commentStr: string;
 
   constructor(
     @Inject('hostname') private hostname: string,
     private http: HttpClient,
     private route: ActivatedRoute,
-    private convert: ConvertDateService,
+    public convert: ConvertDateService,
   ) { }
 
   ngOnInit() {
     this.documentId = this.route.snapshot.paramMap.get('id');
-    
+
     this.http.get(this.hostname + 'templates/blocks').subscribe(
       json => {
         this.blocks = json;
@@ -65,6 +66,7 @@ export class ViewComponent implements OnInit {
     this.http.get(this.hostname + 'documents/' + this.documentId + '/comments').subscribe(
       json => {
         this.comments = json;
+        console.log(this.comments[0].commentContent);
       },
       error => {
         console.log('エラーが発生しました');
@@ -89,15 +91,15 @@ export class ViewComponent implements OnInit {
             this.templateValues[id].push(i);
           }
         }
-        if(callback != null) {
-      callback();
-    }
+        if (callback != null) {
+          callback();
+        }
       },
       error => {
         console.log("情報の取得に失敗しました。");
       }
     );
-    
+
   }
 
   assembleDocument() {
@@ -106,12 +108,12 @@ export class ViewComponent implements OnInit {
       json => {
         data = json;
         this.assembleTemplate(data.templateId, () => {
-          for(let i = 0; i < data.contents.length; i++){
+          for (let i = 0; i < data.contents.length; i++) {
             let id = this.contents[i].id;
-            for(let a of data.contents[i].items){
+            for (let a of data.contents[i].items) {
               this.documentValues[id].push(a);
             }
-            while(this.contents[i].items.length < this.documentValues[id].length + this.contents[i].offset){
+            while (this.contents[i].items.length < this.documentValues[id].length + this.contents[i].offset) {
               this.addItem(id);
             }
           }
@@ -146,5 +148,9 @@ export class ViewComponent implements OnInit {
 
   isChecked(id: string, line: number): boolean {
     return this.documentValues[id][line] == "true";
+  }
+
+  sendComment() {
+    console.log(this.commentStr);
   }
 }
