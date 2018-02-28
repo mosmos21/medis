@@ -1,11 +1,14 @@
 package jp.co.unirita.medis.logic.setting;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,8 @@ import jp.co.unirita.medis.form.DocumentInfoForm;
 @Service
 @Transactional
 public class BookmarkLogic {
+
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
 	BookmarkRepository bookmarkRepository;

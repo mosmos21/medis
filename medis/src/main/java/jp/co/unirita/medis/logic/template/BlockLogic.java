@@ -4,14 +4,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jp.co.unirita.medis.form.blockbase.BlockBaseForm;
 import jp.co.unirita.medis.form.blockbase.BlockBaseItemForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class BlockLogic {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public List<BlockBaseForm> getBlockList() {
         List<BlockBaseForm> list = new ArrayList<>();

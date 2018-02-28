@@ -1,5 +1,6 @@
 package jp.co.unirita.medis.logic.setting;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -8,6 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +30,8 @@ import jp.co.unirita.medis.form.InfomationForm;
 @Service
 @Transactional
 public class InfomationLogic {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final static String TYPE_WRITE_COMMENT = "v0000000002";
     private final static String TYPE_READ_COMMENT  = "v0000000003";
