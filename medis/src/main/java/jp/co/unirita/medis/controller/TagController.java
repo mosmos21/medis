@@ -24,10 +24,13 @@ public class TagController {
     @Autowired
     TagLogic tagLogic;
 
+    /**
+     * タグ情報の一覧を取得する
+     * @return タグ情報の一覧
+     */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Tag> getTagList(){
+    public List<Tag> getTagList() {
         return tagLogic.getTagList();
-
     }
 }
