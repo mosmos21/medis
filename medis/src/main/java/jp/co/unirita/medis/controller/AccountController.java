@@ -3,16 +3,21 @@ package jp.co.unirita.medis.controller;
 import jp.co.unirita.medis.form.AccountForm;
 import jp.co.unirita.medis.logic.setting.AccountLogic;
 import jp.co.unirita.medis.util.exception.NotExistException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.invoke.MethodHandles;
 import java.util.Map;
 
 @RestController
 @RequestMapping("v1/accounts")
 public class AccountController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
 	AccountLogic accountLogic;

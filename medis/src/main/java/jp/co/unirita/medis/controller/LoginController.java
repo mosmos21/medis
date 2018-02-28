@@ -4,6 +4,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -21,10 +23,14 @@ import jp.co.unirita.medis.form.user.UserLoginForm;
 import jp.co.unirita.medis.logic.util.LoginLogic;
 import lombok.Data;
 
+import java.lang.invoke.MethodHandles;
+
 @RestController
 @RequestMapping("/v1/login")
 @Data
 public class LoginController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
     private final LoginLogic loginLogic;

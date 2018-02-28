@@ -8,6 +8,8 @@ import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.form.NotificationsForm;
 import jp.co.unirita.medis.logic.setting.AccountLogic;
 import jp.co.unirita.medis.logic.setting.SettingLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,12 +18,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/settings")
 public class SettingController {
+
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
 	AccountLogic accountLogic;

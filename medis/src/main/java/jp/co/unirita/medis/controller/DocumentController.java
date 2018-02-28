@@ -1,5 +1,6 @@
 package jp.co.unirita.medis.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,7 @@ import jp.co.unirita.medis.util.exception.NotExistException;
 @RequestMapping("/v1/documents")
 public class DocumentController {
 
-	private static final Logger logger = LoggerFactory.getLogger(TemplateListController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
 	CommentLogic commentLogic;
