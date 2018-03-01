@@ -33,21 +33,15 @@ public class CommentLogic {
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 
-	UserDetail authorUserDetail;
-	Comment commentList;
-	UserDetail userdetailList;
-	UserDetail toUserDetail;
 	private MailSender sender;
 
 	public List<CommentInfoForm> getCommentInfo(String documentId) {
 
 		List<String> commentIdList = new ArrayList<>();
-		List<Comment> commentLength;
 		List<String> employeeNumberList = new ArrayList<>();
 		List<CommentInfoForm> result = new ArrayList<>();
 
-		commentLength = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
-
+		List<Comment> commentLength = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
 		// comment_id取得
 		for (Comment add : commentLength) {
 			commentIdList.add(add.getCommentId());
@@ -62,8 +56,8 @@ public class CommentLogic {
 		for (String add : employeeNumberList) {
 			CommentInfoForm commentinfoform = new CommentInfoForm();
 
-			commentList = commentRepository.findOne(add);
-			userdetailList = userDetailRepository.findOne(add);
+			Comment commentList = commentRepository.findOne(add);
+			UserDetail userdetailList = userDetailRepository.findOne(add);
 
 			commentinfoform.setCommentDate(commentList.getCommentDate());
 			commentinfoform.setLastName(userdetailList.getLastName());
@@ -80,12 +74,10 @@ public class CommentLogic {
 
 	public void alreadyRead(String documentId, String commentId) {
 
-		List<DocumentInfo> documentInfoList = new ArrayList<>();
-
-		commentList = commentRepository.findOne(commentId);
-		toUserDetail = userDetailRepository.findOne(commentList.getEmployeeNumber());
-		documentInfoList = documentInfoRepository.findByDocumentId(commentList.getDocumentId());
-		authorUserDetail = userDetailRepository.findOne(documentInfoList.get(0).getEmployeeNumber());
+		Comment commentList = commentRepository.findOne(commentId);
+		UserDetail toUserDetail = userDetailRepository.findOne(commentList.getEmployeeNumber());
+		List<DocumentInfo> documentInfoList = documentInfoRepository.findByDocumentId(commentList.getDocumentId());
+		UserDetail authorUserDetail = userDetailRepository.findOne(documentInfoList.get(0).getEmployeeNumber());
 
 		String mailaddress = toUserDetail.getMailaddress();
 		String documentName = documentInfoList.get(0).getDocumentName();
@@ -113,7 +105,7 @@ public class CommentLogic {
 		this.sender.send(msg);
 	}
 
-	public void sava(String documentId, CommentCreateForm postData) {
+	public void save(String documentId, CommentCreateForm postData) {
 		List<Comment> commentList = commentRepository.findByOrderByCommentIdDesc();
 		String lastCommentId = commentList.get(0).getCommentId();
 		String head = lastCommentId.substring(0, 1);

@@ -130,7 +130,7 @@ public class DocumentController {
 		logger.info("[method: save] Add Comment EmployeeNumber:" + postData.getEmployeeNumber() + "value:"
 				+ postData.getValue());
 		argumentCheckLogic.checkDocumentId(documentId);
-		commentLogic.sava(documentId, postData);
+		commentLogic.save(documentId, postData);
 
 	}
 }
