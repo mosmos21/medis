@@ -51,7 +51,7 @@ public class DocumentListLogic {
 		List<UpdateInfo> updateInfoList = new ArrayList<>();
 
 		for (int i = 0; i < documentIdList.size(); i++) {
-			updateInfoList.addAll(updateInfoRepository.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(documentIdList.get(i), "v0000000000", "v0000000001"));
+			updateInfoList.add(updateInfoRepository.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(documentIdList.get(i), "v0000000000", "v0000000001"));
 		}
 
 		//updateInfoListのdocumentIdの一覧の取得

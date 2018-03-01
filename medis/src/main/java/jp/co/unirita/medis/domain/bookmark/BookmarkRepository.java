@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface BookmarkRepository extends JpaRepository<Bookmark, String> {
 	List<Bookmark> findByEmployeeNumberAndSelected(String enployeeNumber, boolean Selected);
 	int countByEmployeeNumberAndDocumentId(String employeeNumber, String documentId);
-	List<Bookmark> findByOrderByBookmarkIdDesc();
-	List<Bookmark> findByEmployeeNumberAndDocumentId(String employeeNumber, String documentId);
+	Bookmark findByEmployeeNumberAndDocumentId(String employeeNumber, String documentId);
 }
