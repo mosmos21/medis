@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, String> {
 	List<Comment> findByDocumentIdOrderByCommentDateAsc(String documentId);
-	int countByCommentId(String commentId);
 }

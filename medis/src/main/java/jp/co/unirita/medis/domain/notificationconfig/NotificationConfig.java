@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
@@ -31,6 +32,7 @@ public class NotificationConfig {
 
     @Data
 	@AllArgsConstructor
+	@NoArgsConstructor
     public static class PK implements Serializable{
         private String employeeNumber;
         private String tagId;
