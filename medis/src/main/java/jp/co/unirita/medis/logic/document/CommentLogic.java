@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
@@ -106,7 +107,7 @@ public class CommentLogic {
 	}
 
 	public void save(String documentId, CommentCreateForm postData) {
-		List<Comment> commentList = commentRepository.findByOrderByCommentIdDesc();
+		List<Comment> commentList = commentRepository.findAll(new Sort(Sort.Direction.DESC, "commentId"));
 		String lastCommentId = commentList.get(0).getCommentId();
 		String head = lastCommentId.substring(0, 1);
 		String body = lastCommentId.substring(1, 11);

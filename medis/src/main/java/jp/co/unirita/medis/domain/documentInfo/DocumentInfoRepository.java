@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DocumentInfoRepository extends JpaRepository<DocumentInfo, String>{
-
     List<DocumentInfo> findByDocumentId(String documentId);
     List<DocumentInfo> findByTemplateId(String templateId);
     List<DocumentInfo> findByEmployeeNumber(String employeeNumber);

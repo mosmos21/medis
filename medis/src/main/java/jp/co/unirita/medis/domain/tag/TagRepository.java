@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tag, String> {
-	List<Tag> findByTagName(String tagName);
-	List<Tag> findByTagId(Collection<String> idList);
 	Tag findByTagId(String tagId);
+	List<Tag> findByTagId(Collection<String> idList);
 	List<Tag> findByTagIdNot(String tagId);
+	List<Tag> findByTagName(String tagName);
 }

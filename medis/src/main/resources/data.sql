@@ -1,32 +1,17 @@
+DELETE FROM "user_info";
 INSERT INTO "user_info"
-    (employee_number, authority_id, is_enabled, password)
+    (employee_number, authority_id, enabled, password, is_enabled)
 VALUES
-   ('medis', '0', 'true', 'medis'),
-   ('gu', '1', 'true', 'gupass'),
-   ('99999', '1', 'true', 'gupass99999'),
-   ('11111', '1', 'true', 'gupass11111'),
-   ('aaaaa', '1', 'true', 'gupassaaaaa');
+   ('medis', '0', true, 'medis',       true),
+   ('gu',    '1', true, 'gupass',      true),
+   ('99999', '1', true, 'gupass99999', true),
+   ('11111', '1', true, 'gupass11111', true),
+   ('aaaaa', '1', true, 'gupassaaaaa', true);
 
-INSERT INTO "box"
-    (box_id, box_logic_name, box_name)
-VALUES
-    ('0', '', '“ú–{Œê'),
-    ('1', '', '????????e????????'),
-    ('2', '', '????^?O??????'),
-    ('3', '', '???C?????????'),
-    ('4', '', '?e???v???[?g??');
 
-INSERT INTO "toppage"
-    (box_id, employee_number, toppage_order)
-VALUES
-    ('0', 'gu', '0'),
-    ('1', 'gu', '3'),
-    ('2', 'gu', '1'),
-    ('3', 'gu', '2'),
-    ('4', 'gu', '4');
-
+DELETE FROM "document_info";
 INSERT INTO "document_info"
-    (document_id, employee_number, template_id, document_create_date, is_document_publish)
+    (document_id, employee_number, template_id, document_create_date, document_publish)
 VALUES
     ('d0000000000', '99999', 't0000000000', '2018/01/01', 'true'),
     ('d0000000001', '99999', 't0000000001', '2018/01/01', 'true'),
@@ -46,11 +31,12 @@ VALUES
     ('d0000000015', 'aaaaa', 't0000000015', '2018/01/01', 'true');
 
 
+DELETE FROM "template_info";
 INSERT INTO template_info
-	(template_id, employee_number, is_template_publish, template_create_date, template_name)
+	(template_id, employee_number, template_publish, template_create_date, template_name)
 VALUES
-	('t0000000001', '97968', true, now(), 'ƒeƒXƒgƒeƒ“ƒvƒŒ[ƒg2'),
-	('t0000000002', '97968', true, now(), 'ƒeƒXƒgƒeƒ“ƒvƒŒ[ƒg3'),
-	('t0000000003', '97968', true, now(), 'ƒeƒXƒgƒeƒ“ƒvƒŒ[ƒg4'),
-	('t0000000004', '97968', true, now(), 'ƒeƒXƒgƒeƒ“ƒvƒŒ[ƒg5'),
-	('t0000000000', '97968', true, now(), 'ƒeƒXƒgƒeƒ“ƒvƒŒ[ƒg1');
+	('t0000000001', '97968', true, now(), 'ãƒ†ã‚¹ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ2'),
+	('t0000000002', '97968', true, now(), 'ãƒ†ã‚¹ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ3'),
+	('t0000000003', '97968', true, now(), 'ãƒ†ã‚¹ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ4'),
+	('t0000000004', '97968', true, now(), 'ãƒ†ã‚¹ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ5'),
+	('t0000000000', '97968', true, now(), 'ãƒ†ã‚¹ãƒˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ1');
