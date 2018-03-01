@@ -30,7 +30,7 @@ public class BookmarkListController {
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
-	private BookmarkLogic bookmarkLogic;
+	BookmarkLogic bookmarkLogic;
 	@Autowired
 	ArgumentCheckLogic argumentCheckLogic;
 

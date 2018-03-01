@@ -8,13 +8,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.InfomationForm;
 import jp.co.unirita.medis.logic.setting.InfomationLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
-import jp.co.unirita.medis.util.exception.AuthorityException;
 import jp.co.unirita.medis.util.exception.NotExistException;
 
 
@@ -26,7 +29,7 @@ public class InfomationListController {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
-	private InfomationLogic infomationLogic;
+	InfomationLogic infomationLogic;
 	@Autowired
 	ArgumentCheckLogic argumentCheckLogic;
 

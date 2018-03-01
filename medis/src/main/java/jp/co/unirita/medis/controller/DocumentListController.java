@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.DocumentInfoForm;
 import jp.co.unirita.medis.logic.document.DocumentListLogic;
-import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 
 @RestController
 @RequestMapping("/v1/documents")
@@ -27,14 +26,12 @@ public class DocumentListController {
 
 	@Autowired
 	DocumentListLogic documentListLogic;
-	@Autowired
-	ArgumentCheckLogic argumentCheckLogic;
 
 	/**
      * ユーザの文書一覧を取得する
      * lastUpadateIdが指定されていた場合はそのIDより後の更新のみを取得する
      * @param type public:公開済み文書 / private:下書き文書
-     * @return 更新Id情報(@see jp.co.unirita.medis.form.DocumentInfoForm)のリスト
+     * @return 文書情報(@see jp.co.unirita.medis.form.DocumentInfoForm)のリスト
      */
 	@GetMapping("/type:^public|private$")
 	@ResponseStatus(HttpStatus.OK)
