@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BlockBaseItemForm {
-
     private String templateType;
     private String documentType;
     private String value;
