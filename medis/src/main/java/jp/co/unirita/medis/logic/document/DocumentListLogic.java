@@ -24,17 +24,20 @@ public class DocumentListLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
+	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
+
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
 
 
-	public List<DocumentInfoForm> getDocumentList(String employeeNumber, String publishType, Integer maxSize) {
+	public List<DocumentInfoForm> getDocumentList(String employeeNumber, String publishType) {
 
 		List<DocumentInfo> documentInfo = new ArrayList<>();
 
-		if(publishType == null) {
+		if (publishType == null) {
 			documentInfo = documentInfoRepository.findByEmployeeNumber(employeeNumber);
 	    } else {
 	    	documentInfo = documentInfoRepository.findByEmployeeNumberAndDocumentPublish(employeeNumber, publishType.equals("public"));
@@ -50,8 +53,9 @@ public class DocumentListLogic {
 		//各documentIdごとの最新のupdateIdをもったupdate_infoのリストの取得
 		List<UpdateInfo> updateInfoList = new ArrayList<>();
 
-		for (int i = 0; i < documentIdList.size(); i++) {
-			updateInfoList.add(updateInfoRepository.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(documentIdList.get(i), "v0000000000", "v0000000001"));
+		for (String ids : documentIdList) {
+			updateInfoList.add(updateInfoRepository
+					.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(ids, TYPE_CREATE_DOCUMENT, TYPE_UPDATE_DOCUMENT));
 		}
 
 		//updateInfoListのdocumentIdの一覧の取得
@@ -64,8 +68,8 @@ public class DocumentListLogic {
 		//updateDocIdListのdocumentInfoの取得
 		List<DocumentInfo> documentInfoList = new ArrayList<>();
 
-		for (int i = 0; i < updateDocIdList.size(); i++) {
-			documentInfoList.addAll(documentInfoRepository.findByDocumentId(updateDocIdList.get(i)));
+		for (String ids : updateDocIdList) {
+			documentInfoList.addAll(documentInfoRepository.findByDocumentId(ids));
 		}
 
 		//documentInfoListとupdateInfoListの値をDocumentInfoFormに格納
@@ -81,29 +85,6 @@ public class DocumentListLogic {
 				return i2.getUpdateDate().compareTo(i1.getUpdateDate());
 			}
 		});
-
-		if (maxSize != -1 && documentInfoForm.size() > maxSize) {
-			documentInfoForm = documentInfoForm.subList(0, maxSize);
-		}
-
 		return documentInfoForm;
-
 	}
-/*
-	public List<DocumentInfo> getAllDocumentInfoList() {
-		return documentInfoRepository.findAll();
-	}
-
-	public List<DocumentInfo> getAllDocumentInfoList(String employeeNumber) {
-		return documentInfoRepository.findByEmployeeNumber(employeeNumber);
-	}
-
-	public List<DocumentInfo> getDocumentInfoList(boolean publish) {
-		return documentInfoRepository.findByDocumentPublish(publish);
-	}
-
-	public List<DocumentInfo> getDocumentInfoList(String emplouyeeNumber, boolean publish) {
-		return documentInfoRepository.findByEmployeeNumberAndDocumentPublish(emplouyeeNumber, publish);
-	}
-*/
 }
