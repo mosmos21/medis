@@ -55,7 +55,7 @@ public class DocumentListLogic {
 
 		for (String ids : documentIdList) {
 			updateInfoList.add(updateInfoRepository
-					.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(ids, TYPE_CREATE_DOCUMENT, TYPE_UPDATE_DOCUMENT));
+					.findFirstByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(ids, TYPE_CREATE_DOCUMENT, TYPE_UPDATE_DOCUMENT));
 		}
 
 		//updateInfoListのdocumentIdの一覧の取得
@@ -85,6 +85,12 @@ public class DocumentListLogic {
 				return i2.getUpdateDate().compareTo(i1.getUpdateDate());
 			}
 		});
+		System.out.println(0);
+		for (DocumentInfoForm documentInfoForm2 : documentInfoForm) {
+			System.out.println(documentInfoForm2);
+		}
+		System.out.println(1);
+
 		return documentInfoForm;
 	}
 }
