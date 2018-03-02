@@ -22,16 +22,12 @@ export class TopComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
-<<<<<<< HEAD
-    private nav: NavigationService
-  ) {
-    this.nav.show();
-=======
+    private nav: NavigationService,
     private authService: AuthService,
     private cookieService: CookieService,
   ) {
+    this.nav.show();
     this.user = this.authService.user;
->>>>>>> 72405627be13dd2334fec35e66869970f1ae6fa0
   }
 
   ngOnInit() {
