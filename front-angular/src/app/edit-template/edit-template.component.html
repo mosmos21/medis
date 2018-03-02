@@ -109,7 +109,7 @@
                             <div class="wrap_search_content">
                                 <div id="search_tag_candidate" class="content_scroll_y">
                                     <div *ngFor="let tag of searchService.targetTags">
-                                        <div class="tag_base tag_middle" (click)="searchService.addTags($event)">{{tag.tagName}}</div>
+                                        <div class="tag_base tag_middle" (click)="searchService.addTags($event,4)">{{tag.tagName}}</div>
                                     </div>
                                 </div>
                             </div>
