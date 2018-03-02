@@ -52,9 +52,9 @@ export class SearchService {
     );
   }
 
-  addTags(event: any) {
+  addTags(event: any, num: number) {
     console.log("add");
-    if (this.selectedTags.length + this.newTags.length < 4) {
+    if (this.selectedTags.length + this.newTags.length < num) {
       var i = this.targetTags.length;
       var str = event.path[0].innerText;
       while (i--) {

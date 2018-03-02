@@ -9,13 +9,13 @@ import { ActivatedRoute } from '@angular/router';
 export class ErrorComponent implements OnInit {
 
   private errorNum;
-  private errorNumUrl;
+  public errorNumUrl;
 
   constructor(
     route: ActivatedRoute
   ) {
     this.errorNum = route.snapshot.params['id'];
-    if(this.errorNum == null) {
+    if (this.errorNum == null) {
       this.errorNum = '404';
     }
     console.log(this.errorNum)

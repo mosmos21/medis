@@ -11,19 +11,19 @@
 				<div class="wrap_surveillance_content">
 					<div id="surveillance_box">
 						<mat-form-field>
-							<input matInput placeholder="Tag Name" value="" [(ngModel)]="searchWord">
+							<input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord">
 						</mat-form-field>
 						<br>
-						<div class="tag_base tag_middle surveillance_tag" *ngFor="let stag of selectedTags" (click)="deleteTags($event)">{{stag.tagName}}</div>
+						<div class="tag_base tag_middle surveillance_tag" *ngFor="let stag of searchService.selectedTags" (click)="searchService.deleteTags($event)">{{stag.tagName}}</div>
 					</div>
 				</div>
 				<div class="wrap_surveillance_content">
 					<div id="surveillance_tag_candidate" class="content_scroll_y">
-						<div class="tag_base tag_middle surveillance_tag" *ngFor="let tag of searchTag()" (click)="addTags($event)">{{tag.tagName}}</div>
+						<div class="tag_base tag_middle surveillance_tag" *ngFor="let tag of searchService.targetTags" (click)="searchService.addTags($event,256)">{{tag.tagName}}</div>
 					</div>
 				</div>
 				<div class="btn_position">
-					<button mat-raised-button (click)="getJSON()">キャンセル</button>
+					<button mat-raised-button>キャンセル</button>
 					<button mat-raised-button color="primary" (click)="save()">保存</button>
 				</div>
 			</div>
