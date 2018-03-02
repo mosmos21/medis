@@ -54,11 +54,11 @@ public class CommentLogic {
 		}
 
 		// レスポンスJSON作成
-		for (String add : employeeNumberList) {
+		for (int i=0;i<employeeNumberList.size();i++) {
 			CommentInfoForm commentinfoform = new CommentInfoForm();
 
-			Comment commentList = commentRepository.findOne(add);
-			UserDetail userdetailList = userDetailRepository.findOne(add);
+			Comment commentList = commentRepository.findOne(commentIdList.get(i));
+			UserDetail userdetailList = userDetailRepository.findOne(employeeNumberList.get(i));
 
 			commentinfoform.setCommentDate(commentList.getCommentDate());
 			commentinfoform.setLastName(userdetailList.getLastName());
