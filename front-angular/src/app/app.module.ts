@@ -15,6 +15,7 @@ import {
 } from '@angular/material';
 
 import { NavigationService } from './services/navigation.service';
+import { CookieService } from 'ngx-cookie-service'
 
 import { AppComponent } from './app.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
@@ -43,6 +44,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { SearchService } from './services/search.service';
 import { ValidatorService } from './services/validator.service';
+import { ErrorService } from './services/error.service'
 import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
 import { SearchComponent } from './search/search.component';
 
@@ -50,7 +52,7 @@ import { FormsModule } from '@angular/forms';
 import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
 import { MessageModalComponent } from './message-modal/message-modal.component';
 import { SearchResultComponent } from './search-result/search-result.component';
-import { PageNotFoundComponent } from './error/page-not-found.component';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -60,7 +62,7 @@ import { PageNotFoundComponent } from './error/page-not-found.component';
     SearchComponent,
     SidenavAdminComponent,
     SearchResultComponent,
-    PageNotFoundComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,10 +99,12 @@ import { PageNotFoundComponent } from './error/page-not-found.component';
   providers: [
     ConvertDateService,
     NavigationService,
+    CookieService,
     AuthService,
     AuthGuardService,
     SearchService,
     ValidatorService,
+    ErrorService,
     { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }
   ],
   entryComponents: [

@@ -13,9 +13,9 @@ import { ConfigNotificationComponent } from './config-notification/config-notifi
 import { ConfigSurveillanceComponent } from './config-surveillance/config-surveillance.component';
 import { ConfigUserComponent } from './config-user/config-user.component';
 import { SearchResultComponent } from './search-result/search-result.component';
-import { PageNotFoundComponent } from './error/page-not-found.component'
+import { ErrorComponent } from './error/error.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
-
+ 
 const routes: Routes = [
   { path: '', redirectTo: 'top', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -32,7 +32,8 @@ const routes: Routes = [
   { path: 'settings/me/monitoring_tags', component: ConfigSurveillanceComponent },
   { path: 'search', component: SearchResultComponent },
   { path: 'resetpass', component: NewPasswordComponent },
-  { path: '**', component: PageNotFoundComponent },
+  { path: 'error/:id', component: ErrorComponent },
+  { path: '**', component: ErrorComponent },
 ];
 
 @NgModule({
