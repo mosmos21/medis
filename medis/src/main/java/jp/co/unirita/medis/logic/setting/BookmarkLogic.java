@@ -90,7 +90,7 @@ public class BookmarkLogic {
 
 	//最新のIDを生成
 	public String getNewBookmarkId() throws IdIssuanceUpperException{
-		List<Bookmark> bookmarkList = bookmarkRepository.findAll(new Sort(Sort.Direction.DESC, "BookmarkId"));
+		List<Bookmark> bookmarkList = bookmarkRepository.findAll(new Sort(Sort.Direction.DESC, "bookmarkId"));
 		if(bookmarkList.size() == 0) {
             return "m0000000000";
         }
@@ -105,7 +105,7 @@ public class BookmarkLogic {
 		Bookmark info = bookmarkRepository.findByEmployeeNumberAndDocumentId(employeeNumber, documentId);
 
 		if (info == null) {
-			//最新のIDを取得し、DBに登録するするIDに変換
+			//最新のIDを取得し、DBに登録
 			Bookmark bookmark = new Bookmark();
 			bookmark.setBookmarkId(getNewBookmarkId());
 			bookmark.setEmployeeNumber(employeeNumber);
