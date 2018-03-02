@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
@@ -33,21 +34,15 @@ public class CommentLogic {
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 
-	UserDetail authorUserDetail;
-	Comment commentList;
-	UserDetail userdetailList;
-	UserDetail toUserDetail;
 	private MailSender sender;
 
 	public List<CommentInfoForm> getCommentInfo(String documentId) {
 
 		List<String> commentIdList = new ArrayList<>();
-		List<Comment> commentLength;
 		List<String> employeeNumberList = new ArrayList<>();
 		List<CommentInfoForm> result = new ArrayList<>();
 
-		commentLength = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
-
+		List<Comment> commentLength = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
 		// comment_id取得
 		for (Comment add : commentLength) {
 			commentIdList.add(add.getCommentId());
@@ -59,11 +54,11 @@ public class CommentLogic {
 		}
 
 		// レスポンスJSON作成
-		for (String add : employeeNumberList) {
+		for (int i=0;i<employeeNumberList.size();i++) {
 			CommentInfoForm commentinfoform = new CommentInfoForm();
 
-			commentList = commentRepository.findOne(add);
-			userdetailList = userDetailRepository.findOne(add);
+			Comment commentList = commentRepository.findOne(commentIdList.get(i));
+			UserDetail userdetailList = userDetailRepository.findOne(employeeNumberList.get(i));
 
 			commentinfoform.setCommentDate(commentList.getCommentDate());
 			commentinfoform.setLastName(userdetailList.getLastName());
@@ -80,12 +75,10 @@ public class CommentLogic {
 
 	public void alreadyRead(String documentId, String commentId) {
 
-		List<DocumentInfo> documentInfoList = new ArrayList<>();
-
-		commentList = commentRepository.findOne(commentId);
-		toUserDetail = userDetailRepository.findOne(commentList.getEmployeeNumber());
-		documentInfoList = documentInfoRepository.findByDocumentId(commentList.getDocumentId());
-		authorUserDetail = userDetailRepository.findOne(documentInfoList.get(0).getEmployeeNumber());
+		Comment commentList = commentRepository.findOne(commentId);
+		UserDetail toUserDetail = userDetailRepository.findOne(commentList.getEmployeeNumber());
+		List<DocumentInfo> documentInfoList = documentInfoRepository.findByDocumentId(commentList.getDocumentId());
+		UserDetail authorUserDetail = userDetailRepository.findOne(documentInfoList.get(0).getEmployeeNumber());
 
 		String mailaddress = toUserDetail.getMailaddress();
 		String documentName = documentInfoList.get(0).getDocumentName();
@@ -113,8 +106,8 @@ public class CommentLogic {
 		this.sender.send(msg);
 	}
 
-	public void sava(String documentId, CommentCreateForm postData) {
-		List<Comment> commentList = commentRepository.findByOrderByCommentIdDesc();
+	public void save(String documentId, CommentCreateForm postData) {
+		List<Comment> commentList = commentRepository.findAll(new Sort(Sort.Direction.DESC, "commentId"));
 		String lastCommentId = commentList.get(0).getCommentId();
 		String head = lastCommentId.substring(0, 1);
 		String body = lastCommentId.substring(1, 11);

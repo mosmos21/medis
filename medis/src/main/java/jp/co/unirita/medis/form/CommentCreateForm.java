@@ -10,10 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentCreateForm implements Serializable {
-
-	public String employeeNumber;
-	public String Value;
-
-
-
+	private String employeeNumber;
+	private String Value;
 }

@@ -88,7 +88,8 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.http, this.hostname + 'login', this.employeeNumber, this.password, () => {
       console.log(this.authService.isLoggedIn);
       if (this.authService.isLoggedIn) {
-        let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/top';
+        let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'top';
+        console.log(redirect);
         this.router.navigate([redirect]);
       } else {
         this.errorMessage = this.authService.message;

@@ -26,7 +26,7 @@ public class TemplateListLogic {
         return templateInfoRepository.findByTemplatePublish(publish);
     }
 
-    public List<TemplateInfo> getATemplateInfoList(String employeeNumber) {
+    public List<TemplateInfo> getAllTemplateInfoList(String employeeNumber) {
         return templateInfoRepository.findByEmployeeNumber(employeeNumber);
     }
 

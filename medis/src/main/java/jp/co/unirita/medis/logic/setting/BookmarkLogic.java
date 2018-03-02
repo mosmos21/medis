@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import jp.co.unirita.medis.domain.bookmark.Bookmark;
@@ -19,12 +20,16 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.form.DocumentInfoForm;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service
 @Transactional
 public class BookmarkLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
+	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
 
 	@Autowired
 	BookmarkRepository bookmarkRepository;
@@ -34,7 +39,7 @@ public class BookmarkLogic {
 	UpdateInfoRepository updateInfoRepository;
 
 
-	public List<DocumentInfoForm> getBookmarkList(String employeeNumber, Integer maxSize) {
+	public List<DocumentInfoForm> getBookmarkList(String employeeNumber) {
 
 		//ユーザがお気に入りしている文書idの一覧を取得
 		List<Bookmark> bookmark = bookmarkRepository.findByEmployeeNumberAndSelected(employeeNumber, true);
@@ -47,8 +52,9 @@ public class BookmarkLogic {
 		//各documentIdごとの最新のupdateIdをもったupdate_infoのリストの取得
 		List<UpdateInfo> updateInfoList = new ArrayList<>();
 
-		for (int i = 0; i < documentIdList.size(); i++) {
-			updateInfoList.addAll(updateInfoRepository.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(documentIdList.get(i), "v0000000000", "v0000000001"));
+		for (String docs : documentIdList) {
+			updateInfoList.add(updateInfoRepository
+					.findFirstByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(docs, TYPE_CREATE_DOCUMENT, TYPE_UPDATE_DOCUMENT));
 		}
 
 		//updateInfoListのdocumentIdの一覧の取得
@@ -61,8 +67,8 @@ public class BookmarkLogic {
 		//updateDocIdListのdocumentInfoの取得
 		List<DocumentInfo> documentInfoList = new ArrayList<>();
 
-		for (int i = 0; i < updateDocIdList.size(); i++) {
-			documentInfoList.addAll(documentInfoRepository.findByDocumentId(updateDocIdList.get(i)));
+		for (String updocs : updateDocIdList) {
+			documentInfoList.addAll(documentInfoRepository.findByDocumentId(updocs));
 		}
 
 		//documentInfoListとupdateInfoListの値をDocumentInfoFormに格納
@@ -78,53 +84,42 @@ public class BookmarkLogic {
 				return i2.getUpdateDate().compareTo(i1.getUpdateDate());
 			}
 		});
-
-		if (maxSize != -1 && documentInfoForm.size() > maxSize) {
-			documentInfoForm = documentInfoForm.subList(0, maxSize);
-		}
-
 		return documentInfoForm;
 	}
 
 
-	public void updateBookmark(String employeeNumber, String documentId) {
-		int count = bookmarkRepository.countByEmployeeNumberAndDocumentId(employeeNumber, documentId);
+	//最新のIDを生成
+	public String getNewBookmarkId() throws IdIssuanceUpperException{
+		List<Bookmark> bookmarkList = bookmarkRepository.findAll(new Sort(Sort.Direction.DESC, "BookmarkId"));
+		if(bookmarkList.size() == 0) {
+            return "m0000000000";
+        }
+        long idNum = Long.parseLong(bookmarkList.get(0).getBookmarkId().substring(1));
+        if(idNum == 9999999999L) {
+            throw new IdIssuanceUpperException("IDの発行限界");
+        }
+        return String.format("m%010d", idNum + 1);
+    }
 
-		if (count == 0) {
+	public void updateBookmark(String employeeNumber, String documentId) throws IdIssuanceUpperException {
+		Bookmark info = bookmarkRepository.findByEmployeeNumberAndDocumentId(employeeNumber, documentId);
+
+		if (info == null) {
 			//最新のIDを取得し、DBに登録するするIDに変換
-			List<Bookmark> bookmarkList = bookmarkRepository.findByOrderByBookmarkIdDesc();
-
-			List<String> bookmarkIdList = new ArrayList<>();
-			for (Bookmark bookmark : bookmarkList) {
-				bookmarkIdList.add(bookmark.getBookmarkId());
-			}
-
-			String lastBookmarkId = bookmarkIdList.get(0);
-			String head = lastBookmarkId.substring(0, 1);
-			String body = lastBookmarkId.substring(1,11);
-			int temp = Integer.parseInt(body);
-			temp++;
-			body = String.format("%010d", temp);
-			lastBookmarkId = head + body;
-
 			Bookmark bookmark = new Bookmark();
-			bookmark.setBookmarkId(lastBookmarkId);
+			bookmark.setBookmarkId(getNewBookmarkId());
 			bookmark.setEmployeeNumber(employeeNumber);
 			bookmark.setDocumentId(documentId);
 			bookmark.setSelected(true);
-
 			bookmarkRepository.saveAndFlush(bookmark);
 
 		} else {
 			//既にあるブックマークIDのフラグを変更
-			List<Bookmark> bookmarkList = bookmarkRepository.findByEmployeeNumberAndDocumentId(employeeNumber, documentId);
-
-			String bookmarkId = bookmarkList.get(0).getBookmarkId();
-
-			boolean flug = bookmarkList.get(0).isSelected();
+			Bookmark bookmarkInfo = bookmarkRepository.findByEmployeeNumberAndDocumentId(employeeNumber, documentId);
+			String bookmarkId = bookmarkInfo.getBookmarkId();
+			boolean flug = bookmarkInfo.isSelected();
 
 			Bookmark bookmark = new Bookmark();
-
 			bookmark.setBookmarkId(bookmarkId);
 			bookmark.setEmployeeNumber(employeeNumber);
 			bookmark.setDocumentId(documentId);
@@ -133,9 +128,7 @@ public class BookmarkLogic {
 			} else {
 				bookmark.setSelected(true);
 			}
-
 			bookmarkRepository.saveAndFlush(bookmark);
-
 		}
 	}
 }

@@ -16,9 +16,6 @@ import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.tag.TagRepository;
-import jp.co.unirita.medis.domain.toppage.Toppage;
-import jp.co.unirita.medis.domain.toppage.ToppageRepository;
-import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.NotificationsForm;
@@ -34,8 +31,6 @@ public class SettingLogic {
 	TagRepository tagRepository;
 	@Autowired
 	UserDetailRepository userDetailRepository;
-	@Autowired
-	ToppageRepository toppageRepository;
 
 	public List<Tag> getMonitoringTags(String employeeNumber) {
 		List<NotificationConfig> notifications = notificationConfigRepository.findByEmployeeNumber(employeeNumber);

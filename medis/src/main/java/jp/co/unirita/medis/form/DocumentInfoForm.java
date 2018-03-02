@@ -16,12 +16,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DocumentInfoForm implements Serializable {
 
-	public String documentId;
-	public String documentName;
-	public String employeeNumber;
-	public Timestamp documentCreateDate;
-	public String updateType;
-	public Timestamp updateDate;
+	private String documentId;
+	private String documentName;
+	private String employeeNumber;
+	private Timestamp documentCreateDate;
+	private String updateType;
+	private Timestamp updateDate;
 
 	public DocumentInfoForm(DocumentInfo docInfo, UpdateInfo upInfo) {
 		this(docInfo.getDocumentId(), docInfo.getDocumentName(), docInfo.getEmployeeNumber(), docInfo.getDocumentCreateDate(), upInfo.getUpdateType(), upInfo.getUpdateDate());

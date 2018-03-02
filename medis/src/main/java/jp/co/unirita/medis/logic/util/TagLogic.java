@@ -25,7 +25,7 @@ public class TagLogic {
 
 
     public List<Tag> getTagList() {
-    	return tagRepository.findBytagIdNot(COMMENT_NOTIFICATION_TAG_ID); //コメント通知設定用のタグだけ除く
+    	return tagRepository.findByTagIdNot(COMMENT_NOTIFICATION_TAG_ID); //コメント通知設定用のタグだけ除く
     }
 
     public String getNewTagId() throws IdIssuanceUpperException{

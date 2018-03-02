@@ -6,6 +6,8 @@ import { NavigationService } from '../services/navigation.service';
 import { ConfirmationComponent } from '../confirmation/confirmation.component'
 import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { ConvertDateService } from '../services/convert-date.service';
+import { AuthService } from '../services/auth.service'
+import { ErrorService } from '../services/error.service'
 
 @Component({
   selector: 'app-select-template',
@@ -24,6 +26,8 @@ export class SelectTemplateComponent implements OnInit {
     public dialog: MatDialog,
     private nav: NavigationService,
     private convert: ConvertDateService,
+    private authService: AuthService,
+    private errorService: ErrorService,
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
@@ -69,13 +73,13 @@ export class SelectTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.hostname + 'templates');
-    this.http.get(this.hostname + 'templates').subscribe(
+    this.http.get(this.hostname + 'templates', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.templates = json;
       },
       error => {
-        this.templates = error;
+        console.log(error);
+        //this.errorService.errorPath(error.status)
       }
     );
   }

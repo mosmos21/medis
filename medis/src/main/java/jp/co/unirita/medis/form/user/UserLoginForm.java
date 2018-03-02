@@ -1,11 +1,11 @@
 package jp.co.unirita.medis.form.user;
 
-import lombok.Data;
-
 import java.io.Serializable;
+
+import lombok.Data;
 
 @Data
 public class UserLoginForm implements Serializable{
-    public String employeeNumber;
-    public String password;
+    private String employeeNumber;
+    private String password;
 }

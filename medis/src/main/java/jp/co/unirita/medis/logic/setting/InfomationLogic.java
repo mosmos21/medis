@@ -1,11 +1,7 @@
 package jp.co.unirita.medis.logic.setting;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,7 +79,7 @@ public class InfomationLogic {
         return list;
     }
 
-    public List<InfomationForm> getInfomationList(String employeeNumber, String updateId, Integer maxSize) {
+/*    public List<InfomationForm> getInfomationList(String employeeNumber, String updateId, Integer maxSize) {
 		//userが監視しているタグの一覧
 		List<NotificationConfig> notificationConfig = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
 		List<String> tagIdList = new ArrayList<>();
@@ -214,6 +210,5 @@ public class InfomationLogic {
 
 		return infomation;
 	}
-
-
+*/
 }

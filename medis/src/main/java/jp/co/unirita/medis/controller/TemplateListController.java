@@ -35,7 +35,7 @@ public class TemplateListController {
      */
     @GetMapping
     public List<TemplateInfo> getAllTemplateInfoList(@AuthenticationPrincipal User user) throws AuthorityException {
-        String employeeNumber = user.getEmployeeNumber();
+    	String employeeNumber = user.getEmployeeNumber();
         logger.info("[method: getAllTemplateInfoList] employeeNumber = " + employeeNumber);
       //argumentCheckLogic.checkAdminAuthority(employeeNumber);
         return templateListLogic.getAllTemplateInfoList();

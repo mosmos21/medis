@@ -35,6 +35,9 @@ public class SearchLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(TemplateController.class);
 
+	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
+	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
+
 	@Autowired
 	TagRepository tagRepository;
 	@Autowired
@@ -51,8 +54,8 @@ public class SearchLogic {
 		//デコードし、タグのリストを作成
 //		String tagParam = URLDecoder.decode(tagName, "UTF-8");
 //		System.out.println(tagParam);
-
 //		String[] param  = tagParam.split(",", 0);
+
 		String[] param  = tagName.split(",", 0);
 		//タグの値が重複している
 		List<String> tempTagNameList = Arrays.asList(param);
@@ -63,14 +66,13 @@ public class SearchLogic {
 		for (String tag : tagNameList) {
 			System.out.println(tag);
 		}
-
 		logger.info("[method: getSearchResult] tagName =" + String.join(",", tagNameList));
 
 		//tagNameのidを取得
 		List<Tag> tagList = new ArrayList<>();
 
-		for (int i = 0; i < tagNameList.size(); i++) {
-			tagList.addAll(tagRepository.findByTagName(tagNameList.get(i)));
+		for (String name : tagNameList) {
+			tagList.addAll(tagRepository.findByTagName(name));
 		}
 
 		List<String> tagIdList = new ArrayList<>();
@@ -82,8 +84,8 @@ public class SearchLogic {
 		//文書についているタグが付いている文書の一覧
 		List<DocumentTag> documentTag = new ArrayList<>();
 
-		for (int i = 0; i < tagList.size(); i++) {
-			documentTag.addAll(documentTagRepository.findByTagId(tagIdList.get(i)));
+		for (String tag : tagIdList) {
+			documentTag.addAll(documentTagRepository.findByTagId(tag));
 		}
 		List<String> documentList = new ArrayList<>();
 
@@ -94,8 +96,8 @@ public class SearchLogic {
 		//テンプレートについているタグが付いている文書の一覧
 		List<TemplateTag> templateTag = new ArrayList<>();
 
-		for (int i = 0; i < tagList.size(); i++) {
-			templateTag.addAll(templateTagRepository.findByTagId(tagIdList.get(i)));
+		for (String tag : tagIdList) {
+			templateTag.addAll(templateTagRepository.findByTagId(tag));
 		}
 
 		List<String> templateList = new ArrayList<>();
@@ -107,8 +109,8 @@ public class SearchLogic {
 		//documentListのidのdocument_info一覧
 		List<DocumentInfo> docDocInfo = new ArrayList<>();
 
-		for (int i = 0; i < documentList.size(); i++) {
-			docDocInfo.addAll(documentInfoRepository.findByDocumentId(documentList.get(i)));
+		for (String doc : documentList) {
+			docDocInfo.addAll(documentInfoRepository.findByDocumentId(doc));
 		}
 
 		List<String> docDocInfoId = new ArrayList<>();
@@ -120,8 +122,8 @@ public class SearchLogic {
 		//templateListのidが付いているdocument_info一覧
 		List<DocumentInfo> tempDocInfo = new ArrayList<>();
 
-		for (int i = 0; i < templateList.size(); i++) {
-			tempDocInfo.addAll(documentInfoRepository.findByTemplateId(templateList.get(i)));
+		for (String temp : templateList) {
+			tempDocInfo.addAll(documentInfoRepository.findByTemplateId(temp));
 		}
 
 		List<String> tempDocInfoId = new ArrayList<>();
@@ -141,8 +143,9 @@ public class SearchLogic {
 		//各documentIdごとの最新のupdateIdをもったupdate_infoのリストの取得
 		List<UpdateInfo> updateInfoList = new ArrayList<>();
 
-		for (int i = 0; i < documentIdList.size(); i++) {
-			updateInfoList.addAll(updateInfoRepository.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(documentIdList.get(i), "v0000000000", "v0000000001"));
+		for (String ids : documentIdList) {
+			updateInfoList.add(updateInfoRepository
+					.findFirstByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(ids, TYPE_CREATE_DOCUMENT, TYPE_UPDATE_DOCUMENT));
 		}
 
 		//updateInfoListのdocumentIdの一覧の取得
@@ -155,8 +158,8 @@ public class SearchLogic {
 		//updateDocIdListのdocumentInfoの取得
 		List<DocumentInfo> documentInfoList = new ArrayList<>();
 
-		for (int i = 0; i < updateDocIdList.size(); i++) {
-			documentInfoList.addAll(documentInfoRepository.findByDocumentId(updateDocIdList.get(i)));
+		for (String ids : updateDocIdList) {
+			documentInfoList.addAll(documentInfoRepository.findByDocumentId(ids));
 		}
 
 		//documentInfoListとupdateInfoListの値をDocumentInfoFormに格納
@@ -166,22 +169,12 @@ public class SearchLogic {
 			documentInfoForm.add(new DocumentInfoForm(documentInfoList.get(i), updateInfoList.get(i)));
 		}
 
-
-/*		//documentIdListのdocumentInfoの取得
-		List<DocumentInfo> documentInfo = new ArrayList<>();
-
-		for (int i = 0; i < documentIdList.size(); i++) {
-			documentInfo.addAll(documentInfoRepository.findByDocumentId(documentIdList.get(i)));
-		}
-*/
 		documentInfoForm.sort(new Comparator<DocumentInfoForm>(){
 			@Override
 			public int compare(DocumentInfoForm i1, DocumentInfoForm i2) {
 				return i2.getUpdateDate().compareTo(i1.getUpdateDate());
 			}
 		});
-
 		return documentInfoForm;
-
 	}
 }

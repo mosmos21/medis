@@ -8,9 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jp.co.unirita.medis.domain.comment.Comment;
 import jp.co.unirita.medis.domain.comment.CommentRepository;
+import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
+import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfoRepository;
+import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.user.UserRepository;
@@ -77,17 +81,17 @@ public class ArgumentCheckLogic {
 
 	public void checkLastUpdateId(String updateId) throws NotExistException {
 
-		int count = updateInfoRepository.countByUpdateId(updateId);
+		UpdateInfo info = updateInfoRepository.findOne(updateId);
 
-		if (count == 0) {
+		if (info == null) {
 			System.out.println(updateId);
 			throw new NotExistException("lastUpdateId", updateId, "存在しない更新IDです");
 		}
 	}
 
 	public void checkTemplateId(String templateId) throws NotExistException {
-        int count = templateInfoRepository.countByTemplateId(templateId);
-        if(count == 0) {
+        TemplateInfo info = templateInfoRepository.findOne(templateId);
+        if(info == null) {
             NotExistException e = new NotExistException("templateId", templateId, "The templateId does not exist.");
             logger.error("[method: checkTemlateId] The templateID " + templateId + " does not exist.", e);
             throw e;
@@ -96,9 +100,9 @@ public class ArgumentCheckLogic {
 
 	public void checkDocumentId(String documentId) throws NotExistException {
 
-		int count = documentInfoRepository.countByDocumentId(documentId);
+		DocumentInfo info = documentInfoRepository.findOne(documentId);
 
-		if (count == 0) {
+		if (info == null) {
 			System.out.println(documentId);
 			throw new NotExistException("documentId", documentId, "存在しないドキュメントIDです");
 		}
@@ -106,9 +110,9 @@ public class ArgumentCheckLogic {
 
 	public void checkCommentId(String commentId) throws NotExistException {
 
-		int count = commentRepository.countByCommentId(commentId);
+		Comment info = commentRepository.findOne(commentId);
 
-		if (count == 0) {
+		if (info == null) {
 			System.out.println(commentId);
 			throw new NotExistException("commentId", commentId, "存在しないコメントIDです");
 		}

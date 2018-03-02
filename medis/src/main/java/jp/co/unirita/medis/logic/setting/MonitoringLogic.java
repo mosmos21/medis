@@ -33,6 +33,9 @@ public class MonitoringLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
+	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
+
 	@Autowired
 	NotificationConfigRepository notificationConfigRepository;
 	@Autowired
@@ -45,7 +48,7 @@ public class MonitoringLogic {
 	UpdateInfoRepository updateInfoRepository;
 
 
-	public List<DocumentInfoForm> getMonitoringList(String employeeNumber, Integer maxSize) {
+	public List<DocumentInfoForm> getMonitoringList(String employeeNumber) {
 		//userが監視しているタグの一覧
 		List<NotificationConfig> notificationConfig = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
 		List<String> tagIdList = new ArrayList<>();
@@ -57,8 +60,8 @@ public class MonitoringLogic {
 		//文書についているタグが付いている文書の一覧
 		List<DocumentTag> documentTag = new ArrayList<>();
 
-		for (int i = 0; i < tagIdList.size(); i++) {
-			documentTag.addAll(documentTagRepository.findByTagId(tagIdList.get(i)));
+		for (String ids : tagIdList) {
+			documentTag.addAll(documentTagRepository.findByTagId(ids));
 		}
 		List<String> documentList = new ArrayList<>();
 
@@ -69,8 +72,8 @@ public class MonitoringLogic {
 		//テンプレートについているタグが付いている文書の一覧
 		List<TemplateTag> templateTag = new ArrayList<>();
 
-		for (int i = 0; i < tagIdList.size(); i++) {
-			templateTag.addAll(templateTagRepository.findByTagId(tagIdList.get(i)));
+		for (String ids : tagIdList) {
+			templateTag.addAll(templateTagRepository.findByTagId(ids));
 		}
 
 		List<String> templateList = new ArrayList<>();
@@ -82,14 +85,14 @@ public class MonitoringLogic {
 		//documentListのidのdocument_info一覧
 		List<DocumentInfo> docDocInfo = new ArrayList<>();
 
-		for (int i = 0; i < documentList.size(); i++) {
-			docDocInfo.addAll(documentInfoRepository.findByDocumentId(documentList.get(i)));
+		for (String docs : documentList) {
+			docDocInfo.addAll(documentInfoRepository.findByDocumentId(docs));
 		}
 
 		List<String> docDocInfoId = new ArrayList<>();
 
-		for (DocumentInfo diid : docDocInfo) {
-			docDocInfoId.add(diid.getDocumentId());
+		for (DocumentInfo info : docDocInfo) {
+			docDocInfoId.add(info.getDocumentId());
 		}
 
 		//templateListのidが付いているdocument_info一覧
@@ -101,8 +104,8 @@ public class MonitoringLogic {
 
 		List<String> tempDocInfoId = new ArrayList<>();
 
-		for (DocumentInfo tiid : tempDocInfo) {
-			tempDocInfoId.add(tiid.getDocumentId());
+		for (DocumentInfo Info : tempDocInfo) {
+			tempDocInfoId.add(Info.getDocumentId());
 		}
 
 		//documentIdのマージ(値は重複している)
@@ -115,8 +118,9 @@ public class MonitoringLogic {
 		//各documentIdごとの最新のupdateIdをもったupdate_infoのリストの取得
 		List<UpdateInfo> updateInfoList = new ArrayList<>();
 
-		for (int i = 0; i < documentIdList.size(); i++) {
-			updateInfoList.addAll(updateInfoRepository.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(documentIdList.get(i), "v0000000000", "v0000000001"));
+		for (String ids : documentIdList) {
+			updateInfoList.add(updateInfoRepository
+					.findFirstByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(ids, TYPE_CREATE_DOCUMENT, TYPE_UPDATE_DOCUMENT));
 		}
 
 		//updateInfoListのdocumentIdの一覧の取得
@@ -129,8 +133,8 @@ public class MonitoringLogic {
 		//updateDocIdListのdocumentInfoの取得
 		List<DocumentInfo> documentInfoList = new ArrayList<>();
 
-		for (int i = 0; i < updateDocIdList.size(); i++) {
-			documentInfoList.addAll(documentInfoRepository.findByDocumentId(updateDocIdList.get(i)));
+		for (String ids : updateDocIdList) {
+			documentInfoList.addAll(documentInfoRepository.findByDocumentId(ids));
 		}
 
 		//documentInfoListとupdateInfoListの値をDocumentInfoFormに格納
@@ -146,11 +150,6 @@ public class MonitoringLogic {
 				return i2.getUpdateDate().compareTo(i1.getUpdateDate());
 			}
 		});
-
-		if (maxSize != -1 && documentInfoForm.size() > maxSize) {
-			documentInfoForm = documentInfoForm.subList(0, maxSize);
-		}
-
 		return documentInfoForm;
 	}
 }

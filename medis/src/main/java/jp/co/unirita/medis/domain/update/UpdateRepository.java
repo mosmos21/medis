@@ -5,5 +5,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UpdateRepository extends JpaRepository<Update, String> {
-	String findUpdateNameByUpdateType(String updateType);
 }
