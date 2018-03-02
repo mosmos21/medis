@@ -1,6 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { AuthService } from '../services/auth.service';
+import { CookieService } from 'ngx-cookie-service'
+
 @Component({
   selector: 'app-top',
   templateUrl: './top.component.html',
@@ -13,21 +16,26 @@ export class TopComponent implements OnInit {
   private favDocList: any;
   private MonDocList: any;
 
-  private employeeNumber = 97965;
+  private user: any;
 
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
-  ) { }
+    private authService: AuthService,
+    private cookieService: CookieService,
+  ) {
+    this.user = this.authService.user;
+  }
 
   ngOnInit() {
-    this.http.get(this.hostname + "infomations/" + this.employeeNumber).subscribe(
+    var employeeNumber = this.user.employeeNumber;
+    this.http.get(this.hostname + "infomations/" + employeeNumber, { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
       json => {
         this.updateList = json;
         console.log(this.updateList);
       },
       error => {
-        // TODO;
+        console.log(error.headers)
       }
     );
   }
