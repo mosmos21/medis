@@ -53,7 +53,8 @@ public class BookmarkLogic {
 		List<UpdateInfo> updateInfoList = new ArrayList<>();
 
 		for (String docs : documentIdList) {
-			updateInfoList.add(updateInfoRepository.findFirst1ByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(docs, TYPE_CREATE_DOCUMENT, TYPE_UPDATE_DOCUMENT));
+			updateInfoList.add(updateInfoRepository
+					.findFirstByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(docs, TYPE_CREATE_DOCUMENT, TYPE_UPDATE_DOCUMENT));
 		}
 
 		//updateInfoListのdocumentIdの一覧の取得
@@ -89,7 +90,7 @@ public class BookmarkLogic {
 
 	//最新のIDを生成
 	public String getNewBookmarkId() throws IdIssuanceUpperException{
-		List<Bookmark> bookmarkList = bookmarkRepository.findAll(new Sort(Sort.Direction.DESC, "BookmarkId"));
+		List<Bookmark> bookmarkList = bookmarkRepository.findAll(new Sort(Sort.Direction.DESC, "bookmarkId"));
 		if(bookmarkList.size() == 0) {
             return "m0000000000";
         }
@@ -101,10 +102,10 @@ public class BookmarkLogic {
     }
 
 	public void updateBookmark(String employeeNumber, String documentId) throws IdIssuanceUpperException {
-		int count = bookmarkRepository.countByEmployeeNumberAndDocumentId(employeeNumber, documentId);
+		Bookmark info = bookmarkRepository.findByEmployeeNumberAndDocumentId(employeeNumber, documentId);
 
-		if (count == 0) {
-			//最新のIDを取得し、DBに登録するするIDに変換
+		if (info == null) {
+			//最新のIDを取得し、DBに登録
 			Bookmark bookmark = new Bookmark();
 			bookmark.setBookmarkId(getNewBookmarkId());
 			bookmark.setEmployeeNumber(employeeNumber);

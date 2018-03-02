@@ -23,6 +23,7 @@ import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.form.document.DocumentContentForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.util.TagLogic;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service
 public class DocumentLogic {
@@ -85,13 +86,13 @@ public class DocumentLogic {
         logger.info("[method: toggleDocumentPublish] Update info of documentID '" + documentId + "' " + info);
     }
 
-    public void save(DocumentForm documentForm, String employeeNumber) throws Exception {
+    public void save(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
         String id = saveDocumentInfo(documentForm, employeeNumber);
         documentForm.setDocumentId(id);
         saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
     }
 
-    public void saveTags(String documentId, List<Tag> tags) throws Exception{
+    public void saveTags(String documentId, List<Tag> tags) throws IdIssuanceUpperException {
         int order = 1;
         for(Tag tag : tags) {
             if(tag.getTagId() == null) {
@@ -102,12 +103,12 @@ public class DocumentLogic {
         }
     }
 
-    public void update(DocumentForm documentForm, String employeeNumber) throws Exception {
+    public void update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
         saveDocumentInfo(documentForm, employeeNumber);
         updateDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
     }
 
-    public void updateTags(String documentId, List<Tag> tags) throws Exception{
+    public void updateTags(String documentId, List<Tag> tags) {
         List<DocumentTag> oldTags = documentTagRepository.findByDocumentIdOrderByTagOrderAsc(documentId);
 
         int common = Math.min(oldTags.size(), tags.size());
@@ -132,7 +133,7 @@ public class DocumentLogic {
         }
     }
 
-    public String saveDocumentInfo(DocumentForm document, String employeeNumber) throws Exception{
+    public String saveDocumentInfo(DocumentForm document, String employeeNumber) throws IdIssuanceUpperException{
         String documentId = document.getDocumentId() == null ? createNewDocumentId() : document.getDocumentId();
         String templateId = document.getTemplateId();
         String documentName = document.getDocumentName();
@@ -191,14 +192,14 @@ public class DocumentLogic {
         }
     }
 
-    private String createNewDocumentId() throws Exception {
+    private String createNewDocumentId() throws IdIssuanceUpperException {
         List<DocumentInfo> list = documentInfoRepository.findAll(new Sort(Sort.Direction.DESC, "documentId"));
         if(list.size() == 0) {
             return "d0000000000";
         }
         long idNum = Long.parseLong(list.get(0).getTemplateId().substring(1));
         if(idNum == 9999999999L){
-            throw new Exception("文書の発行限界");
+            throw new IdIssuanceUpperException("文書の発行限界");
         }
         return String.format("d%010d", idNum + 1);
     }

@@ -8,9 +8,12 @@ import { NavigationService } from '../services/navigation.service';
 })
 export class SidenavAdminComponent implements OnInit {
 
-  constructor(private nav: NavigationService) { }
+  constructor(public nav: NavigationService) { }
 
   ngOnInit() {
   }
 
+  logout() {
+
+  }
 }

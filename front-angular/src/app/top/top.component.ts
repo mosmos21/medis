@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { NavigationService } from '../services/navigation.service';
 
 import { AuthService } from '../services/auth.service';
 import { CookieService } from 'ngx-cookie-service'
@@ -11,7 +12,7 @@ import { CookieService } from 'ngx-cookie-service'
 })
 export class TopComponent implements OnInit {
 
-  private updateList: any;
+  public updateList: any;
   private ownDocList: any;
   private favDocList: any;
   private MonDocList: any;
@@ -21,9 +22,11 @@ export class TopComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
+    private nav: NavigationService,
     private authService: AuthService,
     private cookieService: CookieService,
   ) {
+    this.nav.show();
     this.user = this.authService.user;
   }
 

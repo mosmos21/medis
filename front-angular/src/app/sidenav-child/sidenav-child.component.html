@@ -21,21 +21,17 @@
 			<div id="menu_user_content" class="menu_content">
 				<div class="wrap_menu_contet_link">
 					<div class="menu_content_link">
-						<nav a routerLink="/top">
-							<img src="/assets/image/top.svg" />
-							<div class="menu_content_link_text" (click)="nav.toTop()">トップページ</div>
-						</nav>
+						<img src="/assets/image/top.svg" />
+						<div class="menu_content_link_text" (click)="nav.toTop()">トップページ</div>
 					</div>
 					<div class="menu_content_link">
 						<img src="/assets/image/new.svg" />
 						<div class="menu_content_link_text" (click)="nav.toEdit('new')">新規作成</div>
 					</div>
 					<div class="menu_content_link">
-						<nav a routerLink="/edit">
-							<img src="/assets/image/new.svg" />
-							<span class="menu_content_link_text" (click)="nav.toEdit()">下書き</span>
-							<span *ngIf="num > 0" class="badge">{{num}}</span>
-						</nav>
+						<img src="/assets/image/new.svg" />
+						<span class="menu_content_link_text" (click)="nav.toEdit()">下書き</span>
+						<span *ngIf="num > 0" class="badge">{{num}}</span>
 					</div>
 				</div>
 			</div>

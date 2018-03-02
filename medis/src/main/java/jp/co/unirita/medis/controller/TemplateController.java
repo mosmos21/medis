@@ -1,9 +1,24 @@
 package jp.co.unirita.medis.controller;
 
-import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.blockbase.BlockBaseForm;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.tag.Tag;
+import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.form.blockbase.BlockBaseForm;
 import jp.co.unirita.medis.form.template.TemplateForm;
 import jp.co.unirita.medis.logic.template.BlockLogic;
 import jp.co.unirita.medis.logic.template.TemplateLogic;
@@ -11,14 +26,6 @@ import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.AuthorityException;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import jp.co.unirita.medis.util.exception.NotExistException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/templates")
@@ -44,13 +51,13 @@ public class TemplateController {
     }
 
     /**
-     * テンプレートを取得する
+     * テンプレートの内容を取得する
      * @param user ログインしているユーザ
      * @param templateId 取得するテンプレートID
      * @return テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
      * @throws NotExistException 取得しようとしているテンプレートIDが存在していない場合に発生する例外
      */
-    @GetMapping(value = "{templateId:^t[0-9]{10}+$}")
+    @GetMapping(value = "{templateId:^t[0-9]{10}$}")
     @ResponseStatus(HttpStatus.OK)
     public TemplateForm getTemplate(
             @AuthenticationPrincipal User user,
@@ -72,7 +79,7 @@ public class TemplateController {
      * @return タグ情報(@see jp.co.unirita.medis.domain.tag.Tag)のリスト
      * @throws NotExistException 取得しようとしているテンプレートIDが存在していない場合に発生する例外
      */
-    @GetMapping(value = "{templateId:^t[0-9]{10}+$}/tags")
+    @GetMapping(value = "{templateId:^t[0-9]{10}$}/tags")
     @ResponseStatus(HttpStatus.OK)
     public List<Tag> getTemplateTagList(
             @AuthenticationPrincipal User user,
@@ -87,14 +94,13 @@ public class TemplateController {
      * テンプレートの内容を更新する
      * @param user ログインしているユーザ
      * @param template テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
-     * @return 更新済みテンプレートフォーム
      * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
      * @throws IdIssuanceUpperException 新規IDの発行が上限に達した場合に発生する例外
      * @throws NotExistException 更新しようとしているテンプレートIDが存在していない場合に発生する例外
      */
-    @PostMapping(value = "{templateId:^t[0-9]{10}+$}")
+    @PostMapping(value = "{templateId:^t[0-9]{10}$}")
     @ResponseStatus(HttpStatus.CREATED)
-    public TemplateForm updateTemplate(
+    public void updateTemplate(
             @AuthenticationPrincipal User user,
             @RequestBody TemplateForm template
     ) throws AuthorityException, IdIssuanceUpperException, NotExistException {
@@ -103,7 +109,6 @@ public class TemplateController {
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
         argumentCheckLogic.checkTemplateId(template.getTemplateId());
         templateLogic.update(template, user.getEmployeeNumber());
-        return template;
     }
 
     /**
@@ -114,7 +119,7 @@ public class TemplateController {
      * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
      * @throws NotExistException 更新するテンプレートIDが存在しない場合に発生する例外
      */
-    @PostMapping(value = "{templateId:^t[0-9]{10}+$}/{templatePublish:^public|private$}")
+    @PostMapping(value = "{templateId:^t[0-9]{10}$}/{templatePublish:^public|private$}")
     @ResponseStatus(HttpStatus.CREATED)
     public void toggleTemplate(
             @AuthenticationPrincipal User user,
@@ -138,7 +143,7 @@ public class TemplateController {
      * @throws IdIssuanceUpperException 新規IDの発行が上限に達した場合に発生する例外
      * @throws NotExistException 更新するテンプレートIDが存在しない場合に発生する例外
      */
-    @PostMapping(value = "{templateId:^t[0-9]{10}+$}/tags")
+    @PostMapping(value = "{templateId:^t[0-9]{10}$}/tags")
     @ResponseStatus(HttpStatus.CREATED)
     public void updateTemplateTagList(
             @AuthenticationPrincipal User user,
@@ -153,17 +158,16 @@ public class TemplateController {
     }
 
     /**
-     * 新規テンプレートを保存し、ドキュメントIDを付与する
+     * 新規テンプレートを保存し、テンプレートIDを付与する
      * @param user ログインしているユーザ
      * @param template テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
-     * @return 保存されたテンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
      * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
      * @throws IdIssuanceUpperException 新規IDの発行が上限に達した場合に発生する例外
      * @throws NotExistException ユーザが存在しない場合に発生する例外
      */
     @PutMapping(value = "new")
     @ResponseStatus(HttpStatus.CREATED)
-    public TemplateForm saveTemplate(
+    public void saveTemplate(
             @AuthenticationPrincipal User user,
             @RequestBody TemplateForm template
     ) throws AuthorityException, IdIssuanceUpperException, NotExistException {
@@ -171,7 +175,6 @@ public class TemplateController {
 
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
         templateLogic.save(template, user.getEmployeeNumber());
-        return template;
     }
 
     /**
@@ -183,7 +186,7 @@ public class TemplateController {
      * @throws IdIssuanceUpperException　新規IDの発行が上限に達した場合に発生する例外
      * @throws NotExistException　ユーザが存在しない場合に発生する例外
      */
-    @PutMapping(value = "{templateId:^t[0-9]{10}+$}/tags")
+    @PutMapping(value = "{templateId:^t[0-9]{10}$}/tags")
     @ResponseStatus(HttpStatus.CREATED)
     public void saveTemplateTagList(
             @AuthenticationPrincipal User user,

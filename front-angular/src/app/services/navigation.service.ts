@@ -4,16 +4,15 @@ import { SearchService } from './search.service';
 
 @Injectable()
 export class NavigationService {
-  private visible: boolean;
-  private isAdmin: boolean;
-  private isUser: boolean;
+  public visible: boolean;
+  public isUser: boolean;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private searchService: SearchService,
   ) {
-    this.visible = true;
+    this.visible = false;
     this.isUser = true;
   }
 
@@ -26,23 +25,19 @@ export class NavigationService {
   }
 
   showAdminMenu() {
-    this.isAdmin = true;
     this.isUser = false;
   }
 
   showUserMenu() {
-    this.isAdmin = false;
     this.isUser = true;
   }
 
   //一般ユーザ画面遷移
   toTop() {
-    this.searchService.selectedTags = [];
     this.router.navigate(["/top"]);
   }
 
   toEdit(str) {
-    this.searchService.selectedTags = [];
     if (!str) {
       this.router.navigate(["/edit"]);
     } else if (str == "new") {

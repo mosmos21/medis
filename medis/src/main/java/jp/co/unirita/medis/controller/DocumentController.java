@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,6 +29,7 @@ import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.document.CommentLogic;
 import jp.co.unirita.medis.logic.document.DocumentLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RestController
@@ -39,24 +39,20 @@ public class DocumentController {
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
-	CommentLogic commentLogic;
-	@Autowired
 	DocumentLogic documentLogic;
 	@Autowired
 	ArgumentCheckLogic argumentCheckLogic;
+	@Autowired
+	CommentLogic commentLogic;
 
-	@GetMapping(value = "{documentId:^d[0-9]{10}+$}/comments")
-	@ResponseStatus(HttpStatus.OK)
-	public List<CommentInfoForm> getComment(@AuthenticationPrincipal User user,
-			@PathVariable(value = "documentId") String documentId) throws NotExistException {
-		logger.info("[method: getComment] Get comment info list by " + documentId + ".");
-		argumentCheckLogic.checkDocumentId(documentId);
-		List<CommentInfoForm> documentInfo = commentLogic.getCommentInfo(documentId);
 
-		return documentInfo;
-	}
-
-	@GetMapping(value = "{documentId:^d[0-9]{10}+$}")
+	/**
+     * 文書の内容を取得する
+     * @param documentId　取得する文書の文書ID
+     * @return 文書情報(@see jp.co.unirita.medis.form.DocumentForm)のリスト
+     * @throws NotExistException 文書IDが存在していない場合に発生する例外
+     */
+	@GetMapping(value = "{documentId:^d[0-9]{10}$}")
 	@ResponseStatus(HttpStatus.OK)
 	public DocumentForm getDocument(@PathVariable(value = "documentId") String documentId) throws NotExistException {
 		logger.info("[method: getDocument] Get document list by " + documentId + ".");
@@ -66,7 +62,13 @@ public class DocumentController {
 		return document;
 	}
 
-	@GetMapping(value = "{documentId:^d[0-9]{10}+$}/tags")
+	/**
+     * 文書につけられたタグ一覧を取得する
+     * @param documentId　取得するタグ一覧をつけた文書の文書ID
+     * @return タグ情報(@see jp.co.unirita.medis.domain.tag.Tag)のリスト
+     * @throws NotExistException 文書IDが存在していない場合に発生する例外
+     */
+	@GetMapping(value = "{documentId:^d[0-9]{10}$}/tags")
 	@ResponseStatus(HttpStatus.OK)
 	public List<Tag> getDocumentTagList(@PathVariable(value = "documentId") String documentId) throws NotExistException{
 		logger.info("[method: getDocumentTagList] Get documentTagList list by " + documentId + ".");
@@ -74,63 +76,118 @@ public class DocumentController {
 		return documentLogic.getDocumentTags(documentId);
 	}
 
-	@PostMapping(value = "{documentId:^d[0-9]{10}+$}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public DocumentForm updateDocument(@AuthenticationPrincipal User use,@PathVariable(value = "documentId") String documentId,@RequestBody DocumentForm document) throws Exception {
-		logger.info("[method: updateDocument] UpdateDocument list by " + documentId+ ".");
+	/**
+     * コメントの内容を取得する
+     * @param documentId　新規作成された文書の文書ID
+     * @return コメント情報(@see jp.co.unirita.medis.form.CommentInfoForm)のリスト
+     * @throws NotExistException 文書IDが存在していない場合に発生する例外
+     */
+	@GetMapping(value = "{documentId:^d[0-9]{10}$}/comments")
+	@ResponseStatus(HttpStatus.OK)
+	public List<CommentInfoForm> getComment(@AuthenticationPrincipal User user,
+			@PathVariable(value = "documentId") String documentId) throws NotExistException {
+		logger.info("[method: getComment] Get comment info list by " + documentId + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
-		documentLogic.update(document, use.getEmployeeNumber());
-		return document;
+		List<CommentInfoForm> documentInfo = commentLogic.getCommentInfo(documentId);
+		return documentInfo;
 	}
 
-	@PostMapping(value = "{documentId:^d[0-9]{10}+$}/tags")
+
+	/**
+     * 文書の内容を更新する
+     * @param documentId　更新する文書の文書ID
+	 * @throws NotExistException 文書IDが存在していない場合に発生する例外
+	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
+     */
+	@PostMapping(value = "{documentId:^d[0-9]{10}$}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void updateDocument(@AuthenticationPrincipal User user,
+			@PathVariable(value = "documentId") String documentId,
+			@RequestBody DocumentForm document) throws NotExistException, IdIssuanceUpperException  {
+		logger.info("[method: updateDocument] UpdateDocument list by " + documentId+ ".");
+		argumentCheckLogic.checkDocumentId(documentId);
+		documentLogic.update(document, user.getEmployeeNumber());
+	}
+
+	/**
+     * 文書につけられたタグを更新する
+     * @param documentId　更新するタグ一覧をつけた文書の文書ID
+     * @throws NotExistException 文書IDが存在していない場合に発生する例外
+     */
+	@PostMapping(value = "{documentId:^d[0-9]{10}$}/tags")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updateDocumentTagList(@PathVariable(value = "documentId") String documentId,
-			@RequestBody List<Tag> tags) throws Exception,NotExistException {
+			@RequestBody List<Tag> tags) throws NotExistException {
 		logger.info("[method: updateDocumentTagList] UpdateDocumentTagList list by DocumentId:"+documentId +"TagId"+ tags.get(0).getTagId() + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.updateTags(documentId, tags);
 	}
 
-	@PutMapping(value = "new")
+	/**
+     * 既読情報を更新する
+     * @param documentId　コメントが記入されている文書の文書ID
+     * @param commentId　既読情報を更新するコメントID
+     * @throws NotExistException 文書ID、またはコメントIDが存在していない場合に発生する例外
+     */
+	@PostMapping("{documentId:^d[0-9]{10}$}/comments/{commentId:^o[0-9]{10}$}/read")
 	@ResponseStatus(HttpStatus.CREATED)
-	public DocumentForm saveDocument(@AuthenticationPrincipal User use,@RequestBody DocumentForm document) throws Exception{
-		logger.info("[method: saveDocument] SaveDocument list by " + document.getDocumentId() + ".");
-		// TODO 社員番号を取得するようにする
-		documentLogic.save(document, use.getEmployeeNumber());
-		return document;
+	public void alreadyRead(@AuthenticationPrincipal User user,
+			@PathVariable(value = "documentId") String documentId,
+			@PathVariable(value = "commentId") String commentId,
+			@Valid HttpServletRequest request,HttpServletResponse response
+		) throws NotExistException {
+		logger.info("[method: alreedyRead] Set AlreadyRead And Send mail");
+		argumentCheckLogic.checkDocumentId(documentId);
+		argumentCheckLogic.checkCommentId(commentId);
+		commentLogic.alreadyRead(documentId, commentId);
 	}
 
-	@PutMapping(value = "{documentId:^d[0-9]{10}+$}/tags")
+
+	/**
+     * 新規文書を保存し、ドキュメントIDを付与する
+	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
+     */
+	@PutMapping(value = "new")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void saveDocumentTagList(@PathVariable(value = "documentId") String documentId, @RequestBody List<Tag> tags)
-			throws Exception ,NotExistException{
+	public void saveDocument(@AuthenticationPrincipal User user,
+			@RequestBody DocumentForm document) throws IdIssuanceUpperException {
+		logger.info("[method: saveDocument] SaveDocument list by " + document.getDocumentId() + ".");
+		// TODO 社員番号を取得するようにする
+		documentLogic.save(document, user.getEmployeeNumber());
+	}
+
+	/**
+     * 新規文書についているタグを保存する
+     * @param documentId　新規作成された文書の文書ID
+     * @throws NotExistException 文書IDが存在していない場合に発生する例外
+	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
+     */
+	@PutMapping(value = "{documentId:^d[0-9]{10}$}/tags")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void saveDocumentTagList(@PathVariable(value = "documentId") String documentId,
+			@RequestBody List<Tag> tags
+		) throws NotExistException, IdIssuanceUpperException {
 		logger.info("[method: saveDocumentTagList] SaveDocumentTagList list by " + documentId + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.saveTags(documentId, tags);
 	}
 
-	@RequestMapping(path = { "{documentId:^d[0-9]{10}+$}/comments/{commentId:^m[0-9]{10}+$}/read" }, method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	public void alreadyRead(@AuthenticationPrincipal User user, @PathVariable(value = "documentId") String documentId,
-			@PathVariable(value = "commentId") String commentId, @Valid HttpServletRequest request,
-			HttpServletResponse response) throws NotExistException {
-		logger.info("[method: alreedyRead] Set AlreadyRead And Send mail");
-		argumentCheckLogic.checkDocumentId(documentId);
-		argumentCheckLogic.checkCommentId(commentId);
-		commentLogic.alreadyRead(documentId, commentId);
-
-	}
-
-	@RequestMapping(path = { "{documentId:^d[0-9]{10}+$}/comments/create" }, method = RequestMethod.POST)
+	/**
+     * 新規コメントを保存し、コメントIDを付与する
+     * @param documentId　コメントを記入する文書の文書ID
+     * @return 更新Id情報(@see jp.co.unirita.medis.form.InfomationForm)のリスト
+     * @throws NotExistException 更新IDが存在していない場合に発生する例外
+	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
+     */
+	@PutMapping("{documentId:^d[0-9]{10}$}/comments/create")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void commetAdd(@RequestBody @Valid CommentCreateForm postData,
-			@PathVariable(value = "documentId") String documentId, @Valid HttpServletRequest request,
-			HttpServletResponse response) throws NotExistException {
+			@PathVariable(value = "documentId") String documentId,
+			@Valid HttpServletRequest request,HttpServletResponse response
+		) throws NotExistException, IdIssuanceUpperException {
 		logger.info("[method: save] Add Comment EmployeeNumber:" + postData.getEmployeeNumber() + "value:"
 				+ postData.getValue());
 		argumentCheckLogic.checkDocumentId(documentId);
 		commentLogic.save(documentId, postData);
-
 	}
 }

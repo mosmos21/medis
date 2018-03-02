@@ -16,7 +16,7 @@ import { ErrorService } from '../services/error.service'
 })
 export class SelectTemplateComponent implements OnInit {
 
-  private templates;
+  public templates;
   private enable;
   private message;
 
@@ -30,6 +30,7 @@ export class SelectTemplateComponent implements OnInit {
     private errorService: ErrorService,
   ) {
     this.nav.showAdminMenu();
+    this.nav.show();
   }
 
   confirmChangePublish(e: any, index: number): void {

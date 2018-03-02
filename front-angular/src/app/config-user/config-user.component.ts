@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { InitializationComponent } from '../initialization/initialization.component';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-config-user',
@@ -11,7 +12,7 @@ import { MessageModalComponent } from '../message-modal/message-modal.component'
 })
 export class ConfigUserComponent implements OnInit {
 
-  private settings: any = [
+  public settings: any = [
     {
       employeeNumber: "",
       lastName: "",
@@ -22,7 +23,7 @@ export class ConfigUserComponent implements OnInit {
       isIcon: ""
     }
   ];
-  private tempSettings: any = [
+  public tempSettings: any = [
     {
       employeeNumber: "",
       lastName: "",
@@ -34,13 +35,16 @@ export class ConfigUserComponent implements OnInit {
     }
   ];
   private message;
-  private isIconInput: boolean;
+  public isIconInput: boolean;
 
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
     public dialog: MatDialog,
-  ) { }
+    private nav: NavigationService
+  ) {
+    this.nav.show();
+  }
 
   ngOnInit() {
     this.http.get(this.hostname + 'settings/me').subscribe(

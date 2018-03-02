@@ -28,7 +28,7 @@ export class UserManagementComponent implements OnInit {
   }];
   private enable;
   private user;
-  private searchWord = "";
+  public searchWord = "";
 
   private message;
 
@@ -39,6 +39,7 @@ export class UserManagementComponent implements OnInit {
     public nav: NavigationService
   ) {
     this.nav.showAdminMenu();
+    this.nav.show();
   }
 
   ngOnInit() {
@@ -62,7 +63,7 @@ export class UserManagementComponent implements OnInit {
     }
 
     this.message = this.users[index]['lastName'] + this.users[index]['firstName'] + 'さんのアカウントを' + this.enable + '化します。'
-    
+
     console.log(this.message)
 
     let dialogRef = this.dialog.open(ConfirmationComponent, {
@@ -147,15 +148,15 @@ export class UserManagementComponent implements OnInit {
     var targetUser = JSON.parse(sub);
     var i = targetUser.length;
     var word = this.searchWord;
-    while(i--) {
-      if(
+    while (i--) {
+      if (
         (String(this.users[i]["employeeNumber"]).indexOf(word) == -1) &&
         (this.users[i]["lastName"].indexOf(word) == -1) &&
         (this.users[i]["firstName"].indexOf(word) == -1) &&
         (this.users[i]["lastNamePhonetic"].indexOf(word) == -1) &&
         (this.users[i]["firstNamePhonetic"].indexOf(word) == -1) &&
         (this.users[i]["mailaddress"].indexOf(word) == -1)
-      ){
+      ) {
         targetUser.splice(i, 1);
       }
     }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-config-notification',
@@ -8,12 +9,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ConfigNotificationComponent implements OnInit {
 
-  private isCommentMail: boolean;
-  private isCommentBrowser: boolean;
-  private isTagMail: boolean = true;
-  private isTagBrowser: boolean = true;
+  public isCommentMail: boolean;
+  public isCommentBrowser: boolean;
+  public isTagMail: boolean = true;
+  public isTagBrowser: boolean = true;
 
-  private tagNotification: any = [
+  public tagNotification: any = [
     {
       tagId: "",
       tagName: "",
@@ -25,7 +26,10 @@ export class ConfigNotificationComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
-  ) { }
+    private nav: NavigationService
+  ) {
+    this.nav.show();
+  }
 
   ngOnInit() {
     this.http.get(this.hostname + 'notifications').subscribe(

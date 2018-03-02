@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material'
 
 import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { ValidatorService } from '../services/validator.service'
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-edit-document',
@@ -20,7 +21,7 @@ export class EditDocumentComponent implements OnInit {
 
   private templateId: string = "";
   private documentId: string = "";
-  private documentName: string = "";
+  public documentName: string = "";
 
   public blocks: any;
   private contentBases: { [key: string]: any } = {};
@@ -29,7 +30,7 @@ export class EditDocumentComponent implements OnInit {
   public templateValues: { [key: string]: string[] } = {};
   public documentValues: { [key: string]: string[] } = {};
 
-  private fixedtags: string[] = ["2018年度新人研修"];
+  public fixedTags: string[] = ["2018年度新人研修"];
 
   constructor(
     @Inject('hostname') private hostname: string,
@@ -39,25 +40,12 @@ export class EditDocumentComponent implements OnInit {
     private dragulaService: DragulaService,
     private valid: ValidatorService,
     public dialog: MatDialog,
-    private searchService: SearchService,
+    public searchService: SearchService,
+    private nav: NavigationService
   ) {
-    dragulaService.setOptions("template-block", {
-      copy: function (el: any, source: any) {
-        return source.id === "template_block_list";
-      },
-      accepts: function (el: any, source: any) {
-        return source.id !== "template_block_list";
-      }
-    });
 
-    dragulaService.drop.subscribe((value) => {
-      let [e, el] = value.slice(1);
-      let id = e.childNodes[1].id;
-      if (id != '') {
-        e.remove();
-        this.addBlock(id);
-      }
-    });
+
+    this.nav.show();
   }
 
   ngOnInit() {
@@ -88,6 +76,24 @@ export class EditDocumentComponent implements OnInit {
         this.blocks = error;
       }
     );
+
+    this.dragulaService.setOptions("template-block", {
+      copy: function (el: any, source: any) {
+        return source.id === "template_block_list";
+      },
+      accepts: function (el: any, source: any) {
+        return source.id !== "template_block_list";
+      }
+    });
+
+    this.dragulaService.drop.subscribe((value) => {
+      let [e, el] = value.slice(1);
+      let id = e.childNodes[1].id;
+      if (id != '') {
+        e.remove();
+        this.addBlock(id);
+      }
+    });
 
     this.searchService.getTags();
   }
@@ -242,7 +248,7 @@ export class EditDocumentComponent implements OnInit {
   submit(type: string): void {
     let dataJson = this.data2Json(type);
     console.log(dataJson);
-    if(this.valid.empty(this.documentName)) {
+    if (this.valid.empty(this.documentName)) {
       this.message = "ドキュメント名を入力してください。"
       let dialogRef = this.dialog.open(MessageModalComponent, {
         data: {
@@ -250,13 +256,13 @@ export class EditDocumentComponent implements OnInit {
         }
       });
     } else {
-      if(type == "save") {
+      if (type == "save") {
         this.message = "ドキュメントを保存し、公開しました。"
       } else {
         this.message = "ドキュメントを下書きとして保存しました。"
       }
-  
-      if(this.documentId == 'new'){
+
+      if (this.documentId == 'new') {
         this.http.put(this.hostname + "documents/new", dataJson).subscribe(
           json => {
             // TODO
@@ -275,20 +281,20 @@ export class EditDocumentComponent implements OnInit {
           }
         );
       }
-  
+
       let dialogRef = this.dialog.open(MessageModalComponent, {
         data: {
           message: this.message
         }
       });
-  
+
       dialogRef.afterClosed().subscribe(result => {
         this.router.navigate(['admin/template']);
       });
     }
   }
 
-  hoge() {
-    console.log("hoge");
+  trackByIndex(index, content) {
+    return content.id;
   }
 }

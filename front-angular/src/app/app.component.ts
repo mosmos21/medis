@@ -12,8 +12,8 @@ export class AppComponent {
   private searchVisible: boolean;
   private settingsVisible: boolean;
 
-  constructor(private nav: NavigationService) {
-    this.nav.show();
+  constructor(public nav: NavigationService) {
+    this.nav.hide();
     this.nav.showUserMenu();
     this.mymenuVisible = true;
   }
