@@ -24,6 +24,7 @@ public class LoginLogic {
     public void login(UserLoginForm loginForm) {
         Authentication auth = new UsernamePasswordAuthenticationToken(loginForm.getEmployeeNumber(), loginForm.getPassword());
         Authentication result = authManager.authenticate(auth);
+        SecurityContextHolder.getContext().setAuthentication(result);
 
         SecurityContextHolder.getContext().setAuthentication(result);
         User principal = (User)result.getPrincipal();

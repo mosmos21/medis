@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
 
   errorMessage: string = '';
 
-  employeeNumber: string = 'gu';
-  password: string = 'gupass';
+  employeeNumber: string = 'medis';
+  password: string = 'medis';
 
   private message: string;
 

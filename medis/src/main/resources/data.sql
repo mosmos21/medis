@@ -2,11 +2,11 @@ DELETE FROM "user_info";
 INSERT INTO "user_info"
     (employee_number, authority_id, enabled, password)
 VALUES
-   ('medis', '0', true, 'medis'),
-   ('gu',    '1', true, 'gupass'),
-   ('99999', '1', true, 'gupass99999'),
-   ('11111', '1', true, 'gupass11111'),
-   ('aaaaa', '1', true, 'gupassaaaaa');
+   ('medis', 'a0000000000', true, 'medis'),
+   ('gu',    'a0000000001', true, 'gupass'),
+   ('99999', 'a0000000001', true, 'gupass99999'),
+   ('11111', 'a0000000001', true, 'gupass11111'),
+   ('aaaaa', 'a0000000001', true, 'gupassaaaaa');
 
 
 DELETE FROM "document_info";
