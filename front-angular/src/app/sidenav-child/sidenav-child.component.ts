@@ -13,7 +13,7 @@ export class SidenavChildComponent implements OnInit {
   public searchVisible: boolean;
   public settingsVisible: boolean;
   private list: any;
-  private num;
+  public num;
 
   constructor(
     public nav: NavigationService,
@@ -24,11 +24,9 @@ export class SidenavChildComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.nav.visible);
     if (this.nav.visible = true) {
       this.loadList();
     }
-    // this.loadList();
   }
 
   mymenuOpen() {

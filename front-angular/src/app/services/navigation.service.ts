@@ -34,12 +34,10 @@ export class NavigationService {
 
   //一般ユーザ画面遷移
   toTop() {
-    this.searchService.selectedTags = [];
     this.router.navigate(["/top"]);
   }
 
   toEdit(str) {
-    this.searchService.selectedTags = [];
     if (!str) {
       this.router.navigate(["/edit"]);
     } else if (str == "new") {
