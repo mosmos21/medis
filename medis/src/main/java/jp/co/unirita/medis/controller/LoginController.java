@@ -19,7 +19,7 @@ import org.springframework.web.util.WebUtils;
 
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.user.UserRepository;
-import jp.co.unirita.medis.form.user.UserLoginForm;
+import jp.co.unirita.medis.form.util.UserLoginForm;
 import jp.co.unirita.medis.logic.util.LoginLogic;
 import lombok.Data;
 

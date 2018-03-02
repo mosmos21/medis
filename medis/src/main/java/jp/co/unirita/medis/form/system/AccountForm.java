@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.form;
+package jp.co.unirita.medis.form.system;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;

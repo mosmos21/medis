@@ -16,7 +16,7 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
-import jp.co.unirita.medis.form.DocumentInfoForm;
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
 
 @Service
 @Transactional

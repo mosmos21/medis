@@ -1,7 +1,7 @@
 package jp.co.unirita.medis.logic.util;
 
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.user.UserLoginForm;
+import jp.co.unirita.medis.form.util.UserLoginForm;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

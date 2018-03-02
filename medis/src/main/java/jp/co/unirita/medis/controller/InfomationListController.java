@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.InfomationForm;
+import jp.co.unirita.medis.form.setting.InfomationForm;
 import jp.co.unirita.medis.logic.setting.InfomationLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.NotExistException;

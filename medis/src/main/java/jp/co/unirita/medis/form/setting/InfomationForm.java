@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.form;
+package jp.co.unirita.medis.form.setting;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

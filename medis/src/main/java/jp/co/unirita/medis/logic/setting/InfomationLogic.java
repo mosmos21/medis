@@ -21,7 +21,7 @@ import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
-import jp.co.unirita.medis.form.InfomationForm;
+import jp.co.unirita.medis.form.setting.InfomationForm;
 
 @Service
 @Transactional

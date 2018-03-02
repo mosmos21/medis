@@ -1,7 +1,7 @@
 package jp.co.unirita.medis.controller;
 
-import jp.co.unirita.medis.form.AccountForm;
-import jp.co.unirita.medis.logic.setting.AccountLogic;
+import jp.co.unirita.medis.form.system.AccountForm;
+import jp.co.unirita.medis.logic.system.AccountLogic;
 import jp.co.unirita.medis.util.exception.NotExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.logic.setting;
+package jp.co.unirita.medis.logic.system;
 
 import java.lang.invoke.MethodHandles;
 import java.sql.Timestamp;
@@ -20,7 +20,7 @@ import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.user.UserRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
-import jp.co.unirita.medis.form.AccountForm;
+import jp.co.unirita.medis.form.system.AccountForm;
 import jp.co.unirita.medis.util.exception.NotExistException;
 
 @Service

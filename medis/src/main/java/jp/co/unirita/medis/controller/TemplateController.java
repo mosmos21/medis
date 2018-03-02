@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.blockbase.BlockBaseForm;
+import jp.co.unirita.medis.form.template.BlockBaseForm;
 import jp.co.unirita.medis.form.template.TemplateForm;
 import jp.co.unirita.medis.logic.template.BlockLogic;
 import jp.co.unirita.medis.logic.template.TemplateLogic;

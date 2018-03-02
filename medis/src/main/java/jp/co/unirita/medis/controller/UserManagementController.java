@@ -2,7 +2,7 @@ package jp.co.unirita.medis.controller;
 
 import jp.co.unirita.medis.domain.authority.Authority;
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.UserManagementForm;
+import jp.co.unirita.medis.form.system.UserManagementForm;
 import jp.co.unirita.medis.logic.system.UserManagementLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.AuthorityException;

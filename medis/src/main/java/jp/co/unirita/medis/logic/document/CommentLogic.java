@@ -19,8 +19,8 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
-import jp.co.unirita.medis.form.CommentCreateForm;
-import jp.co.unirita.medis.form.CommentInfoForm;
+import jp.co.unirita.medis.form.document.CommentCreateForm;
+import jp.co.unirita.medis.form.document.CommentInfoForm;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service

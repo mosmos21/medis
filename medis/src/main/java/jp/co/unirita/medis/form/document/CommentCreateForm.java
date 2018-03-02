@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.form;
+package jp.co.unirita.medis.form.document;
 
 import java.io.Serializable;
 

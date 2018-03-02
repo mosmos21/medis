@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.form.blockbase;
+package jp.co.unirita.medis.form.template;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

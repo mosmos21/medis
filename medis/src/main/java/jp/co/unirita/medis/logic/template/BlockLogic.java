@@ -2,8 +2,10 @@ package jp.co.unirita.medis.logic.template;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jp.co.unirita.medis.form.blockbase.BlockBaseForm;
-import jp.co.unirita.medis.form.blockbase.BlockBaseItemForm;
+
+import jp.co.unirita.medis.form.template.BlockBaseForm;
+import jp.co.unirita.medis.form.template.BlockBaseItemForm;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

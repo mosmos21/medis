@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.CommentCreateForm;
-import jp.co.unirita.medis.form.CommentInfoForm;
+import jp.co.unirita.medis.form.document.CommentCreateForm;
+import jp.co.unirita.medis.form.document.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.document.CommentLogic;
 import jp.co.unirita.medis.logic.document.DocumentLogic;

@@ -18,7 +18,7 @@ import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
-import jp.co.unirita.medis.form.NotificationsForm;
+import jp.co.unirita.medis.form.setting.NotificationsForm;
 
 @Service
 public class SettingLogic {

@@ -5,9 +5,10 @@ import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepositor
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
-import jp.co.unirita.medis.form.NotificationsForm;
-import jp.co.unirita.medis.logic.setting.AccountLogic;
+import jp.co.unirita.medis.form.setting.NotificationsForm;
 import jp.co.unirita.medis.logic.setting.SettingLogic;
+import jp.co.unirita.medis.logic.system.AccountLogic;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
