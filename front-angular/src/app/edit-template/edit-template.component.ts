@@ -20,7 +20,7 @@ export class EditTemplateComponent implements OnInit {
   private contentBases: { [key: string]: any } = {};
 
   private templateId: string = "";
-  private templateName: string = "";
+  public templateName: string = "";
   public contents: any[] = [];
   public values: { [key: string]: string[] } = {};
 
@@ -38,9 +38,10 @@ export class EditTemplateComponent implements OnInit {
     public dialog: MatDialog,
     private nav: NavigationService,
     private valid: ValidatorService,
-    private searchService: SearchService,
+    public searchService: SearchService,
   ) {
     this.nav.showAdminMenu();
+    this.nav.show();
   }
 
   ngOnInit() {

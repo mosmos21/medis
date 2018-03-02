@@ -4,16 +4,15 @@ import { SearchService } from './search.service';
 
 @Injectable()
 export class NavigationService {
-  private visible: boolean;
-  private isAdmin: boolean;
-  private isUser: boolean;
+  public visible: boolean;
+  public isUser: boolean;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private searchService: SearchService,
   ) {
-    this.visible = true;
+    this.visible = false;
     this.isUser = true;
   }
 
@@ -26,12 +25,10 @@ export class NavigationService {
   }
 
   showAdminMenu() {
-    this.isAdmin = true;
     this.isUser = false;
   }
 
   showUserMenu() {
-    this.isAdmin = false;
     this.isUser = true;
   }
 

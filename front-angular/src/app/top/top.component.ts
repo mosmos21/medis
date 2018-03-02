@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-top',
@@ -8,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TopComponent implements OnInit {
 
-  private updateList: any;
+  public updateList: any;
   private ownDocList: any;
   private favDocList: any;
   private MonDocList: any;
@@ -18,7 +19,10 @@ export class TopComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
-  ) { }
+    private nav: NavigationService
+  ) {
+    this.nav.show();
+  }
 
   ngOnInit() {
     this.http.get(this.hostname + "infomations/" + this.employeeNumber).subscribe(

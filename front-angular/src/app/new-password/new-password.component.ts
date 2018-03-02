@@ -16,9 +16,11 @@ export class NewPasswordComponent implements OnInit {
     mailaddress: "",
     password: "",
   };
-  private password = "";
-  private passwordCheck = "";
-  private errorMessage = "";
+  public password = "";
+  public passwordCheck = "";
+  public errorMessage = "";
+  public hide: boolean;
+  public hide_check: boolean;
 
   constructor(
     private http: HttpClient,
@@ -31,7 +33,7 @@ export class NewPasswordComponent implements OnInit {
   }
 
   sendNewPassword() {
-    if(this.password == this.passwordCheck) {
+    if (this.password == this.passwordCheck) {
       this.errorMessage = "";
       this.user["password"] = this.password;
       this.http.post(this.hostname + "accounts/" + this.user["employeeNumber"], this.user).subscribe(

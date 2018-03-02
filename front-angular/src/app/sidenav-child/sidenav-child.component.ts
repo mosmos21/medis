@@ -9,14 +9,14 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SidenavChildComponent implements OnInit {
 
-  private mymenuVisible: boolean;
-  private searchVisible: boolean;
-  private settingsVisible: boolean;
+  public mymenuVisible: boolean;
+  public searchVisible: boolean;
+  public settingsVisible: boolean;
   private list: any;
   private num;
 
   constructor(
-    private nav: NavigationService,
+    public nav: NavigationService,
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
   ) {
@@ -24,7 +24,11 @@ export class SidenavChildComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadList();
+    console.log(this.nav.visible);
+    if (this.nav.visible = true) {
+      this.loadList();
+    }
+    // this.loadList();
   }
 
   mymenuOpen() {
@@ -50,11 +54,12 @@ export class SidenavChildComponent implements OnInit {
 
   }
 
-  loadList(): void {
+  loadList() {
     this.http.get(this.hostname + "documents").subscribe(
       json => {
         this.list = json;
         this.num = this.list.length;
+        console.log(this.list);
       },
       error => {
         // TODO;

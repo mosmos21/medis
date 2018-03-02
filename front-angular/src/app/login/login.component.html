@@ -7,10 +7,11 @@
             <div class="form-error">{{ errorMessage }}</div>
         </div>
         <mat-form-field class="form-item">
-            <input matInput name="employeeNumber" [(ngModel)]="employeeNumber" placeholder="社員番号" required="required"/>
+            <input matInput name="employeeNumber" [(ngModel)]="employeeNumber" placeholder="社員番号" required="required" />
         </mat-form-field>
         <mat-form-field class="form-item">
-            <input matInput [type]="hide ? 'text' : 'password'" name="password" [(ngModel)]="password" placeholder="パスワード" required="required"/>
+            <input matInput [type]="hide ? 'text' : 'password'" name="password" [(ngModel)]="password" placeholder="パスワード" required="required"
+            />
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </mat-form-field>
         <div class="button-wrapper">

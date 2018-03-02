@@ -11,6 +11,7 @@ import {
   MatMenuModule,
   MatInputModule,
   MatFormFieldModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 
 import { NavigationService } from './services/navigation.service';
@@ -76,6 +77,7 @@ import { PageNotFoundComponent } from './error/page-not-found.component';
     FormsModule,
     MatInputModule,
     MatFormFieldModule,
+    MatProgressSpinnerModule,
 
     LoginModule,
     TopModule,

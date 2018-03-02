@@ -10,10 +10,10 @@ import { SearchService } from '../services/search.service';
 })
 export class SearchResultComponent implements OnInit {
 
-  private title: string = "検索結果";
-  private id: string = "ドキュメントID";
-  private name: string = "ドキュメント名";
-  private list: any;
+  public title: string = "検索結果";
+  public id: string = "ドキュメントID";
+  public name: string = "ドキュメント名";
+  public list: any;
   private msg: string;
 
   constructor(
@@ -21,7 +21,9 @@ export class SearchResultComponent implements OnInit {
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
     private searchService: SearchService,
-  ) { }
+  ) {
+    this.nav.show();
+  }
 
   ngOnInit() {
     this.searchService.searchTagsData$.subscribe(

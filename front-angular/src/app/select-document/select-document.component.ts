@@ -10,11 +10,11 @@ import { NavigationService } from '../services/navigation.service';
 })
 export class SelectDocumentComponent implements OnInit {
 
-  private title: string = "テンプレート";
-  private id: string = "テンプレートID";
-  private name: string = "テンプレート名";
+  public title: string = "テンプレート";
+  public id: string = "テンプレートID";
+  public name: string = "テンプレート名";
 
-  private category: string;
+  public category: string;
   private list: any;
 
   constructor(
@@ -23,7 +23,9 @@ export class SelectDocumentComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private nav: NavigationService,
-  ) { }
+  ) {
+    this.nav.show();
+  }
 
   ngOnInit() {
     this.route.fragment.subscribe(frag => {

@@ -12,6 +12,7 @@ export class SearchService {
 
   public newTagName = "";
   public selectedTags = [];
+  private tempTags = [];
   public newTags = [];
   public searchWord = "";
   private tags: any = [
@@ -42,6 +43,7 @@ export class SearchService {
         this.tags = json;
         const sub = JSON.stringify(this.tags);
         this.targetTags = JSON.parse(sub);
+        this.tempTags = JSON.parse(sub);
         console.log(this.tags);
       },
       error => {
@@ -61,7 +63,14 @@ export class SearchService {
           this.targetTags.splice(i, 1);
         }
       }
-      console.log(this.selectedTags);
+
+      let j = this.tempTags.length;
+      while (j--) {
+        if (this.tempTags[j]["tagName"] == str) {
+          this.tempTags.splice(j, 1);
+          console.log(this.tempTags);
+        }
+      }
     }
   }
 
@@ -72,6 +81,7 @@ export class SearchService {
     while (i--) {
       if (this.selectedTags[i]["tagName"] == str) {
         this.targetTags[this.targetTags.length] = this.selectedTags[i];
+        this.tempTags[this.tempTags.length] = this.selectedTags[i];
         this.selectedTags.splice(i, 1);
       }
     }
@@ -122,6 +132,14 @@ export class SearchService {
           this.sendMsg(this.selectedTags);
         }
       }
+
+      let j = this.tempTags.length;
+      while (j--) {
+        if (this.tempTags[j]["tagName"] == str) {
+          this.tempTags.splice(j, 1);
+          console.log(this.tempTags);
+        }
+      }
       console.log(this.selectedTags);
     }
   }
@@ -133,6 +151,7 @@ export class SearchService {
     while (i--) {
       if (this.selectedTags[i]["tagName"] == str) {
         this.targetTags[this.targetTags.length] = this.selectedTags[i];
+        this.tempTags[this.tempTags.length] = this.selectedTags[i];
         this.sendMsg(this.selectedTags);
         this.selectedTags.splice(i, 1);
       }
@@ -141,11 +160,11 @@ export class SearchService {
 
   searchTag() {
     console.log("search");
-    const sub = JSON.stringify(this.tags);
+    const sub = JSON.stringify(this.tempTags);
     this.targetTags = JSON.parse(sub);
     let i = this.targetTags.length;
     while (i--) {
-      if (this.tags[i]["tagName"].indexOf(this.searchWord) == -1) {
+      if (this.targetTags[i]["tagName"].indexOf(this.searchWord) == -1) {
         this.targetTags.splice(i, 1);
       }
     }

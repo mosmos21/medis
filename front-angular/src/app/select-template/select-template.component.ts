@@ -14,7 +14,7 @@ import { ConvertDateService } from '../services/convert-date.service';
 })
 export class SelectTemplateComponent implements OnInit {
 
-  private templates;
+  public templates;
   private enable;
   private message;
 
@@ -26,6 +26,7 @@ export class SelectTemplateComponent implements OnInit {
     private convert: ConvertDateService,
   ) {
     this.nav.showAdminMenu();
+    this.nav.show();
   }
 
   confirmChangePublish(e: any, index: number): void {

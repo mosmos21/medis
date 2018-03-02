@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   password: string = 'gupass';
 
   private message: string;
+  public hide: boolean;
 
   private user: any = {
     employeeNumber: '',

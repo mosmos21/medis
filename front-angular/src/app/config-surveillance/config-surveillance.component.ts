@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-config-surveillance',
@@ -8,19 +9,22 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ConfigSurveillanceComponent implements OnInit {
 
-  private searchWord = "";
+  public searchWord = "";
   private tags: any = [
     {
       tagId: "",
       tagName: ""
     }
   ];
-  private selectedTags: any = [];
+  public selectedTags: any = [];
 
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
-  ) { }
+    private nav: NavigationService
+  ) {
+    this.nav.show();
+  }
 
   ngOnInit() {
     this.getJSON();
