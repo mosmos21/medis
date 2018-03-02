@@ -85,12 +85,6 @@ public class DocumentListLogic {
 				return i2.getUpdateDate().compareTo(i1.getUpdateDate());
 			}
 		});
-		System.out.println(0);
-		for (DocumentInfoForm documentInfoForm2 : documentInfoForm) {
-			System.out.println(documentInfoForm2);
-		}
-		System.out.println(1);
-
 		return documentInfoForm;
 	}
 }

@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.DocumentInfoForm;
 import jp.co.unirita.medis.logic.util.SearchLogic;
-import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RequestMapping("/v1/search")
 
@@ -30,13 +29,18 @@ public class SearchController {
 	@Autowired
 	SearchLogic searchLogic;
 
-	@RequestMapping(method = RequestMethod.GET)
+
+	/**
+     * タグ検索結果の文書一覧を取得する
+     * @return 更新Id情報(@see jp.co.unirita.medis.form.DocumentInfoForm)のリスト
+     * @throws UnsupportedEncodingException 文字のエンコーディングがサポートされていない場合に発生する例外
+     */
+	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfoForm> getSearchResult(
-			@AuthenticationPrincipal User user, @RequestParam(value = "tags", required = false) String tagName) throws NotExistException, UnsupportedEncodingException {
-
+		@AuthenticationPrincipal User user,
+		@RequestParam(value = "tags", required = false) String tagName
+	) throws UnsupportedEncodingException {
 		return searchLogic.getSearchResult(tagName);
-
 	}
-
 }
