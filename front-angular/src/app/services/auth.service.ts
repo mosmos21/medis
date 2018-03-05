@@ -4,6 +4,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { tokenNotExpired } from 'angular2-jwt';
 import { RequestOptions } from '@angular/http'
 import { Router } from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
@@ -15,8 +16,6 @@ export class AuthService {
 
   headers = new HttpHeaders;
   private options = new RequestOptions;
-
-  isLoggedIn: boolean = false;
   user: any;
 
   // store the URL so we can redirect after logging in
@@ -38,7 +37,7 @@ export class AuthService {
       success => {
         this.user = success;
         console.log(this.user);
-        this.isLoggedIn = true;
+        localStorage.setItem('token', this.cookieService.get('XSRF-TOKEN'))
         if(this.user.authorityId == "a0000000000") {
           this.redirectUrl = "admin/template"
         }
@@ -55,9 +54,13 @@ export class AuthService {
   logout(http: HttpClient, url: string): void {
     http.delete(url, {withCredentials: true, headers: this.headerAddToken()}).subscribe(
       success => {
-        this.isLoggedIn = false;
+        localStorage.removeItem('token')
       }
     )
+  }
+
+  isLoggedIn(): boolean {
+    return this.cookieService.get('XSRF-TOKEN') == localStorage.getItem('token')
   }
 
   headerAddToken(): HttpHeaders {

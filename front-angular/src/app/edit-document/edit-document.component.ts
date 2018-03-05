@@ -267,7 +267,7 @@ export class EditDocumentComponent implements OnInit {
       if (this.documentId == 'new') {
         this.http.put(this.hostname + "documents/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           json => {
-            // TODO
+            this.documentId = json["documentId"]
           },
           error => {
             // TODO
@@ -276,7 +276,7 @@ export class EditDocumentComponent implements OnInit {
       } else {
         this.http.post(this.hostname + "documents/" + this.documentId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           json => {
-            // TODO
+            this.documentId = json["documentId"]
           },
           error => {
             // TODO
@@ -291,7 +291,11 @@ export class EditDocumentComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        this.router.navigate(['admin/template']);
+        if(type == "save") {
+          this.router.navigate(['browsing/' + this.documentId]); 
+        } else {
+          this.router.navigate(['edit']);
+        }
       });
     }
   }

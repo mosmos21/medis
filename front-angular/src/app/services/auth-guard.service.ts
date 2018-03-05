@@ -1,15 +1,20 @@
-import { Injectable }       from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CanActivate, Router,
   ActivatedRouteSnapshot,
   RouterStateSnapshot
-}                           from '@angular/router';
-import { AuthService }      from './auth.service';
+} from '@angular/router';
+import { AuthService } from './auth.service';
 import { NavigationService } from './navigation.service';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
-  constructor(private authService: AuthService, private router: Router, private nav: NavigationService) {}
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private nav: NavigationService
+  ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let url: string = state.url;
@@ -18,9 +23,10 @@ export class AuthGuardService implements CanActivate {
   }
 
   checkLogin(url: string): boolean {
-    if (this.authService.isLoggedIn) {
+    console.log(this.authService.isLoggedIn() + '←ここ')
+    if (this.authService.isLoggedIn()) {
       this.nav.show();
-      return true; 
+      return true;
     }
 
     // Store the attempted URL for redirecting
