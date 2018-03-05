@@ -53,7 +53,6 @@ public class TemplateController {
     /**
      * テンプレートの内容を取得する
      * @param user ログインしているユーザ
-     * @param templateId 取得するテンプレートID
      * @return テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
      * @throws NotExistException 取得しようとしているテンプレートIDが存在していない場合に発生する例外
      */
@@ -93,14 +92,15 @@ public class TemplateController {
     /**
      * テンプレートの内容を更新する
      * @param user ログインしているユーザ
-     * @param template テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
+     * @param templateId 更新するテンプレートのテンプレートID
+     * @return templateId 更新したテンプレートのテンプレートID
      * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
      * @throws IdIssuanceUpperException 新規IDの発行が上限に達した場合に発生する例外
      * @throws NotExistException 更新しようとしているテンプレートIDが存在していない場合に発生する例外
      */
     @PostMapping(value = "{templateId:^t[0-9]{10}$}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void updateTemplate(
+    public String updateTemplate(
             @AuthenticationPrincipal User user,
             @RequestBody TemplateForm template
     ) throws AuthorityException, IdIssuanceUpperException, NotExistException {
@@ -108,13 +108,13 @@ public class TemplateController {
 
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
         argumentCheckLogic.checkTemplateId(template.getTemplateId());
-        templateLogic.update(template, user.getEmployeeNumber());
+        return templateLogic.update(template, user.getEmployeeNumber());
     }
 
     /**
      * テンプレートの公開状態を、変更する
      * @param user ログインしているユーザ
-     * @param templateId 更新するテンプレートID
+     * @param templateId 更新するテンプレートのテンプレートID
      * @param templatePublish public: 公開する, private: 非公開にする
      * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
      * @throws NotExistException 更新するテンプレートIDが存在しない場合に発生する例外
@@ -161,20 +161,21 @@ public class TemplateController {
      * 新規テンプレートを保存し、テンプレートIDを付与する
      * @param user ログインしているユーザ
      * @param template テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
+     * @return templateId 新規作成したテンプレートのテンプレートID
      * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
      * @throws IdIssuanceUpperException 新規IDの発行が上限に達した場合に発生する例外
      * @throws NotExistException ユーザが存在しない場合に発生する例外
      */
     @PutMapping(value = "new")
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveTemplate(
+    public String saveTemplate(
             @AuthenticationPrincipal User user,
             @RequestBody TemplateForm template
     ) throws AuthorityException, IdIssuanceUpperException, NotExistException {
         logger.info("[method: saveTemplate] employeeNumber = " + user.getEmployeeNumber());
 
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
-        templateLogic.save(template, user.getEmployeeNumber());
+        return templateLogic.save(template, user.getEmployeeNumber());
     }
 
     /**

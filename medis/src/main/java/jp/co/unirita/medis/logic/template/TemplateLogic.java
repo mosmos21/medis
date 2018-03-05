@@ -1,5 +1,16 @@
 package jp.co.unirita.medis.logic.template;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.domain.templatecontent.TemplateContent;
@@ -14,16 +25,6 @@ import jp.co.unirita.medis.form.template.TemplateContentForm;
 import jp.co.unirita.medis.form.template.TemplateForm;
 import jp.co.unirita.medis.logic.util.TagLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TemplateLogic {
@@ -40,7 +41,6 @@ public class TemplateLogic {
     TemplateContentRepository templateContentRepository;
     @Autowired
     TemplateItemRepository templateItemRepository;
-
     @Autowired
     TagLogic tagLogic;
 
@@ -86,11 +86,11 @@ public class TemplateLogic {
         logger.info("[method: toggleTemplatePublish] Update info of templateID '" + templateId + "' " + info);
     }
 
-    public void save(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException{
+    public String save(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException{
         String id = saveTemplateInfo(templateForm, employeeNumber);
         templateForm.setTemplateId(id);
-
         saveTemplateContent(id, templateForm.getContents());
+        return id;
     }
 
     public void saveTags(String templateId, List<Tag> tags) throws  IdIssuanceUpperException {
@@ -104,9 +104,10 @@ public class TemplateLogic {
         }
     }
 
-    public void update(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException {
-        saveTemplateInfo(templateForm, employeeNumber);
+    public String update(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException {
+        String id = saveTemplateInfo(templateForm, employeeNumber);
         updateTemplateContent(templateForm.getTemplateId(), templateForm.getContents());
+        return id;
     }
 
     // TODO IDがついていないものにはつける

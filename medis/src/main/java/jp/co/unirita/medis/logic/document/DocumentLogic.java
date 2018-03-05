@@ -42,21 +42,48 @@ public class DocumentLogic {
     @Autowired
     TagLogic tagLogic;
 
-    public List<Tag> getDocumentTags(String id) {
-        List<DocumentTag> documentTagList = documentTagRepository.findByDocumentIdOrderByTagOrderAsc(id);
-        List<Tag> tag = tagRepository.findByTagId(documentTagList.stream().map(t -> t.getTagId()).collect(Collectors.toList()));
-        return tag;
-    }
 
     public DocumentForm getDocument(String id) {
         DocumentInfo info = documentInfoRepository.findOne(id);
-
         DocumentForm document = new DocumentForm();
         document.setDocumentId(id);
         document.setTemplateId(info.getTemplateId());
         document.setDocumentName(info.getDocumentName());
         document.setContents(getDocumentContents(id));
         return document;
+    }
+
+    public List<Tag> getDocumentTags(String id) {
+        List<DocumentTag> documentTagList = documentTagRepository.findByDocumentIdOrderByTagOrderAsc(id);
+        List<Tag> tag = tagRepository.findByTagId(documentTagList.stream().map(t -> t.getTagId()).collect(Collectors.toList()));
+        return tag;
+    }
+
+    public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
+        String id = saveDocumentInfo(documentForm, employeeNumber);
+        updateDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
+        return id;
+    }
+
+    public String saveDocumentInfo(DocumentForm document, String employeeNumber) throws IdIssuanceUpperException{
+        String documentId = document.getDocumentId() == null ? createNewDocumentId() : document.getDocumentId();
+        String templateId = document.getTemplateId();
+        String documentName = document.getDocumentName();
+        Timestamp documentCreateDate = new Timestamp(System.currentTimeMillis());
+        boolean documentPublish = document.isPublish();
+        DocumentInfo info = new DocumentInfo(documentId, employeeNumber, templateId, documentName, documentCreateDate, documentPublish);
+        documentInfoRepository.save(info);
+        return info.getDocumentId();
+    }
+
+    private void updateDocumentContent(String documentId, List<DocumentContentForm> contents) {
+        List<DocumentContentForm> oldContents = getDocumentContents(documentId);
+
+        for(Iterator<DocumentContentForm> oldItr = oldContents.iterator(), itr = contents.iterator(); itr.hasNext();) {
+            DocumentContentForm oldContent = oldItr.next();
+            DocumentContentForm content = itr.next();
+            updateDocumentItems(documentId, content.getContentOrder(), oldContent.getItems(), content.getItems());
+        }
     }
 
     private List<DocumentContentForm> getDocumentContents(String documentId) {
@@ -86,10 +113,11 @@ public class DocumentLogic {
         logger.info("[method: toggleDocumentPublish] Update info of documentID '" + documentId + "' " + info);
     }
 
-    public void save(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
+    public String save(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
         String id = saveDocumentInfo(documentForm, employeeNumber);
         documentForm.setDocumentId(id);
         saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
+        return id;
     }
 
     public void saveTags(String documentId, List<Tag> tags) throws IdIssuanceUpperException {
@@ -103,10 +131,6 @@ public class DocumentLogic {
         }
     }
 
-    public void update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
-        saveDocumentInfo(documentForm, employeeNumber);
-        updateDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
-    }
 
     public void updateTags(String documentId, List<Tag> tags) {
         List<DocumentTag> oldTags = documentTagRepository.findByDocumentIdOrderByTagOrderAsc(documentId);
@@ -133,16 +157,6 @@ public class DocumentLogic {
         }
     }
 
-    public String saveDocumentInfo(DocumentForm document, String employeeNumber) throws IdIssuanceUpperException{
-        String documentId = document.getDocumentId() == null ? createNewDocumentId() : document.getDocumentId();
-        String templateId = document.getTemplateId();
-        String documentName = document.getDocumentName();
-        Timestamp documentCreateDate = new Timestamp(System.currentTimeMillis());
-        boolean documentPublish = document.isPublish();
-        DocumentInfo info = new DocumentInfo(documentId, employeeNumber, templateId, documentName, documentCreateDate, documentPublish);
-        documentInfoRepository.save(info);
-        return info.getDocumentId();
-    }
 
     private void saveDocumentContent(String documentId, List<DocumentContentForm> contents) {
         for(DocumentContentForm content: contents) {
@@ -158,15 +172,6 @@ public class DocumentLogic {
         }
     }
 
-    private void updateDocumentContent(String documentId, List<DocumentContentForm> contents) {
-        List<DocumentContentForm> oldContents = getDocumentContents(documentId);
-
-        for(Iterator<DocumentContentForm> oldItr = oldContents.iterator(), itr = contents.iterator(); itr.hasNext();) {
-            DocumentContentForm oldContent = oldItr.next();
-            DocumentContentForm content = itr.next();
-            updateDocumentItems(documentId, content.getContentOrder(), oldContent.getItems(), content.getItems());
-        }
-    }
 
     private void updateDocumentItems(String documentId, int contentOrder, List<String> oldItems,List<String> items) {
         int lineNumber = 1;

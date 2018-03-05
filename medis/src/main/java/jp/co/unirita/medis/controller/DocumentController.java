@@ -96,17 +96,18 @@ public class DocumentController {
 	/**
      * 文書の内容を更新する
      * @param documentId　更新する文書の文書ID
+     * @return documentId　更新した文書の文書ID
 	 * @throws NotExistException 文書IDが存在していない場合に発生する例外
 	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
      */
 	@PostMapping(value = "{documentId:^d[0-9]{10}$}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void updateDocument(@AuthenticationPrincipal User user,
+	public String updateDocument(@AuthenticationPrincipal User user,
 			@PathVariable(value = "documentId") String documentId,
 			@RequestBody DocumentForm document) throws NotExistException, IdIssuanceUpperException  {
 		logger.info("[method: updateDocument] UpdateDocument list by " + documentId+ ".");
 		argumentCheckLogic.checkDocumentId(documentId);
-		documentLogic.update(document, user.getEmployeeNumber());
+		return documentLogic.update(document, user.getEmployeeNumber());
 	}
 
 	/**
@@ -145,15 +146,16 @@ public class DocumentController {
 
 	/**
      * 新規文書を保存し、ドキュメントIDを付与する
+     * @return documentId　新規作成した文書の文書ID
 	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
      */
 	@PutMapping(value = "new")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void saveDocument(@AuthenticationPrincipal User user,
+	public String saveDocument(@AuthenticationPrincipal User user,
 			@RequestBody DocumentForm document) throws IdIssuanceUpperException {
 		logger.info("[method: saveDocument] SaveDocument list by " + document.getDocumentId() + ".");
 		// TODO 社員番号を取得するようにする
-		documentLogic.save(document, user.getEmployeeNumber());
+		return documentLogic.save(document, user.getEmployeeNumber());
 	}
 
 	/**
@@ -175,19 +177,19 @@ public class DocumentController {
 	/**
      * 新規コメントを保存し、コメントIDを付与する
      * @param documentId　コメントを記入する文書の文書ID
-     * @return 更新Id情報(@see jp.co.unirita.medis.form.InfomationForm)のリスト
+     * @return コメント情報(@see jp.co.unirita.medis.form.CommentInfoForm)
      * @throws NotExistException 更新IDが存在していない場合に発生する例外
 	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
      */
 	@PutMapping("{documentId:^d[0-9]{10}$}/comments/create")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void commetAdd(@RequestBody @Valid CommentCreateForm postData,
+	public CommentInfoForm commetAdd(@RequestBody @Valid CommentCreateForm postData,
 			@PathVariable(value = "documentId") String documentId,
 			@Valid HttpServletRequest request,HttpServletResponse response
 		) throws NotExistException, IdIssuanceUpperException {
 		logger.info("[method: save] Add Comment EmployeeNumber:" + postData.getEmployeeNumber() + "value:"
 				+ postData.getValue());
 		argumentCheckLogic.checkDocumentId(documentId);
-		commentLogic.save(documentId, postData);
+		return commentLogic.save(documentId, postData);
 	}
 }

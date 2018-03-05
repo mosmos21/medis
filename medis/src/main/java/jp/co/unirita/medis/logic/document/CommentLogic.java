@@ -37,41 +37,46 @@ public class CommentLogic {
 
 	private MailSender sender;
 
+
 	public List<CommentInfoForm> getCommentInfo(String documentId) {
 
 		List<String> commentIdList = new ArrayList<>();
 		List<String> employeeNumberList = new ArrayList<>();
-		List<CommentInfoForm> result = new ArrayList<>();
+		List<CommentInfoForm> commentInfoList = new ArrayList<>();
 
-		List<Comment> commentLength = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
+		List<Comment> commentList = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
+
 		// comment_id取得
-		for (Comment com : commentLength) {
+		for (Comment com : commentList) {
 			commentIdList.add(com.getCommentId());
 		}
 
 		// employee_number取得
-		for (Comment com : commentLength) {
+		for (Comment com : commentList) {
 			employeeNumberList.add(com.getEmployeeNumber());
 		}
 
 		// レスポンスJSON作成
 		for (int i=0;i<employeeNumberList.size();i++) {
-			CommentInfoForm commentInfoForm = new CommentInfoForm();
-
-			Comment commentList = commentRepository.findOne(commentIdList.get(i));
-			UserDetail userDetailList = userDetailRepository.findOne(employeeNumberList.get(i));
-
-			commentInfoForm.setCommentDate(commentList.getCommentDate());
-			commentInfoForm.setLastName(userDetailList.getLastName());
-			commentInfoForm.setFirstName(userDetailList.getFirstName());
-			commentInfoForm.setIcon(userDetailList.isIcon());
-			commentInfoForm.setRead(commentList.isRead());
-			commentInfoForm.setCommentContent(commentList.getValue());
-			result.add(commentInfoForm);
+			Comment comment = commentRepository.findOne(commentIdList.get(i));
+			UserDetail userDetail = userDetailRepository.findOne(employeeNumberList.get(i));
+			commentInfoList.add(createCommentInfoForm(comment, userDetail));
 		}
-
-		return result;
+		return commentInfoList;
 	}
+
+
+	private CommentInfoForm createCommentInfoForm(Comment comment, UserDetail userDetail) {
+		CommentInfoForm commentInfo = new CommentInfoForm();
+		commentInfo.setCommentDate(comment.getCommentDate());
+		commentInfo.setLastName(userDetail.getLastName());
+		commentInfo.setFirstName(userDetail.getFirstName());
+		commentInfo.setIcon(userDetail.isIcon());
+		commentInfo.setRead(comment.isRead());
+		commentInfo.setCommentContent(comment.getValue());
+		return commentInfo;
+	}
+
 
 	public void alreadyRead(String documentId, String commentId) {
 
@@ -94,15 +99,18 @@ public class CommentLogic {
 		comment.setEmployeeNumber(commentInfo.getEmployeeNumber());
 		comment.setValue(commentInfo.getValue());
 		comment.setRead(true);
-
 		commentRepository.saveAndFlush(comment);
 
-		// メール送信
+		sendMail(mailaddress, lastName, firstName, documentName);
+	}
+
+
+	//メール送信
+	public void sendMail(String mailaddress, String lastName, String firstName, String documentName) {
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setTo(mailaddress);
 		msg.setSubject("【MEDIS】コメントが読まれました"); // タイトルの設定
 		msg.setText(lastName + firstName + "さんが作成した" + documentName + "のコメントが読まれました。\r\n\r\n");
-
 		this.sender.send(msg);
 	}
 
@@ -121,7 +129,7 @@ public class CommentLogic {
     }
 
 
-	public void save(String documentId, CommentCreateForm postData) throws IdIssuanceUpperException {
+	public CommentInfoForm save(String documentId, CommentCreateForm postData) throws IdIssuanceUpperException {
 		Timestamp commentDate = new Timestamp(System.currentTimeMillis());
 		String employeeNumber = postData.getEmployeeNumber();
 		String value = postData.getValue();
@@ -129,5 +137,8 @@ public class CommentLogic {
 
 		Comment comment = new Comment(getNewCommentId(), documentId, commentDate, employeeNumber, value, read);
 		commentRepository.save(comment);
+
+		UserDetail userDetail = userDetailRepository.findOne(employeeNumber);
+		return createCommentInfoForm(comment, userDetail);
 	}
 }
