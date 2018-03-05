@@ -56,7 +56,7 @@ export class SelectTemplateComponent implements OnInit {
 
         let type = this.templates[index].templatePublish ? "public" : "private";
         let url = this.hostname + "templates/" + this.templates[index].templateId + '/' + type;
-        this.http.post(url, null).subscribe(
+        this.http.post(url, null, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           success => {
             let dialogRef = this.dialog.open(MessageModalComponent, {
               data: {
@@ -86,7 +86,7 @@ export class SelectTemplateComponent implements OnInit {
 
   @HostListener('window:unload', ['$event'])
   unloadHandler() {
-    this.http.post(this.hostname + "users/update", this.templates).subscribe(
+    this.http.post(this.hostname + "users/update", this.templates, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       /* postした時の操作があればここにかく */
     );
   }

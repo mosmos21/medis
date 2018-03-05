@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
+import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { SearchService } from '../services/search.service';
 
@@ -14,7 +16,8 @@ export class ConfigSurveillanceComponent implements OnInit {
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
     private nav: NavigationService,
-    public searchService: SearchService
+    public searchService: SearchService,
+    private authService: AuthService,
   ) {
     this.nav.show();
   }

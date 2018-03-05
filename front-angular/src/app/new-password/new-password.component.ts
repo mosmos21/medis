@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class NewPasswordComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     @Inject('hostname') private hostname: string,
+    private authService: AuthService,
     private nav: NavigationService,
   ) {
     nav.hide();
@@ -36,7 +38,7 @@ export class NewPasswordComponent implements OnInit {
     if (this.password == this.passwordCheck) {
       this.errorMessage = "";
       this.user["password"] = this.password;
-      this.http.post(this.hostname + "accounts/" + this.user["employeeNumber"], this.user).subscribe(
+      this.http.post(this.hostname + "accounts/" + this.user["employeeNumber"], this.user, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
         json => {
           // TODO
         },
@@ -51,7 +53,7 @@ export class NewPasswordComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(qParams => {
-      this.http.post(this.hostname + "accounts/keycheck", qParams).subscribe(
+      this.http.post(this.hostname + "accounts/keycheck", qParams, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
         json => {
           this.user["employeeNumber"] = json["employeeNumber"];
           this.user["mailadress"] = json["mailadress"];

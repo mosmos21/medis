@@ -4,7 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DragulaService } from 'ng2-dragula';
 import { MatDialog } from '@angular/material';
 import { NavigationService } from '../services/navigation.service';
-import { ValidatorService } from '../services/validator.service'
+import { ValidatorService } from '../services/validator.service';
+import { AuthService } from '../services/auth.service';
 import { SearchService } from '../services/search.service';
 
 import { MessageModalComponent } from '../message-modal/message-modal.component'
@@ -36,6 +37,7 @@ export class EditTemplateComponent implements OnInit {
     private route: ActivatedRoute,
     private dragulaService: DragulaService,
     public dialog: MatDialog,
+    private authService: AuthService,
     private nav: NavigationService,
     private valid: ValidatorService,
     public searchService: SearchService,
@@ -65,7 +67,7 @@ export class EditTemplateComponent implements OnInit {
 
     this.templateId = this.route.snapshot.paramMap.get('id');
 
-    this.http.get(this.hostname + 'templates/blocks').subscribe(
+    this.http.get(this.hostname + 'templates/blocks', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.blocks = json;
 
@@ -92,7 +94,7 @@ export class EditTemplateComponent implements OnInit {
 
   assembleTemplate(): void {
     var data;
-    this.http.get(this.hostname + 'templates/' + this.templateId).subscribe(
+    this.http.get(this.hostname + 'templates/' + this.templateId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         data = json;
         console.log(data);
@@ -220,7 +222,7 @@ export class EditTemplateComponent implements OnInit {
       }
 
       if (this.templateId == 'new') {
-        this.http.put(this.hostname + "templates/new", dataJson).subscribe(
+        this.http.put(this.hostname + "templates/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           json => {
             // TODO
           },
@@ -229,7 +231,7 @@ export class EditTemplateComponent implements OnInit {
           }
         );
       } else {
-        this.http.post(this.hostname + "templates/" + this.templateId, dataJson).subscribe(
+        this.http.post(this.hostname + "templates/" + this.templateId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           json => {
             // TODO
           },

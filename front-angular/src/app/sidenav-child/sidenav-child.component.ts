@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { NavigationService } from '../services/navigation.service';
 import { HttpClient } from '@angular/common/http';
 
+import { AuthService } from '../services/auth.service';
+
 @Component({
   selector: 'app-sidenav-child',
   templateUrl: './sidenav-child.component.html',
@@ -19,6 +21,7 @@ export class SidenavChildComponent implements OnInit {
     public nav: NavigationService,
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
+    private authService: AuthService,
   ) {
     this.mymenuOpen();
   }
@@ -53,7 +56,7 @@ export class SidenavChildComponent implements OnInit {
   }
 
   loadList() {
-    this.http.get(this.hostname + "documents").subscribe(
+    this.http.get(this.hostname + "documents", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.list = json;
         this.num = this.list.length;

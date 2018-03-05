@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
+import { AuthService } from '../services/auth.service'
 import { NavigationService } from '../services/navigation.service';
 
 @Component({
@@ -26,13 +28,14 @@ export class ConfigNotificationComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
+    private authService: AuthService,
     private nav: NavigationService
   ) {
     this.nav.show();
   }
 
   ngOnInit() {
-    this.http.get(this.hostname + 'notifications').subscribe(
+    this.http.get(this.hostname + 'notifications', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.tagNotification = json;
         console.log(this.tagNotification);

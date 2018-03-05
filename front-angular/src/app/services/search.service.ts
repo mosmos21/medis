@@ -2,6 +2,8 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
+import { AuthService } from '../services/auth.service';
+
 @Injectable()
 export class SearchService {
 
@@ -31,6 +33,7 @@ export class SearchService {
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
+    private authService: AuthService,
   ) { }
 
   sendMsg(msg: any) {
@@ -38,7 +41,7 @@ export class SearchService {
   }
 
   getTags() {
-    this.http.get(this.hostname + 'tags').subscribe(
+    this.http.get(this.hostname + 'tags', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.tags = json;
         const sub = JSON.stringify(this.tags);

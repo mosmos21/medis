@@ -4,6 +4,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { RequestOptions } from '@angular/http'
 import { Router } from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 
@@ -13,6 +14,7 @@ declare var auth0: any;
 export class AuthService {
 
   headers = new HttpHeaders;
+  private options = new RequestOptions;
 
   isLoggedIn: boolean = false;
   user: any;
@@ -32,8 +34,7 @@ export class AuthService {
       employeeNumber: employeeNumber,
       password: password
     }
-    this.headers = this.headers.append('Content-Type', 'application/json');
-    http.post(url, data, { withCredentials: true, headers: this.headers }).subscribe(
+    http.post(url, data, { withCredentials: true }).subscribe(
       success => {
         this.user = success;
         console.log(this.user);
@@ -51,15 +52,17 @@ export class AuthService {
     );
   }
 
-  logout(): void {
-    this.isLoggedIn = false;
+  logout(http: HttpClient, url: string): void {
+    http.delete(url, {withCredentials: true, headers: this.headerAddToken()}).subscribe(
+      success => {
+        this.isLoggedIn = false;
+      }
+    )
   }
 
   headerAddToken(): HttpHeaders {
-    console.log(this.cookieService.get('XSRF-TOKEN'))
-    this.headers = this.headers.append('X-XSRF-TOKEN', this.cookieService.get('XSRF-TOKEN'));
-    this.headers = this.headers.append('Content-Type', 'application/json');
-    console.log(this.headers)
+    this.headers = this.headers.set('X-XSRF-TOKEN', this.cookieService.get('XSRF-TOKEN'));
+    this.headers = this.headers.set('Content-Type', 'application/json');
     return this.headers
   }
 }

@@ -7,7 +7,8 @@ import { SearchService } from '../services/search.service';
 import { MatDialog } from '@angular/material'
 
 import { MessageModalComponent } from '../message-modal/message-modal.component'
-import { ValidatorService } from '../services/validator.service'
+import { ValidatorService } from '../services/validator.service';
+import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 
 @Component({
@@ -40,6 +41,7 @@ export class EditDocumentComponent implements OnInit {
     private dragulaService: DragulaService,
     private valid: ValidatorService,
     public dialog: MatDialog,
+    private authService: AuthService,
     public searchService: SearchService,
     private nav: NavigationService
   ) {
@@ -50,7 +52,7 @@ export class EditDocumentComponent implements OnInit {
 
   ngOnInit() {
     this.documentId = this.route.snapshot.paramMap.get('id');
-    this.http.get(this.hostname + 'templates/blocks').subscribe(
+    this.http.get(this.hostname + 'templates/blocks', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.blocks = json;
 
@@ -102,7 +104,7 @@ export class EditDocumentComponent implements OnInit {
     this.templateId = templateId;
 
     var data;
-    this.http.get(this.hostname + 'templates/' + templateId).subscribe(
+    this.http.get(this.hostname + 'templates/' + templateId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         data = json;
         for (let con of data.contents) {
@@ -128,7 +130,7 @@ export class EditDocumentComponent implements OnInit {
 
   assembleDocument() {
     var data;
-    this.http.get(this.hostname + 'documents/' + this.documentId).subscribe(
+    this.http.get(this.hostname + 'documents/' + this.documentId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         data = json;
         this.documentName = data.documentName;
@@ -263,7 +265,7 @@ export class EditDocumentComponent implements OnInit {
       }
 
       if (this.documentId == 'new') {
-        this.http.put(this.hostname + "documents/new", dataJson).subscribe(
+        this.http.put(this.hostname + "documents/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           json => {
             // TODO
           },
@@ -272,7 +274,7 @@ export class EditDocumentComponent implements OnInit {
           }
         );
       } else {
-        this.http.post(this.hostname + "documents/" + this.documentId, dataJson).subscribe(
+        this.http.post(this.hostname + "documents/" + this.documentId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           json => {
             // TODO
           },

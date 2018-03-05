@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+
+import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 
 @Component({
@@ -22,6 +24,7 @@ export class SelectDocumentComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     private route: ActivatedRoute,
     private router: Router,
+    private authService: AuthService,
     private nav: NavigationService,
   ) {
     this.nav.show();
@@ -45,7 +48,7 @@ export class SelectDocumentComponent implements OnInit {
   }
 
   loadList(): void {
-    this.http.get(this.hostname + this.category).subscribe(
+    this.http.get(this.hostname + this.category, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.list = json;
         console.log(this.list);

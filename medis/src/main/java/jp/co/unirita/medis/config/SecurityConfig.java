@@ -45,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .csrf()
                 .requireCsrfProtectionMatcher(csrfRequestMatcher)
                 .csrfTokenRepository(this.csrfTokenRepository());
+
+        http.logout()
+        	.logoutUrl("/v1/logout");
     }
 
 

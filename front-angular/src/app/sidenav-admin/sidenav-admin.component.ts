@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+
+import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 
 @Component({
@@ -8,12 +11,17 @@ import { NavigationService } from '../services/navigation.service';
 })
 export class SidenavAdminComponent implements OnInit {
 
-  constructor(public nav: NavigationService) { }
+  constructor(
+    @Inject('hostname') private hostname: string,
+    public http: HttpClient,
+    public nav: NavigationService,
+    public auth: AuthService
+  ) { }
 
   ngOnInit() {
   }
 
   logout() {
-
+    this.auth.logout(this.http, this.hostname + 'logout')
   }
 }

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { InitializationComponent } from '../initialization/initialization.component';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
+
+import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 
 @Component({
@@ -41,13 +43,14 @@ export class ConfigUserComponent implements OnInit {
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
     public dialog: MatDialog,
+    private authService: AuthService,
     private nav: NavigationService
   ) {
     this.nav.show();
   }
 
   ngOnInit() {
-    this.http.get(this.hostname + 'settings/me').subscribe(
+    this.http.get(this.hostname + 'settings/me', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.settings = json;
         var sub = JSON.stringify(this.settings);
@@ -77,7 +80,7 @@ export class ConfigUserComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result != null) {
-        this.http.post(this.hostname + "accounts/usercheck", this.settings).subscribe(
+        this.http.post(this.hostname + "accounts/usercheck", this.settings, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           /* postした時の操作があればここにかく */
         );
         let dialogRef = this.dialog.open(MessageModalComponent, {

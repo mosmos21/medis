@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { NavigationService } from '../services/navigation.service';
 import { HttpClient } from '@angular/common/http';
+
+import { AuthService } from '../services/auth.service';
 import { SearchService } from '../services/search.service';
 
 @Component({
@@ -20,6 +22,7 @@ export class SearchResultComponent implements OnInit {
     private nav: NavigationService,
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
+    private authService: AuthService,
     private searchService: SearchService,
   ) {
     this.nav.show();
@@ -36,7 +39,7 @@ export class SearchResultComponent implements OnInit {
 
   getList(msg: any): void {
     console.log(this.hostname + "search?tags=" + this.encodeStringToUri(msg));
-    this.http.get(this.hostname + "search?tags=" + this.encodeStringToUri(msg)).subscribe(
+    this.http.get(this.hostname + "search?tags=" + this.encodeStringToUri(msg), { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.list = json;
         console.log(this.list);

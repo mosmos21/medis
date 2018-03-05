@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { ConvertDateService } from '../services/convert-date.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-view',
@@ -31,12 +32,13 @@ export class ViewComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     public convert: ConvertDateService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
     this.documentId = this.route.snapshot.paramMap.get('id');
 
-    this.http.get(this.hostname + 'templates/blocks').subscribe(
+    this.http.get(this.hostname + 'templates/blocks', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.blocks = json;
 
@@ -63,7 +65,7 @@ export class ViewComponent implements OnInit {
       }
     );
 
-    this.http.get(this.hostname + 'documents/' + this.documentId + '/comments').subscribe(
+    this.http.get(this.hostname + 'documents/' + this.documentId + '/comments', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.comments = json;
         console.log(this.comments[0].commentContent);
@@ -78,7 +80,7 @@ export class ViewComponent implements OnInit {
     this.templateId = templateId;
 
     var data;
-    this.http.get(this.hostname + 'templates/' + templateId).subscribe(
+    this.http.get(this.hostname + 'templates/' + templateId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         data = json;
         for (let con of data.contents) {
@@ -104,7 +106,7 @@ export class ViewComponent implements OnInit {
 
   assembleDocument() {
     var data;
-    this.http.get(this.hostname + 'documents/' + this.documentId).subscribe(
+    this.http.get(this.hostname + 'documents/' + this.documentId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         data = json;
         this.assembleTemplate(data.templateId, () => {

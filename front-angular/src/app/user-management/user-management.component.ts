@@ -6,6 +6,7 @@ import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { CreateUserComponent } from '../create-user/create-user.component'
 import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { InitializationComponent } from '../initialization/initialization.component'
+import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 
 @Component({
@@ -36,6 +37,7 @@ export class UserManagementComponent implements OnInit {
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
     public dialog: MatDialog,
+    private authService: AuthService,
     public nav: NavigationService
   ) {
     this.nav.showAdminMenu();
@@ -43,7 +45,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get(this.hostname + 'users').subscribe(
+    this.http.get(this.hostname + 'users', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.users = json;
       },
@@ -97,7 +99,7 @@ export class UserManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result != null) {
-        this.http.post(this.hostname + "accounts/usercheck", this.user).subscribe(
+        this.http.post(this.hostname + "accounts/usercheck", this.user, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           /* postした時の操作があればここにかく */
         );
         let dialogRef = this.dialog.open(MessageModalComponent, {
@@ -132,7 +134,7 @@ export class UserManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
         this.users.push(result);
-        this.http.post(this.hostname + "users/new", this.user).subscribe(
+        this.http.post(this.hostname + "users/new", this.user, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           /* postした時の操作があればここにかく */
         );
       }
@@ -165,7 +167,7 @@ export class UserManagementComponent implements OnInit {
 
   @HostListener('window:unload', ['$event'])
   unloadHandler() {
-    this.http.post(this.hostname + "users/update", this.users).subscribe(
+    this.http.post(this.hostname + "users/update", this.users, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       /* postした時の操作があればここにかく */
     );
   }
