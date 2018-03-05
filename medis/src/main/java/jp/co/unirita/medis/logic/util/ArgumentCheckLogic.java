@@ -27,7 +27,7 @@ public class ArgumentCheckLogic {
 
     private static final Logger logger = LoggerFactory.getLogger(ArgumentCheckLogic.class);
 
-    private static final String ADMINISTRATOR_AUTHORITY_ID = "0";
+    private static final String ADMINISTRATOR_AUTHORITY_ID = "a0000000000";
 
 	@Autowired
 	UserRepository userRepository;
