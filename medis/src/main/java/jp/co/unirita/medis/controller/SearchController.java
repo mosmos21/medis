@@ -32,6 +32,8 @@ public class SearchController {
 
 	/**
      * タグ検索結果の文書一覧を取得する
+     * @param user ログインしているユーザ
+     * @param tagName 検索したタグの名前をカンマ区切りで繋げた文字列
      * @return 更新Id情報(@see jp.co.unirita.medis.form.DocumentInfoForm)のリスト
      * @throws UnsupportedEncodingException 文字のエンコーディングがサポートされていない場合に発生する例外
      */

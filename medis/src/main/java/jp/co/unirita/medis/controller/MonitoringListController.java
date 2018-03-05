@@ -29,6 +29,7 @@ public class MonitoringListController {
 
 	/**
      * 監視しているタグが付いた文書の一覧を取得する
+     * @param user ログインしているユーザ
      * @return 文書情報(@see jp.co.unirita.medis.form.DocumentInfoForm)のリスト
      */
 	@GetMapping("/monitoring_tag")

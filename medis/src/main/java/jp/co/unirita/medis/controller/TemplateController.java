@@ -53,6 +53,7 @@ public class TemplateController {
     /**
      * テンプレートの内容を取得する
      * @param user ログインしているユーザ
+     * @param templateId 取得するテンプレートのテンプレートID
      * @return テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
      * @throws NotExistException 取得しようとしているテンプレートIDが存在していない場合に発生する例外
      */
@@ -74,7 +75,7 @@ public class TemplateController {
     /**
      * テンプレートにつけられたタグ一覧を取得する
      * @param user ログインしているユーザ
-     * @param templateId 取得するテンプレートID
+     * @param templateId 取得するタグ一覧が付いているテンプレートID
      * @return タグ情報(@see jp.co.unirita.medis.domain.tag.Tag)のリスト
      * @throws NotExistException 取得しようとしているテンプレートIDが存在していない場合に発生する例外
      */
@@ -92,7 +93,7 @@ public class TemplateController {
     /**
      * テンプレートの内容を更新する
      * @param user ログインしているユーザ
-     * @param templateId 更新するテンプレートのテンプレートID
+     * @param template テンプレートフォーム(@see jp.co.unirita.medis.form.template.TemplateForm)
      * @return templateId 更新したテンプレートのテンプレートID
      * @throws AuthorityException ログインしているユーザに管理者権限がない場合に発生する例外
      * @throws IdIssuanceUpperException 新規IDの発行が上限に達した場合に発生する例外

@@ -36,6 +36,7 @@ public class BookmarkListController {
 
 	/**
      * ブックマークしている文書一覧を取得する
+     * @param user ログインしているユーザ
      * @return 文書情報(@see jp.co.unirita.medis.form.DocumentInfoForm)のリスト
      */
 	@GetMapping
@@ -48,6 +49,7 @@ public class BookmarkListController {
 	/**
      * 文書をブックマークする
      * 既にブックマークされている文書は、ブックマークを取り消す
+     * @param user ログインしているユーザ
      * @param documentId お気に入りした文書ID
      * @throws NotExistException 文書IDが存在していない場合に発生する例外
 	 * @throws IdIssuanceUpperException 新規で発行するブックマークIDの発行数が限界になった場合に発生する例外

@@ -29,6 +29,7 @@ public class DocumentListController {
 
 	/**
      * ユーザの文書一覧を取得する
+     * @param user ログインしているユーザ
      * @param type public:公開済み文書 / private:下書き文書
      * @return 文書情報(@see jp.co.unirita.medis.form.DocumentInfoForm)のリスト
      */

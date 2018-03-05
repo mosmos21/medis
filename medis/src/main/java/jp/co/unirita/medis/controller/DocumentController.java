@@ -78,6 +78,7 @@ public class DocumentController {
 
 	/**
      * コメントの内容を取得する
+     * @param user ログインしているユーザ
      * @param documentId　新規作成された文書の文書ID
      * @return コメント情報(@see jp.co.unirita.medis.form.CommentInfoForm)のリスト
      * @throws NotExistException 文書IDが存在していない場合に発生する例外
@@ -95,6 +96,7 @@ public class DocumentController {
 
 	/**
      * 文書の内容を更新する
+     * @param user ログインしているユーザ
      * @param documentId　更新する文書の文書ID
      * @return documentId　更新した文書の文書ID
 	 * @throws NotExistException 文書IDが存在していない場合に発生する例外
@@ -126,6 +128,7 @@ public class DocumentController {
 
 	/**
      * 既読情報を更新する
+     * @param user ログインしているユーザ
      * @param documentId　コメントが記入されている文書の文書ID
      * @param commentId　既読情報を更新するコメントID
      * @throws NotExistException 文書ID、またはコメントIDが存在していない場合に発生する例外
@@ -146,7 +149,9 @@ public class DocumentController {
 
 	/**
      * 新規文書を保存し、ドキュメントIDを付与する
-     * @return documentId　新規作成した文書の文書ID
+     * @param user ログインしているユーザ
+     * @param document　ドキュメントフォーム(@see jp.co.unirita.medis.form.document.DocumentForm)
+     * @return document　新規作成した文書の文書ID
 	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
      */
 	@PutMapping(value = "new")
@@ -161,6 +166,7 @@ public class DocumentController {
 	/**
      * 新規文書についているタグを保存する
      * @param documentId　新規作成された文書の文書ID
+     * @param tags　タグエンティティ(@see jp.co.unirita.medis.domain.tag.Tag)
      * @throws NotExistException 文書IDが存在していない場合に発生する例外
 	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
      */
@@ -176,6 +182,7 @@ public class DocumentController {
 
 	/**
      * 新規コメントを保存し、コメントIDを付与する
+     * @param postData　コメント作成フォーム(@see jp.co.unirita.medis.form.document.CommentCreateForm)
      * @param documentId　コメントを記入する文書の文書ID
      * @return コメント情報(@see jp.co.unirita.medis.form.CommentInfoForm)
      * @throws NotExistException 更新IDが存在していない場合に発生する例外
