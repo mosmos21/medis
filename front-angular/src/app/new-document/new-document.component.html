@@ -22,7 +22,7 @@
                 <td>
                   <a href="/edit/new#{{ l.templateId }}">{{ l.templateName }}</a>
                 </td>
-                <td>{{ l.templateCreateDate }}</td>
+                <td>{{ conv.time2Date(l.templateCreateDate) }}</td>
               </tr>
             </table>
           </div>
