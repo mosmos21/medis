@@ -16,7 +16,7 @@ import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.user.UserRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
-import jp.co.unirita.medis.form.UserManagementForm;
+import jp.co.unirita.medis.form.system.UserManagementForm;
 import jp.co.unirita.medis.util.exception.ConflictException;
 
 @RunWith(SpringRunner.class)
