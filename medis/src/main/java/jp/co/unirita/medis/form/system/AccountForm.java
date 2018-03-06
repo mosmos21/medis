@@ -22,6 +22,7 @@ public class AccountForm {
 	private String mailaddress;
 
 	@Size(max = 256, message = "パスワードは256文字以内で入力してください。")
+	@NotBlank(message = "パスワードが入力されていません。")
 	@Pattern(regexp = "(?!.*(http://|https://|\r\n|[\n\r\u2028\u2029\u0085]|<.*>.*</.*>|<.*/>)).*", message = "パスワードに不正な文字が含まれています。")
 	private String password;
 
