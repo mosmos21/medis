@@ -291,8 +291,8 @@ export class EditDocumentComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if(type == "save") {
-          this.router.navigate(['browsing/' + this.documentId]); 
+        if (type == "save") {
+          this.router.navigate(['browsing/' + this.documentId]);
         } else {
           this.router.navigate(['edit']);
         }

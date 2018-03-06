@@ -25,7 +25,7 @@ export class SelectTemplateComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     public dialog: MatDialog,
     private nav: NavigationService,
-    private convert: ConvertDateService,
+    public convert: ConvertDateService,
     private authService: AuthService,
     private errorService: ErrorService,
   ) {

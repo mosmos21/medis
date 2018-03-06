@@ -26,11 +26,11 @@
 					</div>
 					<div class="menu_content_link">
 						<img src="/assets/image/new.svg" />
-						<div class="menu_content_link_text" (click)="nav.toEdit('new')">新規作成</div>
+						<div class="menu_content_link_text" (click)="nav.toNew()">新規作成</div>
 					</div>
 					<div class="menu_content_link">
 						<img src="/assets/image/new.svg" />
-						<span class="menu_content_link_text" (click)="nav.toEdit()">下書き</span>
+						<div class="menu_content_link_text" (click)="nav.toEdit()">下書き</div>
 						<span *ngIf="num > 0" class="badge">{{num}}</span>
 					</div>
 				</div>

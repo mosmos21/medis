@@ -1,41 +1,32 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 
 @Component({
-  selector: 'app-select-document',
-  templateUrl: './select-document.component.html',
-  styleUrls: ['./select-document.component.css']
+  selector: 'app-new-document',
+  templateUrl: './new-document.component.html',
+  styleUrls: ['./new-document.component.css']
 })
-export class SelectDocumentComponent implements OnInit {
+export class NewDocumentComponent implements OnInit {
 
-  public title: string = "下書き文書";
-  public id: string = "文書ID";
-  public name: string = "文書タイトル";
-
-  public category: string = "documents/private";
-  public list: any;
-
+  public list;
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
-    private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthService,
     private nav: NavigationService,
+    private authService: AuthService,
   ) {
     this.nav.show();
   }
 
   ngOnInit() {
-    this.loadList();
+    this.loadlist();
   }
 
-  loadList(): void {
-    this.http.get(this.hostname + this.category,
+  loadlist(): void {
+    this.http.get(this.hostname + "templates/public",
       { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
         json => {
           this.list = json;

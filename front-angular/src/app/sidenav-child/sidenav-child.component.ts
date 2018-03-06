@@ -56,15 +56,16 @@ export class SidenavChildComponent implements OnInit {
   }
 
   loadList() {
-    this.http.get(this.hostname + "documents", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.list = json;
-        this.num = this.list.length;
-        console.log(this.list);
-      },
-      error => {
-        // TODO;
-      }
-    );
+    this.http.get(this.hostname + "documents/private",
+      { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+        json => {
+          this.list = json;
+          this.num = this.list.length;
+          console.log(this.list);
+        },
+        error => {
+          // TODO;
+        }
+      );
   }
 }
