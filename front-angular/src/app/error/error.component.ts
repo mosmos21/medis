@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-error',
@@ -10,15 +11,26 @@ export class ErrorComponent implements OnInit {
 
   private errorNum;
   public errorNumUrl;
+  public message;
 
   constructor(
-    route: ActivatedRoute
+    route: ActivatedRoute,
+    nav: NavigationService,
   ) {
+    nav.hide();
     this.errorNum = route.snapshot.params['id'];
-    if (this.errorNum == null) {
-      this.errorNum = '404';
-    }
     console.log(this.errorNum)
+    if (this.errorNum == '403') {
+      this.message = 'コンテンツへのアクセス権がありませんでした。'
+    } else if(this.errorNum == '500') {
+      this.message = '技術的な問題が発生しました。'
+    }　else if(this.errorNum == '404' || this.errorNum == null) {
+      this.errorNum = '404'
+      this.message ='ページもしくはデータが見つかりませんでした。'
+    } else {
+      this.errorNum = '0'
+      this.message = '何かしらの問題がありました。'
+    }
     this.errorNumUrl = '../../assets/image/verySorry' + this.errorNum + '.png'
   }
 

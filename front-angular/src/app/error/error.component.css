@@ -3,5 +3,16 @@
 }
 
 .message{
+    color: #000000;
     text-align: center;
+}
+
+.return_login {
+    color: #0000ff;
+    text-decoration: underline;
+}
+
+.return_login:hover {
+    text-decoration: none;
+    cursor: pointer;
 }

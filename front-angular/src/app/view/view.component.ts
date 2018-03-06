@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { ConvertDateService } from '../services/convert-date.service';
 import { AuthService } from '../services/auth.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-view',
@@ -33,6 +34,7 @@ export class ViewComponent implements OnInit {
     private route: ActivatedRoute,
     public convert: ConvertDateService,
     private authService: AuthService,
+    private errorService: ErrorService,
   ) { }
 
   ngOnInit() {
@@ -61,7 +63,7 @@ export class ViewComponent implements OnInit {
         }
       },
       error => {
-        this.blocks = error;
+        this.errorService.errorPath(error.status)
       }
     );
 
@@ -71,7 +73,7 @@ export class ViewComponent implements OnInit {
         console.log(this.comments[0].commentContent);
       },
       error => {
-        console.log('エラーが発生しました');
+        this.errorService.errorPath(error.status)
       }
     );
   }
@@ -98,7 +100,7 @@ export class ViewComponent implements OnInit {
         }
       },
       error => {
-        console.log("情報の取得に失敗しました。");
+        this.errorService.errorPath(error.status)
       }
     );
 
@@ -122,7 +124,7 @@ export class ViewComponent implements OnInit {
         });
       },
       error => {
-        console.log("情報の取得に失敗しました");
+        this.errorService.errorPath(error.status)
       }
     );
   }

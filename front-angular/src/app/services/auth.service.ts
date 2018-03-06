@@ -56,6 +56,11 @@ export class AuthService {
     http.delete(url, {withCredentials: true, headers: this.headerAddToken()}).subscribe(
       success => {
         localStorage.removeItem('token')
+        this.router.navigate(['/login']);
+      },
+      error => {
+        localStorage.removeItem('token')
+        this.router.navigate(['/login']);
       }
     )
   }

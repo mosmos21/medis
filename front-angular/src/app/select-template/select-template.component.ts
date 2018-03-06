@@ -65,7 +65,7 @@ export class SelectTemplateComponent implements OnInit {
             });
           },
           error => {
-            // TODO 
+            this.errorService.errorPath(error.status)
           }
         );
       }
@@ -79,7 +79,7 @@ export class SelectTemplateComponent implements OnInit {
       },
       error => {
         console.log(error);
-        //this.errorService.errorPath(error.status)
+        this.errorService.errorPath(error.status)
       }
     );
   }

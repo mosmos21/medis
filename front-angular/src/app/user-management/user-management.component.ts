@@ -8,6 +8,7 @@ import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { InitializationComponent } from '../initialization/initialization.component'
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-user-management',
@@ -38,6 +39,7 @@ export class UserManagementComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     public dialog: MatDialog,
     private authService: AuthService,
+    private errorService: ErrorService,
     public nav: NavigationService
   ) {
     this.nav.showAdminMenu();
@@ -45,12 +47,12 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get(this.hostname + 'users', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+    this.http.get(this.hostname + 'system/users', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.users = json;
       },
       error => {
-        this.users = error;
+        this.errorService.errorPath(error.status)
       }
     );
   }

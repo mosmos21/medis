@@ -10,6 +10,7 @@ import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { ValidatorService } from '../services/validator.service';
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-edit-document',
@@ -43,6 +44,7 @@ export class EditDocumentComponent implements OnInit {
     public dialog: MatDialog,
     private authService: AuthService,
     public searchService: SearchService,
+    private errorService: ErrorService,
     private nav: NavigationService
   ) {
 
@@ -75,7 +77,7 @@ export class EditDocumentComponent implements OnInit {
         }
       },
       error => {
-        this.blocks = error;
+        this.errorService.errorPath(error.status)
       }
     );
 
@@ -122,7 +124,7 @@ export class EditDocumentComponent implements OnInit {
         }
       },
       error => {
-        console.log("情報の取得に失敗しました。");
+        this.errorService.errorPath(error.status)
       }
     );
 
@@ -130,7 +132,7 @@ export class EditDocumentComponent implements OnInit {
 
   assembleDocument() {
     var data;
-    this.http.get(this.hostname + 'documents/' + this.documentId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+    this.http.get(this.hostname + 'documents/' + this.documentId, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
       json => {
         data = json;
         this.documentName = data.documentName;
@@ -147,7 +149,7 @@ export class EditDocumentComponent implements OnInit {
         });
       },
       error => {
-        console.log("情報の取得に失敗しました");
+        this.errorService.errorPath(error.status)
       }
     );
   }
@@ -265,21 +267,21 @@ export class EditDocumentComponent implements OnInit {
       }
 
       if (this.documentId == 'new') {
-        this.http.put(this.hostname + "documents/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+        this.http.put(this.hostname + "documents/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
           json => {
             this.documentId = json["documentId"]
           },
           error => {
-            // TODO
+            this.errorService.errorPath(error.status)
           }
         );
       } else {
-        this.http.post(this.hostname + "documents/" + this.documentId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+        this.http.post(this.hostname + "documents/" + this.documentId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
           json => {
             this.documentId = json["documentId"]
           },
           error => {
-            // TODO
+            this.errorService.errorPath(error.status)
           }
         );
       }

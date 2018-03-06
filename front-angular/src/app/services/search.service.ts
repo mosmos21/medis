@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
 import { AuthService } from '../services/auth.service';
+import { ErrorService } from './error.service';
 
 @Injectable()
 export class SearchService {
@@ -34,6 +35,7 @@ export class SearchService {
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
     private authService: AuthService,
+    private errorService: ErrorService,
   ) { }
 
   sendMsg(msg: any) {
@@ -50,7 +52,7 @@ export class SearchService {
         console.log(this.tags);
       },
       error => {
-        this.tags = error;
+        this.errorService.errorPath(error.status)
       }
     );
   }

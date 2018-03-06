@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-select-document',
@@ -25,6 +26,7 @@ export class SelectDocumentComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
+    private errorService: ErrorService,
     private nav: NavigationService,
   ) {
     this.nav.show();
@@ -42,7 +44,7 @@ export class SelectDocumentComponent implements OnInit {
           console.log(this.list);
         },
         error => {
-          // TODO;
+          this.errorService.errorPath(error.status)
         }
       );
   }

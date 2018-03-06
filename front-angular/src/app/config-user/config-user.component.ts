@@ -6,6 +6,7 @@ import { MessageModalComponent } from '../message-modal/message-modal.component'
 
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-config-user',
@@ -44,6 +45,7 @@ export class ConfigUserComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     public dialog: MatDialog,
     private authService: AuthService,
+    private errorService: ErrorService,
     private nav: NavigationService
   ) {
     this.nav.show();
@@ -58,7 +60,7 @@ export class ConfigUserComponent implements OnInit {
         console.log(this.tempSettings[0]);
       },
       error => {
-        this.settings = error;
+        this.errorService.errorPath(error.status)
       }
     );
   }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '../services/auth.service'
 import { NavigationService } from '../services/navigation.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-config-notification',
@@ -29,6 +30,7 @@ export class ConfigNotificationComponent implements OnInit {
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
     private authService: AuthService,
+    private errorService: ErrorService,
     private nav: NavigationService
   ) {
     this.nav.show();
@@ -41,7 +43,7 @@ export class ConfigNotificationComponent implements OnInit {
         console.log(this.tagNotification);
       },
       error => {
-        this.tagNotification = error;
+        this.errorService.errorPath(error.status)
       }
     );
   }

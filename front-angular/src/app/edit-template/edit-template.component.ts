@@ -9,6 +9,7 @@ import { AuthService } from '../services/auth.service';
 import { SearchService } from '../services/search.service';
 
 import { MessageModalComponent } from '../message-modal/message-modal.component'
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-edit-template',
@@ -41,6 +42,7 @@ export class EditTemplateComponent implements OnInit {
     private nav: NavigationService,
     private valid: ValidatorService,
     public searchService: SearchService,
+    private errorService: ErrorService,
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
@@ -85,7 +87,7 @@ export class EditTemplateComponent implements OnInit {
         }
       },
       error => {
-        this.blocks = error;
+        this.errorService.errorPath(error.status)
       }
     );
 
@@ -111,7 +113,7 @@ export class EditTemplateComponent implements OnInit {
         }
       },
       error => {
-        console.log("情報の取得に失敗しました。");
+        this.errorService.errorPath(error.status)
       }
     );
   }
@@ -222,21 +224,21 @@ export class EditTemplateComponent implements OnInit {
       }
 
       if (this.templateId == 'new') {
-        this.http.put(this.hostname + "templates/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+        this.http.put(this.hostname + "templates/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
           json => {
             // TODO
           },
           error => {
-            // TODO
+            this.errorService.errorPath(error.status)
           }
         );
       } else {
-        this.http.post(this.hostname + "templates/" + this.templateId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+        this.http.post(this.hostname + "templates/" + this.templateId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
           json => {
             // TODO
           },
           error => {
-            // TODO
+            this.errorService.errorPath(error.status)
           }
         );
       }

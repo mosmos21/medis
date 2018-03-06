@@ -1,11 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http'
+
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class ErrorService {
 
   constructor(
-    private router: Router
+    @Inject('hostname') private hostname: string,
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   errorPath(errorNum: string) {

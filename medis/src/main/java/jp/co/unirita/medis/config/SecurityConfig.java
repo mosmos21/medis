@@ -36,12 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// ログインしなくてもアクセスできるURL
 		http.authorizeRequests().antMatchers("/v1/login").permitAll().anyRequest().authenticated() // 上記にマッチしなければ未認証の場合エラー
+				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/v1/logout"))
 				.and().csrf().requireCsrfProtectionMatcher(csrfRequestMatcher)
 				.csrfTokenRepository(this.csrfTokenRepository());
-
+/*
 		http.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/v1/logout")); // ログアウト処理のパス
-
+*/
 	}
 
 	private CsrfTokenRepository csrfTokenRepository() {

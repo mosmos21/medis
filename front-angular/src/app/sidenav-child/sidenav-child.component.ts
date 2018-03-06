@@ -3,6 +3,7 @@ import { NavigationService } from '../services/navigation.service';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '../services/auth.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-sidenav-child',
@@ -22,6 +23,7 @@ export class SidenavChildComponent implements OnInit {
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
     private authService: AuthService,
+    private errorService: ErrorService,
   ) {
     this.mymenuOpen();
   }
@@ -56,16 +58,15 @@ export class SidenavChildComponent implements OnInit {
   }
 
   loadList() {
-    this.http.get(this.hostname + "documents/private",
-      { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-        json => {
-          this.list = json;
-          this.num = this.list.length;
-          console.log(this.list);
-        },
-        error => {
-          // TODO;
-        }
-      );
+    this.http.get(this.hostname + "documents/private", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => {
+        this.list = json;
+        this.num = this.list.length;
+        console.log(this.list);
+      },
+      error => {
+        this.errorService.errorPath(error.status)
+      }
+    );
   }
 }

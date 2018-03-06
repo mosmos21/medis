@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-new-password',
@@ -29,6 +30,7 @@ export class NewPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     @Inject('hostname') private hostname: string,
     private authService: AuthService,
+    private errorService: ErrorService,
     private nav: NavigationService,
   ) {
     nav.hide();
@@ -43,7 +45,7 @@ export class NewPasswordComponent implements OnInit {
           // TODO
         },
         error => {
-          // TODO
+          this.errorService.errorPath(error.status)
         }
       );
     } else {
@@ -59,7 +61,7 @@ export class NewPasswordComponent implements OnInit {
           this.user["mailadress"] = json["mailadress"];
         },
         error => {
-          // TODO
+          this.errorService.errorPath(error.status)
         }
       );
     })

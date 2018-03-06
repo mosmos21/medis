@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '../services/auth.service';
 import { SearchService } from '../services/search.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-search-result',
@@ -24,6 +25,7 @@ export class SearchResultComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     private authService: AuthService,
     private searchService: SearchService,
+    private errorService: ErrorService,
   ) {
     this.nav.show();
   }
@@ -45,7 +47,7 @@ export class SearchResultComponent implements OnInit {
         console.log(this.list);
       },
       error => {
-        // TODO;
+        this.errorService.errorPath(error.status)
       }
     );
   }
