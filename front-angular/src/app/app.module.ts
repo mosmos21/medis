@@ -64,6 +64,7 @@ import { ErrorComponent } from './error/error.component';
     SearchResultComponent,
     ErrorComponent,
   ],
+
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
