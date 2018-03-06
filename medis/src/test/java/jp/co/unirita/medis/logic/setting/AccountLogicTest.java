@@ -13,6 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfoRepository;
+import jp.co.unirita.medis.logic.system.AccountLogic;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
