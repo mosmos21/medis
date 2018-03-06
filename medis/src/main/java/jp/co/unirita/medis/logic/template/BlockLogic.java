@@ -1,19 +1,20 @@
 package jp.co.unirita.medis.logic.template;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import jp.co.unirita.medis.form.template.BlockBaseForm;
-import jp.co.unirita.medis.form.template.BlockBaseItemForm;
+import java.io.File;
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jp.co.unirita.medis.form.template.BlockBaseForm;
+import jp.co.unirita.medis.form.template.BlockBaseItemForm;
 
 @Service
 public class BlockLogic {
@@ -25,6 +26,7 @@ public class BlockLogic {
         try{
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(new File("resources/block.json"));
+            System.out.println(root+"2");
             for(JsonNode node : root) {
                 String blockId = node.get("blockId").asText();
                 String blockName = node.get("blockName").asText();
@@ -40,6 +42,8 @@ public class BlockLogic {
             // TODO 後でどうにかする
             e.printStackTrace();
         }
+        list.sort(Comparator.comparing(BlockBaseForm::getBlockId));
+
         return list;
     }
 

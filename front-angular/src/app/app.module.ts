@@ -53,6 +53,7 @@ import { SidenavAdminComponent } from './sidenav-admin/sidenav-admin.component';
 import { MessageModalComponent } from './message-modal/message-modal.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { ErrorComponent } from './error/error.component';
+import { NewDocumentComponent } from './new-document/new-document.component';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { ErrorComponent } from './error/error.component';
     SidenavAdminComponent,
     SearchResultComponent,
     ErrorComponent,
+    NewDocumentComponent,
   ],
 
   imports: [

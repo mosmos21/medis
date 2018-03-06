@@ -15,14 +15,15 @@ import { ConfigUserComponent } from './config-user/config-user.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { ErrorComponent } from './error/error.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
- 
+import { NewDocumentComponent } from './new-document/new-document.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'top', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  // { path: 'top', component: TopComponent, canActivate: [AuthGuardService] },
   { path: 'top', component: TopComponent, canActivate: [AuthGuardService] },
   { path: 'browsing/:id', component: ViewComponent, canActivate: [AuthGuardService] },
   { path: 'edit', component: SelectDocumentComponent, canActivate: [AuthGuardService] },
+  { path: 'new', component: NewDocumentComponent, canActivate: [AuthGuardService] },
   { path: 'edit/:id', component: EditDocumentComponent, canActivate: [AuthGuardService] },
   { path: 'admin/template', component: SelectTemplateComponent, canActivate: [AuthGuardService] },
   { path: 'admin/template/:id', component: EditTemplateComponent, canActivate: [AuthGuardService] },

@@ -28,6 +28,7 @@ export class TopComponent implements OnInit {
   ) {
     this.nav.show();
     this.user = this.authService.user;
+    console.log(this.user);
   }
 
   ngOnInit() {

@@ -47,6 +47,10 @@ export class NavigationService {
     }
   }
 
+  toNew() {
+    this.router.navigate(["/new"]);
+  }
+
   //一般ユーザ設定系
   toMySetting() {
     this.searchService.selectedTags = [];

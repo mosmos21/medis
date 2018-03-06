@@ -1,14 +1,16 @@
 package jp.co.unirita.medis.logic.template;
 
-import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
-import jp.co.unirita.medis.domain.templateinfo.TemplateInfoRepository;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.lang.invoke.MethodHandles;
-import java.util.List;
+import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
+import jp.co.unirita.medis.domain.templateinfo.TemplateInfoRepository;
 
 @Service
 public class TemplateListLogic {
@@ -19,11 +21,11 @@ public class TemplateListLogic {
     TemplateInfoRepository templateInfoRepository;
 
     public List<TemplateInfo> getAllTemplateInfoList() {
-        return templateInfoRepository.findAll();
+        return templateInfoRepository.findAll(new Sort(Sort.Direction.DESC,"templateId"));
     }
 
     public List<TemplateInfo> getAllTemplateInfoList(boolean publish) {
-        return templateInfoRepository.findByTemplatePublish(publish);
+        return templateInfoRepository.findByTemplatePublishOrderByTemplateIdDesc(publish);
     }
 
     public List<TemplateInfo> getAllTemplateInfoList(String employeeNumber) {
