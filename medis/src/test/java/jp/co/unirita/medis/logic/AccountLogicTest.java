@@ -1,10 +1,11 @@
-package jp.co.unirita.medis.logic.system;
+package jp.co.unirita.medis.logic;
 
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class AccountLogicTest {
 
     @Test
     public void パスワード再設定用のデータの確認結果の取得() {
-        //TempkeyInfo tempkeyInfo = tempkeyInfoRepository.findByTempKey("test");
+        TempkeyInfo tempkeyInfo = tempkeyInfoRepository.findByTempKey("test");
         Map<String,String> result = accountLogic.checkUserIntegrity("test","medis.masa0@gmail.com");
         Map<String,String> testData = new HashMap<>();
         testData.put("result", "OK");

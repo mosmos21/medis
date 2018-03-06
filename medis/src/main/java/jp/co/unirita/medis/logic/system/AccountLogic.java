@@ -51,7 +51,7 @@ public class AccountLogic {
             result.put("message", "ユーザが見つかりませんでした");
             return result;
         }
-        if (mailaddress.equals(detail.getMailaddress())) {
+        if (!mailaddress.equals(detail.getMailaddress())) {
             result.put("result", "NG");
             result.put("message", "社員番号とメールアドレスの組み合わせが一致しません");
             return result;

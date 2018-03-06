@@ -1,6 +1,7 @@
-package jp.co.unirita.medis.logic.template;
+package jp.co.unirita.medis.logic;
 
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
+import jp.co.unirita.medis.logic.template.TemplateListLogic;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

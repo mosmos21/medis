@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.logic.system;
+package jp.co.unirita.medis.logic;
 
 import static org.junit.Assert.*;
 
