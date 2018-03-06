@@ -32,8 +32,7 @@ export class TopComponent implements OnInit {
   }
 
   ngOnInit() {
-    var employeeNumber = this.user.employeeNumber;
-    this.http.get(this.hostname + "infomations/" + employeeNumber, { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
+    this.http.get(this.hostname + "infomations/", { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
       json => {
         this.updateList = json;
         console.log(this.updateList);

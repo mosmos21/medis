@@ -98,11 +98,14 @@
  }
  
  .list_box_content {
-    margin: 0;
-    margin: 1%;
-    padding: 1em 2em;
+    /* margin: 0; */
+    /* margin: 1%; */
+    /* padding: 1em 2em; */
     width: 98%;
-    height: 12em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+    /* height: 12em; */
  }
  
  .list_box_content_tall {
@@ -129,7 +132,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
  }
- 
+
  #info_list_id {
     width: 11em;
  }
