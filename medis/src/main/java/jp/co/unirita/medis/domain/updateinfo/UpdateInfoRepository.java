@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UpdateInfoRepository extends JpaRepository<UpdateInfo, String> {
+	UpdateInfo findByDocumentId(String documentId);
 	UpdateInfo findFirstByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(String documentId, String start, String end);
 	List<UpdateInfo> findByDocumentIdIn(List<String> doucmentIds);
 	List<UpdateInfo> findByDocumentIdAndUpdateTypeBetween(String documentId, String type1, String type2);

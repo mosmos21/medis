@@ -20,6 +20,8 @@ import jp.co.unirita.medis.domain.documenttag.DocumentTag;
 import jp.co.unirita.medis.domain.documenttag.DocumentTagRepository;
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.tag.TagRepository;
+import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
+import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.form.document.DocumentContentForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.util.TagLogic;
@@ -30,6 +32,9 @@ public class DocumentLogic {
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentLogic.class);
 
+    private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
+	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
+
     @Autowired
     DocumentInfoRepository documentInfoRepository;
     @Autowired
@@ -38,7 +43,8 @@ public class DocumentLogic {
     DocumentTagRepository documentTagRepository;
     @Autowired
     DocumentItemRepository documentItemRepository;
-
+    @Autowired
+    UpdateInfoRepository updateInfoRepository;
     @Autowired
     TagLogic tagLogic;
 
@@ -62,6 +68,8 @@ public class DocumentLogic {
     public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
         String id = saveDocumentInfo(documentForm, employeeNumber);
         updateDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
+        String updateId = updateInfoRepository.findByDocumentId(documentForm.getDocumentId()).getUpdateId();
+        saveUpdateInfo(updateId, id, TYPE_UPDATE_DOCUMENT, employeeNumber);
         return id;
     }
 
@@ -117,6 +125,7 @@ public class DocumentLogic {
         String id = saveDocumentInfo(documentForm, employeeNumber);
         documentForm.setDocumentId(id);
         saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
+        saveUpdateInfo(createNewUpdateId(), id, TYPE_CREATE_DOCUMENT, employeeNumber);
         return id;
     }
 
@@ -197,6 +206,19 @@ public class DocumentLogic {
         }
     }
 
+
+    private void saveUpdateInfo(String updateId, String documentId, String updateType, String employeeNumber) {
+    	UpdateInfo info = new UpdateInfo();
+    	Timestamp updateDate = new Timestamp(System.currentTimeMillis());
+    	info.setUpdateId(updateId);
+    	info.setDocumentId(documentId);
+    	info.setUpdateType(updateType);
+    	info.setEmployeeNumber(employeeNumber);
+    	info.setUpdateDate(updateDate);
+    	updateInfoRepository.saveAndFlush(info);
+    }
+
+
     private String createNewDocumentId() throws IdIssuanceUpperException {
         List<DocumentInfo> list = documentInfoRepository.findAll(new Sort(Sort.Direction.DESC, "documentId"));
         if(list.size() == 0) {
@@ -207,5 +229,18 @@ public class DocumentLogic {
             throw new IdIssuanceUpperException("文書の発行限界");
         }
         return String.format("d%010d", idNum + 1);
+    }
+
+
+    private String createNewUpdateId() throws IdIssuanceUpperException {
+        List<UpdateInfo> list = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId"));
+        if(list.size() == 0) {
+            return "u0000000000";
+        }
+        long idNum = Long.parseLong(list.get(0).getUpdateId().substring(1));
+        if(idNum == 9999999999L){
+            throw new IdIssuanceUpperException("更新IDの発行限界");
+        }
+        return String.format("u%010d", idNum + 1);
     }
 }
