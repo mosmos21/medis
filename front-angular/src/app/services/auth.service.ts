@@ -45,6 +45,7 @@ export class AuthService {
       },
       error => {
         console.log(error)
+        localStorage.removeItem('token')
         this.message = "社員番号とパスワードの組み合わせが\n異なります";
         callback();
       }
