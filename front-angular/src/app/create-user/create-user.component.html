@@ -39,7 +39,7 @@
 		</p>
 		<p>
 			<mat-form-field class="half-width">
-				<mat-select [(ngModel)]="data.user.authorityType" name="authorityType" placeholder="権限">
+				<mat-select [(ngModel)]="data.user.authorityId" name="authorityId" placeholder="権限">
 					<mat-option *ngFor="let a of autorities" [value]="a.authorityId">
 						{{ a.authorityType }}
 					</mat-option>

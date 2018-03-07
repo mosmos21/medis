@@ -24,9 +24,9 @@ export class UserManagementComponent implements OnInit {
     lastNamePhonetic: '',
     firstNamePhonetic: '',
     mailaddress: '',
-    isIcon: false,
+    icon: false,
     authorityId: '',
-    isEnabled: true
+    enabled: true
   }];
   private enable;
   private user;
@@ -60,7 +60,7 @@ export class UserManagementComponent implements OnInit {
   confirmChangeEnable(e: any, index: number): void {
     e.preventDefault();
 
-    if (this.users[index]["isEnabled"]) {
+    if (this.users[index]["enabled"]) {
       this.enable = "無効";
     } else {
       this.enable = "有効";
@@ -78,7 +78,7 @@ export class UserManagementComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.users[index]["isEnabled"] = !this.users[index]["isEnabled"];
+        this.users[index]["enabled"] = !this.users[index]["enabled"];
       }
     });
   }
@@ -122,9 +122,9 @@ export class UserManagementComponent implements OnInit {
       lastNamePhonetic: '',
       firstNamePhonetic: '',
       mailaddress: '',
-      isIcon: false,
+      icon: false,
       authorityId: '',
-      isEnabled: true
+      enabled: true
     }
 
     let dialogRef = this.dialog.open(CreateUserComponent, {
@@ -134,17 +134,25 @@ export class UserManagementComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       if (result != null) {
         this.users.push(result);
-        this.http.post(this.hostname + "users/new", this.user, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-          /* postした時の操作があればここにかく */
+        this.http.post(this.hostname + "system/users/new", this.user, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+          json => {
+            console.log("success:");
+            console.log(json);
+          },
+          error => {
+            console.log("error:");
+            console.log(error);
+          }
         );
       }
     });
   }
 
   changeEnable(index: number) {
-    this.users[index]["isEnabled"] = !this.users[index]["isEnabled"];
+    this.users[index]["enabled"] = !this.users[index]["enabled"];
   }
 
   searchUser() {

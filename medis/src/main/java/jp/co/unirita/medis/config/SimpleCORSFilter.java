@@ -18,7 +18,7 @@ public class SimpleCORSFilter implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
     	HttpServletRequest request = (HttpServletRequest) req;
-    	System.out.println(request.getHeader("Origin"));
+    	//System.out.println(request.getHeader("Origin"));
         HttpServletResponse response = (HttpServletResponse) res;
         response.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
         response.addHeader("Access-Control-Allow-Credentials", "true");

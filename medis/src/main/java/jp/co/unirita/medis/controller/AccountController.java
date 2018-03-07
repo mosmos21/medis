@@ -42,13 +42,13 @@ public class AccountController {
 
     /**
      * 送信された一時キーの有効性を確かめる
-     * @param key 一時キー
      * @return チェック結果
      */
 	@PostMapping(value = "keycheck")
     @ResponseStatus(HttpStatus.CREATED)
-	public Map<String, String> keyCheck(@RequestParam(value = "secret", required = false) String key) {
-		return accountLogic.checkTempKeyIntegrity(key);
+	public Map<String, String> keyCheck(@RequestBody Map<String, String> body) {
+		System.out.println(body.get("secret"));
+		return accountLogic.checkTempKeyIntegrity(body.get("secret"));
 	}
 
     /**
@@ -58,7 +58,7 @@ public class AccountController {
      */
 	@PostMapping(value = "reset")
     @ResponseStatus(HttpStatus.CREATED)
-	void passwordReset(@RequestBody @Valid AccountForm form) throws NotExistException {
+	void passwordReset(@RequestBody AccountForm form) throws NotExistException {
 		accountLogic.passwordReset(form.getEmployeeNumber(), form.getMailaddress(), form.getPassword());
 	}
 }

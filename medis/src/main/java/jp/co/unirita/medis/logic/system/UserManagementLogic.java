@@ -48,8 +48,8 @@ public class UserManagementLogic {
 
 		for(UserDetail detail: details) {
 		    UserManagementForm form = new UserManagementForm();
-		    form.setData(detail);
-		    form.setData(userRepository.findOne(form.getEmployeeNumber()));
+		    form.applyUserDetail(detail);
+		    form.applyUser(userRepository.findOne(form.getEmployeeNumber()));
 		    forms.add(form);
         }
 		return forms;
@@ -72,13 +72,14 @@ public class UserManagementLogic {
      * 新規ユーザの作成を行う
      * @param userManagementForm 新規作成を行うユーザのフォーム(@see jp.co.unirita.medis.form.UserManagementForm)
      * @throws ConflictException 作成をしようとしている社員番号がすでに存在している場合に発生する例外
+     * @return 作成したユーザの詳細情報
      */
-	public void newUserManagement(UserManagementForm userManagementForm) throws ConflictException {
+	public UserDetail createUser(UserManagementForm userManagementForm) throws ConflictException {
 		User existUser = userRepository.findOne(userManagementForm.getEmployeeNumber());
 		if (existUser != null) {
 			ConflictException e =  new ConflictException("employeeNumber", userManagementForm.getEmployeeNumber(),
 					"emoloyee number must be unique. employeeNumber = " + existUser.getEmployeeNumber());
-			logger.error("error in newUserManagement()", e);
+			logger.error("error in createUser()", e);
 			throw e;
 		}
 
@@ -87,6 +88,7 @@ public class UserManagementLogic {
         user.setAuthorityId(userManagementForm.getAuthorityId());
         user.setEnabled(userManagementForm.isEnabled());
         user.setPassword(userManagementForm.getPassword());
+        logger.info("[method: createUser] create new user: " + user.toString());
         userRepository.saveAndFlush(user);
 
         UserDetail detail = new UserDetail();
@@ -94,9 +96,11 @@ public class UserManagementLogic {
         detail.setLastName(userManagementForm.getLastName());
         detail.setFirstName(userManagementForm.getFirstName());
         detail.setLastNamePhonetic(userManagementForm.getLastNamePhonetic());
-        detail.setFirstNamePhonetic(userManagementForm.getFirstNmaePhonetic());
+        detail.setFirstNamePhonetic(userManagementForm.getFirstNamePhonetic());
         detail.setMailaddress(userManagementForm.getMailaddress());
         detail.setIcon(userManagementForm.isIcon());
+        logger.info("[method: createUser] create new use detail: " + detail.toString());
 		userDetailRepository.saveAndFlush(detail);
+		return detail;
 	}
 }

@@ -2,7 +2,9 @@ package jp.co.unirita.medis.controller;
 
 import jp.co.unirita.medis.domain.authority.Authority;
 import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.form.system.UserManagementForm;
+import jp.co.unirita.medis.logic.system.AccountLogic;
 import jp.co.unirita.medis.logic.system.UserManagementLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.AuthorityException;
@@ -15,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
@@ -25,10 +26,13 @@ public class UserManagementController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    @Autowired
+    private ArgumentCheckLogic argumentCheckLogic;
+    @Autowired
+    private AccountLogic accountLogic;
 	@Autowired
 	private UserManagementLogic userManagementLogic;
-	@Autowired
-    private ArgumentCheckLogic argumentCheckLogic;
+
 
     /**
      * ユーザ情報の一覧を取得する
@@ -91,12 +95,15 @@ public class UserManagementController {
      */
 	@PostMapping(value = "users/new")
     @ResponseStatus(HttpStatus.CREATED)
-	public void newUserManagement(
+	public void createUser(
             @AuthenticationPrincipal User user,
-            @RequestBody @Valid UserManagementForm data
+            @RequestBody UserManagementForm data
     ) throws AuthorityException, ConflictException {
-        logger.info("[method: newUserManagement] employeeNumber = " + user.getEmployeeNumber());
+        logger.info("[method: createUser] employeeNumber = " + user.getEmployeeNumber());
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
-		userManagementLogic.newUserManagement(data);
+
+		UserDetail detail = userManagementLogic.createUser(data);
+		String key =accountLogic.issueTempKey(detail.getEmployeeNumber());
+		accountLogic.sendMail(detail.getMailaddress(), key);
 	}
 }

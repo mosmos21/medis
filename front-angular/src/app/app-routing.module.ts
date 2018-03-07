@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'settings/me/notification', component: ConfigNotificationComponent, canActivate: [AuthGuardService] },
   { path: 'settings/me/monitoring_tags', component: ConfigSurveillanceComponent, canActivate: [AuthGuardService] },
   { path: 'search', component: SearchResultComponent, canActivate: [AuthGuardService] },
-  { path: 'resetpass', component: NewPasswordComponent, canActivate: [AuthGuardService] },
+  { path: 'resetpass', component: NewPasswordComponent},
   { path: 'error/:id', component: ErrorComponent },
   { path: '**', component: ErrorComponent },
 ];

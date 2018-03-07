@@ -31,7 +31,7 @@
                                 <td>{{ u.lastNamePhonetic }} {{ u.firstNamePhonetic }}</td>
                                 <td>{{ u.mailaddress }}</td>
                                 <td align="center">
-                                    <mat-slide-toggle (click)="confirmChangeEnable($event, idx)" id="toggleButton_tag" [checked]="u.isEnabled" color="primary"></mat-slide-toggle>
+                                    <mat-slide-toggle (click)="confirmChangeEnable($event, idx)" id="toggleButton_tag" [checked]="u.enabled" color="primary"></mat-slide-toggle>
                                 </td>
                                 <td>
                                     <button mat-button (click)=" initialization(idx) ">初期化</button>

@@ -6,6 +6,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -14,6 +15,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "user_detail")
+@ToString
 public class UserDetail {
 
 	@Id

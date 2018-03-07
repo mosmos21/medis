@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,6 +16,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "user_info")
+@ToString
 public class User implements UserDetails{
 
 	@Id

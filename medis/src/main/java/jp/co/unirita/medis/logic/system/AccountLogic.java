@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfo;
@@ -72,7 +73,7 @@ public class AccountLogic {
 	public Map<String, String> checkTempKeyIntegrity(String key) {
         Map<String, String> result = new HashMap<>();
 		TempkeyInfo info = tempkeyInfoRepository.findByTempKey(key);
-        if(!key.equals(info.getTempKey())) {
+        if(info == null) {
             result.put("result", "NG");
             result.put("message", "登録されていないキーを使用しています");
             return result;
@@ -84,6 +85,9 @@ public class AccountLogic {
             return result;
 		}
         result.put("result", "OK");
+        UserDetail detail = userDetailRepository.findOne(info.getEmployeeNumber());
+        result.put("employeeNumber", detail.getEmployeeNumber());
+        result.put("mailaddress", detail.getMailaddress());
         return result;
 	}
 
@@ -100,7 +104,7 @@ public class AccountLogic {
             throw e;
         }
 		User user = userRepository.findOne(employeeNumber);
-		user.setPassword(password);
+		user.setPassword(new BCryptPasswordEncoder().encode(password));
 		userRepository.saveAndFlush(user);
 
 	}
@@ -109,11 +113,11 @@ public class AccountLogic {
         SimpleMailMessage msg = new SimpleMailMessage();
 
         msg.setTo(mailaddress);
-        msg.setSubject("【MEDIS】パスワード再設定用URLアドレス"); //タイトルの設定
+        msg.setSubject("【MEDIS】パスワード設定用URL"); //タイトルの設定
         msg.setText("MEDISのパスワードリセットメールです。\r\n\r\n"
-        			+ "以下のURLにてパスワードを再設定することができます。\r\n\r\n"
-        			+ "http://localhost:8080/v1/accounts/keycheck?secret=" + key + "\r\n\r\n"
-        			+ "有効期間は30分です。それ以降は再送してください。"); //本文の設定
+        			+ "以下のURLにてパスワードを設定することができます。\r\n\r\n"
+        			+ "http://localhost:4200/resetpass?secret=" + key + "\r\n\r\n"
+        			+ "有効期間は30分です。有効期限が過ぎた場合はメールを再送してください。"); //本文の設定
         this.sender.send(msg);
     }
 }

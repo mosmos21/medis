@@ -9,8 +9,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class CreateUserComponent implements OnInit {
 
   public autorities = [
-    { authorityId: 'a0000000000', authorityType: '一般ユーザ' },
-    { authorityId: 'a0000000001', authorityType: 'アドミニストレータ' }
+    { authorityId: 'a0000000000', authorityType: 'アドミニストレータ' },
+    { authorityId: 'a0000000001', authorityType: '一般ユーザ' }
   ];
 
   constructor(

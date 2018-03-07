@@ -65,13 +65,13 @@ public class UserManagementLogicTest {
     	userManagementForm.setLastName("last");
     	userManagementForm.setFirstName("first");
     	userManagementForm.setLastNamePhonetic("lastPhone");
-    	userManagementForm.setFirstNmaePhonetic("firstPhone");
+    	userManagementForm.setFirstNamePhonetic("firstPhone");
     	userManagementForm.setMailaddress("new@hoge.jp");
     	userManagementForm.setIcon(true);
     	userManagementForm.setAuthorityId("00000000003");
     	userManagementForm.setEnabled(true);
     	userManagementForm.setPassword("new");
-        userManagementLogic.newUserManagement(userManagementForm);
+        userManagementLogic.createUser(userManagementForm);
 
     	UserDetail userDetail = new UserDetail();
     	userDetail.setEmployeeNumber("new");
