@@ -95,7 +95,7 @@ public class TemplateLogic {
 
     public void saveTags(String templateId, List<Tag> tags) throws  IdIssuanceUpperException {
         int order = 1;
-        for(Tag tag : tags) {
+        for(Tag tag : tagLogic.applyTags(tags)) {
             if(tag.getTagId() == null) {
                 tag.setTagId(tagLogic.getNewTagId());
             }

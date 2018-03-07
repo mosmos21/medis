@@ -10,12 +10,14 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
 @Table(name = "document_info")
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class DocumentInfo {
 
 	@Id

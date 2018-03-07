@@ -159,7 +159,6 @@ public class DocumentController {
 	public String saveDocument(@AuthenticationPrincipal User user,
 			@RequestBody DocumentForm document) throws IdIssuanceUpperException {
 		logger.info("[method: saveDocument] SaveDocument list by " + document.getDocumentId() + ".");
-		// TODO 社員番号を取得するようにする
 		return documentLogic.save(document, user.getEmployeeNumber());
 	}
 

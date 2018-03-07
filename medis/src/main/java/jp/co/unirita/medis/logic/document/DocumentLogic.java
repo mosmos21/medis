@@ -79,8 +79,8 @@ public class DocumentLogic {
         String documentName = document.getDocumentName();
         Timestamp documentCreateDate = new Timestamp(System.currentTimeMillis());
         boolean documentPublish = document.isPublish();
-        DocumentInfo info = new DocumentInfo(documentId, employeeNumber, templateId, documentName, documentCreateDate, documentPublish);
-        documentInfoRepository.save(info);
+        DocumentInfo info = new DocumentInfo(documentId, documentName, employeeNumber, templateId, documentCreateDate, documentPublish);
+        documentInfoRepository.saveAndFlush(info);
         return info.getDocumentId();
     }
 
