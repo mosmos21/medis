@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
+import { ConvertDateService } from '../services/convert-date.service';
 
 @Component({
   selector: 'app-new-document',
@@ -17,6 +18,7 @@ export class NewDocumentComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     private nav: NavigationService,
     private authService: AuthService,
+    public conv: ConvertDateService
   ) {
     this.nav.show();
   }
@@ -30,7 +32,7 @@ export class NewDocumentComponent implements OnInit {
       { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
         json => {
           this.list = json;
-          console.log(this.list);
+          console.log(this.conv.time2Date(this.list[0].templateCreateDate));
         },
         error => {
           // TODO;

@@ -3,13 +3,13 @@ package jp.co.unirita.medis.form.system;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.domain.userdetail.UserDetail;
-import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -19,24 +19,24 @@ public class UserManagementForm {
 	@Pattern(regexp = "(?!.*(http://|https://|\r\n|[\n\r\u2028\u2029\u0085]|<.*>.*</.*>|<.*/>)).*", message = "社員番号に不正な文字が含まれています。")
 	private String employeeNumber;
 
-	@Size(max = 64, message = "名前は64文字以内で入力してください。")
-	@NotBlank(message = "名前が入力されていません。")
-	@Pattern(regexp = "(?!.*(http://|https://|\r\n|[\n\r\u2028\u2029\u0085]|<.*>.*</.*>|<.*/>)).*", message = "名前に不正な文字が含まれています。")
-	private String lastName;
-
 	@Size(max = 64, message = "苗字は64文字以内で入力してください。")
 	@NotBlank(message = "苗字が入力されていません。")
 	@Pattern(regexp = "(?!.*(http://|https://|\r\n|[\n\r\u2028\u2029\u0085]|<.*>.*</.*>|<.*/>)).*", message = "苗字に不正な文字が含まれています。")
-	private String firstName;
+	private String lastName;
 
-	@Size(max = 64, message = "名前（ふりがな）は64文字以内で入力してください。")
-	@NotBlank(message = "名前（ふりがな）が入力されていません。")
-	@Pattern(regexp = "(?!.*(http://|https://|\r\n|[\n\r\u2028\u2029\u0085]|<.*>.*</.*>|<.*/>)).*", message = "名前（ふりがな）に不正な文字が含まれています。")
-	private String lastNamePhonetic;
+	@Size(max = 64, message = "名前は64文字以内で入力してください。")
+	@NotBlank(message = "名前が入力されていません。")
+	@Pattern(regexp = "(?!.*(http://|https://|\r\n|[\n\r\u2028\u2029\u0085]|<.*>.*</.*>|<.*/>)).*", message = "名前に不正な文字が含まれています。")
+	private String firstName;
 
 	@Size(max = 64, message = "苗字（ふりがな）は64文字以内で入力してください。")
 	@NotBlank(message = "苗字（ふりがな）が入力されていません。")
 	@Pattern(regexp = "(?!.*(http://|https://|\r\n|[\n\r\u2028\u2029\u0085]|<.*>.*</.*>|<.*/>)).*", message = "苗字（ふりがな）に不正な文字が含まれています。")
+	private String lastNamePhonetic;
+
+	@Size(max = 64, message = "名前（ふりがな）は64文字以内で入力してください。")
+	@NotBlank(message = "名前（ふりがな）が入力されていません。")
+	@Pattern(regexp = "(?!.*(http://|https://|\r\n|[\n\r\u2028\u2029\u0085]|<.*>.*</.*>|<.*/>)).*", message = "名前（ふりがな）に不正な文字が含まれています。")
 	private String firstNmaePhonetic;
 
 	@Size(max = 64, message = "メールアドレスは64文字以内で入力してください。")
