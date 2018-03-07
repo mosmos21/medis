@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
+import { ConvertDateService } from '../services/convert-date.service';
 
 @Component({
   selector: 'app-select-document',
@@ -28,6 +29,7 @@ export class SelectDocumentComponent implements OnInit {
     private authService: AuthService,
     private errorService: ErrorService,
     private nav: NavigationService,
+    public conv: ConvertDateService
   ) {
     this.nav.show();
   }

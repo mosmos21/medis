@@ -9,7 +9,7 @@
                     <ul>
                         <li *ngFor="let list of updateList">
                             <a href="#" *ngIf="list.updateType == 'v0000000000'"></a>
-                            <div class="list_content_time">{{list.updateDate}}</div>
+                            <div class="list_content_time">{{ conv.time2Date(l.templateCreateDate) }}</div>
                         </li>
                     </ul>
                 </div>
