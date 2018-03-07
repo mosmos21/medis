@@ -9,14 +9,14 @@
 					<tbody>
 						<tr>
 							<th class="arrow_box">社員番号</th>
-							<td>{{settings[0].employeeNumber}}
+							<td>{{settings.employeeNumber}}
 							</td>
 						</tr>
 						<tr>
 							<th class="arrow_box">姓</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="姓" value="{{tempSettings.lastName}}" [(ngModel)]="tempSettings.lastName">
+									<input matInput placeholder="姓" value="{{settings.lastName}}" [(ngModel)]="tempSettings.lastName">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetLastName()">キャンセル</button>
 
@@ -26,7 +26,7 @@
 							<th class="arrow_box">名</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="名" value="{{tempSettings.firstName}}" [(ngModel)]="tempSettings.firstName">
+									<input matInput placeholder="名" value="{{settings.firstName}}" [(ngModel)]="tempSettings.firstName">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetFirstName()">キャンセル</button>
 							</td>
@@ -35,7 +35,7 @@
 							<th>せい</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="せい" value="{{tempSettings.lastNamePhonetic}}" [(ngModel)]="tempSettings.lastNamePhonetic">
+									<input matInput placeholder="せい" value="{{settings.lastNamePhonetic}}" [(ngModel)]="tempSettings.lastNamePhonetic">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetLastNamePhonetic()">キャンセル</button>
 
@@ -45,7 +45,7 @@
 							<th>めい</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="めい" value="{{tempSettings.firstNamePhonetic}}" [(ngModel)]="tempSettings.firstNamePhonetic">
+									<input matInput placeholder="めい" value="{{settings.firstNamePhonetic}}" [(ngModel)]="tempSettings.firstNamePhonetic">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetFirstNamePhonetic()">キャンセル</button>
 							</td>
@@ -54,7 +54,7 @@
 							<th>メールアドレス</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="メールアドレス" value="{{tempSettings.mailaddress}}" [(ngModel)]="tempSettings.mailaddress">
+									<input matInput placeholder="メールアドレス" value="{{settings.mailaddress}}" [(ngModel)]="tempSettings.mailaddress">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetMailaddress()">キャンセル</button>
 							</td>

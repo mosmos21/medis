@@ -54,11 +54,9 @@ export class ConfigUserComponent implements OnInit {
   ngOnInit() {
     this.http.get(this.hostname + 'settings/me', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
-        console.log(json)
         this.settings = json;
         var sub = JSON.stringify(this.settings);
         this.tempSettings = JSON.parse(sub);
-        console.log(this.tempSettings);
       },
       error => {
         this.errorService.errorPath(error.status)
@@ -67,16 +65,16 @@ export class ConfigUserComponent implements OnInit {
   }
 
   initialization() {
-    this.message = this.settings[0]["mailaddress"] + '宛にパスワード初期化用メールを送信しました。'
+    this.message = this.settings["mailaddress"] + '宛にパスワード初期化用メールを送信しました。'
 
     var user = {
-      employeeNumber: this.settings[0]["employeeNumber"],
-      mailaddress: this.settings[0]["mailadress"]
+      employeeNumber: this.settings["employeeNumber"],
+      mailaddress: this.settings["mailadress"]
     }
 
     let dialogRef = this.dialog.open(InitializationComponent, {
       data: {
-        user: this.settings[0],
+        user: this.settings,
       }
     });
 
@@ -101,6 +99,8 @@ export class ConfigUserComponent implements OnInit {
 
   submit() {
     this.settings = this.tempSettings;
+    this.http.post(this.hostname + "settings/me", this.settings, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
+    this.nav.toTop();
   }
 
   resetAll() {
@@ -113,27 +113,27 @@ export class ConfigUserComponent implements OnInit {
   }
 
   resetLastName() {
-    this.tempSettings[0].lastName = this.settings[0].lastName;
+    this.tempSettings.lastName = this.settings.lastName;
   }
 
   resetFirstName() {
-    this.tempSettings[0].firstName = this.settings[0].firstName;
+    this.tempSettings.firstName = this.settings.firstName;
   }
 
   resetLastNamePhonetic() {
-    this.tempSettings[0].lastNamePhonetic = this.settings[0].lastNamePhonetic;
+    this.tempSettings.lastNamePhonetic = this.settings.lastNamePhonetic;
   }
 
   resetFirstNamePhonetic() {
-    this.tempSettings[0].firstNamePhonetic = this.settings[0].firstNamePhonetic;
+    this.tempSettings.firstNamePhonetic = this.settings.firstNamePhonetic;
   }
 
   resetMailaddress() {
-    this.tempSettings[0].mailaddress = this.settings[0].mailaddress;
+    this.tempSettings.mailaddress = this.settings.mailaddress;
   }
 
   resetIsIcon() {
     this.isIconInput = false;
-    this.tempSettings[0].isIcon = this.settings[0].isIcon;
+    this.tempSettings.isIcon = this.settings.isIcon;
   }
 }
