@@ -49,12 +49,38 @@ export class SearchService {
         const sub = JSON.stringify(this.tags);
         this.targetTags = JSON.parse(sub);
         this.tempTags = JSON.parse(sub);
-        console.log(this.tags);
       },
       error => {
         this.errorService.errorPath(error.status)
       }
     );
+  }
+
+  getMonitoringTag() {
+    this.http.get(this.hostname + '/settings/me/monitoring_tags', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => {
+        const temp = json;
+        const sub = JSON.stringify(temp);
+        this.selectedTags = JSON.parse(sub);
+      },
+      error => {
+        this.errorService.errorPath(error.status)
+      }
+    );
+
+    console.log("hoge");
+    var i = this.selectedTags.length;
+    var j = this.targetTags.length;
+    while (i--) {
+      while (j--) {
+        console.log(this.selectedTags[i].tagId + ":" + this.tags[j].tagId);
+        if (this.selectedTags[i].tagId == this.targetTags[j].tagId) {
+          this.targetTags.splice(j, 1);
+          this.tempTags.splice(j, 1);
+          break;
+        }
+      }
+    }
   }
 
   addTags(event: any, num: number) {

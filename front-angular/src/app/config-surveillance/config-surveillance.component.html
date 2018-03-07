@@ -11,7 +11,7 @@
 				<div class="wrap_surveillance_content">
 					<div id="surveillance_box">
 						<mat-form-field>
-							<input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord">
+							<input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord" (keyup)="searchService.searchTag()">
 						</mat-form-field>
 						<br>
 						<div class="tag_base tag_middle surveillance_tag" *ngFor="let stag of searchService.selectedTags" (click)="searchService.deleteTags($event)">{{stag.tagName}}</div>
@@ -24,7 +24,7 @@
 				</div>
 				<div class="btn_position">
 					<button mat-raised-button>キャンセル</button>
-					<button mat-raised-button color="primary" (click)="save()">保存</button>
+					<button mat-raised-button color="primary" (click)="sabmit()">保存</button>
 				</div>
 			</div>
 		</div>

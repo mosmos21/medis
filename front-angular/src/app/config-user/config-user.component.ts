@@ -57,6 +57,7 @@ export class ConfigUserComponent implements OnInit {
         this.settings = json;
         var sub = JSON.stringify(this.settings);
         this.tempSettings = JSON.parse(sub);
+        console.log(this.settings);
       },
       error => {
         this.errorService.errorPath(error.status)
