@@ -18,3 +18,9 @@ INSERT INTO "user_detail"
 VALUES
     ('admin', '者', 'しゃ', false, '管理', 'かんり', 'medis.masa0@gmail.com'),
     ('g00000', '太郎', 'たろう', false, 'ユニリタ', 'ゆにりた', 'medis.masa0@gmail.com');
+
+DELETE FROM "tag";
+INSERT INTO "tag"
+    (tag_id, tag_name)
+VALUES
+    ('g0000000000', 'コメント通知設定用');
