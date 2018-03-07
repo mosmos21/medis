@@ -33,6 +33,7 @@ export class TopComponent implements OnInit {
     public conv: ConvertDateService
   ) {
     this.nav.show();
+    this.nav.showUserMenu();
     this.user = this.authService.user;
     console.log(this.user);
   }
