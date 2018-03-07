@@ -144,12 +144,8 @@ public class MonitoringLogic {
 			documentInfoForm.add(new DocumentInfoForm(documentInfoList.get(i), updateInfoList.get(i)));
 		}
 
-		documentInfoForm.sort(new Comparator<DocumentInfoForm>(){
-			@Override
-			public int compare(DocumentInfoForm i1, DocumentInfoForm i2) {
-				return i2.getUpdateDate().compareTo(i1.getUpdateDate());
-			}
-		});
+		documentInfoForm.sort(Comparator.comparing(DocumentInfoForm::getUpdateDate).reversed());
+
 		return documentInfoForm;
 	}
 }

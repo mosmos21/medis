@@ -40,7 +40,6 @@ export class SearchResultComponent implements OnInit {
   }
 
   getList(msg: any): void {
-    console.log(this.hostname + "search?tags=" + this.encodeStringToUri(msg));
     this.http.get(this.hostname + "search?tags=" + this.encodeStringToUri(msg), { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.list = json;

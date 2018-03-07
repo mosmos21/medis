@@ -87,7 +87,11 @@ export class SelectTemplateComponent implements OnInit {
   @HostListener('window:unload', ['$event'])
   unloadHandler() {
     this.http.post(this.hostname + "users/update", this.templates, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      /* postした時の操作があればここにかく */
+      json => {
+      },
+      error => {
+        this.errorService.errorPath(error.status)
+      }
     );
   }
 

@@ -5,6 +5,7 @@ import { NavigationService } from '../services/navigation.service';
 import { AuthService } from '../services/auth.service';
 import { CookieService } from 'ngx-cookie-service'
 import { ErrorService } from '../services/error.service';
+import { ConvertDateService } from '../services/convert-date.service';
 
 @Component({
   selector: 'app-top',
@@ -27,6 +28,7 @@ export class TopComponent implements OnInit {
     private authService: AuthService,
     private cookieService: CookieService,
     private errorService: ErrorService,
+    public conv: ConvertDateService
   ) {
     this.nav.show();
     this.user = this.authService.user;

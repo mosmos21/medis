@@ -46,7 +46,11 @@ export class AuthService {
       error => {
         console.log(error)
         localStorage.removeItem('token')
-        this.message = "社員番号とパスワードの組み合わせが\n異なります";
+        if(error.status == '403') {
+          this.message = "社員番号とパスワードの\n組み合わせが異なります";
+        } else {
+          this.message = "通信に失敗しました。"
+        }
         callback();
       }
     );
