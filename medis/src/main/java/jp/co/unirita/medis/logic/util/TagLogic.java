@@ -64,14 +64,14 @@ public class TagLogic {
 		return String.format("s%010d", idNum + 1);
 	}
 
-	public Tag createTag(String value) throws Exception {
+	private Tag createTag(String value) throws IdIssuanceUpperException {
 	    String id = getNewTagId();
 	    Tag tag = new Tag(id, value);
 	    tagRepository.saveAndFlush(tag);
 	    return tag;
 	}
 
-	public List<Tag> applyTags(List<Tag> tags) throws Exception{
+	public List<Tag> applyTags(List<Tag> tags) throws IdIssuanceUpperException {
 		List<String> newTags = tags.stream()
                 .filter(tag -> tag.getTagId().equals(""))
                 .filter(tag -> tagRepository.findByTagName(tag.getTagName()).size() == 0)

@@ -110,13 +110,13 @@ public class TemplateLogic {
         return id;
     }
 
-    // TODO IDがついていないものにはつける
     public void updateTags(String tempalateId, List<Tag> tags) throws IdIssuanceUpperException {
         List<TemplateTag> oldTags = templateTagRepository.findByTemplateIdOrderByTagOrderAsc(tempalateId);
+        List<Tag> newTags = tagLogic.applyTags(tags);
 
-        int common = Math.min(oldTags.size(), tags.size());
+        int common = Math.min(oldTags.size(), newTags.size());
         int order = 1;
-        for(Tag tag: tags) {
+        for(Tag tag: newTags) {
             if(common < order){
                 break;
             }
@@ -134,6 +134,7 @@ public class TemplateLogic {
                 templateTagRepository.delete(new TemplateTag.PK(tempalateId, order));
             }
         }
+        templateTagRepository.flush();
     }
 
     private String saveTemplateInfo(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException {
