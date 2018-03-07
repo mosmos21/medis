@@ -82,7 +82,7 @@ public class SettingLogic {
 
 	public Map<String, Boolean> getNotificationCommentInfo(String employeeNumber) {
 		NotificationConfig config =  notificationConfigRepository
-                .findOne(new NotificationConfig.PK(employeeNumber, "s9999999999"));
+                .findOne(new NotificationConfig.PK(employeeNumber, "g0000000000"));
 		Map<String, Boolean> setting = new HashMap<>();
 		setting.put("browserNotification", config.isBrowserNotification());
 		setting.put("mailNotification", config.isMailNotification());
@@ -91,7 +91,7 @@ public class SettingLogic {
 
 	public void updateNotificationComment(String employeeNumber, Map<String, Boolean> map) {
         NotificationConfig config =  notificationConfigRepository
-                .findOne(new NotificationConfig.PK(employeeNumber, "s9999999999"));
+                .findOne(new NotificationConfig.PK(employeeNumber, "g0000000000"));
 		config.setBrowserNotification(map.get("browserNotification"));
 		config.setMailNotification(map.get("mailNotification"));
 		notificationConfigRepository.saveAndFlush(config);
