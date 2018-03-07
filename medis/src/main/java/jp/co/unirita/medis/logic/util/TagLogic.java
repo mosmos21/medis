@@ -4,6 +4,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,5 +63,24 @@ public class TagLogic {
 			throw new IdIssuanceUpperException("IDの発行限界");
 		}
 		return String.format("s%010d", idNum + 1);
+	}
+
+	public Tag createTag(String value) throws Exception {
+	    String id = getNewTagId();
+	    Tag tag = new Tag(id, value);
+	    tagRepository.saveAndFlush(tag);
+	    return tag;
+	}
+
+	public List<Tag> applyTags(List<Tag> tags) throws Exception{
+		List<String> newTags = tags.stream()
+                .filter(tag -> tag.getTagId().equals(""))
+                .filter(tag -> tagRepository.findByTagName(tag.getTagName()).size() == 0)
+                .map(Tag::getTagName)
+                .collect(Collectors.toList());
+        for (String value : newTags) {
+            createTag(value);
+        }
+        return tagRepository.findByTagNameIn(tags.stream().map(Tag::getTagName).collect(Collectors.toList()));
 	}
 }
