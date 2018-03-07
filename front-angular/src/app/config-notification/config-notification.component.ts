@@ -17,12 +17,11 @@ export class ConfigNotificationComponent implements OnInit {
   public isTagMail: boolean = true;
   public isTagBrowser: boolean = true;
 
-  public tagNotification: any = [
+  public tagNotification: any = [];
+  private tempJson: any = [
     {
-      tagId: "",
-      tagName: "",
       isMailNotification: "",
-      isBrowserNotification: ""
+      isBrowserNotification: "",
     }
   ];
 
@@ -37,10 +36,21 @@ export class ConfigNotificationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get(this.hostname + 'notifications', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+    this.http.get(this.hostname + 'settings/me/tag_notifications', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.tagNotification = json;
         console.log(this.tagNotification);
+      },
+      error => {
+        this.errorService.errorPath(error.status)
+      }
+    );
+
+    this.http.get(this.hostname + 'settings/me/comment_notifications', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => {
+        this.tempJson = json;
+        this.isCommentMail = this.tempJson.isMailNotification;
+        this.isCommentBrowser = this.tempJson.isBrowserNotification;
       },
       error => {
         this.errorService.errorPath(error.status)
