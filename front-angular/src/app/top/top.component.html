@@ -7,9 +7,14 @@
                 </div>
                 <div class="list_box_content content_scroll_y">
                     <ul>
-                        <li *ngFor="let list of updateList">
-                            <a href="#" *ngIf="list.updateType == 'v0000000000'"></a>
-                            <div class="list_content_time">{{ conv.time2Date(l.templateCreateDate) }}</div>
+                        <li *ngFor="let upd of updateList">
+                            <a class="toppage_list" (click)="viewDocument(upd.documentId)" *ngIf="upd.updateType == 'v0000000002'">
+                                {{ upd.documentName }}にコメントがつきました。
+                            </a>
+                            <a class="toppage_list" (click)="viewDocument(upd.documentId)" *ngIf="upd.updateType == 'v0000000003'">
+                                {{ upd.documentName }}に対するコメントが読まれました。
+                            </a>
+                            <div class="list_content_time">{{ conv.time2Date(upd.updateDate) }}</div>
                         </li>
                     </ul>
                 </div>
@@ -21,7 +26,14 @@
                     <h3>自分の投稿一覧</h3>
                 </div>
                 <div class="list_box_content content_scroll_y">
-
+                    <ul>
+                        <li *ngFor="let own of ownDocList">
+                            <a class="toppage_list" (click)="viewDocument(own.documentId)">
+                                {{ own.documentName }}
+                            </a>
+                            <div class="list_content_time">{{ conv.time2Date(own.updateDate) }}</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -31,7 +43,14 @@
                     <h3>お気に入り文書一覧</h3>
                 </div>
                 <div class="list_box_content content_scroll_y">
-
+                    <ul>
+                        <li *ngFor="let fav of favDocList">
+                            <a class="toppage_list" (click)="viewDocument(fav.documentId)">
+                                {{ fav.documentName }}
+                            </a>
+                            <div class="list_content_time">{{ conv.time2Date(fav.updateDate) }}</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -41,22 +60,16 @@
                     <h3>監視タグ付き文書一覧</h3>
                 </div>
                 <div class="list_box_content content_scroll_y">
-
+                    <ul>
+                        <li *ngFor="let mon of monDocList">
+                            <a class="toppage_list" (click)="viewDocument(mon.documentId)">
+                                {{ mon.documentName }}
+                            </a>
+                            <div class="list_content_time">{{ conv.time2Date(mon.updateDate) }}</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <div class="wrap_list_box">
-            <div class="list_box">
-                <div class="list_box_header">
-                    <h3>テンプレート一覧</h3>
-                </div>
-                <div class="list_box_content content_scroll_y">
-
-                </div>
-            </div>
-        </div>
-        <div class="wrap_list_box">
-
         </div>
     </div>
 </div>

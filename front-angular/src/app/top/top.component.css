@@ -1,0 +1,9 @@
+.toppage_list {
+    color: #0000ff;
+    text-decoration: underline;
+}
+
+.toppage_list:hover {
+    text-decoration: none;
+    cursor: pointer;
+}

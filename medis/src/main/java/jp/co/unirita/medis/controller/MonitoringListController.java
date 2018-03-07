@@ -32,7 +32,7 @@ public class MonitoringListController {
      * @param user ログインしているユーザ
      * @return 文書情報(@see jp.co.unirita.medis.form.DocumentInfoForm)のリスト
      */
-	@GetMapping("/monitoring_tag")
+	@GetMapping("/monitoring_tags")
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfoForm> getMonitoringList(
 			@AuthenticationPrincipal User user) {
