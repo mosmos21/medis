@@ -27,13 +27,15 @@ public class TagLogic {
 	TagRepository tagRepository;
 
 	public List<Tag> getTagList() {
-		String pattern = "^\\d{4}/\\d{2}/\\d{2}$";
-		Pattern p = Pattern.compile(pattern);
+		String patternTagName = "^\\d{4}/\\d{2}/\\d{2}$";
+		String patternTagId = "^s\\d{10}$";
+		Pattern p = Pattern.compile(patternTagName);
+		Pattern q = Pattern.compile(patternTagId);
 		List<Tag> tagInfoList = tagRepository.findByTagIdNotOrderByTagIdAsc(COMMENT_NOTIFICATION_TAG_ID); // コメント通知設定用のタグだけ除く
 		List<Tag> tagList = new ArrayList<>();
 
 		for (Tag add : tagInfoList) {
-			if (!(p.matcher(add.getTagName()).find())) {
+			if (!(p.matcher(add.getTagName()).find() && q.matcher(add.getTagId()).find())) {
 				tagList.add(add);
 			}
 		}
