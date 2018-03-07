@@ -25,6 +25,8 @@ public class SettingLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+	private static final String COMMENT_NOTIFICATION_TAG = "g0000000000";
+
 	@Autowired
 	NotificationConfigRepository notificationConfigRepository;
 	@Autowired
@@ -82,7 +84,7 @@ public class SettingLogic {
 
 	public Map<String, Boolean> getNotificationCommentInfo(String employeeNumber) {
 		NotificationConfig config =  notificationConfigRepository
-                .findOne(new NotificationConfig.PK(employeeNumber, "g0000000000"));
+                .findOne(new NotificationConfig.PK(employeeNumber, COMMENT_NOTIFICATION_TAG));
 		Map<String, Boolean> setting = new HashMap<>();
 		setting.put("browserNotification", config.isBrowserNotification());
 		setting.put("mailNotification", config.isMailNotification());
@@ -91,7 +93,16 @@ public class SettingLogic {
 
 	public void updateNotificationComment(String employeeNumber, Map<String, Boolean> map) {
         NotificationConfig config =  notificationConfigRepository
-                .findOne(new NotificationConfig.PK(employeeNumber, "g0000000000"));
+                .findOne(new NotificationConfig.PK(employeeNumber, COMMENT_NOTIFICATION_TAG));
+		config.setBrowserNotification(map.get("browserNotification"));
+		config.setMailNotification(map.get("mailNotification"));
+		notificationConfigRepository.saveAndFlush(config);
+	}
+
+	public void createNotificationComment(String employeeNumber, Map<String, Boolean> map) {
+        NotificationConfig config =  new NotificationConfig();
+        config.setEmployeeNumber(employeeNumber);
+        config.setTagId(COMMENT_NOTIFICATION_TAG);
 		config.setBrowserNotification(map.get("browserNotification"));
 		config.setMailNotification(map.get("mailNotification"));
 		notificationConfigRepository.saveAndFlush(config);
