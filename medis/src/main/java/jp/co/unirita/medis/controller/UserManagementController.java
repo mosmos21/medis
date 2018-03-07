@@ -1,24 +1,33 @@
 package jp.co.unirita.medis.controller;
 
+import java.lang.invoke.MethodHandles;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import jp.co.unirita.medis.domain.authority.Authority;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.form.system.UserManagementForm;
+import jp.co.unirita.medis.logic.setting.SettingLogic;
 import jp.co.unirita.medis.logic.system.AccountLogic;
 import jp.co.unirita.medis.logic.system.UserManagementLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.AuthorityException;
 import jp.co.unirita.medis.util.exception.ConflictException;
 import jp.co.unirita.medis.util.exception.NotExistException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
-import java.lang.invoke.MethodHandles;
-import java.util.List;
 
 @RestController
 @RequestMapping("v1/system")
@@ -27,11 +36,13 @@ public class UserManagementController {
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
-    private ArgumentCheckLogic argumentCheckLogic;
+    ArgumentCheckLogic argumentCheckLogic;
     @Autowired
-    private AccountLogic accountLogic;
+    AccountLogic accountLogic;
 	@Autowired
-	private UserManagementLogic userManagementLogic;
+	UserManagementLogic userManagementLogic;
+	@Autowired
+	SettingLogic settingLogic;
 
 
     /**
@@ -103,6 +114,15 @@ public class UserManagementController {
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
 
 		UserDetail detail = userManagementLogic.createUser(data);
+
+		//コメント通知設定初期化
+		Map<String, Boolean> map = new HashMap<>();
+		String mailNotification = "";
+		String browserNotification = "";
+		map.put(mailNotification, false);
+		map.put(browserNotification, false);
+		settingLogic.updateNotificationComment(detail.getEmployeeNumber(), map);
+
 		String key =accountLogic.issueTempKey(detail.getEmployeeNumber());
 		accountLogic.sendMail(detail.getMailaddress(), key);
 	}

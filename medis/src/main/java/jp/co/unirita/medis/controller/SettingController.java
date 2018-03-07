@@ -115,7 +115,7 @@ public class SettingController {
      */
     @PostMapping(value = "me/comment_notifications")
     @ResponseStatus(HttpStatus.CREATED)
-    void updateNotificationComment(@AuthenticationPrincipal User user, @RequestBody @Valid  Map<String, Boolean> data) {
+    void updateNotificationComment(@AuthenticationPrincipal User user, @RequestBody Map<String, Boolean> data) {
         settingLogic.updateNotificationComment(user.getEmployeeNumber(), data);
     }
 
