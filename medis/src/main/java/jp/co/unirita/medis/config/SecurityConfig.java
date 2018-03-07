@@ -38,10 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		};
 
 		// ログインしなくてもアクセスできるURL
-		http.authorizeRequests().antMatchers("/v1/login", "/v1/accounts/**")
-                .permitAll().anyRequest().authenticated()
-				.and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/v1/logout"))
+		http.authorizeRequests()
+                .antMatchers("/v1/login", "/v1/accounts/**").permitAll().anyRequest().authenticated()
 				.and()
                 .csrf().requireCsrfProtectionMatcher(csrfRequestMatcher).csrfTokenRepository(this.csrfTokenRepository());
 	}

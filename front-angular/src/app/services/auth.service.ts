@@ -57,7 +57,7 @@ export class AuthService {
   }
 
   logout(http: HttpClient, url: string): void {
-    http.delete(url, {withCredentials: true, headers: this.headerAddToken()}).subscribe(
+    http.get(url, {withCredentials: true, headers: this.headerAddToken()}).subscribe(
       success => {
         localStorage.removeItem('token')
         this.router.navigate(['/login']);

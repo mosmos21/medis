@@ -3,18 +3,17 @@ package jp.co.unirita.medis.controller;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
 import jp.co.unirita.medis.domain.user.User;
@@ -26,7 +25,7 @@ import lombok.Data;
 import java.lang.invoke.MethodHandles;
 
 @RestController
-@RequestMapping("/v1/login")
+@RequestMapping("/v1")
 @Data
 public class LoginController {
 
@@ -38,8 +37,8 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    //ResponseEntity<String>
+    @PostMapping(value = "login")
+    @ResponseStatus(HttpStatus.CREATED)
     User login(@RequestBody UserLoginForm data, HttpServletRequest request, HttpServletResponse response) {
         System.out.println("ユーザID" + data.getEmployeeNumber() + "のログイン処理");
         loginLogic.login(data);
@@ -59,5 +58,11 @@ public class LoginController {
         User user = userRepository.findOne(data.getEmployeeNumber());
         user.setPassword("");
         return user;
+    }
+
+    @GetMapping(value = "logout")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void logout(HttpSession session) {
+        session.invalidate();
     }
 }
