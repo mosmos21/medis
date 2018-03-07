@@ -21,8 +21,7 @@
                                 </div>
                             </div>
                             <div *ngFor="let t of searchService.newTags">
-                                <div class="tag_base tag_new tag_side tag_erasable" (click)="searchService.deleteNewTags($event)">{{ t.tagName }}
-                                </div>
+                                <div class="tag_base tag_new tag_side tag_erasable" (click)="searchService.deleteNewTags($event)">{{ t.tagName }}</div>
                             </div>
                         </div>
                     </div>
