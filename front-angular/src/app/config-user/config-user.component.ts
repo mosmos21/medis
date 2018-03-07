@@ -54,10 +54,11 @@ export class ConfigUserComponent implements OnInit {
   ngOnInit() {
     this.http.get(this.hostname + 'settings/me', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
+        console.log(json)
         this.settings = json;
         var sub = JSON.stringify(this.settings);
         this.tempSettings = JSON.parse(sub);
-        console.log(this.tempSettings[0]);
+        console.log(this.tempSettings);
       },
       error => {
         this.errorService.errorPath(error.status)
