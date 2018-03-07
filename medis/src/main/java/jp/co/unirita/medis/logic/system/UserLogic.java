@@ -31,7 +31,7 @@ public class UserLogic implements UserDetailsService{
         System.out.println(user);
         if(user == null) {
             UsernameNotFoundException e = new UsernameNotFoundException(String.format("can't find user by employee id (" + id + ")"));
-            logger.error("error in loadUserBuUsername()", e);
+            logger.error("error in loadUserByUsername()", e);
             throw e;
         }
         return user;
