@@ -33,7 +33,7 @@ public class DocumentListController {
      * @param type public:公開済み文書 / private:下書き文書
      * @return 文書情報(@see jp.co.unirita.medis.form.DocumentInfoForm)のリスト
      */
-	@GetMapping("/{type:^public|private$}")
+	@GetMapping({"/{type:^public|private$}",""})
 	@ResponseStatus(HttpStatus.OK)
 	public List<DocumentInfoForm> getDocumentList(@AuthenticationPrincipal User user,
 			@PathVariable(value = "type", required = false) String publishType) {

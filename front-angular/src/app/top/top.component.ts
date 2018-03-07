@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NavigationService } from '../services/navigation.service';
+import { Router } from '@angular/router'
 
 import { AuthService } from '../services/auth.service';
 import { CookieService } from 'ngx-cookie-service'
 import { ErrorService } from '../services/error.service';
 import { ConvertDateService } from '../services/convert-date.service';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-top',
@@ -17,13 +18,14 @@ export class TopComponent implements OnInit {
   public updateList: any;
   private ownDocList: any;
   private favDocList: any;
-  private MonDocList: any;
+  private monDocList: any;
 
   private user: any;
 
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
+    private router: Router,
     private nav: NavigationService,
     private authService: AuthService,
     private cookieService: CookieService,
@@ -31,6 +33,7 @@ export class TopComponent implements OnInit {
     public conv: ConvertDateService
   ) {
     this.nav.show();
+    this.nav.showUserMenu();
     this.user = this.authService.user;
     console.log(this.user);
   }
@@ -45,6 +48,37 @@ export class TopComponent implements OnInit {
         this.errorService.errorPath(error.status)
       }
     );
+    this.http.get(this.hostname + "documents", { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
+      json => {
+        this.ownDocList = json;
+        console.log(this.updateList);
+      },
+      error => {
+        this.errorService.errorPath(error.status)
+      }
+    );
+    this.http.get(this.hostname + "documents/bookmark", { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
+      json => {
+        this.favDocList = json;
+        console.log(this.updateList);
+      },
+      error => {
+        this.errorService.errorPath(error.status)
+      }
+    );
+    this.http.get(this.hostname + "documents/monitoring_tags", { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
+      json => {
+        this.monDocList = json;
+        console.log(this.updateList);
+      },
+      error => {
+        this.errorService.errorPath(error.status)
+      }
+    );
+  }
+
+  viewDocument(id: string) {
+    this.router.navigate(["browsing/" + id]);
   }
 
 }

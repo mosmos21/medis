@@ -5,7 +5,7 @@
 		<div class="wrap_search_content">
 			<div id="search_box">
 				<mat-form-field>
-					<input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord">
+					<input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord" (keyup)="searchService.searchTag()">
 				</mat-form-field>
 				<div id="selected_tags" *ngFor="let stag of searchService.selectedTags">
 					<div class="tag_base tag_middle" (click)="searchService.deleteTagsToResult($event)">{{stag.tagName}}</div>

@@ -24,9 +24,12 @@ export class ConfigSurveillanceComponent implements OnInit {
 
   ngOnInit() {
     this.searchService.getTags();
+    this.searchService.getMonitoringTag();
   }
 
-  save() {
-    //保存ボタンが押された時の処理を書く
+  sabmit() {
+    console.log(this.searchService.selectedTags);
+    const tempTag = this.searchService.selectedTags;
+    this.http.post(this.hostname + "settings/me/monitoring_tags", tempTag, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
   }
 }

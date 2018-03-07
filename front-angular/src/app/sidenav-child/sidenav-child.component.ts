@@ -54,7 +54,7 @@ export class SidenavChildComponent implements OnInit {
   }
 
   logout() {
-
+    this.authService.logout(this.http, this.hostname + 'logout')
   }
 
   loadList() {

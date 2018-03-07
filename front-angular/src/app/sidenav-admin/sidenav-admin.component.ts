@@ -15,13 +15,13 @@ export class SidenavAdminComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     public http: HttpClient,
     public nav: NavigationService,
-    public auth: AuthService
+    public authService: AuthService
   ) { }
 
   ngOnInit() {
   }
 
   logout() {
-    this.auth.logout(this.http, this.hostname + 'logout')
+    this.authService.logout(this.http, this.hostname + 'logout')
   }
 }
