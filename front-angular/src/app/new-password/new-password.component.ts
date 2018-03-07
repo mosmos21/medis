@@ -6,7 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
 import { MatDialog } from '@angular/material';
-import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { MessageModalComponent } from '../message-modal/message-modal.component';
 
 @Component({
   selector: 'app-new-password',
@@ -47,7 +47,7 @@ export class NewPasswordComponent implements OnInit {
       this.http.post(this.hostname + "accounts/keycheck", params).subscribe(
         json => {
           if(json["result"] == "NG") {
-            let dialogRef = this.dialog.open(ConfirmationComponent, {
+            let dialogRef = this.dialog.open(MessageModalComponent, {
               data: {
                 message: json["message"]
               }
@@ -73,10 +73,13 @@ export class NewPasswordComponent implements OnInit {
       this.user["password"] = this.password;
       this.http.post(this.hostname + "accounts/reset", this.user, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
         json => {
-          let dialogRef = this.dialog.open(ConfirmationComponent, {
+          let dialogRef = this.dialog.open(MessageModalComponent, {
             data: {
               message: "パスワードの初期化が完了しました"
             }
+          });
+          dialogRef.afterClosed().subscribe(result => {
+            this.router.navigate(['/login']);
           });
         },
         error => {
