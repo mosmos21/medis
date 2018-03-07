@@ -59,7 +59,7 @@ public class UserManagementLogicTest {
     }
 
     @Test
-    public void 新規ユーザの作成() throws ConflictException {
+    public void 新規ユーザの作成_成功時() throws ConflictException {
     	UserManagementForm userManagementForm = new UserManagementForm();
     	userManagementForm.setEmployeeNumber("new");
     	userManagementForm.setLastName("last");
@@ -81,7 +81,7 @@ public class UserManagementLogicTest {
     	userDetail.setFirstNamePhonetic("firstPhone");
     	userDetail.setMailaddress("new@hoge.jp");
     	userDetail.setIcon(true);
-        assertEquals("ユーザ情報が新規作成できませんでした"
+        assertEquals("ユーザ情報が新規作成できませんでした（userDetail側）"
         		+ "でした", userDetail, userDetailRepository.findOne("new"));
 
 
@@ -90,7 +90,30 @@ public class UserManagementLogicTest {
     	user.setAuthorityId("00000000003");
     	user.setEnabled(true);
     	user.setPassword("new");
-        assertEquals("ユーザ情報が新規作成できませんでした"
+        assertEquals("ユーザ情報が新規作成できませんでした（user側）"
         		+ "でした", user, userRepository.findOne("new"));
     }
+
+    @Test
+    public void 新規ユーザの作成_ユーザ名重複時() {
+    	String result = "";
+    	UserManagementForm userManagementForm = new UserManagementForm();
+    	userManagementForm.setEmployeeNumber("test");
+    	userManagementForm.setLastName("last");
+    	userManagementForm.setFirstName("first");
+    	userManagementForm.setLastNamePhonetic("lastPhone");
+		userManagementForm.setFirstNamePhonetic("firstPhone");
+		userManagementForm.setMailaddress("new@hoge.jp");
+		userManagementForm.setIcon(true);
+		userManagementForm.setAuthorityId("00000000003");
+		userManagementForm.setEnabled(true);
+		userManagementForm.setPassword("new");
+		try {
+			userManagementLogic.createUser(userManagementForm);
+		} catch (ConflictException e) {
+			result = e.getMessage();
+		}
+		assertEquals("新規ユーザ作成時にユーザ名が重複した際の処理が正しく動作していません", "emoloyee number must be unique. employeeNumber = test",
+				result);
+	}
 }
