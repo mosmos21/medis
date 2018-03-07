@@ -62,25 +62,23 @@ export class SearchService {
         const temp = json;
         const sub = JSON.stringify(temp);
         this.selectedTags = JSON.parse(sub);
+
+        var i = this.selectedTags.length;
+        while (i--) {
+          var j = this.targetTags.length;
+          while (j--) {
+            if (this.selectedTags[i].tagId == this.targetTags[j].tagId) {
+              this.targetTags.splice(j, 1);
+              this.tempTags.splice(j, 1);
+              break;
+            }
+          }
+        }
       },
       error => {
         this.errorService.errorPath(error.status)
       }
     );
-
-    console.log("hoge");
-    var i = this.selectedTags.length;
-    var j = this.targetTags.length;
-    while (i--) {
-      while (j--) {
-        console.log(this.selectedTags[i].tagId + ":" + this.tags[j].tagId);
-        if (this.selectedTags[i].tagId == this.targetTags[j].tagId) {
-          this.targetTags.splice(j, 1);
-          this.tempTags.splice(j, 1);
-          break;
-        }
-      }
-    }
   }
 
   addTags(event: any, num: number) {
