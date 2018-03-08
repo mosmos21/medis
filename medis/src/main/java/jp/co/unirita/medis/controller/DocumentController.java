@@ -116,11 +116,12 @@ public class DocumentController {
      * 文書につけられたタグを更新する
      * @param documentId　更新するタグ一覧をつけた文書の文書ID
      * @throws NotExistException 文書IDが存在していない場合に発生する例外
+	 * @throws IdIssuanceUpperException
      */
 	@PostMapping(value = "{documentId:^d[0-9]{10}$}/tags")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updateDocumentTagList(@PathVariable(value = "documentId") String documentId,
-			@RequestBody List<Tag> tags) throws NotExistException {
+			@RequestBody List<Tag> tags) throws NotExistException, IdIssuanceUpperException {
 		logger.info("[method: updateDocumentTagList] UpdateDocumentTagList list by DocumentId:"+documentId +"TagId"+ tags.get(0).getTagId() + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.updateTags(documentId, tags);

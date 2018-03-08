@@ -130,6 +130,9 @@ public class DocumentLogic {
     }
 
     public void saveTags(String documentId, List<Tag> tags) throws IdIssuanceUpperException {
+
+    	tagLogic.applyTags(tags);
+
         int order = 1;
         for(Tag tag : tags) {
             if(tag.getTagId() == null) {
@@ -141,8 +144,10 @@ public class DocumentLogic {
     }
 
 
-    public void updateTags(String documentId, List<Tag> tags) {
+    public void updateTags(String documentId, List<Tag> tags) throws IdIssuanceUpperException {
         List<DocumentTag> oldTags = documentTagRepository.findByDocumentIdOrderByTagOrderAsc(documentId);
+
+        tagLogic.applyTags(tags);
 
         int common = Math.min(oldTags.size(), tags.size());
         int order = 1;
