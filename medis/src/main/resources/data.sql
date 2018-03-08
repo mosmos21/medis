@@ -97,3 +97,10 @@ INSERT INTO "update_info"
     (update_id, document_id, employee_number, update_date, update_type)
 VALUES
     ('u0000000000', 'd0000000000', 'g00000', '2018-03-08 09:48:35.966', 'v0000000000');
+
+
+DELETE FROM "notification_config";
+INSERT INTO "notification_config"
+    (employee_number, tag_id, mail_notification, browser_notification)
+VALUES
+    ('g00000', 'g0000000000', 'false', 'false');
