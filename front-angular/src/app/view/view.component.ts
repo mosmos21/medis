@@ -70,7 +70,6 @@ export class ViewComponent implements OnInit {
     this.http.get(this.hostname + 'documents/' + this.documentId + '/comments', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.comments = json;
-        console.log(this.comments[0].commentContent);
       },
       error => {
         this.errorService.errorPath(error.status);
@@ -154,7 +153,11 @@ export class ViewComponent implements OnInit {
     return this.documentValues[id][line] == "true";
   }
 
-  sendComment() {
-    console.log(this.commentStr);
+  submit() {
+    var postComment = {
+      value: this.commentStr
+    }
+    this.http.put(this.hostname + "documents/" + this.documentId + "/comments/create", postComment, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
+    this.commentStr = "";
   }
 }

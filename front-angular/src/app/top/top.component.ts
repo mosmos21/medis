@@ -16,9 +16,9 @@ import { NavigationService } from '../services/navigation.service';
 export class TopComponent implements OnInit {
 
   public updateList: any;
-  private ownDocList: any;
-  private favDocList: any;
-  private monDocList: any;
+  public ownDocList: any;
+  public favDocList: any;
+  public monDocList: any;
 
   private user: any;
 
