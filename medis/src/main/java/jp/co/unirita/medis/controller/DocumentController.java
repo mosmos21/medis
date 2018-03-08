@@ -194,8 +194,8 @@ public class DocumentController {
 			@RequestBody Map<String, String> value,
 			@Valid HttpServletRequest request,HttpServletResponse response
 		) throws NotExistException, IdIssuanceUpperException {
-		logger.info("[method: save] Add Comment EmployeeNumber:" + user.getEmployeeNumber() + "value:"
-				+ value.get("value"));
+		logger.info("[method: save] Add Comment EmployeeNumber:" + user.getEmployeeNumber() + "commentContent:"
+				+ value.get("commentContent"));
 		argumentCheckLogic.checkDocumentId(documentId);
 		return commentLogic.save(documentId, user.getEmployeeNumber(), value);
 	}

@@ -73,7 +73,7 @@ public class CommentLogic {
 		commentInfo.setFirstName(userDetail.getFirstName());
 		commentInfo.setIcon(userDetail.isIcon());
 		commentInfo.setRead(comment.isRead());
-		commentInfo.setValue(comment.getValue());
+		commentInfo.setCommentContent(comment.getValue());
 		return commentInfo;
 	}
 

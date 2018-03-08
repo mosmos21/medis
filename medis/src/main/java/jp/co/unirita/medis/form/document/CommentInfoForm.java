@@ -18,6 +18,6 @@ public class CommentInfoForm implements Serializable {
 
 	private boolean read;
 
-	private String value;
+	private String commentContent;
 
 }
