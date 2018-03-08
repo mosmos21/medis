@@ -120,7 +120,7 @@ public class DocumentController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updateDocumentTagList(@PathVariable(value = "documentId") String documentId,
 			@RequestBody List<Tag> tags) throws NotExistException, IdIssuanceUpperException {
-		logger.info("[method: updateDocumentTagList] UpdateDocumentTagList list by DocumentId:"+documentId +"TagId"+ tags.get(0).getTagId() + ".");
+		logger.info("[method: updateDocumentTagList] UpdateDocumentTagList list by DocumentId:"+documentId + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.updateTags(documentId, tags);
 	}
