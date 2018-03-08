@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   openDialog(): void {
+    console.log('ok')
     let dialogRef = this.dialog.open(ResetPassComponent, {
       width: '400px',
       data: { user: this.user },
@@ -50,7 +51,7 @@ export class LoginComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-      if (result) {
+      if (result != null) {
         this.http.post(this.hostname + "accounts/usercheck", this.user).subscribe(
           json => {
             this.message = 'パスワード再設定用メールを送信しました。'
@@ -61,6 +62,7 @@ export class LoginComponent implements OnInit {
             });
           },
           error => {
+            console.log(error);
             this.message = '入力された社員番号とメールアドレスが不正です。'
             let dialogRef = this.dialog.open(MessageModalComponent, {
               data: {

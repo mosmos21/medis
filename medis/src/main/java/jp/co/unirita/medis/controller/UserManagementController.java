@@ -117,11 +117,11 @@ public class UserManagementController {
 
 		//コメント通知設定初期化
 		Map<String, Boolean> map = new HashMap<>();
-		String mailNotification = "";
-		String browserNotification = "";
-		map.put(mailNotification, false);
-		map.put(browserNotification, false);
-		settingLogic.updateNotificationComment(detail.getEmployeeNumber(), map);
+		String mail = "mailNotification";
+		String browser = "browserNotification";
+		map.put(mail, false);
+		map.put(browser, false);
+		settingLogic.createNotificationComment(detail.getEmployeeNumber(), map);
 
 		String key =accountLogic.issueTempKey(detail.getEmployeeNumber());
 		accountLogic.sendMail(detail.getMailaddress(), key);
