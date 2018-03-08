@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.document.CommentCreateForm;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.document.CommentLogic;
@@ -180,21 +179,23 @@ public class DocumentController {
 
 	/**
      * 新規コメントを保存し、コメントIDを付与する
-     * @param postData　コメント作成フォーム(@see jp.co.unirita.medis.form.document.CommentCreateForm)
+     * @param user ログインしているユーザ
      * @param documentId　コメントを記入する文書の文書ID
+     * @param value　コメントの内容
      * @return コメント情報(@see jp.co.unirita.medis.form.CommentInfoForm)
      * @throws NotExistException 更新IDが存在していない場合に発生する例外
 	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
      */
 	@PutMapping("{documentId:^d[0-9]{10}$}/comments/create")
 	@ResponseStatus(HttpStatus.CREATED)
-	public CommentInfoForm commetAdd(@RequestBody @Valid CommentCreateForm postData,
+	public CommentInfoForm commetAdd(@AuthenticationPrincipal User user,
 			@PathVariable(value = "documentId") String documentId,
+			@RequestBody String value,
 			@Valid HttpServletRequest request,HttpServletResponse response
 		) throws NotExistException, IdIssuanceUpperException {
-		logger.info("[method: save] Add Comment EmployeeNumber:" + postData.getEmployeeNumber() + "value:"
-				+ postData.getValue());
+		logger.info("[method: save] Add Comment EmployeeNumber:" + user.getEmployeeNumber() + "value:"
+				+ value);
 		argumentCheckLogic.checkDocumentId(documentId);
-		return commentLogic.save(documentId, postData);
+		return commentLogic.save(documentId, user.getEmployeeNumber(), value);
 	}
 }
