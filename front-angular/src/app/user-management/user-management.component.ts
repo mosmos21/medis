@@ -102,7 +102,10 @@ export class UserManagementComponent implements OnInit {
       console.log(result);
       if (result != null) {
         this.http.post(this.hostname + "accounts/usercheck", this.user, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-          /* postした時の操作があればここにかく */
+          json => { },
+          error => {
+            this.errorService.errorPath(error.status);
+          }
         );
         let dialogRef = this.dialog.open(MessageModalComponent, {
           data: {
@@ -145,6 +148,7 @@ export class UserManagementComponent implements OnInit {
           error => {
             console.log("error:");
             console.log(error);
+            this.errorService.errorPath(error.status)
           }
         );
       }

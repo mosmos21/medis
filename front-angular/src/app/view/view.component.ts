@@ -73,7 +73,7 @@ export class ViewComponent implements OnInit {
         console.log(this.comments[0].commentContent);
       },
       error => {
-        this.errorService.errorPath(error.status)
+        this.errorService.errorPath(error.status);
       }
     );
   }
