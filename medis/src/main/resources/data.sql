@@ -60,7 +60,7 @@ DELETE FROM "document_info";
 INSERT INTO "document_info"
     (document_id, document_create_date, document_name, document_publish, employee_number, template_id)
 VALUES
-    ('d0000000000', '2018-03-08 09:48:35.899', '技術研修(ITパスポート)', true, 'g00000,', 't0000000000');
+    ('d0000000000', '2018-03-08 09:48:35.899', '技術研修(ITパスポート)', true, 'g00000', 't0000000000');
 
 
 DELETE FROM "document_item";
