@@ -113,7 +113,7 @@ public class TemplateLogic {
     public void updateTags(String tempalateId, List<Tag> tags) throws IdIssuanceUpperException {
         List<TemplateTag> oldTags = templateTagRepository.findByTemplateIdOrderByTagOrderAsc(tempalateId);
         List<Tag> newTags = tagLogic.applyTags(tags);
-
+        System.out.println(newTags);
         int common = Math.min(oldTags.size(), newTags.size());
         int order = 1;
         for(Tag tag: newTags) {
@@ -123,8 +123,8 @@ public class TemplateLogic {
             templateTagRepository.save(new TemplateTag(tempalateId, order, tag.getTagId()));
             order++;
         }
-        if(oldTags.size() < tags.size()) {
-            List<Tag> addTags = tags.subList(common, tags.size());
+        if(oldTags.size() < newTags.size()) {
+            List<Tag> addTags = newTags.subList(common, newTags.size());
             for(Tag tag: addTags) {
                 templateTagRepository.save(new TemplateTag(tempalateId, order, tag.getTagId()));
                 order++;

@@ -99,7 +99,6 @@ export class EditTemplateComponent implements OnInit {
     this.http.get(this.hostname + 'templates/' + this.templateId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         data = json;
-        console.log(data);
         this.templateName = data.templateName;
         for (let con of data.contents) {
           var id = this.addBlock(con.blockId);
@@ -111,9 +110,21 @@ export class EditTemplateComponent implements OnInit {
             this.values[id].push(i);
           }
         }
+        this.getTemplateTags(this.templateId);
       },
       error => {
         this.errorService.errorPath(error.status)
+      }
+    );
+  }
+
+  getTemplateTags(templateId: string): void {
+    this.http.get(this.hostname + 'templates/' + this.templateId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => {
+        this.searchService.selectedTags = JSON.parse(JSON.stringify(json));
+      },
+      error => {
+
       }
     );
   }
@@ -202,7 +213,7 @@ export class EditTemplateComponent implements OnInit {
       contents.push(content);
     }
     data["contents"] = contents;
-    console.log(data);
+    //console.log(data);
     return data;
   }
 
@@ -225,8 +236,8 @@ export class EditTemplateComponent implements OnInit {
 
       if (this.templateId == 'new') {
         this.http.put(this.hostname + "templates/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
-          json => {
-            // TODO
+          id => {
+            this.submitTags(id);
           },
           error => {
             this.errorService.errorPath(error.status)
@@ -234,8 +245,8 @@ export class EditTemplateComponent implements OnInit {
         );
       } else {
         this.http.post(this.hostname + "templates/" + this.templateId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
-          json => {
-            // TODO
+          id => {
+            this.submitTags(id);
           },
           error => {
             this.errorService.errorPath(error.status)
@@ -253,5 +264,18 @@ export class EditTemplateComponent implements OnInit {
         this.router.navigate(['admin/template']);
       });
     }
+  }
+
+  submitTags(templateId: string): void {
+    let tags = new Array();
+    tags = this.searchService.selectedTags.concat(this.searchService.newTags);
+    this.http.post(this.hostname + "templates/" + this.templateId + "/tags", tags, 
+    { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
+      success => {
+      },
+      error => {
+        this.errorService.errorPath(error.status);
+      }
+    );
   }
 }
