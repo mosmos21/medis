@@ -269,7 +269,7 @@ export class EditTemplateComponent implements OnInit {
   submitTags(templateId: string): void {
     let tags = new Array();
     tags = this.searchService.selectedTags.concat(this.searchService.newTags);
-    this.http.post(this.hostname + "templates/" + this.templateId + "/tags", tags, 
+    this.http.post(this.hostname + "templates/" + templateId + "/tags", tags, 
     { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
       success => {
       },
