@@ -8,14 +8,12 @@ import { ErrorService } from './error.service';
 @Injectable()
 export class SearchService {
 
-
-
   private searchTagsDataSource = new Subject<string>();
   public searchTagsData$ = this.searchTagsDataSource.asObservable();
 
   public newTagName = "";
   public selectedTags = [];
-  private tempTags = [];
+  public tempTags = [];
   public newTags = [];
   public searchWord = "";
   private tags: any = [

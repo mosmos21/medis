@@ -162,6 +162,17 @@ export class EditDocumentComponent implements OnInit {
     this.http.get(this.hostname + 'templates/' + templateId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.fixedTags = JSON.parse(JSON.stringify(json));
+        var i = this.fixedTags.length;
+        while (i--) {
+          var j = this.searchService.targetTags.length;
+          while (j--) {
+            if (this.fixedTags[i].tagId == this.searchService.targetTags[j].tagId) {
+              this.searchService.targetTags.splice(j, 1);
+              this.searchService.tempTags.splice(j, 1);
+              break;
+            }
+          }
+        }
       },
       error => {
       }
@@ -290,7 +301,7 @@ export class EditDocumentComponent implements OnInit {
       }
 
       if (this.documentId == 'new') {
-        this.http.put(this.hostname + "documents/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text'}).subscribe(
+        this.http.put(this.hostname + "documents/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
           id => {
             this.documentId = id;
             this.submitTags(this.documentId);
@@ -301,7 +312,7 @@ export class EditDocumentComponent implements OnInit {
           }
         );
       } else {
-        this.http.post(this.hostname + "documents/" + this.documentId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text'}).subscribe(
+        this.http.post(this.hostname + "documents/" + this.documentId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
           id => {
             this.documentId = id;
             this.submitTags(this.documentId);
@@ -332,15 +343,15 @@ export class EditDocumentComponent implements OnInit {
   submitTags(documentId: string): void {
     let tags = new Array();
     tags = this.searchService.selectedTags.concat(this.searchService.newTags);
-    this.http.post(this.hostname + "documents/" + documentId + "/tags", tags, 
-    { withCredentials: true, headers: this.authService.headerAddToken()}).subscribe(
-      success => {
-      },
-      error => {
-        console.log("error in submitTags()");
-        this.errorService.errorPath(error.status);
-      }
-    );
+    this.http.post(this.hostname + "documents/" + documentId + "/tags", tags,
+      { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+        success => {
+        },
+        error => {
+          console.log("error in submitTags()");
+          this.errorService.errorPath(error.status);
+        }
+      );
   }
 
   trackByIndex(index, content) {
