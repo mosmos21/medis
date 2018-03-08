@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit {
 
   private user: any = {
     employeeNumber: '',
-    mailadress: ''
+    mailaddress: '',
+    password: '',
   }
 
   constructor(
@@ -52,6 +53,7 @@ export class LoginComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result != null) {
+        this.user.password = 'dummypass'
         this.http.post(this.hostname + "accounts/usercheck", this.user, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           json => {
             this.message = 'パスワード再設定用メールを送信しました。'

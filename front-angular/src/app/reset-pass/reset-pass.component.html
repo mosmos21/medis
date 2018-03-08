@@ -4,7 +4,7 @@
 			<input matInput [(ngModel)]="data.user.employeeNumber" name="employeeNumber" placeholder="社員番号">
 		</mat-form-field>
 		<mat-form-field class="full-width">
-			<input matInput [(ngModel)]="data.user.mailadress" name="mailadress" placeholder="メールアドレス">
+			<input matInput [(ngModel)]="data.user.mailaddress" name="mailaddress" placeholder="メールアドレス">
 		</mat-form-field>
 		<button mat-raised-button id="cancel" (click)="onClose()">キャンセル</button>
 		<button mat-raised-button color="primary" id="send" [mat-dialog-close]="data.user">送信</button>

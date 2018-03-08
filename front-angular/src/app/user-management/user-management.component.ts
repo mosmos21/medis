@@ -89,7 +89,7 @@ export class UserManagementComponent implements OnInit {
 
     this.user = {
       employeeNumber: this.users[index]["employeeNumber"],
-      mailaddress: this.users[index]["mailadress"]
+      mailaddress: this.users[index]["mailaddress"]
     }
 
     let dialogRef = this.dialog.open(InitializationComponent, {
@@ -101,6 +101,7 @@ export class UserManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result != null) {
+        this.user['password'] = 'dummypass'
         this.http.post(this.hostname + "accounts/usercheck", this.user, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           json => { },
           error => {

@@ -20,6 +20,7 @@ export class ConfigSurveillanceComponent implements OnInit {
     private authService: AuthService,
   ) {
     this.nav.show();
+    this.authService.getUserDetail(http);
   }
 
   ngOnInit() {

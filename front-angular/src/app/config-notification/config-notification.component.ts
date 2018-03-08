@@ -33,6 +33,7 @@ export class ConfigNotificationComponent implements OnInit {
     private nav: NavigationService
   ) {
     this.nav.show();
+    this.authService.getUserDetail(http);
   }
 
   ngOnInit() {
