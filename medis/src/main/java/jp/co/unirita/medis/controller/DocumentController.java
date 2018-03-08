@@ -56,10 +56,8 @@ public class DocumentController {
 	@ResponseStatus(HttpStatus.OK)
 	public DocumentForm getDocument(@PathVariable(value = "documentId") String documentId) throws NotExistException {
 		logger.info("[method: getDocument] Get document list by " + documentId + ".");
-		// TODO 存在チェック
 		argumentCheckLogic.checkDocumentId(documentId);
-		DocumentForm document = documentLogic.getDocument(documentId);
-		return document;
+		return documentLogic.getDocument(documentId);
 	}
 
 	/**

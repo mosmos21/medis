@@ -32,7 +32,7 @@ export class EditDocumentComponent implements OnInit {
   public templateValues: { [key: string]: string[] } = {};
   public documentValues: { [key: string]: string[] } = {};
 
-  public fixedTags: string[] = ["2018年度新人研修"];
+  public fixedTags: any[];
 
   constructor(
     @Inject('hostname') private hostname: string,
@@ -119,6 +119,7 @@ export class EditDocumentComponent implements OnInit {
             this.templateValues[id].push(i);
           }
         }
+        this.getTemplateTags(templateId);
         if (callback != null) {
           callback();
         }
@@ -132,7 +133,7 @@ export class EditDocumentComponent implements OnInit {
 
   assembleDocument() {
     var data;
-    this.http.get(this.hostname + 'documents/' + this.documentId, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
+    this.http.get(this.hostname + 'documents/' + this.documentId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         data = json;
         this.documentName = data.documentName;
@@ -147,9 +148,32 @@ export class EditDocumentComponent implements OnInit {
             }
           }
         });
+        this.getDocumentTags(data.documentId);
       },
       error => {
-        this.errorService.errorPath(error.status)
+        console.log("error in assembleDocument()");
+        this.errorService.errorPath(error.status);
+      }
+    );
+  }
+
+  getTemplateTags(templateId: string): void {
+    console.log(templateId);
+    this.http.get(this.hostname + 'templates/' + templateId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => {
+        this.fixedTags = JSON.parse(JSON.stringify(json));
+      },
+      error => {
+      }
+    );
+  }
+
+  getDocumentTags(documentId: string): void {
+    this.http.get(this.hostname + 'documents/' + documentId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => {
+        this.searchService.selectedTags = JSON.parse(JSON.stringify(json));
+      },
+      error => {
       }
     );
   }
@@ -251,7 +275,6 @@ export class EditDocumentComponent implements OnInit {
 
   submit(type: string): void {
     let dataJson = this.data2Json(type);
-    console.log(dataJson);
     if (this.valid.empty(this.documentName)) {
       this.message = "ドキュメント名を入力してください。"
       let dialogRef = this.dialog.open(MessageModalComponent, {
@@ -267,21 +290,25 @@ export class EditDocumentComponent implements OnInit {
       }
 
       if (this.documentId == 'new') {
-        this.http.put(this.hostname + "documents/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
-          json => {
-            this.documentId = json["documentId"]
+        this.http.put(this.hostname + "documents/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text'}).subscribe(
+          id => {
+            this.documentId = id;
+            this.submitTags(this.documentId);
           },
           error => {
+            console.log("error in submit()");
             this.errorService.errorPath(error.status)
           }
         );
       } else {
-        this.http.post(this.hostname + "documents/" + this.documentId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
-          json => {
-            this.documentId = json["documentId"]
+        this.http.post(this.hostname + "documents/" + this.documentId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text'}).subscribe(
+          id => {
+            this.documentId = id;
+            this.submitTags(this.documentId);
           },
           error => {
-            this.errorService.errorPath(error.status)
+            console.log("error in submit()-2" + error.status);
+            this.errorService.errorPath(error.status);
           }
         );
       }
@@ -300,6 +327,20 @@ export class EditDocumentComponent implements OnInit {
         }
       });
     }
+  }
+
+  submitTags(documentId: string): void {
+    let tags = new Array();
+    tags = this.searchService.selectedTags.concat(this.searchService.newTags);
+    this.http.post(this.hostname + "documents/" + documentId + "/tags", tags, 
+    { withCredentials: true, headers: this.authService.headerAddToken()}).subscribe(
+      success => {
+      },
+      error => {
+        console.log("error in submitTags()");
+        this.errorService.errorPath(error.status);
+      }
+    );
   }
 
   trackByIndex(index, content) {

@@ -26,7 +26,10 @@ DELETE FROM "tag";
 INSERT INTO "tag"
     (tag_id, tag_name)
 VALUES
-    ('g0000000000', 'コメント通知設定用');
+    ('g0000000000', 'コメント通知設定用'),
+    ('n0000000001', '2018年度新人研修'),
+    ('n0000000002', 'ITパスポート研修'),
+    ('n0000000003', '小テスト');
 
 
 DELETE FROM "template_info";
@@ -35,6 +38,12 @@ INSERT INTO "template_info"
 VALUES
     ('t0000000000', 'admin', '2018-03-08 09:50:08.802', '日報テンプレートサンプル', true);
 
+DELETE FROM "template_tag";
+INSERT INTO "template_tag"
+    (tag_order, template_id, tag_id)
+VALUES
+    (1, 't0000000000', 'n0000000001'),
+    (2, 't0000000000', 'n0000000002');
 
 DELETE FROM "template_content";
 INSERT INTO "template_content"
@@ -62,6 +71,11 @@ INSERT INTO "document_info"
 VALUES
     ('d0000000000', '2018-03-08 09:48:35.899', '技術研修(ITパスポート)', true, 'g00000', 't0000000000');
 
+DELETE FROM "document_tag";
+INSERT INTO "document_tag"
+    (document_id, tag_order, tag_id)
+VALUES
+    ('d0000000000', 1, 'n0000000003');
 
 DELETE FROM "document_item";
 INSERT INTO "document_item"

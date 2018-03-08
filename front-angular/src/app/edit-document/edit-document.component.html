@@ -14,7 +14,7 @@
                     <div id="wrap_tag_list">
                         <div id="tag_list">
                             <div *ngFor="let t of fixedTags">
-                                <div class="tag_base tag_middle tag_side">{{ t }}</div>
+                                <div class="tag_base tag_middle tag_side">{{ t.tagName }}</div>
                             </div>
                             <div *ngFor="let t of searchService.selectedTags">
                                 <div class="tag_base tag_middle tag_side tag_erasable" (click)="searchService.deleteTags($event)">{{ t.tagName }}

@@ -129,12 +129,9 @@ public class DocumentLogic {
         return id;
     }
 
-    public void saveTags(String documentId, List<Tag> tags) throws IdIssuanceUpperException {
-
-    	tagLogic.applyTags(tags);
-
+    public void saveTags(final String documentId, List<Tag> tags) throws IdIssuanceUpperException {
         int order = 1;
-        for(Tag tag : tags) {
+        for(Tag tag : tagLogic.applyTags(tags)) {
             if(tag.getTagId() == null) {
                 tag.setTagId(tagLogic.getNewTagId());
             }
@@ -146,20 +143,18 @@ public class DocumentLogic {
 
     public void updateTags(String documentId, List<Tag> tags) throws IdIssuanceUpperException {
         List<DocumentTag> oldTags = documentTagRepository.findByDocumentIdOrderByTagOrderAsc(documentId);
-
-        tagLogic.applyTags(tags);
-
-        int common = Math.min(oldTags.size(), tags.size());
+        List<Tag> newTags = tagLogic.applyTags(tags);
+        int common = Math.min(oldTags.size(), newTags.size());
         int order = 1;
-        for(Tag tag: tags) {
+        for(Tag tag: newTags) {
             if(common < order){
                 break;
             }
             documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
             order++;
         }
-        if(oldTags.size() < tags.size()) {
-            List<Tag> addTags = tags.subList(common, tags.size());
+        if(oldTags.size() < newTags.size()) {
+            List<Tag> addTags = newTags.subList(common, newTags.size());
             for(Tag tag: addTags) {
                 documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
                 order++;
@@ -170,7 +165,6 @@ public class DocumentLogic {
             }
         }
     }
-
 
     private void saveDocumentContent(String documentId, List<DocumentContentForm> contents) {
         for(DocumentContentForm content: contents) {
