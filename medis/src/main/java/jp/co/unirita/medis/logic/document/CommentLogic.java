@@ -19,7 +19,6 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
-import jp.co.unirita.medis.form.document.CommentCreateForm;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
@@ -129,10 +128,8 @@ public class CommentLogic {
     }
 
 
-	public CommentInfoForm save(String documentId, CommentCreateForm postData) throws IdIssuanceUpperException {
+	public CommentInfoForm save(String documentId, String employeeNumber, String value) throws IdIssuanceUpperException {
 		Timestamp commentDate = new Timestamp(System.currentTimeMillis());
-		String employeeNumber = postData.getEmployeeNumber();
-		String value = postData.getValue();
 		boolean read = false;
 
 		Comment comment = new Comment(getNewCommentId(), documentId, commentDate, employeeNumber, value, read);
