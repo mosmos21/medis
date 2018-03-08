@@ -4,6 +4,7 @@ import java.lang.invoke.MethodHandles;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +73,7 @@ public class CommentLogic {
 		commentInfo.setFirstName(userDetail.getFirstName());
 		commentInfo.setIcon(userDetail.isIcon());
 		commentInfo.setRead(comment.isRead());
-		commentInfo.setCommentContent(comment.getValue());
+		commentInfo.setValue(comment.getValue());
 		return commentInfo;
 	}
 
@@ -128,11 +129,11 @@ public class CommentLogic {
     }
 
 
-	public CommentInfoForm save(String documentId, String employeeNumber, String value) throws IdIssuanceUpperException {
+	public CommentInfoForm save(String documentId, String employeeNumber, Map<String, String> value) throws IdIssuanceUpperException {
 		Timestamp commentDate = new Timestamp(System.currentTimeMillis());
 		boolean read = false;
 
-		Comment comment = new Comment(getNewCommentId(), documentId, commentDate, employeeNumber, value, read);
+		Comment comment = new Comment(getNewCommentId(), documentId, commentDate, employeeNumber, value.get("value"), read);
 		commentRepository.save(comment);
 
 		UserDetail userDetail = userDetailRepository.findOne(employeeNumber);

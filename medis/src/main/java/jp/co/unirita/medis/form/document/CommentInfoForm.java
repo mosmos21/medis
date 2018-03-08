@@ -10,14 +10,14 @@ public class CommentInfoForm implements Serializable {
 
 	private Timestamp commentDate;
 
-	private boolean isIcon;
+	private boolean icon;
 
 	private String lastName;
 
 	private String firstName;
 
-	private boolean isRead;
+	private boolean read;
 
-	private String commentContent;
+	private String value;
 
 }

@@ -2,6 +2,7 @@ package jp.co.unirita.medis.controller;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -190,7 +191,7 @@ public class DocumentController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public CommentInfoForm commetAdd(@AuthenticationPrincipal User user,
 			@PathVariable(value = "documentId") String documentId,
-			@RequestBody String value,
+			@RequestBody Map<String, String> value,
 			@Valid HttpServletRequest request,HttpServletResponse response
 		) throws NotExistException, IdIssuanceUpperException {
 		logger.info("[method: save] Add Comment EmployeeNumber:" + user.getEmployeeNumber() + "value:"
