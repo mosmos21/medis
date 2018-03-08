@@ -182,7 +182,7 @@ public class DocumentController {
      * 新規コメントを保存し、コメントIDを付与する
      * @param user ログインしているユーザ
      * @param documentId　コメントを記入する文書の文書ID
-     * @param value　コメントの内容
+     * @param value　valueをキーにしたコメントの内容
      * @return コメント情報(@see jp.co.unirita.medis.form.CommentInfoForm)
      * @throws NotExistException 更新IDが存在していない場合に発生する例外
 	 * @throws IdIssuanceUpperException IDの発行数が限界を超えたときに発生する例外
@@ -195,7 +195,7 @@ public class DocumentController {
 			@Valid HttpServletRequest request,HttpServletResponse response
 		) throws NotExistException, IdIssuanceUpperException {
 		logger.info("[method: save] Add Comment EmployeeNumber:" + user.getEmployeeNumber() + "value:"
-				+ value);
+				+ value.get("value"));
 		argumentCheckLogic.checkDocumentId(documentId);
 		return commentLogic.save(documentId, user.getEmployeeNumber(), value);
 	}
