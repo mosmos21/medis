@@ -20,8 +20,4 @@ export class SidenavAdminComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  logout() {
-    this.authService.logout(this.http, this.hostname + 'logout')
-  }
 }

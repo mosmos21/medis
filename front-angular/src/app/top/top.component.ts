@@ -35,6 +35,7 @@ export class TopComponent implements OnInit {
     this.nav.show();
     this.nav.showUserMenu();
     this.user = this.authService.user;
+    this.authService.getUserDetail(http);
     console.log(this.user);
   }
 

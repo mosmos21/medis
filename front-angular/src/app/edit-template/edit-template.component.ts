@@ -46,6 +46,7 @@ export class EditTemplateComponent implements OnInit {
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
+    this.authService.getUserDetail(http);
   }
 
   ngOnInit() {

@@ -21,6 +21,7 @@ export class NewDocumentComponent implements OnInit {
     public conv: ConvertDateService
   ) {
     this.nav.show();
+    this.authService.getUserDetail(http);
   }
 
   ngOnInit() {

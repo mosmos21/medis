@@ -28,6 +28,7 @@ export class SearchResultComponent implements OnInit {
     private errorService: ErrorService,
   ) {
     this.nav.show();
+    this.authService.getUserDetail(http);
   }
 
   ngOnInit() {

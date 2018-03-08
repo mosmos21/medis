@@ -19,6 +19,7 @@ export class AppComponent {
   private meVisible: boolean;
 
   constructor(
+    @Inject('hostname') private hostname: string,
     public nav: NavigationService,
     private http: HttpClient,
     private authService: AuthService,
@@ -47,5 +48,9 @@ export class AppComponent {
     this.mymenuVisible = false;
     this.searchVisible = false;
     this.meVisible = true;
+  }
+
+  logout() {
+    this.authService.logout(this.http, this.hostname + 'logout')
   }
 }

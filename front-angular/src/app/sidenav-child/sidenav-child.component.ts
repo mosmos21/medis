@@ -53,10 +53,6 @@ export class SidenavChildComponent implements OnInit {
     this.settingsVisible = true;
   }
 
-  logout() {
-    this.authService.logout(this.http, this.hostname + 'logout')
-  }
-
   loadList() {
     this.http.get(this.hostname + "documents/private", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {

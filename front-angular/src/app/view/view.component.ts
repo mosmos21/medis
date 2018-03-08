@@ -35,7 +35,9 @@ export class ViewComponent implements OnInit {
     public convert: ConvertDateService,
     private authService: AuthService,
     private errorService: ErrorService,
-  ) { }
+  ) {
+    this.authService.getUserDetail(http);
+  }
 
   ngOnInit() {
     this.documentId = this.route.snapshot.paramMap.get('id');

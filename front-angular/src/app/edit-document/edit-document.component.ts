@@ -47,9 +47,8 @@ export class EditDocumentComponent implements OnInit {
     private errorService: ErrorService,
     private nav: NavigationService
   ) {
-
-
     this.nav.show();
+    this.authService.getUserDetail(http);
   }
 
   ngOnInit() {

@@ -44,6 +44,7 @@ export class UserManagementComponent implements OnInit {
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
+    this.authService.getUserDetail(http);
   }
 
   ngOnInit() {
