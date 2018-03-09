@@ -19,7 +19,7 @@
                 {
                     "updateId": "(updateId)",
                     "documentId": "(documentId)",
-                    "documentTitle": "(documentTitle)",
+                    "documentName": "(documentName)",
                     "updateType": "(updateType)",
                     "employeeNumber": "(employeeNumber)",
                     "updateDate": "(updateDate)"
@@ -49,12 +49,11 @@
             [
                 {
                     "documentId": "(documentId)",
-                    "documentTitle": "(documentTitle)",
+                    "documentName": "(documentName)",
                     "employeeNumber": "(employeeNumber)",
+                    "templateId": "(templateId)",
                     "documentCreateDate": "(documentCreateDate)",
-                    "isPublished": true|false,
-                    "updateType": "(updateType)",
-                    "updateDate": "(updateDate)"
+                    "documentPublish": true|false
                 },
                 ...
             ]
@@ -79,12 +78,11 @@
             [
                 {
                     "documentId": "(documentId)",
-                    "documentTitle": "(documentTitle)",
+                    "documentName": "(documentName)",
                     "employeeNumber": "(employeeNumber)",
+                    "templateId": "(templateId)",
                     "documentCreateDate": "(documentCreateDate)",
-                    "isPublished": true|false,
-                    "updateType": "(updateType)",
-                    "updateDate": "(updateDate)"
+                    "documentPublish": true|false
                 },
                 ...
             ]
@@ -121,12 +119,11 @@
             [
                 {
                     "documentId": "(documentId)",
-                    "documentTitle": "(documentTitle)",
+                    "documentName": "(documentName)",
                     "employeeNumber": "(employeeNumber)",
+                    "templateId": "(templateId)",
                     "documentCreateDate": "(documentCreateDate)",
-                    "isPublished": true|false,
-                    "updateType": "(updateType)",
-                    "updateDate": "(updateDate)"
+                    "documentPublish": true|false
                 },
                 ...
             ]

@@ -12,10 +12,11 @@
             [
                 {
                     "documentId": "(documentId)",
-                    "documentTile": "(documentTitle)",
+                    "documentName": "(documentName)",
                     "employeeNumber": "(employeeNumber)",
-                    "documentCreateDate": "(dicumentCreateDate)",
-                    "isPublished": true|false
+                    "templateId": "(templateId)",
+                    "documentCreateDate": "(documentCreateDate)",
+                    "documentPublish": true|false
                 },
                 ...
             ]

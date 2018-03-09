@@ -12,7 +12,7 @@
             {
                 "documentId": "(documentId)",
                 "templateId": "(templateId)",
-                "isPublish": true|false,
+                "publish": true|false,
                 "contents": [
                     {
                         "contentOrder": (contentOrder),
@@ -48,7 +48,7 @@
             ```json
             {
                 "templateId": "(templateId)",
-                "isDocumentPublish": true|false,
+                "documentPublish": true|false,
                 "contents": [
                     {
                         "contentOrder": (contentOrder),
@@ -67,7 +67,7 @@
                 {
                     "documentId": "(documentId)",
                     "templateId": "(templateId)",
-                    "isPublish": true|false,
+                    "publish": true|false,
                     "contents": [
                         {
                             "contentOrder": (contentOrder),
@@ -95,7 +95,7 @@
             ```json
             {
                 "documentId": "(documentId)",
-                "isDocumentPublish": true|false,
+                "documentPublish": true|false,
                 "contents": [
                     {
                         "contentOrder": (contentOrder),

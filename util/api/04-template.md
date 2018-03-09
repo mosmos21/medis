@@ -20,7 +20,7 @@
                     "templateName": "(templateName)",
                     "templateCreateDate": "(templateCreateDate)",
                     "employeeNumber": "(employeeNumber)",
-                    "isTemplatePublish": true|false
+                    "templatePublish": true|false
                 },
                 ...
             ]
@@ -44,7 +44,7 @@
                     "templateName": "(templateName)",
                     "templateCreateDate": "(templateCreateDate)",
                     "employeeNumber": "(employeeNumber)",
-                    "isTemplatePublish": true|false
+                    "templatePublish": true|false
                 },
                 ...
             ]
@@ -74,7 +74,7 @@
             {
                 "blockId": "(blockId)",
                 "blockName": "(blockName)",
-                "isUnique": true|false,
+                "unique": true|false,
                 "items": [
                     {
                         "size": (size),
@@ -109,7 +109,7 @@
             ```json
             {
                 "templateId":(templateId),
-                "isPublish": true|false,
+                "publish": true|false,
                 "contents": [
                     {
                         "contentOrder": (contentOrder),
@@ -132,7 +132,7 @@
         - リクエスト
             ```json
             {
-                "isPublish": true|false,
+                "publish": true|false,
                 "contents": [
                     {
                         "contentOrder": (contentOrder),
@@ -151,7 +151,7 @@
             ```json
             {
                 "templateId":(templateId),
-                "isPublish": true|false,
+                "publish": true|false,
                 "contents": [
                     {
                         "contentOrder": (contentOrder),

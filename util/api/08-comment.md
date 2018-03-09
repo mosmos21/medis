@@ -15,11 +15,11 @@
                 {
                     "commentId": "(commentId)",
                     "commentDate": "(commentDate)",
-                    "isIcon": true|false,
+                    "icon": true|false,
                     "employeeNumber": "(employeeNumber)",
                     "lastName": "(lastName)",
                     "firstName": "(firstName)",
-                    "isRead": true|false,
+                    "read": true|false,
                     "commentContent": "(commentContent)"
                 },
                 ...

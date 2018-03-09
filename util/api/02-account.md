@@ -76,7 +76,7 @@
                 "lastNamePhonetic": "(lastNamePhonetic)",
                 "firstNamePhonetic": "(firstNamePhonetic)",
                 "mailaddress": "(mailaddress)",
-                "isIcon": true|false
+                "icon": true|false
             }
             ```
 
@@ -94,7 +94,7 @@
                 "lastNamePhonetic": "(lastNamePhonetic)",
                 "firstNamePhonetic": "(firstNamePhonetic)",
                 "mailaddress": "(mailaddress)",
-                "isIcon": true|false
+                "icon": true|false
             }
             ```
 
@@ -196,8 +196,8 @@
                 {
                     "tagId": "(tagId)",
                     "tagName": "(tagName)",
-                    "isMailNotification": true|false,
-                    "isBrowserNotification": true|false
+                    "mailNotification": true|false,
+                    "browserNotification": true|false
                 },
                 ...
             ]
@@ -213,8 +213,8 @@
             [
                 {
                     "tagId": "(tagId)",
-                    "isMailNotification": true|false,
-                    "isBrowserNotification": true|false
+                    "mailNotification": true|false,
+                    "browserNotification": true|false
                 },
                 ...
             ]
@@ -231,8 +231,8 @@
         - レスポンス(200 OK)
             ```json
             {
-                "isMailNotification": true|false,
-                "isBrowserNotification": true|false
+                "mailNotification": true|false,
+                "browserNotification": true|false
             }
             ```
 
@@ -245,8 +245,8 @@
         - リクエスト
             ```json
             {
-                "isMailNotification": true|false,
-                "isBrowserNotification": true|false
+                "mailNotification": true|false,
+                "browserNotification": true|false
             }
             ```
         - レスポンス(201 CREATED)

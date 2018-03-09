@@ -69,9 +69,9 @@
                     "lastNamePhonetic": "(lastNamePhonetic)",
                     "firstNamePhonetic": "(firstNamePhonetic)",
                     "mailaddress": "(mailaddress)",
-                    "isIcon": true|false,
+                    "icon": true|false,
                     "authorityType": "(authorityType)",
-                    "isEnable": true|false
+                    "enabled": true|false
                 },
                 ...
             ]
@@ -91,9 +91,9 @@
                 "lastNamePhonetic": "(lastNamePhonetic)",
                 "firstNamePhonetic": "(firstNamePhonetic)",
                 "mailaddress": "(mailaddress)",
-                "isIcon": true|false,
+                "icon": true|false,
                 "authorityType": "(authorityType)",
-                "isEnable": true|false,
+                "enabled": true|false,
             }
             ```
 
@@ -109,7 +109,7 @@
             [
                 {
                     "employeeNumber": "(employeeNumber)",
-                    "isEnable": true|false,
+                    "enabled": true|false,
                     "authorityType": "(authorityType)"
                 },
                 ...
