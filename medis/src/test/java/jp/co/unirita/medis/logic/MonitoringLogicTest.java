@@ -26,15 +26,21 @@ public class MonitoringLogicTest {
 	MonitoringLogic monitoringLogic;
 
 	@Test
-    public void adminがお気に入り登録したドキュメント() {
+    public void adminが設定した監視タグのついたドキュメント一覧() {
         List<DocumentInfoForm> documentInfoList = monitoringLogic.getMonitoringList("admin");
-        assertEquals("お気に入りが取得できませんでした", 2, documentInfoList.size());
+        assertEquals("adminの設定した監視タグのついたドキュメントが取得できませんでした", 2, documentInfoList.size());
     }
 
 	@Test
-    public void g00000がお気に入り登録したドキュメント() {
+    public void g00000が設定した監視タグのついたドキュメント一覧() {
         List<DocumentInfoForm> documentInfoList = monitoringLogic.getMonitoringList("g00000");
-        assertEquals("お気に入りが取得できませんでした", 1, documentInfoList.size());
+        assertEquals("g00000の設定した監視タグのついたドキュメントが取得できませんでした", 1, documentInfoList.size());
+    }
+
+	@Test
+    public void 監視タグを設定していない場合() {
+        List<DocumentInfoForm> documentInfoList = monitoringLogic.getMonitoringList("user");
+        assertEquals("userはまだ監視タグを設定していません", 0, documentInfoList.size());
     }
 
 }
