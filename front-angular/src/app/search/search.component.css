@@ -10,7 +10,10 @@
     width: 95%;
     margin: 10px 4px;
     padding: 1px;
-    
+}
+
+.menu_content{
+    background: #ddd;
 }
 
 .wrap_search_content h2 {
