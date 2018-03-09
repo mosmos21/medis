@@ -42,7 +42,7 @@
             ```
 
 - ## パスワードの更新
-    - ### [POST] https://{hostname}/{version}/accounts/{user}
+    - ### [POST] https://{hostname}/{version}/accounts/reset
         パスワードを再設定する
 
         | パラメータ | 省略 |  |  

@@ -48,7 +48,7 @@
             ```
 
 - ## ユーザ管理情報の取得
-    - ### [GET] https://{hostname}/{version}/system/users?size={size}?page={page}
+    - ### [GET] https://{hostname}/{version}/system/users?size={size}
         ユーザの一覧を取得
         
 
