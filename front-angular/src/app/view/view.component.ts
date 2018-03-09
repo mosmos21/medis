@@ -72,6 +72,7 @@ export class ViewComponent implements OnInit {
     this.http.get(this.hostname + 'documents/' + this.documentId + '/comments', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.comments = json;
+        console.log(this.comments);
       },
       error => {
         this.errorService.errorPath(error.status);

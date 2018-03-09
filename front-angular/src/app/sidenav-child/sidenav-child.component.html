@@ -18,15 +18,15 @@
 			<div id="menu_user_content" class="menu_content">
 				<div class="wrap_menu_contet_link">
 					<div class="menu_content_link">
-						<img src="/assets/image/top.svg" />
+						<img src="/assets/image/top.svg" (click)="nav.toTop()" />
 						<div class="menu_content_link_text" (click)="nav.toTop()">トップページ</div>
 					</div>
 					<div class="menu_content_link">
-						<img src="/assets/image/new.svg" />
+						<img src="/assets/image/new.svg" (click)="nav.toNew()" />
 						<div class="menu_content_link_text" (click)="nav.toNew()">新規作成</div>
 					</div>
 					<div class="menu_content_link">
-						<img src="/assets/image/new.svg" />
+						<img src="/assets/image/new.svg" (click)="nav.toEdit()" />
 						<div class="menu_content_link_text" (click)="nav.toEdit()">下書き
 							<span *ngIf="num > 0" class="badge">{{num}}</span>
 						</div>
@@ -47,15 +47,15 @@
 			<div id="menu_config_content" class="menu_content">
 				<div class="wrap_menu_contet_link">
 					<div class="menu_content_link">
-						<img src="/assets/image/user_config.svg" />
+						<img src="/assets/image/user_config.svg" (click)="nav.toMySetting()" />
 						<div class="menu_content_link_text" (click)="nav.toMySetting()">ユーザ設定</div>
 					</div>
 					<div class="menu_content_link">
-						<img src="/assets/image/tag_config.svg" />
+						<img src="/assets/image/tag_config.svg" (click)="nav.toMonitoringTagsSetting()" />
 						<div class="menu_content_link_text" (click)="nav.toMonitoringTagsSetting()">監視タグ設定</div>
 					</div>
 					<div class="menu_content_link">
-						<img src="/assets/image/bell_config.svg" />
+						<img src="/assets/image/bell_config.svg" (click)="nav.toNotificationSetting()" />
 						<div class="menu_content_link_text" (click)="nav.toNotificationSetting()">通知設定</div>
 					</div>
 				</div>
