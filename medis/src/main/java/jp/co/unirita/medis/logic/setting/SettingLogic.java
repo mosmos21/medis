@@ -37,10 +37,6 @@ public class SettingLogic {
 	public List<Tag> getMonitoringTag(String employeeNumber) {
 		List<NotificationConfig> notifications = notificationConfigRepository
 				.findByEmployeeNumberAndTagIdNot(employeeNumber, COMMENT_NOTIFICATION_TAG);
-		System.out.println(notifications.stream()
-                .map(NotificationConfig::getTagId)
-                .map(tagRepository::findOne)
-                .collect(Collectors.toList()));
 		return notifications.stream()
                 .map(NotificationConfig::getTagId)
                 .map(tagRepository::findOne)
@@ -84,16 +80,13 @@ public class SettingLogic {
             	NotificationConfig ref = new NotificationConfig();
             	ref.setEmployeeNumber(employeeNumber);
             	ref.setTagId(tag.getTagId());
-                ref.setMailNotification(false);
-                ref.setBrowserNotification(false);
+                ref.setMailNotification(true);
+                ref.setBrowserNotification(true);
                 notification.add(ref);
             } else {
             	notification.add(config);
             }
         }
-		for (NotificationConfig not : notification) {
-			System.out.println(not);
-		}
 		List<NotificationConfig> del = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
 		notificationConfigRepository.delete(del);
 		for (NotificationConfig conf : notification) {
