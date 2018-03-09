@@ -49,7 +49,7 @@ export class TopComponent implements OnInit {
         this.errorService.errorPath(error.status)
       }
     );
-    this.http.get(this.hostname + "documents", { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
+    this.http.get(this.hostname + "documents/public", { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
       json => {
         this.ownDocList = json;
         console.log(this.updateList);

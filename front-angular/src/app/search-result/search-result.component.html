@@ -19,9 +19,9 @@
 							<tr *ngFor="let l of list">
 								<td>{{ l.documentId }}</td>
 								<td>
-									<a href="/browsing/{{ l.documentId }}">{{ l.documentTitle }}</a>
+									<a href="/browsing/{{ l.documentId }}">{{ l.documentName }}</a>
 								</td>
-								<td>{{ l.documentCreateDate }}</td>
+								<td>{{ conv.time2Date(l.documentCreateDate) }}</td>
 							</tr>
 						</table>
 					</div>

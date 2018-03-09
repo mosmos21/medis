@@ -53,18 +53,16 @@ export class NavigationService {
 
   //一般ユーザ設定系
   toMySetting() {
-    this.searchService.selectedTags = [];
+    const str = "/settings/me";
     this.router.navigate(["/settings/me"]);
   }
 
   toNotificationSetting() {
-    this.searchService.selectedTags = [];
     this.router.navigate(["/settings/me/notification"]);
   }
 
   toMonitoringTagsSetting() {
-    this.searchService.selectedTags = [];
-    this.router.navigate(["settings/me/monitoring_tags"]);
+    this.router.url == "settings/me/monitoring_tags" ? false : this.router.navigate(["settings/me/monitoring_tags"]);
   }
 
   toSearchResult() {

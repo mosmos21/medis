@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { SearchService } from '../services/search.service';
 import { ErrorService } from '../services/error.service';
+import { ConvertDateService } from '../services/convert-date.service';
 
 @Component({
   selector: 'app-search-result',
@@ -17,7 +18,7 @@ export class SearchResultComponent implements OnInit {
   public id: string = "ドキュメントID";
   public name: string = "ドキュメント名";
   public list: any;
-  private msg: string;
+  private msg: String;
 
   constructor(
     private nav: NavigationService,
@@ -26,6 +27,7 @@ export class SearchResultComponent implements OnInit {
     private authService: AuthService,
     private searchService: SearchService,
     private errorService: ErrorService,
+    public conv: ConvertDateService,
   ) {
     this.nav.show();
     this.authService.getUserDetail(http);
@@ -35,13 +37,14 @@ export class SearchResultComponent implements OnInit {
     this.searchService.searchTagsData$.subscribe(
       msg => {
         this.msg = msg;
-        msg.length > 0 ? this.getList(msg) : this.list = [];
+        this.getList(this.msg);
+        // msg.length > 0 ? this.getList(msg) : this.list = [];
       }
     );
   }
 
-  getList(msg: any): void {
-    console.log(this.hostname + "search?tags=" + this.encodeStringToUri(msg));
+  getList(msg: String): void {
+    console.log(msg);
     this.http.get(this.hostname + "search?tags=" + this.encodeStringToUri(msg), { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.list = json;
@@ -54,8 +57,7 @@ export class SearchResultComponent implements OnInit {
   }
 
   encodeStringToUri(msg: any) {
-    var str = msg.join(",");
-    var encord_tag = encodeURIComponent(str);
+    var encord_tag = encodeURIComponent(msg);
     return encord_tag;
   }
 

@@ -30,7 +30,7 @@ export class SidenavChildComponent implements OnInit {
 
   ngOnInit() {
     if (this.nav.visible = true) {
-      this.loadList();
+      this.loadDraftList();
     }
   }
 
@@ -53,7 +53,7 @@ export class SidenavChildComponent implements OnInit {
     this.settingsVisible = true;
   }
 
-  loadList() {
+  loadDraftList() {
     this.http.get(this.hostname + "documents/private", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.list = json;

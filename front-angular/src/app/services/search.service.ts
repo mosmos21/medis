@@ -8,7 +8,7 @@ import { ErrorService } from './error.service';
 @Injectable()
 export class SearchService {
 
-  private searchTagsDataSource = new Subject<string>();
+  private searchTagsDataSource = new Subject<String>();
   public searchTagsData$ = this.searchTagsDataSource.asObservable();
 
   public newTagName = "";
@@ -57,7 +57,7 @@ export class SearchService {
     ];
   }
 
-  sendMsg(msg: any) {
+  sendMsg(msg: String) {
     this.searchTagsDataSource.next(msg);
   }
 
@@ -81,7 +81,7 @@ export class SearchService {
         const temp = json;
         const sub = JSON.stringify(temp);
         this.selectedTags = JSON.parse(sub);
-
+        console.log(json);
         var i = this.selectedTags.length;
         while (i--) {
           var j = this.targetTags.length;
@@ -171,13 +171,12 @@ export class SearchService {
   addTagsToResult(event: any) {
     console.log("add");
     if (this.selectedTags.length < 5) {
-      var i = this.targetTags.length;
-      var str = event.path[0].innerText;
+      let i = this.targetTags.length;
+      let str = event.path[0].innerText;
       while (i--) {
         if (this.targetTags[i]["tagName"] == str) {
           this.selectedTags[this.selectedTags.length] = this.targetTags[i];
           this.targetTags.splice(i, 1);
-          this.sendMsg(this.selectedTags);
         }
       }
 
@@ -185,25 +184,37 @@ export class SearchService {
       while (j--) {
         if (this.tempTags[j]["tagName"] == str) {
           this.tempTags.splice(j, 1);
-          console.log(this.tempTags);
         }
       }
-      console.log(this.selectedTags);
     }
+
+    let k = this.selectedTags.length;
+    let tagList = [];
+    while (k--) {
+      tagList.push(this.selectedTags[k].tagName);
+    }
+    this.sendMsg(tagList.join(","));
   }
 
   deleteTagsToResult(event: any) {
     console.log("delete");
     var i = this.selectedTags.length;
-    var str = event.path[0].innerText;
+    let str = event.path[0].innerText;
     while (i--) {
       if (this.selectedTags[i]["tagName"] == str) {
         this.targetTags[this.targetTags.length] = this.selectedTags[i];
         this.tempTags[this.tempTags.length] = this.selectedTags[i];
-        this.sendMsg(this.selectedTags);
+        this.sendMsg(this.selectedTags[i].tagName);
         this.selectedTags.splice(i, 1);
       }
     }
+
+    let k = this.selectedTags.length;
+    let tagList = [];
+    while (k--) {
+      tagList.push(this.selectedTags[k].tagName);
+    }
+    this.sendMsg(tagList.join(","));
   }
 
   searchTag() {
