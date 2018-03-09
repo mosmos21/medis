@@ -11,7 +11,9 @@ export class SearchComponent implements OnInit {
 
   constructor(
     public searchService: SearchService,
-  ) { }
+  ) {
+    this.searchService.init();
+  }
 
   ngOnInit() {
     this.searchService.getTags();

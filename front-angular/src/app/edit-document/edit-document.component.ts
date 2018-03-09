@@ -49,6 +49,7 @@ export class EditDocumentComponent implements OnInit {
   ) {
     this.nav.show();
     this.authService.getUserDetail(http);
+    this.searchService.init();
   }
 
   ngOnInit() {
@@ -211,9 +212,13 @@ export class EditDocumentComponent implements OnInit {
   }
 
   clickCheckBox(id: string, line: number, e: any) {
+    console.log(id);
+    console.log(line);
+    console.log(this.contents);
     for (let c of this.contents) {
       if (c.id == id) {
-        this.documentValues[id][line] = e.target.checked ? "true" : "false";
+        // this.documentValues[id][line] = e.target.checked ? "true" : "false";
+        this.documentValues[id][line] = (this.documentValues[id][line] == "true" ? "false" : "true");
       }
     }
   }

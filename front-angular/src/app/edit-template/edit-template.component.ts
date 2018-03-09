@@ -47,6 +47,7 @@ export class EditTemplateComponent implements OnInit {
     this.nav.showAdminMenu();
     this.nav.show();
     this.authService.getUserDetail(http);
+    this.searchService.init();
   }
 
   ngOnInit() {
@@ -270,13 +271,13 @@ export class EditTemplateComponent implements OnInit {
   submitTags(templateId: string): void {
     let tags = new Array();
     tags = this.searchService.selectedTags.concat(this.searchService.newTags);
-    this.http.post(this.hostname + "templates/" + templateId + "/tags", tags, 
-    { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
-      success => {
-      },
-      error => {
-        this.errorService.errorPath(error.status);
-      }
-    );
+    this.http.post(this.hostname + "templates/" + templateId + "/tags", tags,
+      { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
+        success => {
+        },
+        error => {
+          this.errorService.errorPath(error.status);
+        }
+      );
   }
 }

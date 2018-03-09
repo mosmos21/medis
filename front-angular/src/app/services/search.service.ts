@@ -34,7 +34,28 @@ export class SearchService {
     @Inject('hostname') private hostname: string,
     private authService: AuthService,
     private errorService: ErrorService,
-  ) { }
+  ) {
+  }
+
+  init(): void {
+    this.newTagName = "";
+    this.selectedTags = [];
+    this.tempTags = [];
+    this.newTags = [];
+    this.searchWord = "";
+    this.tags = [
+      {
+        tagId: "",
+        tagName: ""
+      }
+    ];
+    this.targetTags = [
+      {
+        tagId: "",
+        tagName: ""
+      }
+    ];
+  }
 
   sendMsg(msg: any) {
     this.searchTagsDataSource.next(msg);
