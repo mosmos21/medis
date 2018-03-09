@@ -1,6 +1,5 @@
-
 INSERT INTO "notification_config"
-     (employee_number, tag_id, mail_notification, browser_notification)
+    (employee_number, tag_id, mail_notification, browser_notification)
 VALUES
     ('admin', 'n0000000000', 'true', 'true'),
     ('admin', 's0000000000', 'false', 'false'),

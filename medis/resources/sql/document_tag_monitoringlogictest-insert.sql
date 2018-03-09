@@ -1,5 +1,5 @@
 INSERT INTO "document_tag"
-        (document_id, tag_order, tag_id)
+    (document_id, tag_order, tag_id)
 VALUES
     ('d0000000000', '1','n0000000000'),
     ('d0000000000', '2','s0000000000'),
