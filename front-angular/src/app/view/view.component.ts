@@ -177,19 +177,21 @@ export class ViewComponent implements OnInit {
       value: this.commentStr
     }
     this.http.put(this.hostname + "documents/" + this.documentId + "/comments/create", postComment, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
-      josn => { },
+      json => {
+        this.comments.push(JSON.parse(json));
+      },
       error => {
         this.errorService.errorPath(error.status);
       }
     );
-    location.reload();
     this.commentStr = "";
   }
 
   getComments() {
     this.http.get(this.hostname + "documents/" + this.documentId + "/comments", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
-        this.comments = json
+        console.log(json);
+        this.comments = json;
       },
       error => {
         this.errorService.errorPath(error.status);
