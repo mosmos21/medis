@@ -58,20 +58,10 @@ public class SettingController {
      */
 	@GetMapping(value = "me/monitoring_tags")
     @ResponseStatus(HttpStatus.OK)
-	public List<Tag> getMonitoringTags(@AuthenticationPrincipal User user) {
-		return settingLogic.getMonitoringTags(user.getEmployeeNumber());
+	public List<Tag> getMonitoringTag(@AuthenticationPrincipal User user) {
+		return settingLogic.getMonitoringTag(user.getEmployeeNumber());
 	}
 
-    /**
-     * コメントに対する通知設定の情報を取得する
-     * @param user ログインしているユーザ
-     * @return メール通知とブラウザ通知の設定情報
-     */
-    @GetMapping(value = "me/comment_notifications")
-    @ResponseStatus(HttpStatus.OK)
-    public Map<String, Boolean> getNotificationComment(@AuthenticationPrincipal User user) {
-        return settingLogic.getNotificationCommentInfo(user.getEmployeeNumber());
-    }
 
     /**
      * 監視しているタグの通知設定
@@ -82,6 +72,18 @@ public class SettingController {
     @ResponseStatus(HttpStatus.OK)
     List<NotificationsForm> getNotificationTag(@AuthenticationPrincipal User user) {
         return settingLogic.getNotificationTag(user.getEmployeeNumber());
+    }
+
+
+    /**
+     * コメントに対する通知設定の情報を取得する
+     * @param user ログインしているユーザ
+     * @return メール通知とブラウザ通知の設定情報
+     */
+    @GetMapping(value = "me/comment_notifications")
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Boolean> getNotificationComment(@AuthenticationPrincipal User user) {
+        return settingLogic.getNotificationComment(user.getEmployeeNumber());
     }
 
 
@@ -104,20 +106,10 @@ public class SettingController {
      */
 	@PostMapping(value = "me/monitoring_tags")
     @ResponseStatus(HttpStatus.CREATED)
-	void updateMonitoring_Tags(@AuthenticationPrincipal User user, @RequestBody @Valid List<NotificationConfig> data) {
-		settingLogic.updateMonitoringTags(user.getEmployeeNumber(), data);
+	void updateMonitoringTag(@AuthenticationPrincipal User user, @RequestBody List<Tag> tags) {
+		settingLogic.updateMonitoringTag(user.getEmployeeNumber(), tags);
 	}
 
-    /**
-     * コメントに対する通知の設定を行う
-     * @param user ログインしているユーザ
-     * @param data メール通知フラグとブラウザ通知フラグ
-     */
-    @PostMapping(value = "me/comment_notifications")
-    @ResponseStatus(HttpStatus.CREATED)
-    void updateNotificationComment(@AuthenticationPrincipal User user, @RequestBody Map<String, Boolean> data) {
-        settingLogic.updateNotificationComment(user.getEmployeeNumber(), data);
-    }
 
     /**
      *監視しているタグの通知設定を更新する
@@ -129,4 +121,16 @@ public class SettingController {
 	void updateNotificationTag(@AuthenticationPrincipal User user, @RequestBody @Valid List<NotificationConfig> data) {
 		settingLogic.updateNotificationTag(user.getEmployeeNumber(), data);
 	}
+
+
+    /**
+     * コメントに対する通知の設定を行う
+     * @param user ログインしているユーザ
+     * @param data メール通知フラグとブラウザ通知フラグ
+     */
+    @PostMapping(value = "me/comment_notifications")
+    @ResponseStatus(HttpStatus.CREATED)
+    void updateNotificationComment(@AuthenticationPrincipal User user, @RequestBody Map<String, Boolean> data) {
+        settingLogic.updateNotificationComment(user.getEmployeeNumber(), data);
+    }
 }
