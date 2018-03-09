@@ -16,7 +16,6 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
-import jp.co.unirita.medis.form.document.DocumentInfoForm;
 
 @Service
 @Transactional
@@ -33,7 +32,7 @@ public class DocumentListLogic {
 	UpdateInfoRepository updateInfoRepository;
 
 
-	public List<DocumentInfoForm> getDocumentList(String employeeNumber, String publishType) {
+	public List<DocumentInfo> getDocumentList(String employeeNumber, String publishType) {
 
 		List<DocumentInfo> documentInfo = new ArrayList<>();
 
@@ -72,15 +71,8 @@ public class DocumentListLogic {
 			documentInfoList.addAll(documentInfoRepository.findByDocumentId(ids));
 		}
 
-		//documentInfoListとupdateInfoListの値をDocumentInfoFormに格納
-		List<DocumentInfoForm> documentInfoForm = new ArrayList<>();
+		documentInfoList.sort(Comparator.comparing(DocumentInfo::getDocumentCreateDate).reversed());
 
-		for(int i = 0; i < documentInfoList.size(); i++) {
-			documentInfoForm.add(new DocumentInfoForm(documentInfoList.get(i), updateInfoList.get(i)));
-		}
-
-		documentInfoForm.sort(Comparator.comparing(DocumentInfoForm::getUpdateDate).reversed());
-
-		return documentInfoForm;
+		return documentInfoList;
 	}
 }

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import jp.co.unirita.medis.logic.setting.MonitoringLogic;
 
 @RequestMapping("/v1/documents")
@@ -34,7 +34,7 @@ public class MonitoringListController {
      */
 	@GetMapping("/monitoring_tags")
 	@ResponseStatus(HttpStatus.OK)
-	public List<DocumentInfoForm> getMonitoringList(
+	public List<DocumentInfo> getMonitoringList(
 			@AuthenticationPrincipal User user) {
 		return monitoringLogic.getMonitoringList(user.getEmployeeNumber());
 	}

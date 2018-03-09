@@ -19,7 +19,6 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
-import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service
@@ -38,7 +37,7 @@ public class BookmarkLogic {
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
 
-	public List<DocumentInfoForm> getBookmarkList(String employeeNumber) {
+	public List<DocumentInfo> getBookmarkList(String employeeNumber) {
 
 		// ユーザがお気に入りしている文書idの一覧を取得
 		List<Bookmark> bookmark = bookmarkRepository.findByEmployeeNumberAndSelected(employeeNumber, true);
@@ -70,15 +69,9 @@ public class BookmarkLogic {
 			documentInfoList.addAll(documentInfoRepository.findByDocumentId(updocs));
 		}
 
-		// documentInfoListとupdateInfoListの値をDocumentInfoFormに格納
-		List<DocumentInfoForm> documentInfoForm = new ArrayList<>();
 
-		for (int i = 0; i < documentInfoList.size(); i++) {
-			documentInfoForm.add(new DocumentInfoForm(documentInfoList.get(i), updateInfoList.get(i)));
-		}
-
-		documentInfoForm.sort(Comparator.comparing(DocumentInfoForm::getUpdateDate).reversed());
-		return documentInfoForm;
+		documentInfoList.sort(Comparator.comparing(DocumentInfo::getDocumentCreateDate).reversed());
+		return documentInfoList;
 	}
 
 	// 最新のIDを生成

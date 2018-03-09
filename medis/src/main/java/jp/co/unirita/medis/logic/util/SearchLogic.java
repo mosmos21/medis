@@ -1,16 +1,10 @@
 package jp.co.unirita.medis.logic.util;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import jp.co.unirita.medis.logic.template.TemplateListLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +20,7 @@ import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
-import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
-import jp.co.unirita.medis.form.document.DocumentInfoForm;
 
 @Service
 @Transactional
@@ -68,8 +60,8 @@ public class SearchLogic {
 				.sorted(Comparator.comparing(DocumentInfo::getDocumentCreateDate))
 				.collect(Collectors.toList());
     }
-    
-	public List<DocumentInfoForm> getSearchResult(String tagName) throws UnsupportedEncodingException {
+
+/*	public List<DocumentInfoForm> getSearchResult(String tagName) throws UnsupportedEncodingException {
 		//デコードし、タグのリストを作成
 //		String tagParam = URLDecoder.decode(tagName, "UTF-8");
 //		System.out.println(tagParam);
@@ -191,5 +183,5 @@ public class SearchLogic {
 		documentInfoForm.sort(Comparator.comparing(DocumentInfoForm::getUpdateDate).reversed());
 
 		return documentInfoForm;
-	}
+	}*/
 }
