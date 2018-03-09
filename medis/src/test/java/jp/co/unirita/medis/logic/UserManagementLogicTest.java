@@ -50,10 +50,10 @@ public class UserManagementLogicTest {
     public void ユーザの有効_無効化_ユーザ権限の更新() {
     	User user = new User();
     	user.setEmployeeNumber("medis");
-    	user.setAuthorityId("00000000003");
+    	user.setAuthorityId("a0000000001");
     	user.setEnabled(false);
     	user.setPassword("medis");
-        userManagementLogic.updateUserManagement("medis", false, "00000000003");
+        userManagementLogic.updateUserManagement("medis", false, "a0000000001");
         assertEquals("ユーザ情報が更新できませんでした"
         		, user, userRepository.findOne("medis"));
     }
@@ -68,7 +68,7 @@ public class UserManagementLogicTest {
     	userManagementForm.setFirstNamePhonetic("firstPhone");
     	userManagementForm.setMailaddress("new@hoge.jp");
     	userManagementForm.setIcon(true);
-    	userManagementForm.setAuthorityId("00000000003");
+    	userManagementForm.setAuthorityId("a0000000001");
     	userManagementForm.setEnabled(true);
     	userManagementForm.setPassword("new");
         userManagementLogic.createUser(userManagementForm);
@@ -87,7 +87,7 @@ public class UserManagementLogicTest {
 
     	User user = new User();
     	user.setEmployeeNumber("new");
-    	user.setAuthorityId("00000000003");
+    	user.setAuthorityId("a0000000001");
     	user.setEnabled(true);
     	user.setPassword("new");
         assertEquals("ユーザ情報が新規作成できませんでした（user側）"
@@ -105,7 +105,7 @@ public class UserManagementLogicTest {
 		userManagementForm.setFirstNamePhonetic("firstPhone");
 		userManagementForm.setMailaddress("new@hoge.jp");
 		userManagementForm.setIcon(true);
-		userManagementForm.setAuthorityId("00000000003");
+		userManagementForm.setAuthorityId("a0000000001");
 		userManagementForm.setEnabled(true);
 		userManagementForm.setPassword("new");
 		try {
