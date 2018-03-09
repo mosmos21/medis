@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import jp.co.unirita.medis.logic.template.TemplateListLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,25 @@ public class SearchLogic {
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
 
+	public List<DocumentInfo> findDocuments(List<String> tagNameList) {
+	    List<String> tagIdList = tagRepository.findByTagNameIn(tagNameList).stream()
+                .map(Tag::getTagId)
+                .collect(Collectors.toList());
+	    List<String> templateIdList = templateTagRepository.findByTagIdIn(tagIdList).stream()
+                .map(TemplateTag::getTemplateId)
+                .collect(Collectors.toList());
+	    List<String> documentIdList = documentTagRepository.findByTagIdIn(tagIdList).stream()
+                .map(DocumentTag::getDocumentId)
+                .collect(Collectors.toList());
 
+	    List<DocumentInfo> documentInfoList1 = documentInfoRepository.findByTemplateIdIn(templateIdList);
+	    List<DocumentInfo> documentInfoList2 = documentInfoRepository.findByDocumentIdIn(documentIdList);
+	    return Stream.concat(documentInfoList1.stream(), documentInfoList2.stream())
+				.distinct()
+				.sorted(Comparator.comparing(DocumentInfo::getDocumentCreateDate))
+				.collect(Collectors.toList());
+    }
+    
 	public List<DocumentInfoForm> getSearchResult(String tagName) throws UnsupportedEncodingException {
 		//デコードし、タグのリストを作成
 //		String tagParam = URLDecoder.decode(tagName, "UTF-8");

@@ -2,8 +2,11 @@ package jp.co.unirita.medis.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.invoke.MethodHandles;
+import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.List;
 
+import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +36,18 @@ public class SearchController {
 	/**
      * タグ検索結果の文書一覧を取得する
      * @param user ログインしているユーザ
-     * @param tagName 検索したタグの名前をカンマ区切りで繋げた文字列
+     * @param tagNames 検索したタグの名前をカンマ区切りで繋げた文字列
      * @return 更新Id情報(@see jp.co.unirita.medis.form.DocumentInfoForm)のリスト
      * @throws UnsupportedEncodingException 文字のエンコーディングがサポートされていない場合に発生する例外
      */
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public List<DocumentInfoForm> getSearchResult(
+	public List<DocumentInfo> findDocuments(
 		@AuthenticationPrincipal User user,
-		@RequestParam(value = "tags", required = false) String tagName
+		@RequestParam(value = "tags", required = false) String tagNames
 	) throws UnsupportedEncodingException {
-		return searchLogic.getSearchResult(tagName);
+//		return searchLogic.getSearchResult(tagName);
+		logger.info("[method: findDocuments] tagNames = " + tagNames);
+		return searchLogic.findDocuments(Arrays.asList(tagNames.split(",")));
 	}
 }
