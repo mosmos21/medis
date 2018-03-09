@@ -15,8 +15,9 @@ export class ViewComponent implements OnInit {
 
   private templateId: string = "";
   private documentId: string = "";
+  public documentName: string = "";
 
-  public tags: string[] = ["2018年度新人研修", "プログラミング研修"];
+  public tags: string[] = [];
 
   public blocks: any;
   private contentBases: { [key: string]: any } = {};
@@ -55,29 +56,13 @@ export class ViewComponent implements OnInit {
           }
           this.contentBases[b.blockId] = b;
         }
-
-        if (this.documentId == 'new') {
-          this.route.fragment.subscribe(id => {
-            this.assembleTemplate(id, null);
-          });
-        } else {
-          this.assembleDocument();
-        }
       },
       error => {
         this.errorService.errorPath(error.status)
       }
     );
-
-    this.http.get(this.hostname + 'documents/' + this.documentId + '/comments', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.comments = json;
-        console.log(this.comments);
-      },
-      error => {
-        this.errorService.errorPath(error.status);
-      }
-    );
+    this.assembleDocument(this.documentId);
+    this.getComments();
   }
 
   assembleTemplate(templateId: string, callback: any): void {
@@ -87,6 +72,7 @@ export class ViewComponent implements OnInit {
     this.http.get(this.hostname + 'templates/' + templateId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         data = json;
+        console.log(data)
         for (let con of data.contents) {
           var id = this.addBlock(con.blockId);
           for (var i = 0; i < con.items.length - this.contentBases[con.blockId].items.length; i++) {
@@ -105,17 +91,18 @@ export class ViewComponent implements OnInit {
         this.errorService.errorPath(error.status)
       }
     );
-
   }
 
-  assembleDocument() {
+  assembleDocument(documentId) {
     var data;
     this.http.get(this.hostname + 'documents/' + this.documentId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         data = json;
+        this.documentName = data.documentName;
         this.assembleTemplate(data.templateId, () => {
           for (let i = 0; i < data.contents.length; i++) {
             let id = this.contents[i].id;
+            console.log(this.contents[i])
             for (let a of data.contents[i].items) {
               this.documentValues[id].push(a);
             }
@@ -124,9 +111,36 @@ export class ViewComponent implements OnInit {
             }
           }
         });
+        this.getTags(data.templateId, documentId);
       },
       error => {
-        this.errorService.errorPath(error.status)
+        this.errorService.errorPath(error.status);
+      }
+    )
+  }
+
+  getTags(templateId: string, documentId: string): void {
+    var instantTags: any;
+    this.http.get(this.hostname + 'templates/' + templateId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => {
+        instantTags = json;
+        for (let t of instantTags) {
+          this.tags.push(t.tagName);
+        }
+      },
+      error => {
+        this.errorService.errorPath(error.status);
+      }
+    );
+    this.http.get(this.hostname + 'documents/' + documentId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => {
+        instantTags = json;
+        for (let t of instantTags) {
+          this.tags.push(t.tagName);
+        }
+      },
+      error => {
+        this.errorService.errorPath(error.status);
       }
     );
   }
@@ -138,6 +152,8 @@ export class ViewComponent implements OnInit {
     this.contents.push(c);
     this.templateValues[newid] = new Array();
     this.documentValues[newid] = new Array();
+    console.log(this.templateValues);
+    console.log(this.documentValues);
     return newid;
   }
 
@@ -160,7 +176,24 @@ export class ViewComponent implements OnInit {
     var postComment = {
       value: this.commentStr
     }
-    this.http.put(this.hostname + "documents/" + this.documentId + "/comments/create", postComment, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
+    this.http.put(this.hostname + "documents/" + this.documentId + "/comments/create", postComment, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
+      josn => { },
+      error => {
+        this.errorService.errorPath(error.status);
+      }
+    );
+    location.reload();
     this.commentStr = "";
+  }
+
+  getComments() {
+    this.http.get(this.hostname + "documents/" + this.documentId + "/comments", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => {
+        this.comments = json
+      },
+      error => {
+        this.errorService.errorPath(error.status);
+      }
+    )
   }
 }

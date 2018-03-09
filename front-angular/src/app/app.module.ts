@@ -12,6 +12,7 @@ import {
   MatInputModule,
   MatFormFieldModule,
   MatProgressSpinnerModule,
+  MatSnackBarModule,
 } from '@angular/material';
 
 import { NavigationService } from './services/navigation.service';
@@ -44,7 +45,8 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { SearchService } from './services/search.service';
 import { ValidatorService } from './services/validator.service';
-import { ErrorService } from './services/error.service'
+import { ErrorService } from './services/error.service';
+import { SnackBarService } from './services/snack-bar.service';
 import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
 import { SearchComponent } from './search/search.component';
 
@@ -75,6 +77,7 @@ import { NewDocumentComponent } from './new-document/new-document.component';
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
+    MatSnackBarModule,
     AppRoutingModule,
     MatIconModule,
     MatMenuModule,
@@ -108,6 +111,7 @@ import { NewDocumentComponent } from './new-document/new-document.component';
     SearchService,
     ValidatorService,
     ErrorService,
+    SnackBarService,
     { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }
   ],
   entryComponents: [

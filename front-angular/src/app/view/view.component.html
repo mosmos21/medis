@@ -3,7 +3,7 @@
         <div id="view_body">
             <div id="view_plate">
                 <div id="view_header">
-                    <h1>文書タイトル</h1>
+                    <h1>{{ documentName }}</h1>
                     <hr />
                     <div id="tag_list">
                         <div *ngFor="let t of tags" class="tag_base tag_middle tag_side">{{ t }}</div>
@@ -18,7 +18,7 @@
                             </div>
                             <hr>
                             <div class="block_body">
-                                <div *ngFor="let item of content.items;let i = index;" [class]="item.documentType == 'hidden'? '' : item.size > 1 ? 'block_item block_item_tall' : 'block_item'">
+                                <div *ngFor="let item of content.items;let i = index;">
                                     <div [ngSwitch]="item.documentType">
                                         <div *ngSwitchCase="'span'">
                                             <span>{{ templateValues[content.id][i] }}</span>
@@ -37,6 +37,32 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br/>
+                                <ul>
+                                    <div *ngFor="let item of content.items;let i = index;">
+                                        <div [ngSwitch]="item.documentType">
+                                            <div *ngSwitchCase="'span'">
+                                                <span>{{ documentValues[content.id][i-2] }}</span>
+                                            </div>
+                                            <div *ngSwitchCase="'text'">
+                                                <li>
+                                                    {{ documentValues[content.id][i-2] }}
+                                                </li>
+                                            </div>
+                                            <div *ngSwitchCase="'textarea'">
+                                                <span>{{ documentValues[content.id][i-2] }}</span>
+                                                <br/>
+                                                <br/>
+                                            </div>
+                                            <div *ngSwitchCase="'checkbox'">
+                                                <mat-checkbox [checked]="isChecked(content.id, i - content.offset)">{{ documentValues[content.id][i-2] }}</mat-checkbox>
+                                            </div>
+                                            <div *ngSwitchCase="'radio'">
+                                                <mat-checkbox [checked]="isChecked(content.id, i - content.offset)">{{ documentValues[content.id][i-2] }}</mat-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ul>
                                 <br/>
                             </div>
                         </div>

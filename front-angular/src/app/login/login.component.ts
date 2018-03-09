@@ -8,7 +8,8 @@ import { MessageModalComponent } from '../message-modal/message-modal.component'
 
 import { NavigationService } from '../services/navigation.service';
 import { AuthService } from '../services/auth.service';
-import { ValidatorService } from '../services/validator.service'
+import { ValidatorService } from '../services/validator.service';
+import { SnackBarService } from '../services/snack-bar.service'
 
 @Component({
   selector: 'app-login',
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit {
     public authService: AuthService,
     public router: Router,
     public dialog: MatDialog,
+    public snackBar: SnackBarService,
     private nav: NavigationService,
     private valid: ValidatorService,
     private http: HttpClient
@@ -77,14 +79,13 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   onSubmit() {
     if (!this.valid.empty(this.employeeNumber) && !this.valid.empty(this.password)) {
       this.login();
     } else {
-      this.errorMessage = "入力必須項目が未入力です。"
+      this.errorMessage = "入力必須項目が未入力です。";
     }
   }
 
@@ -93,6 +94,7 @@ export class LoginComponent implements OnInit {
       if (this.authService.isLoggedIn()) {
         let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'top';
         this.router.navigate([redirect]);
+        this.snackBar.openSnackBar("ログインしました。");
       } else {
         this.errorMessage = this.authService.message;
         console.log(this.errorMessage);
