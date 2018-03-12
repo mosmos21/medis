@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material'
+import { start } from 'repl';
 
 @Injectable()
 export class SnackBarService {
@@ -9,6 +10,7 @@ export class SnackBarService {
   openSnackBar(message: string) {
     this.snackBar.open(message, "閉じる", {
       duration: 2000,
+      verticalPosition: 'top',
     });
   }
 

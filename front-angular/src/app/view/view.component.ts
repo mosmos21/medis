@@ -29,6 +29,8 @@ export class ViewComponent implements OnInit {
   public comments: any;
   public commentStr: string;
 
+  public isFav: boolean;
+
   constructor(
     @Inject('hostname') private hostname: string,
     private http: HttpClient,
@@ -72,7 +74,6 @@ export class ViewComponent implements OnInit {
     this.http.get(this.hostname + 'templates/' + templateId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         data = json;
-        console.log(data)
         for (let con of data.contents) {
           var id = this.addBlock(con.blockId);
           for (var i = 0; i < con.items.length - this.contentBases[con.blockId].items.length; i++) {
@@ -102,7 +103,6 @@ export class ViewComponent implements OnInit {
         this.assembleTemplate(data.templateId, () => {
           for (let i = 0; i < data.contents.length; i++) {
             let id = this.contents[i].id;
-            console.log(this.contents[i])
             for (let a of data.contents[i].items) {
               this.documentValues[id].push(a);
             }
@@ -152,8 +152,6 @@ export class ViewComponent implements OnInit {
     this.contents.push(c);
     this.templateValues[newid] = new Array();
     this.documentValues[newid] = new Array();
-    console.log(this.templateValues);
-    console.log(this.documentValues);
     return newid;
   }
 
@@ -190,9 +188,27 @@ export class ViewComponent implements OnInit {
   getComments() {
     this.http.get(this.hostname + "documents/" + this.documentId + "/comments", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
-        console.log(json);
         this.comments = json;
+        console.log(this.comments)
+        for(let c of this.comments) {
+          if(c.read) {
+            c['alreadyRead'] = 'read'
+          } else if(c.employeeNumber == this.authService.userdetail.employeeNumber) {
+            c['alreadyRead'] = 'unreadMe'
+          } else {
+            c['alreadyRead'] = 'unread'
+          }
+        }
       },
+      error => {
+        this.errorService.errorPath(error.status);
+      }
+    )
+  }
+
+  favorite() {
+    this.http.post(this.hostname + "documents/bookmark/" + this.documentId, {}, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => { },
       error => {
         this.errorService.errorPath(error.status);
       }

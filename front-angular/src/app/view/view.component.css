@@ -32,6 +32,24 @@
     width: 90%;
 }
 
+input[type="checkbox"]{
+    -webkit-appearance:none;
+    width: 3em;
+    text-align:center;
+    color:#8b8b8b;
+    font-weight:bold;
+}
+
+input[type="checkbox"]:before {
+    content:"★";
+    border-color: #000000;
+    font-size:2em;
+}
+
+input[type="checkbox"]:checked {
+    color:#ffae00;
+} 
+
 /*固定タグ*/
 #tag_list {
     margin: 10px;
@@ -102,10 +120,12 @@
     font: bold;
     font-size: larger;
     float: left;
+    margin-right: 15px;
 }
 
 .comment_date {
     text-align: right;
+    float: right;
 }
 
 .comment_text {

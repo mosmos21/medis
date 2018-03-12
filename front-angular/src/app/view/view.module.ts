@@ -12,6 +12,7 @@ import {
   MatInputModule,
   MatIconModule,
   MatDividerModule,
+  MatButtonToggleModule,
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 
@@ -28,6 +29,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     MatIconModule,
     MatDividerModule,
+    MatButtonToggleModule,
   ],
   declarations: [ViewComponent],
   providers: [

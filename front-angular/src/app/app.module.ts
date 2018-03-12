@@ -13,6 +13,7 @@ import {
   MatFormFieldModule,
   MatProgressSpinnerModule,
   MatSnackBarModule,
+  MatButtonToggleModule
 } from '@angular/material';
 
 import { NavigationService } from './services/navigation.service';
@@ -78,6 +79,7 @@ import { NewDocumentComponent } from './new-document/new-document.component';
     MatToolbarModule,
     MatListModule,
     MatSnackBarModule,
+    MatButtonToggleModule,
     AppRoutingModule,
     MatIconModule,
     MatMenuModule,

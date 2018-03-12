@@ -3,7 +3,8 @@
         <div id="view_body">
             <div id="view_plate">
                 <div id="view_header">
-                    <h1>{{ documentName }}</h1>
+                    <h1 style="float: left;">{{ documentName }}</h1>
+                    <input type="checkbox" [(ngModel)]="isFav" (click)="favorite()">
                     <hr />
                     <div id="tag_list">
                         <div *ngFor="let t of tags" class="tag_base tag_middle tag_side">{{ t }}</div>
@@ -82,6 +83,17 @@
                             <div class="comment_info">
                                 <p class="user_name">{{ comment.lastName }} {{ comment.firstName }}</p>
                                 <p class="comment_date">{{ convert.time2Date(comment.commentDate) }}</p>
+                                <div [ngSwitch]="comment.alreadyRead">
+                                    <div *ngSwitchCase="'unread'">
+                                        <button mat-icon-button disabled></button>
+                                    </div>
+                                    <div *ngSwitchCase="'unreadMe'">
+                                        <button mat-mini-fab color="primary">既読</button>
+                                    </div>
+                                    <div *ngSwitchCase="read">
+                                        <button mat-icon-button disabled>既読</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="comment_text">
                                 <span>{{comment.commentContent}}</span>
