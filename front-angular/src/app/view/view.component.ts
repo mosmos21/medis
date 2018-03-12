@@ -100,6 +100,7 @@ export class ViewComponent implements OnInit {
       json => {
         data = json;
         this.documentName = data.documentName;
+        this.isFav = data.selected
         this.assembleTemplate(data.templateId, () => {
           for (let i = 0; i < data.contents.length; i++) {
             let id = this.contents[i].id;
@@ -177,6 +178,15 @@ export class ViewComponent implements OnInit {
     this.http.put(this.hostname + "documents/" + this.documentId + "/comments/create", postComment, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
       json => {
         this.comments.push(JSON.parse(json));
+        for (let c of this.comments) {
+          if (c.read) {
+            c['alreadyRead'] = 'read'
+          } else if (c.employeeNumber == this.authService.userdetail.employeeNumber) {
+            c['alreadyRead'] = 'unreadMe'
+          } else {
+            c['alreadyRead'] = 'unread'
+          }
+        }
       },
       error => {
         this.errorService.errorPath(error.status);
@@ -190,10 +200,10 @@ export class ViewComponent implements OnInit {
       json => {
         this.comments = json;
         console.log(this.comments)
-        for(let c of this.comments) {
-          if(c.read) {
+        for (let c of this.comments) {
+          if (c.read) {
             c['alreadyRead'] = 'read'
-          } else if(c.employeeNumber == this.authService.userdetail.employeeNumber) {
+          } else if (c.employeeNumber == this.authService.userdetail.employeeNumber) {
             c['alreadyRead'] = 'unreadMe'
           } else {
             c['alreadyRead'] = 'unread'
@@ -209,6 +219,26 @@ export class ViewComponent implements OnInit {
   favorite() {
     this.http.post(this.hostname + "documents/bookmark/" + this.documentId, {}, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => { },
+      error => {
+        this.errorService.errorPath(error.status);
+      }
+    )
+  }
+
+  readComment(commentId: any) {
+    this.http.post(this.hostname + "documents/" + this.documentId + "/comments/" + commentId + "/read", {}, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+      json => {
+        this.comments = json;
+        for (let c of this.comments) {
+          if (c.read) {
+            c['alreadyRead'] = 'read'
+          } else if (c.employeeNumber == this.authService.userdetail.employeeNumber) {
+            c['alreadyRead'] = 'unreadMe'
+          } else {
+            c['alreadyRead'] = 'unread'
+          }
+        }
+      },
       error => {
         this.errorService.errorPath(error.status);
       }

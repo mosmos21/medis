@@ -107,11 +107,6 @@ VALUES
     (2, 2, 't0000000001', '以下の選択肢の中から自分が使えるものを選択してください。\n(複数選択可)');
 
 DELETE FROM "update_info";
-INSERT INTO "update_info"
-    (update_id, document_id, employee_number, update_date, update_type)
-VALUES
-    ('u0000000000', 'd0000000000', 'g00000', '2018-03-08 09:48:35.966', 'v0000000000');
-
 
 DELETE FROM "notification_config";
 INSERT INTO "notification_config"

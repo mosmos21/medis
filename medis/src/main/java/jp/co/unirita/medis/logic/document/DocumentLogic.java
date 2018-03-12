@@ -55,6 +55,7 @@ public class DocumentLogic {
 
     public DocumentForm getDocument(String documentId,String employeeNumber) {
     	Bookmark bookmark =bookmarkRepository.findOne("m0000000000");
+
     	System.out.println(employeeNumber);
     	System.out.println(documentId);
     	System.out.println("bookmark"+bookmark);
@@ -65,8 +66,7 @@ public class DocumentLogic {
         document.setTemplateId(info.getTemplateId());
         document.setDocumentName(info.getDocumentName());
         document.setContents(getDocumentContents(documentId));
-        document.setSelected(bookmark.isSelected());
-
+        document.setSelected(bookmark == null ? false : bookmark.isSelected());
         return document;
     }
 
