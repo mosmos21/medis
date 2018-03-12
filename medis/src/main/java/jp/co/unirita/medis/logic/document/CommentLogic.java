@@ -83,16 +83,9 @@ public class CommentLogic {
 
 	public void alreadyRead(String documentId, String commentId) {
 
+		DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
 		Comment commentInfo = commentRepository.findOne(commentId);
-		UserDetail toUserDetail = userDetailRepository.findOne(commentInfo.getEmployeeNumber());
-		DocumentInfo documentInfo = documentInfoRepository.findOne(commentInfo.getDocumentId());
-		UserDetail authorUserDetail = userDetailRepository.findOne(documentInfo.getEmployeeNumber());
-
-		String mailaddress = toUserDetail.getMailaddress();
-		String documentName = documentInfo.getDocumentName();
-		String lastName = authorUserDetail.getLastName();
-		String firstName = authorUserDetail.getFirstName();
-
+		UserDetail userDetail = userDetailRepository.findOne(commentInfo.getEmployeeNumber());
 		// Readをtrueにする
 		Comment comment = new Comment();
 
@@ -104,9 +97,9 @@ public class CommentLogic {
 		comment.setRead(true);
 		commentRepository.saveAndFlush(comment);
 
-		// sendMail(mailaddress, lastName, firstName, documentName);
-		mailLogic.sendCommentNotification(mailaddress, documentId, documentName, commentInfo.getEmployeeNumber(),
-				lastName);
+		// 既読がついたのを知らせるメール送信
+		mailLogic.sendCommentReadtNotification(userDetail.getMailaddress(), documentId, documentInfo.getDocumentName(),
+				commentInfo.getEmployeeNumber(), userDetail.getLastName());
 
 	}
 
@@ -135,12 +128,17 @@ public class CommentLogic {
 			throws IdIssuanceUpperException {
 		Timestamp commentDate = new Timestamp(System.currentTimeMillis());
 		boolean read = false;
-
+		DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
+		UserDetail authorUserDetail = userDetailRepository.findOne(documentInfo.getEmployeeNumber());
 		Comment comment = new Comment(getNewCommentId(), documentId, commentDate, employeeNumber, value.get("value"),
 				read);
 		commentRepository.save(comment);
-
 		UserDetail userDetail = userDetailRepository.findOne(employeeNumber);
+
+		//コメントがついたのを知らせるメール送信
+		mailLogic.sendCommentNotification(authorUserDetail.getMailaddress(), documentId, documentInfo.getDocumentName(),
+				userDetail.getEmployeeNumber(), userDetail.getLastName());
 		return createCommentInfoForm(comment, userDetail);
+
 	}
 }
