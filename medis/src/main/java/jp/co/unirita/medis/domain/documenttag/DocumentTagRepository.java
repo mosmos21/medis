@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface DocumentTagRepository extends JpaRepository<DocumentTag, DocumentTag.PK> {
 	List<DocumentTag> findByTagId(String tagId);
 	List<DocumentTag> findByTagIdIn(List<String> tagIds);
-	List<DocumentTag> findByDocumentIdOrderByTagOrderAsc(String documentId);
+	List<DocumentTag> findByDocumentId(String documentId);
 }

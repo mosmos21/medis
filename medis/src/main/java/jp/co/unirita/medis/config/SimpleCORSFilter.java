@@ -11,19 +11,21 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "cors.filter")
+
 public class SimpleCORSFilter implements Filter {
 
-	private String path;
+	@Autowired
+    ClientPathUtil clientPathUtil;
 
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
     	HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        response.addHeader("Access-Control-Allow-Origin", getPath());
+        response.addHeader("Access-Control-Allow-Origin", clientPathUtil.getPath());
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, X-XSRF-TOKEN");
@@ -31,14 +33,6 @@ public class SimpleCORSFilter implements Filter {
             return ;
         }
         chain.doFilter(req, res);
-    }
-
-    public void setPath(String path) {
-    	this.path = path;
-    }
-
-    public String getPath() {
-    	return this.path;
     }
 
     public void init(FilterConfig filterConfig) {}

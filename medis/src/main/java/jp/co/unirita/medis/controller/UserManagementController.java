@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.co.unirita.medis.logic.system.MailLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,8 @@ public class UserManagementController {
 	UserManagementLogic userManagementLogic;
 	@Autowired
 	SettingLogic settingLogic;
+	@Autowired
+	MailLogic mailLogic;
 
 
     /**
@@ -124,6 +127,6 @@ public class UserManagementController {
 		settingLogic.createNotificationComment(detail.getEmployeeNumber(), map);
 
 		String key =accountLogic.issueTempKey(detail.getEmployeeNumber());
-		accountLogic.sendMail(detail.getMailaddress(), key);
+		mailLogic.sendResetPasswordLink(detail.getMailaddress(), key);
 	}
 }

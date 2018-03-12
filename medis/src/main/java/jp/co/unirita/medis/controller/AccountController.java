@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import jp.co.unirita.medis.logic.system.MailLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class AccountController {
 
 	@Autowired
 	AccountLogic accountLogic;
+	@Autowired
+	MailLogic mailLogic;
 
     /**
      * パスワード再設定のための一時キーを発行する
@@ -42,7 +45,7 @@ public class AccountController {
 		    return result;
         }
         String key = accountLogic.issueTempKey(form.getEmployeeNumber());
-		accountLogic.sendMail(form.getMailaddress(), key);
+		mailLogic.sendResetPasswordLink(form.getMailaddress(), key);
 		return result;
 	}
 

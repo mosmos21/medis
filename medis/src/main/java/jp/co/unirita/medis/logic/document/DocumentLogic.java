@@ -71,7 +71,7 @@ public class DocumentLogic {
     }
 
     public List<Tag> getDocumentTags(String id) {
-        List<DocumentTag> documentTagList = documentTagRepository.findByDocumentIdOrderByTagOrderAsc(id);
+        List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
         List<Tag> tag = tagRepository.findByTagId(documentTagList.stream().map(t -> t.getTagId()).collect(Collectors.toList()));
         return tag;
     }
@@ -153,7 +153,7 @@ public class DocumentLogic {
 
 
     public void updateTags(String documentId, List<Tag> tags) throws IdIssuanceUpperException {
-        List<DocumentTag> oldTags = documentTagRepository.findByDocumentIdOrderByTagOrderAsc(documentId);
+        List<DocumentTag> oldTags = documentTagRepository.findByDocumentId(documentId);
         List<Tag> newTags = tagLogic.applyTags(tags);
         int common = Math.min(oldTags.size(), newTags.size());
         int order = 1;

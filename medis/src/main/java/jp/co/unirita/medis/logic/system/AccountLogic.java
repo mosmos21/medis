@@ -37,8 +37,7 @@ public class AccountLogic {
 	UserDetailRepository userDetailRepository;
 	@Autowired
 	TempkeyInfoRepository tempkeyInfoRepository;
-    @Autowired
-    private MailSender sender;
+
 
     public UserDetail getUserDetail(String employeeNumber) {
         return userDetailRepository.findOne(employeeNumber);
@@ -108,16 +107,4 @@ public class AccountLogic {
 		userRepository.saveAndFlush(user);
 
 	}
-
-    public void sendMail(String mailaddress, String key) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-
-        msg.setTo(mailaddress);
-        msg.setSubject("【MEDIS】パスワード設定用URL"); //タイトルの設定
-        msg.setText("MEDISのパスワードリセットメールです。\r\n\r\n"
-        			+ "以下のURLにてパスワードを設定することができます。\r\n\r\n"
-        			+ "http://localhost:4200/resetpass?secret=" + key + "\r\n\r\n"
-        			+ "有効期間は30分です。有効期限が過ぎた場合はメールを再送してください。"); //本文の設定
-        this.sender.send(msg);
-    }
 }

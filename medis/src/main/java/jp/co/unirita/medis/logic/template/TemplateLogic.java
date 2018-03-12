@@ -46,7 +46,7 @@ public class TemplateLogic {
 
     public List<Tag> getTemplateTags(String id) {
         System.out.println("get fix tag[templateId = " + id + "]");
-        List<TemplateTag> templateTagList = templateTagRepository.findByTemplateIdOrderByTagOrderAsc(id);
+        List<TemplateTag> templateTagList = templateTagRepository.findByTemplateId(id);
         List<Tag> tags = new ArrayList<>();
         for(TemplateTag t: templateTagList){
             tags.add(tagRepository.findByTagId(t.getTagId()));
@@ -111,7 +111,7 @@ public class TemplateLogic {
     }
 
     public void updateTags(String tempalateId, List<Tag> tags) throws IdIssuanceUpperException {
-        List<TemplateTag> oldTags = templateTagRepository.findByTemplateIdOrderByTagOrderAsc(tempalateId);
+        List<TemplateTag> oldTags = templateTagRepository.findByTemplateId(tempalateId);
         List<Tag> newTags = tagLogic.applyTags(tags);
         System.out.println(newTags);
         int common = Math.min(oldTags.size(), newTags.size());
