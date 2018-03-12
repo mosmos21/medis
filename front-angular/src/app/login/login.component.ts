@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit {
 
   errorMessage: string = '';
 
-  employeeNumber: string = 'admin';
-  password: string = 'medis2017';
+  employeeNumber: string = '';
+  password: string = 'pass2017';
 
   private message: string;
   public hide: boolean;
