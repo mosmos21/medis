@@ -1,5 +1,6 @@
 package jp.co.unirita.medis.domain.templateitem;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -30,6 +31,7 @@ public class TemplateItem {
 	@Id
 	private int lineNumber;
 
+    @Column(columnDefinition = "TEXT")
 	private String value;
 
     @Data
