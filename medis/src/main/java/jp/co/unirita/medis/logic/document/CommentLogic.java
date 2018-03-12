@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import jp.co.unirita.medis.domain.comment.Comment;
@@ -21,6 +20,7 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
+import jp.co.unirita.medis.logic.system.MailLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service
@@ -34,6 +34,8 @@ public class CommentLogic {
 	UserDetailRepository userDetailRepository;
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
+	@Autowired
+	MailLogic mailLogic;
 
 	private MailSender sender;
 
@@ -102,18 +104,20 @@ public class CommentLogic {
 		comment.setRead(true);
 		commentRepository.saveAndFlush(comment);
 
-		sendMail(mailaddress, lastName, firstName, documentName);
+		// sendMail(mailaddress, lastName, firstName, documentName);
+		mailLogic.sendCommentNotification(mailaddress, documentId, documentName, commentInfo.getEmployeeNumber(),
+				lastName);
+
 	}
 
-	// メール送信
-	public void sendMail(String mailaddress, String lastName, String firstName, String documentName) {
-		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setTo(mailaddress);
-		msg.setSubject("【MEDIS】コメントが読まれました"); // タイトルの設定
-		msg.setText(lastName + firstName + "さんが作成した" + documentName + "のコメントが読まれました。\r\n\r\n");
-		this.sender.send(msg);
-	}
-
+	/*
+	 * // メール送信 public void sendMail(String mailaddress, String lastName, String
+	 * firstName, String documentName) { SimpleMailMessage msg = new
+	 * SimpleMailMessage(); msg.setTo(mailaddress);
+	 * msg.setSubject("【MEDIS】コメントが読まれました"); // タイトルの設定 msg.setText(lastName +
+	 * firstName + "さんが作成した" + documentName + "のコメントが読まれました。\r\n\r\n");
+	 * this.sender.send(msg); }
+	 */
 	// 最新のIDを生成
 	public String getNewCommentId() throws IdIssuanceUpperException {
 		List<Comment> commentList = commentRepository.findAll(new Sort(Sort.Direction.DESC, "commentId"));
