@@ -45,17 +45,17 @@ public class CommentLogic {
 		List<CommentInfoForm> commentInfoList = new ArrayList<>();
 
 		List<Comment> commentList = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
-
+System.out.println("1"+commentList);
 		// comment_id取得
 		for (Comment com : commentList) {
 			commentIdList.add(com.getCommentId());
 		}
-
+System.out.println("2"+commentIdList);
 		// employee_number取得
 		for (Comment com : commentList) {
 			employeeNumberList.add(com.getEmployeeNumber());
 		}
-
+System.out.println("3"+employeeNumberList);
 		// レスポンスJSON作成
 		for (int i=0;i<employeeNumberList.size();i++) {
 			Comment comment = commentRepository.findOne(commentIdList.get(i));
@@ -67,6 +67,8 @@ public class CommentLogic {
 
 
 	private CommentInfoForm createCommentInfoForm(Comment comment, UserDetail userDetail) {
+		System.out.println(comment);
+		System.out.println(userDetail);
 		CommentInfoForm commentInfo = new CommentInfoForm();
 		commentInfo.setCommentDate(comment.getCommentDate());
 		commentInfo.setLastName(userDetail.getLastName());
@@ -74,6 +76,7 @@ public class CommentLogic {
 		commentInfo.setIcon(userDetail.isIcon());
 		commentInfo.setRead(comment.isRead());
 		commentInfo.setCommentContent(comment.getValue());
+		commentInfo.setEmployeeNumber(userDetail.getEmployeeNumber());
 		return commentInfo;
 	}
 
