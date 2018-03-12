@@ -56,9 +56,6 @@ public class DocumentLogic {
     public DocumentForm getDocument(String documentId,String employeeNumber) {
     	Bookmark bookmark =bookmarkRepository.findOne("m0000000000");
 
-    	System.out.println(employeeNumber);
-    	System.out.println(documentId);
-    	System.out.println("bookmark"+bookmark);
         DocumentInfo info = documentInfoRepository.findOne(documentId);
         System.out.println(info);
         DocumentForm document = new DocumentForm();
