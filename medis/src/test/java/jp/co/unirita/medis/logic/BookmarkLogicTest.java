@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import jp.co.unirita.medis.domain.bookmark.Bookmark;
 import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
-import jp.co.unirita.medis.form.document.DocumentInfoForm;
+import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.logic.setting.BookmarkLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
@@ -30,13 +30,13 @@ public class BookmarkLogicTest {
 
 	@Test
 	public void ユーザguのお気に入り情報を取得() {
-		List<DocumentInfoForm> bookmarkInfoList = bookmarkLogic.getBookmarkList("gu");
+		List<DocumentInfo> bookmarkInfoList = bookmarkLogic.getBookmarkList("gu");
 		assertEquals("ユーザguのお気に入りが取得できませんでした", 2, bookmarkInfoList.size());
 	}
 
 	@Test
 	public void ユーザmedsisのお気に入り情報を取得() {
-		List<DocumentInfoForm> bookmarkInfoList = bookmarkLogic.getBookmarkList("medis");
+		List<DocumentInfo> bookmarkInfoList = bookmarkLogic.getBookmarkList("medis");
 		assertEquals("ユーザmedisのお気に入りが取得できませんでした", 3, bookmarkInfoList.size());
 	}
 

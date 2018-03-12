@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import jp.co.unirita.medis.domain.bookmark.Bookmark;
+import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.documentitem.DocumentItem;
@@ -35,6 +37,8 @@ public class DocumentLogic {
     private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
 	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
 
+	@Autowired
+	BookmarkRepository bookmarkRepository;
     @Autowired
     DocumentInfoRepository documentInfoRepository;
     @Autowired
@@ -49,13 +53,20 @@ public class DocumentLogic {
     TagLogic tagLogic;
 
 
-    public DocumentForm getDocument(String id) {
-        DocumentInfo info = documentInfoRepository.findOne(id);
+    public DocumentForm getDocument(String documentId,String employeeNumber) {
+    	Bookmark bookmark =bookmarkRepository.findOne("m0000000000");
+    	System.out.println(employeeNumber);
+    	System.out.println(documentId);
+    	System.out.println("bookmark"+bookmark);
+        DocumentInfo info = documentInfoRepository.findOne(documentId);
+        System.out.println(info);
         DocumentForm document = new DocumentForm();
-        document.setDocumentId(id);
+        document.setDocumentId(documentId);
         document.setTemplateId(info.getTemplateId());
         document.setDocumentName(info.getDocumentName());
-        document.setContents(getDocumentContents(id));
+        document.setContents(getDocumentContents(documentId));
+        document.setSelected(bookmark.isSelected());
+
         return document;
     }
 
