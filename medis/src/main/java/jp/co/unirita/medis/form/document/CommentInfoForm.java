@@ -18,6 +18,8 @@ public class CommentInfoForm implements Serializable {
 
 	private String employeeNumber;
 
+	private String commentId;
+
 	private boolean read;
 
 	private String commentContent;

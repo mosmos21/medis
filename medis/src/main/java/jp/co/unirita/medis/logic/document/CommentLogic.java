@@ -37,7 +37,6 @@ public class CommentLogic {
 
 	private MailSender sender;
 
-
 	public List<CommentInfoForm> getCommentInfo(String documentId) {
 
 		List<String> commentIdList = new ArrayList<>();
@@ -45,26 +44,25 @@ public class CommentLogic {
 		List<CommentInfoForm> commentInfoList = new ArrayList<>();
 
 		List<Comment> commentList = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
-System.out.println("1"+commentList);
+
 		// comment_id取得
 		for (Comment com : commentList) {
 			commentIdList.add(com.getCommentId());
 		}
-System.out.println("2"+commentIdList);
+
 		// employee_number取得
 		for (Comment com : commentList) {
 			employeeNumberList.add(com.getEmployeeNumber());
 		}
-System.out.println("3"+employeeNumberList);
+
 		// レスポンスJSON作成
-		for (int i=0;i<employeeNumberList.size();i++) {
+		for (int i = 0; i < employeeNumberList.size(); i++) {
 			Comment comment = commentRepository.findOne(commentIdList.get(i));
 			UserDetail userDetail = userDetailRepository.findOne(employeeNumberList.get(i));
 			commentInfoList.add(createCommentInfoForm(comment, userDetail));
 		}
 		return commentInfoList;
 	}
-
 
 	private CommentInfoForm createCommentInfoForm(Comment comment, UserDetail userDetail) {
 		System.out.println(comment);
@@ -77,9 +75,9 @@ System.out.println("3"+employeeNumberList);
 		commentInfo.setRead(comment.isRead());
 		commentInfo.setCommentContent(comment.getValue());
 		commentInfo.setEmployeeNumber(userDetail.getEmployeeNumber());
+		commentInfo.setCommentId(comment.getCommentId());
 		return commentInfo;
 	}
-
 
 	public void alreadyRead(String documentId, String commentId) {
 
@@ -107,8 +105,7 @@ System.out.println("3"+employeeNumberList);
 		sendMail(mailaddress, lastName, firstName, documentName);
 	}
 
-
-	//メール送信
+	// メール送信
 	public void sendMail(String mailaddress, String lastName, String firstName, String documentName) {
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setTo(mailaddress);
@@ -117,26 +114,26 @@ System.out.println("3"+employeeNumberList);
 		this.sender.send(msg);
 	}
 
-
-	//最新のIDを生成
-	public String getNewCommentId() throws IdIssuanceUpperException{
+	// 最新のIDを生成
+	public String getNewCommentId() throws IdIssuanceUpperException {
 		List<Comment> commentList = commentRepository.findAll(new Sort(Sort.Direction.DESC, "commentId"));
-		if(commentList.size() == 0) {
-            return "o0000000000";
-        }
-        long idNum = Long.parseLong(commentList.get(0).getCommentId().substring(1));
-        if(idNum == 9999999999L) {
-            throw new IdIssuanceUpperException("IDの発行限界");
-        }
-        return String.format("o%010d", idNum + 1);
-    }
+		if (commentList.size() == 0) {
+			return "o0000000000";
+		}
+		long idNum = Long.parseLong(commentList.get(0).getCommentId().substring(1));
+		if (idNum == 9999999999L) {
+			throw new IdIssuanceUpperException("IDの発行限界");
+		}
+		return String.format("o%010d", idNum + 1);
+	}
 
-
-	public CommentInfoForm save(String documentId, String employeeNumber, Map<String, String> value) throws IdIssuanceUpperException {
+	public CommentInfoForm save(String documentId, String employeeNumber, Map<String, String> value)
+			throws IdIssuanceUpperException {
 		Timestamp commentDate = new Timestamp(System.currentTimeMillis());
 		boolean read = false;
 
-		Comment comment = new Comment(getNewCommentId(), documentId, commentDate, employeeNumber, value.get("value"), read);
+		Comment comment = new Comment(getNewCommentId(), documentId, commentDate, employeeNumber, value.get("value"),
+				read);
 		commentRepository.save(comment);
 
 		UserDetail userDetail = userDetailRepository.findOne(employeeNumber);
