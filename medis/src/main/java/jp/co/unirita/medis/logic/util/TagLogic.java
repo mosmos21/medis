@@ -2,6 +2,7 @@ package jp.co.unirita.medis.logic.util;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -27,18 +28,10 @@ public class TagLogic {
 	TagRepository tagRepository;
 
 	public List<Tag> getTagList() {
-		String patternTagName = "^\\d{4}/\\d{2}/\\d{2}$";
-		String patternTagId = "^s\\d{10}$";
-		Pattern p = Pattern.compile(patternTagName);
-		Pattern q = Pattern.compile(patternTagId);
-		List<Tag> tagInfoList = tagRepository.findByTagIdNotOrderByTagIdAsc(COMMENT_NOTIFICATION_TAG_ID); // コメント通知設定用のタグだけ除く
-		List<Tag> tagList = new ArrayList<>();
-
-		for (Tag add : tagInfoList) {
-			if (!(p.matcher(add.getTagName()).find() && q.matcher(add.getTagId()).find())) {
-				tagList.add(add);
-			}
-		}
+		List<Tag> tagList = tagRepository.findAll().stream()
+				.filter(tag -> !tag.getTagId().equals(COMMENT_NOTIFICATION_TAG_ID))
+				.collect(Collectors.toList());
+		tagList.sort(Comparator.naturalOrder());
 		return tagList;
 	}
 
@@ -73,6 +66,13 @@ public class TagLogic {
 	    return tag;
 	}
 
+	private Tag createSystemTag(String value) throws IdIssuanceUpperException {
+		String id = getNewSystemTagId();
+		Tag tag = new Tag(id, value);
+		tagRepository.saveAndFlush(tag);
+		return tag;
+	}
+
 	public List<Tag> applyTags(List<Tag> tags) throws IdIssuanceUpperException {
 		List<String> newTags = tags.stream()
                 .filter(tag -> tag.getTagId().equals(""))
@@ -83,5 +83,17 @@ public class TagLogic {
             createTag(value);
         }
         return tagRepository.findByTagNameIn(tags.stream().map(Tag::getTagName).collect(Collectors.toList()));
+	}
+
+	public List<Tag> applySystemTag(List<Tag> tags) throws IdIssuanceUpperException {
+		List<String> newTags = tags.stream()
+				.filter(tag -> tag.getTagId().equals(""))
+				.filter(tag -> tagRepository.findByTagName(tag.getTagName()).size() == 0)
+				.map(Tag::getTagName)
+				.collect(Collectors.toList());
+		for (String value : newTags) {
+			createSystemTag(value);
+		}
+		return tagRepository.findByTagNameIn(tags.stream().map(Tag::getTagName).collect(Collectors.toList()));
 	}
 }

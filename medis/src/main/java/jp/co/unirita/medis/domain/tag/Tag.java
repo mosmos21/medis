@@ -16,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Tag {
+public class Tag implements Comparable<Tag>{
 
 	@Id
 	@Size(min = 11, max = 11)
@@ -24,4 +24,14 @@ public class Tag {
 
 	@Size(max = 256)
 	private String tagName;
+
+	@Override
+	public int compareTo(Tag tag) {
+		char ch1 = tagId.charAt(0);
+		char ch2 = tag.getTagId().charAt(0);
+		if(ch1 == ch2) {
+			return tagId.compareTo(tag.getTagId());
+		}
+		return Character.compare(ch1, ch2);
+	}
 }

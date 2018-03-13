@@ -2,6 +2,7 @@ package jp.co.unirita.medis.logic.document;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -162,6 +163,13 @@ public class DocumentLogic {
 			documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
 			order++;
 		}
+		// システムタグ追加
+		UserDetail detail = userDetailRepository.findOne(documentInfo.getEmployeeNumber());
+		List<Tag> systemTagList = tagRepository.findByTagName(detail.getLastName() + " " + detail.getFirstName());
+		if(systemTagList.size() == 0) {
+			systemTagList.addAll(tagLogic.applySystemTag(Arrays.asList(new Tag("", detail.getLastName() + " " + detail.getFirstName()))));
+		}
+		documentTagRepository.saveAndFlush(new DocumentTag(documentId, order, systemTagList.get(0).getTagId()));
 
 		// 文書作成時についたTagを監視する人にメール送信
 		notificationLogic.documentContributionNotification(documentInfo.getEmployeeNumber(), documentId);
