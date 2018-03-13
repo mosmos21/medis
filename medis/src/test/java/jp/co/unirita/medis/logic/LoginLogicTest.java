@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -23,20 +23,18 @@ public class LoginLogicTest {
     LoginLogic loginLogic;
 
     @Test
-    public void loginLogic(){
+    public void ログイン処理() {
     	UserLoginForm loginForm = new UserLoginForm();
     	loginForm.setEmployeeNumber("medis");
     	loginForm.setPassword("medis");
         loginLogic.login(loginForm);
-    }
 
-    @Test
-    public void ログイン処理(@AuthenticationPrincipal User user) {
+    	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	User testData = new User();
     	testData.setEmployeeNumber("medis");
     	testData.setAuthorityId("a0000000000");
     	testData.setEnabled(true);
     	testData.setPassword("medis");
-        assertEquals("ユーザのロードができませんでした", testData, user);
+        assertEquals("ログインができませんでした", testData, principal);
     }
 }
