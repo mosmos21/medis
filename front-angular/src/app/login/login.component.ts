@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
       if (this.authService.isLoggedIn()) {
         let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'top';
         this.router.navigate([redirect]);
-        this.snackBar.openSnackBar("ログインしました。");
+        this.snackBar.openLoginSnackBar();
       } else {
         this.errorMessage = this.authService.message;
         console.log(this.errorMessage);

@@ -57,6 +57,7 @@ import { MessageModalComponent } from './message-modal/message-modal.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { ErrorComponent } from './error/error.component';
 import { NewDocumentComponent } from './new-document/new-document.component';
+import { CustomSnackbarComponent } from './custom-snackbar/custom-snackbar.component';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { NewDocumentComponent } from './new-document/new-document.component';
     SearchResultComponent,
     ErrorComponent,
     NewDocumentComponent,
+    CustomSnackbarComponent,
   ],
 
   imports: [
@@ -122,6 +124,7 @@ import { NewDocumentComponent } from './new-document/new-document.component';
     CreateUserComponent,
     InitializationComponent,
     MessageModalComponent,
+    CustomSnackbarComponent
   ],
   bootstrap: [AppComponent]
 })
