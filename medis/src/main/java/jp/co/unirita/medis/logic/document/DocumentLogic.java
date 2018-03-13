@@ -67,6 +67,7 @@ public class DocumentLogic {
         DocumentForm document = new DocumentForm();
         document.setEmployeeNumber(info.getEmployeeNumber());
         document.setName(new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString());
+        document.setDocumentCreateDate(info.getDocumentCreateDate());
         document.setDocumentId(documentId);
         document.setTemplateId(info.getTemplateId());
         document.setDocumentName(info.getDocumentName());

@@ -17,8 +17,9 @@ export class ViewComponent implements OnInit {
   private documentId: string = "";
   private contentBases: { [key: string]: any } = {};
 
-  public documentName: string = "";
+  public documentName: string;
   public employeeNumber: string;
+  public documentCreateDate: number;
   public name: string;
   public tags: string[] = [];
   public blocks: any;
@@ -110,6 +111,7 @@ export class ViewComponent implements OnInit {
         data = json;
         this.documentName = data.documentName;
         this.employeeNumber = data.employeeNumber;
+        this.documentCreateDate = data.documentCreateDate;
         this.name = data.name;
         this.isFav = data.selected
         this.assembleTemplate(data.templateId, () => {
