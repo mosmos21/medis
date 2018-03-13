@@ -119,3 +119,12 @@ VALUES
     ('97966', 'g0000000000', 'false', 'false'),
     ('97967', 'g0000000000', 'false', 'false'),
     ('97968', 'g0000000000', 'false', 'false');
+
+DELETE FROM "update";
+INSERT INTO "update"
+    (update_type, update_name)
+VALUES
+    ('v0000000000', '新規作成'),
+    ('v0000000001', '更新'),
+    ('v0000000002', 'コメント記入'),
+    ('v0000000003', '既読');
