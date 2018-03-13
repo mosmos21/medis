@@ -17,15 +17,7 @@ export class AuthService {
   headers = new HttpHeaders;
   private options = new RequestOptions;
   user: any;
-  userdetail: any = {
-    employeeNumber: "",
-    firstName: "",
-    firstNamePhonetic: "",
-    icon: "",
-    lastName: "",
-    lastNamePhonetic: "",
-    mailaddress: "",
-  }
+  userdetail: any;
 
   // store the URL so we can redirect after logging in
   redirectUrl: string;
@@ -36,7 +28,22 @@ export class AuthService {
     private router: Router,
     private cookieService: CookieService,
     @Inject('hostname') private hostname: string,
-  ) { }
+  ) {
+    this.init();
+  }
+
+  init() : void {
+    this.user = new Object();
+    this.userdetail = {
+      employeeNumber: "",
+      firstName: "",
+      firstNamePhonetic: "",
+      icon: "",
+      lastName: "",
+      lastNamePhonetic: "",
+      mailaddress: "",
+    }
+  }
 
   login(http: HttpClient, url: string, employeeNumber: string, password: string, callback: any): void {
     var data = {
@@ -73,15 +80,14 @@ export class AuthService {
     http.get(url, { withCredentials: true, headers: this.headerAddToken() }).subscribe(
       success => {
         localStorage.removeItem('token')
-        this.user = "";
-        this.redirectUrl = "";
+        this.init();
         this.router.navigate(['/login']);
       },
       error => {
         localStorage.removeItem('token')
         this.router.navigate(['/login']);
       }
-    )
+    );
   }
 
   isLoggedIn(): boolean {

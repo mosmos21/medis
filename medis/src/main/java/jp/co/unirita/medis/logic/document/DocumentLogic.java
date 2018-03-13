@@ -58,14 +58,14 @@ public class DocumentLogic {
     TagLogic tagLogic;
 
 
-    public DocumentForm getDocument(String documentId,String employeeNumber) {
+    public DocumentForm getDocument(String documentId) {
     	Bookmark bookmark =bookmarkRepository.findOne("m0000000000");
 
         DocumentInfo info = documentInfoRepository.findOne(documentId);
-        UserDetail detail = userDetailRepository.findOne(employeeNumber);
+        UserDetail detail = userDetailRepository.findOne(info.getEmployeeNumber());
 
         DocumentForm document = new DocumentForm();
-        document.setEmployeeNumber(employeeNumber);
+        document.setEmployeeNumber(info.getEmployeeNumber());
         document.setName(new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString());
         document.setDocumentId(documentId);
         document.setTemplateId(info.getTemplateId());

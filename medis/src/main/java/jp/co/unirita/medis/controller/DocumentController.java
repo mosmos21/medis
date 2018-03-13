@@ -60,7 +60,7 @@ public class DocumentController {
 			@PathVariable(value = "documentId") String documentId) throws NotExistException {
 		logger.info("[method: getDocument] Get document list by " + documentId + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
-		return documentLogic.getDocument(documentId, user.getEmployeeNumber());
+		return documentLogic.getDocument(documentId);
 	}
 
 	/**
