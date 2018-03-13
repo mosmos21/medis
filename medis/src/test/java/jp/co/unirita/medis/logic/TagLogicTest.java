@@ -114,7 +114,7 @@ public class TagLogicTest {
 			testData.add(tag);
 		}
 
-        assertEquals("新規システムタグIDの取得（成功時）が正しく動作していません", testData, result);
+        assertEquals("タグID振り分けが正しく動作していません", testData, result);
     }
 
 }
