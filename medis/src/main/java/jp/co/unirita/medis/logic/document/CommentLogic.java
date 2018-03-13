@@ -98,7 +98,7 @@ public class CommentLogic {
 		commentRepository.saveAndFlush(comment);
 
 		// 既読がついたのを知らせるメール送信
-		mailLogic.sendCommentReadtNotification(userDetail.getMailaddress(), documentId, documentInfo.getDocumentName(),
+		mailLogic.sendCommentReadNotification(userDetail.getMailaddress(), documentId, documentInfo.getDocumentName(),
 				commentInfo.getEmployeeNumber(), userDetail.getLastName());
 
 	}

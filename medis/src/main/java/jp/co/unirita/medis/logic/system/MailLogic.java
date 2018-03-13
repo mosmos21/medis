@@ -16,11 +16,11 @@ public class MailLogic {
     @Autowired
     private MailSender sender;
 
-    public void sendResetPasswordLink(String mailaddress, String key) {
+    public void sendResetPasswordLink(String mailAddress, String key) {
         SimpleMailMessage msg = new SimpleMailMessage();
-        String url = "http://" + clientPathUtil.getPath() + "/resetpass?secret=" + key;
+        String url = clientPathUtil.getPath() + "/resetpass?secret=" + key;
 
-        msg.setTo(mailaddress);
+        msg.setTo(mailAddress);
         msg.setSubject("【MEDIS】パスワード設定用URL");
         msg.setText(new StringBuilder()
                 .append("MEDISのパスワードリセットメールです。").append(BR)
@@ -33,11 +33,11 @@ public class MailLogic {
     }
 
     public void sendDocumentContributionNotification(
-            String mailaddress, String documentId, String documentName, String employeeNumber, String name) {
+            String mailAddress, String documentId, String documentName, String employeeNumber, String name) {
         SimpleMailMessage msg = new SimpleMailMessage();
-        String url = "http://" + clientPathUtil.getPath() + "/view/" + documentId;
+        String url = clientPathUtil.getPath() + "/browsing/" + documentId;
 
-        msg.setTo(mailaddress);
+        msg.setTo(mailAddress);
         msg.setSubject("【MEDIS】文書投稿通知");
         msg.setText(new StringBuilder()
                 .append("あなたが監視しているタグの文書が投稿されました。").append(BR)
@@ -55,11 +55,11 @@ public class MailLogic {
     }
 
     public void sendDocumentUpdateNotification(
-            String mailaddress, String documentId, String documentName, String employeeNumber, String name) {
+            String mailAddress, String documentId, String documentName, String employeeNumber, String name) {
         SimpleMailMessage msg = new SimpleMailMessage();
-        String url = "http://" + clientPathUtil.getPath() + "/view/" + documentId;
+        String url = clientPathUtil.getPath() + "/browsing/" + documentId;
 
-        msg.setTo(mailaddress);
+        msg.setTo(mailAddress);
         msg.setSubject("【MEDIS】文書更新通知");
         msg.setText(new StringBuilder()
                 .append("あなたが監視しているタグの文書が更新されました。").append(BR)
@@ -77,11 +77,11 @@ public class MailLogic {
     }
 
     public void sendCommentNotification(
-            String mailaddress, String documentId, String documentName, String employeeNumber, String name) {
+            String mailAddress, String documentId, String documentName, String employeeNumber, String name) {
         SimpleMailMessage msg = new SimpleMailMessage();
-        String url = "http://" + clientPathUtil.getPath() + "/view/" + documentId;
+        String url = clientPathUtil.getPath() + "/browsing/" + documentId;
 
-        msg.setTo(mailaddress);
+        msg.setTo(mailAddress);
         msg.setSubject("【MEDIS】コメント通知");
         msg.setText(new StringBuilder()
                 .append("あなたが投稿した文書にコメントが付きました。").append(BR)
@@ -98,12 +98,12 @@ public class MailLogic {
         sender.send(msg);
     }
 
-    public void sendCommentReadtNotification(
-            String mailaddress, String documentId, String documentName, String employeeNumber, String name) {
+    public void sendCommentReadNotification(
+            String mailAddress, String documentId, String documentName, String employeeNumber, String name) {
         SimpleMailMessage msg = new SimpleMailMessage();
-        String url = "http://" + clientPathUtil.getPath() + "/view/" + documentId;
+        String url = clientPathUtil.getPath() + "/browsing/" + documentId;
 
-        msg.setTo(mailaddress);
+        msg.setTo(mailAddress);
         msg.setSubject("【MEDIS】コメント既読通知");
         msg.setText(new StringBuilder()
                 .append("あなたが書いたコメントに既読が付きました。").append(BR)
