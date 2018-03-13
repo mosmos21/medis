@@ -26,7 +26,7 @@ public class MailLogic {
                 .append("MEDISのパスワードリセットメールです。").append(BR)
                 .append("以下のURLにてパスワードを設定することができます。").append(BR)
                 .append(BR)
-                .append(url)
+                .append(url).append(BR)
                 .append("有効期間は30分です。有効期限が過ぎた場合はメールを再送してください。")
                 .toString());
         sender.send(msg);
