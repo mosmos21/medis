@@ -48,7 +48,7 @@
                             <a class="toppage_list" (click)="viewDocument(fav.documentId)">
                                 {{ fav.documentName }}
                             </a>
-                            <div class="list_content_time">{{ conv.time2Date(fav.updateDate) }}</div>
+                            <div class="list_content_time">{{ conv.time2Date(fav.documentCreateDate) }}</div>
                         </li>
                     </ul>
                 </div>
@@ -65,7 +65,7 @@
                             <a class="toppage_list" (click)="viewDocument(mon.documentId)">
                                 {{ mon.documentName }}
                             </a>
-                            <div class="list_content_time">{{ conv.time2Date(mon.updateDate) }}</div>
+                            <div class="list_content_time">{{ conv.time2Date(mon.documentCreateDate) }}</div>
                         </li>
                     </ul>
                 </div>
