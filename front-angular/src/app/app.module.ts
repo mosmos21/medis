@@ -16,6 +16,8 @@ import {
   MatButtonToggleModule
 } from '@angular/material';
 
+import { FileUploadModule } from 'ng2-file-upload'
+
 import { NavigationService } from './services/navigation.service';
 import { CookieService } from 'ngx-cookie-service'
 
@@ -58,6 +60,7 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { ErrorComponent } from './error/error.component';
 import { NewDocumentComponent } from './new-document/new-document.component';
 import { CustomSnackbarComponent } from './custom-snackbar/custom-snackbar.component';
+import { EditIconComponent } from './edit-icon/edit-icon.component';
 
 
 @NgModule({
@@ -124,7 +127,8 @@ import { CustomSnackbarComponent } from './custom-snackbar/custom-snackbar.compo
     CreateUserComponent,
     InitializationComponent,
     MessageModalComponent,
-    CustomSnackbarComponent
+    CustomSnackbarComponent,
+    EditIconComponent,
   ],
   bootstrap: [AppComponent]
 })

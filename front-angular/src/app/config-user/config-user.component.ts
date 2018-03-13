@@ -1,8 +1,14 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
+import {
+  FileSelectDirective,
+  FileDropDirective,
+  FileUploader,
+} from 'ng2-file-upload/ng2-file-upload';
 import { InitializationComponent } from '../initialization/initialization.component';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
+import { EditIconComponent } from '../edit-icon/edit-icon.component'
 
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
@@ -39,6 +45,10 @@ export class ConfigUserComponent implements OnInit {
   ];
   private message;
   public isIconInput: boolean;
+
+  public uploader:FileUploader = new FileUploader({url: this.hostname});
+  public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -95,7 +105,9 @@ export class ConfigUserComponent implements OnInit {
   }
 
   editIsIcon() {
-    this.isIconInput = true;
+    let dialogRef = this. dialog.open(EditIconComponent, {
+      data: { }
+    });
   }
 
   submit() {
@@ -136,5 +148,9 @@ export class ConfigUserComponent implements OnInit {
   resetIsIcon() {
     this.isIconInput = false;
     this.tempSettings.isIcon = this.settings.isIcon;
+  }
+
+  public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
   }
 }

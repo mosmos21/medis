@@ -34,7 +34,9 @@
                                             <mat-checkbox [checked]="isChecked(content.id, i - content.offset)">{{ templateValues[content.id][i] }}</mat-checkbox>
                                         </div>
                                         <div *ngSwitchCase="'radio'">
-                                            <mat-checkbox [checked]="isChecked(content.id, i - content.offset)">{{ templateValues[content.id][i] }}</mat-checkbox>
+                                            <mat-radio-button value="i" name="{{ content.id }}" [checked]="isChecked(content.id, i - content.offset)" (click)="false">
+                                                {{ templateValues[content.id][i] }}
+                                            </mat-radio-button>
                                         </div>
                                     </div>
                                 </div>
@@ -54,12 +56,6 @@
                                                 <span>{{ documentValues[content.id][i-2] }}</span>
                                                 <br/>
                                                 <br/>
-                                            </div>
-                                            <div *ngSwitchCase="'checkbox'">
-                                                <mat-checkbox [checked]="isChecked(content.id, i - content.offset)">{{ documentValues[content.id][i-2] }}</mat-checkbox>
-                                            </div>
-                                            <div *ngSwitchCase="'radio'">
-                                                <mat-checkbox [checked]="isChecked(content.id, i - content.offset)">{{ documentValues[content.id][i-2] }}</mat-checkbox>
                                             </div>
                                         </div>
                                     </div>
