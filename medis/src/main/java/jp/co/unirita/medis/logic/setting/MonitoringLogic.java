@@ -60,9 +60,9 @@ public class MonitoringLogic {
 	    List<DocumentInfo> documentInfoList1 = documentInfoRepository.findByTemplateIdIn(templateIdList);
 	    List<DocumentInfo> documentInfoList2 = documentInfoRepository.findByDocumentIdIn(documentIdList);
 	    List<DocumentInfo> documentInfoList = Stream.concat(documentInfoList1.stream(), documentInfoList2.stream())
-												.distinct()
-												.sorted(Comparator.comparing(DocumentInfo::getDocumentCreateDate))
-												.collect(Collectors.toList());
+	    		.distinct()
+	    		.sorted(Comparator.comparing(DocumentInfo::getDocumentCreateDate))
+	    		.collect(Collectors.toList());
 	    List<UserDetail> userDetail = new ArrayList<>();
 	    for (DocumentInfo docInfo : documentInfoList) {
 			userDetail.add(userDetailRepository.findOne(docInfo.getEmployeeNumber()));
