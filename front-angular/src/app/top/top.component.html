@@ -48,7 +48,7 @@
                             <a class="toppage_list" (click)="viewDocument(fav.documentId)">
                                 {{ fav.documentName }}
                             </a>
-                            <div class="list_content_time">{{ conv.time2Date(fav.documentCreateDate) }}</div>
+                            <div class="list_content_time">[投稿者] {{ fav.lastName }} {{ fav.firstName }} [最終更新日] {{ conv.time2Date(fav.documentCreateDate) }}</div>
                         </li>
                     </ul>
                 </div>
