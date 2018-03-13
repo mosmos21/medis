@@ -90,12 +90,13 @@ public class NotificationLogic {
      */
     public void commentReadNotification(String commentId) {
         Comment comment = commentRepository.findOne(commentId);
-        DocumentInfo info = documentInfoRepository.findOne(comment.getCommentId());
-        UserDetail detail = userDetailRepository.findOne(comment.getEmployeeNumber());
-        String name = detail.getLastName() + " " + detail.getFirstName();
-        String mailAddress = userDetailRepository.findOne(info.getEmployeeNumber()).getMailaddress();
+        String mailAddress = userDetailRepository.findOne(comment.getEmployeeNumber()).getMailaddress();
 
-        mailLogic.sendCommentReadtNotification(mailAddress, info.getDocumentId(), info.getDocumentName(), comment.getEmployeeNumber(), name);
+        DocumentInfo info = documentInfoRepository.findOne(commentRepository.findOne(commentId).getDocumentId());
+        UserDetail detail = userDetailRepository.findOne(info.getEmployeeNumber());
+        String name = detail.getLastName() + " " + detail.getFirstName();
+
+        mailLogic.sendCommentReadNotification(mailAddress, info.getDocumentId(), info.getDocumentName(), info.getEmployeeNumber(), name);
     }
 
     // ドキュメントについているタグを監視している人のメールのリスト
