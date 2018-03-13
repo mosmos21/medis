@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { SearchService } from '../services/search.service';
+import { SnackBarService } from '../services/snack-bar.service';
 
 @Component({
   selector: 'app-config-surveillance',
@@ -14,10 +15,11 @@ export class ConfigSurveillanceComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    @Inject('hostname') private hostname: string,
     private nav: NavigationService,
-    public searchService: SearchService,
+    private snackBar: SnackBarService,
+    @Inject('hostname') private hostname: string,
     private authService: AuthService,
+    public searchService: SearchService,
   ) {
     this.nav.show();
     this.authService.getUserDetail(http);
@@ -32,6 +34,10 @@ export class ConfigSurveillanceComponent implements OnInit {
   sabmit() {
     console.log(this.searchService.selectedTags);
     const tempTag = this.searchService.selectedTags;
-    this.http.post(this.hostname + "settings/me/monitoring_tags", tempTag, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
+    this.http.post(this.hostname + "settings/me/monitoring_tags", tempTag, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
+      success => {
+        this.snackBar.openSaveSnackBar();
+      }
+    );
   }
 }
