@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { ConvertDateService } from '../services/convert-date.service';
@@ -15,13 +15,13 @@ export class ViewComponent implements OnInit {
 
   private templateId: string = "";
   private documentId: string = "";
-  public documentName: string = "";
-
-  public tags: string[] = [];
-
-  public blocks: any;
   private contentBases: { [key: string]: any } = {};
 
+  public documentName: string = "";
+  public employeeNumber: string;
+  public name: string;
+  public tags: string[] = [];
+  public blocks: any;
   public contents: any[] = [];
   public templateValues: { [key: string]: string[] } = {};
   public documentValues: { [key: string]: string[] } = {};
@@ -32,12 +32,13 @@ export class ViewComponent implements OnInit {
   public isFav: boolean;
 
   constructor(
-    @Inject('hostname') private hostname: string,
+    public convert: ConvertDateService,
     private http: HttpClient,
     private route: ActivatedRoute,
-    public convert: ConvertDateService,
+    private router: Router,
     private authService: AuthService,
     private errorService: ErrorService,
+    @Inject('hostname') private hostname: string,
   ) {
     this.authService.getUserDetail(http);
   }
@@ -65,6 +66,14 @@ export class ViewComponent implements OnInit {
     );
     this.assembleDocument(this.documentId);
     this.getComments();
+  }
+
+  isMyDocument(): boolean {
+    return this.authService.userdetail.employeeNumber == this.employeeNumber;
+  }
+
+  goEdit(): void {
+    this.router.navigate(['/edit/' + this.documentId]);
   }
 
   assembleTemplate(templateId: string, callback: any): void {
@@ -100,6 +109,8 @@ export class ViewComponent implements OnInit {
       json => {
         data = json;
         this.documentName = data.documentName;
+        this.employeeNumber = data.employeeNumber;
+        this.name = data.name;
         this.isFav = data.selected
         this.assembleTemplate(data.templateId, () => {
           for (let i = 0; i < data.contents.length; i++) {

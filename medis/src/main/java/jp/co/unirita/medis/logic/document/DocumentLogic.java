@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jp.co.unirita.medis.domain.userdetail.UserDetail;
+import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,9 @@ public class DocumentLogic {
     @Autowired
     UpdateInfoRepository updateInfoRepository;
     @Autowired
+    UserDetailRepository userDetailRepository;
+
+    @Autowired
     TagLogic tagLogic;
 
 
@@ -57,8 +62,11 @@ public class DocumentLogic {
     	Bookmark bookmark =bookmarkRepository.findOne("m0000000000");
 
         DocumentInfo info = documentInfoRepository.findOne(documentId);
-        System.out.println(info);
+        UserDetail detail = userDetailRepository.findOne(employeeNumber);
+
         DocumentForm document = new DocumentForm();
+        document.setEmployeeNumber(employeeNumber);
+        document.setName(new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString());
         document.setDocumentId(documentId);
         document.setTemplateId(info.getTemplateId());
         document.setDocumentName(info.getDocumentName());

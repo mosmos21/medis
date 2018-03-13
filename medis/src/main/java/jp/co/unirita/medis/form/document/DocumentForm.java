@@ -12,6 +12,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class DocumentForm {
+    private String employeeNumber;
+    private String name;
+
     private String documentId;
     private String templateId;
     private String documentName;

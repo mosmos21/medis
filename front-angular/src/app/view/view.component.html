@@ -5,6 +5,7 @@
                 <div id="view_header">
                     <h1 style="float: left;">{{ documentName }}</h1>
                     <input type="checkbox" [(ngModel)]="isFav" (click)="favorite()">
+                    <button *ngIf="isMyDocument()" (click)="goEdit()" mat-raised-button color="primary">編集</button>
                     <hr />
                     <div id="tag_list">
                         <div *ngFor="let t of tags" class="tag_base tag_middle tag_side">{{ t }}</div>
