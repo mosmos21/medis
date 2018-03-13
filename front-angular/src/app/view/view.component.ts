@@ -190,11 +190,12 @@ export class ViewComponent implements OnInit {
     }
     this.http.put(this.hostname + "documents/" + this.documentId + "/comments/create", postComment, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
       json => {
-        this.comments.push(JSON.parse(json));
+        let data = JSON.parse(json);
+        this.comments.push(data);
         for (let c of this.comments) {
           if (c.read) {
             c['alreadyRead'] = 'read'
-          } else if (c.employeeNumber == this.authService.userdetail.employeeNumber) {
+          } else if (this.employeeNumber == this.authService.userdetail.employeeNumber) {
             c['alreadyRead'] = 'unreadMe'
           } else {
             c['alreadyRead'] = 'unread'
@@ -212,11 +213,10 @@ export class ViewComponent implements OnInit {
     this.http.get(this.hostname + "documents/" + this.documentId + "/comments", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.comments = json;
-        console.log(this.comments)
         for (let c of this.comments) {
           if (c.read) {
             c['alreadyRead'] = 'read'
-          } else if (c.employeeNumber == this.authService.userdetail.employeeNumber) {
+          } else if (this.employeeNumber == this.authService.userdetail.employeeNumber) {
             c['alreadyRead'] = 'unreadMe'
           } else {
             c['alreadyRead'] = 'unread'
@@ -239,16 +239,13 @@ export class ViewComponent implements OnInit {
   }
 
   readComment(commentId: any) {
-    this.http.post(this.hostname + "documents/" + this.documentId + "/comments/" + commentId + "/read", {}, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.comments = json;
+    this.http.post(this.hostname + "documents/" + this.documentId + "/comments/" + commentId + "/read", {}, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text'}).subscribe(
+      commentId => {
+        console.log(commentId);
         for (let c of this.comments) {
-          if (c.read) {
-            c['alreadyRead'] = 'read'
-          } else if (c.employeeNumber == this.authService.userdetail.employeeNumber) {
-            c['alreadyRead'] = 'unreadMe'
-          } else {
-            c['alreadyRead'] = 'unread'
+          if(c.commentId == commentId){
+            c.read = true;
+            c['alreadyRead'] = 'read';
           }
         }
       },
@@ -256,5 +253,9 @@ export class ViewComponent implements OnInit {
         this.errorService.errorPath(error.status);
       }
     )
+  }
+
+  debug(event): void {
+    console.log(event);
   }
 }

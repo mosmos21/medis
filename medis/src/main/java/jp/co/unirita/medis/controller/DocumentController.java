@@ -157,13 +157,16 @@ public class DocumentController {
 	 */
 	@PostMapping("{documentId:^d[0-9]{10}$}/comments/{commentId:^o[0-9]{10}$}/read")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void alreadyRead(@AuthenticationPrincipal User user, @PathVariable(value = "documentId") String documentId,
-			@PathVariable(value = "commentId") String commentId, @Valid HttpServletRequest request,
-			HttpServletResponse response) throws NotExistException {
+	public String alreadyRead(
+	        @AuthenticationPrincipal User user,
+            @PathVariable(value = "documentId") String documentId,
+			@PathVariable(value = "commentId") String commentId
+    ) throws NotExistException {
 		logger.info("[method: alreedyRead] Set AlreadyRead And Send mail");
 		argumentCheckLogic.checkDocumentId(documentId);
 		argumentCheckLogic.checkCommentId(commentId);
 		commentLogic.alreadyRead(documentId, commentId);
+		return commentId;
 	}
 
 	/**

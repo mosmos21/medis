@@ -54,7 +54,7 @@ export class AuthService {
       success => {
         this.user = success;
         this.getUserDetail(http);
-        console.log(this.user);
+        // console.log(this.user);
         localStorage.setItem('token', this.cookieService.get('XSRF-TOKEN'))
         if (this.user.authorityId == "a0000000000") {
           this.redirectUrl = "admin/template"
@@ -64,7 +64,7 @@ export class AuthService {
         callback();
       },
       error => {
-        console.log(error)
+        // console.log(error)
         localStorage.removeItem('token')
         if (error.status == '403') {
           this.message = "社員番号とパスワードの\n組み合わせが異なります";
@@ -104,7 +104,7 @@ export class AuthService {
     http.get(this.hostname + 'settings/me', { withCredentials: true, headers: this.headerAddToken() }).subscribe(
       json => {
         this.userdetail = json;
-        console.log(this.userdetail);
+        // console.log(this.userdetail);
       },
       error => {
       }

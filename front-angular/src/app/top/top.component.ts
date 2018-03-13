@@ -36,14 +36,14 @@ export class TopComponent implements OnInit {
     this.nav.showUserMenu();
     this.user = this.authService.user;
     this.authService.getUserDetail(http);
-    console.log(this.user);
+    // console.log(this.user);
   }
 
   ngOnInit() {
     this.http.get(this.hostname + "infomations", { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
       json => {
         this.updateList = json;
-        console.log(this.updateList);
+        // console.log(this.updateList);
       },
       error => {
         this.errorService.errorPath(error.status)
@@ -52,7 +52,7 @@ export class TopComponent implements OnInit {
     this.http.get(this.hostname + "documents/public", { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
       json => {
         this.ownDocList = json;
-        console.log(this.updateList);
+        // console.log(this.updateList);
       },
       error => {
         this.errorService.errorPath(error.status)
@@ -61,7 +61,7 @@ export class TopComponent implements OnInit {
     this.http.get(this.hostname + "documents/bookmark", { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
       json => {
         this.favDocList = json;
-        console.log(this.updateList);
+        // console.log(this.updateList);
       },
       error => {
         this.errorService.errorPath(error.status)
@@ -70,7 +70,7 @@ export class TopComponent implements OnInit {
     this.http.get(this.hostname + "documents/monitoring_tags", { headers: this.authService.headerAddToken(), withCredentials: true }).subscribe(
       json => {
         this.monDocList = json;
-        console.log(this.updateList);
+        // console.log(this.updateList);
       },
       error => {
         this.errorService.errorPath(error.status)

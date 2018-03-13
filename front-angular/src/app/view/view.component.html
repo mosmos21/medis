@@ -93,7 +93,7 @@
                                         <button mat-icon-button disabled></button>
                                     </div>
                                     <div *ngSwitchCase="'unreadMe'">
-                                        <button mat-mini-fab color="primary" (click)="readComment(comment.commentId)">既読</button>
+                                        <button mat-mini-fab color="primary" *ngIf="comment.show" (click)="readComment(comment.commentId)">既読</button>
                                     </div>
                                     <div *ngSwitchCase="read">
                                         <button mat-icon-button disabled>既読</button>

@@ -29,7 +29,7 @@ export class AppComponent {
     this.mymenuVisible = true;
   }
   ngOnInit() {
-    console.log(this.authService.userdetail)
+    // console.log(this.authService.userdetail)
   }
   
   mymenuOpen() {

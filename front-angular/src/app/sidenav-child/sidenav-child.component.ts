@@ -58,7 +58,7 @@ export class SidenavChildComponent implements OnInit {
       json => {
         this.list = json;
         this.num = this.list.length;
-        console.log(this.list);
+        // console.log(this.list);
       },
       error => {
         this.errorService.errorPath(error.status)
