@@ -3,9 +3,7 @@ package jp.co.unirita.medis.logic.setting;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,17 +21,16 @@ import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
 import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
-import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
+import jp.co.unirita.medis.domain.userdetail.UserDetail;
+import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
 
 @Service
 @Transactional
 public class MonitoringLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
-	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
-	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
 
 	@Autowired
 	NotificationConfigRepository notificationConfigRepository;
@@ -45,9 +42,38 @@ public class MonitoringLogic {
 	DocumentInfoRepository documentInfoRepository;
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
+	@Autowired
+	UserDetailRepository userDetailRepository;
 
 
-	public List<DocumentInfo> getMonitoringList(String employeeNumber) {
+	public List<DocumentInfoForm> getMonitoringList(String employeeNumber) {
+
+		List<String> tagIdList = notificationConfigRepository.findByEmployeeNumber(employeeNumber).stream()
+                .map(NotificationConfig::getTagId)
+                .collect(Collectors.toList());
+		List<String> templateIdList = templateTagRepository.findByTagIdIn(tagIdList).stream()
+                .map(TemplateTag::getTemplateId)
+                .collect(Collectors.toList());
+	    List<String> documentIdList = documentTagRepository.findByTagIdIn(tagIdList).stream()
+                .map(DocumentTag::getDocumentId)
+                .collect(Collectors.toList());
+	    List<DocumentInfo> documentInfoList1 = documentInfoRepository.findByTemplateIdIn(templateIdList);
+	    List<DocumentInfo> documentInfoList2 = documentInfoRepository.findByDocumentIdIn(documentIdList);
+	    List<DocumentInfo> documentInfoList = Stream.concat(documentInfoList1.stream(), documentInfoList2.stream())
+												.distinct()
+												.sorted(Comparator.comparing(DocumentInfo::getDocumentCreateDate))
+												.collect(Collectors.toList());
+	    List<UserDetail> userDetail = new ArrayList<>();
+	    for (DocumentInfo docInfo : documentInfoList) {
+			userDetail.add(userDetailRepository.findOne(docInfo.getEmployeeNumber()));
+		}
+	    List<DocumentInfoForm> form = new ArrayList<>();
+		for (int i = 0; i < documentInfoList.size(); i++) {
+			form.add(new DocumentInfoForm(documentInfoList.get(i), userDetail.get(i)));
+		}
+		return form;
+	}
+		/*
 		//userが監視しているタグの一覧
 		List<NotificationConfig> notificationConfig = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
 		List<String> tagIdList = new ArrayList<>();
@@ -136,8 +162,21 @@ public class MonitoringLogic {
 			documentInfoList.addAll(documentInfoRepository.findByDocumentId(ids));
 		}
 
-		documentInfoList.sort(Comparator.comparing(DocumentInfo::getDocumentCreateDate).reversed());
+		//updateDocIdListのuserDetailの取得
+		List<UserDetail> userDetail = new ArrayList<>();
 
-		return documentInfoList;
-	}
+		for (String ids : updateDocIdList) {
+			userDetail.add(userDetailRepository.findOne(ids));
+		}
+
+		//documentInfoListとuserDetailの値をDocumentInfoFormに格納
+		List<DocumentInfoForm> form = new ArrayList<>();
+
+		for (int i = 0; i < documentInfoList.size(); i++) {
+			form.add(new DocumentInfoForm(documentInfoList.get(i), userDetail.get(i)));
+		}
+
+		form.sort(Comparator.comparing(DocumentInfoForm::getDocumentCreateDate).reversed());
+
+		return form;*/
 }

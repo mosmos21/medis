@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import jp.co.unirita.medis.logic.util.SearchLogic;
 
 @RequestMapping("/v1/search")
@@ -40,7 +40,7 @@ public class SearchController {
      */
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public List<DocumentInfo> findDocuments(
+	public List<DocumentInfoForm> findDocuments(
 		@AuthenticationPrincipal User user,
 		@RequestParam(value = "tags", required = false) String tagNames
 	) throws UnsupportedEncodingException {

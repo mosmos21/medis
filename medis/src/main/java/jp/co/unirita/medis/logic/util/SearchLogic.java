@@ -1,5 +1,6 @@
 package jp.co.unirita.medis.logic.util;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,15 +22,15 @@ import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
+import jp.co.unirita.medis.domain.userdetail.UserDetail;
+import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
 
 @Service
 @Transactional
 public class SearchLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(TemplateController.class);
-
-	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
-	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
 
 	@Autowired
 	TagRepository tagRepository;
@@ -41,8 +42,10 @@ public class SearchLogic {
 	DocumentInfoRepository documentInfoRepository;
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
+	@Autowired
+	UserDetailRepository userDetailRepository;
 
-	public List<DocumentInfo> findDocuments(List<String> tagNameList) {
+	public List<DocumentInfoForm> findDocuments(List<String> tagNameList) {
 	    List<String> tagIdList = tagRepository.findByTagNameIn(tagNameList).stream()
                 .map(Tag::getTagId)
                 .collect(Collectors.toList());
@@ -55,10 +58,19 @@ public class SearchLogic {
 
 	    List<DocumentInfo> documentInfoList1 = documentInfoRepository.findByTemplateIdIn(templateIdList);
 	    List<DocumentInfo> documentInfoList2 = documentInfoRepository.findByDocumentIdIn(documentIdList);
-	    return Stream.concat(documentInfoList1.stream(), documentInfoList2.stream())
-				.distinct()
-				.sorted(Comparator.comparing(DocumentInfo::getDocumentCreateDate))
-				.collect(Collectors.toList());
+	    List<DocumentInfo> documentInfoList = Stream.concat(documentInfoList1.stream(), documentInfoList2.stream())
+												.distinct()
+												.sorted(Comparator.comparing(DocumentInfo::getDocumentCreateDate))
+												.collect(Collectors.toList());
+	    List<UserDetail> userDetail = new ArrayList<>();
+	    for (DocumentInfo docInfo : documentInfoList) {
+			userDetail.add(userDetailRepository.findOne(docInfo.getEmployeeNumber()));
+		}
+	    List<DocumentInfoForm> form = new ArrayList<>();
+		for (int i = 0; i < documentInfoList.size(); i++) {
+			form.add(new DocumentInfoForm(documentInfoList.get(i), userDetail.get(i)));
+		}
+		return form;
     }
 
 /*	public List<DocumentInfoForm> getSearchResult(String tagName) throws UnsupportedEncodingException {

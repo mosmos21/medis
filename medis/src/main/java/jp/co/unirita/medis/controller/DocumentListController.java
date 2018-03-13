@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import jp.co.unirita.medis.logic.document.DocumentListLogic;
 
 @RestController
@@ -35,7 +35,7 @@ public class DocumentListController {
      */
 	@GetMapping({"/{type:^public|private$}",""})
 	@ResponseStatus(HttpStatus.OK)
-	public List<DocumentInfo> getDocumentList(@AuthenticationPrincipal User user,
+	public List<DocumentInfoForm> getDocumentList(@AuthenticationPrincipal User user,
 			@PathVariable(value = "type", required = false) String publishType) {
         return documentListLogic.getDocumentList(user.getEmployeeNumber(), publishType);
 	}

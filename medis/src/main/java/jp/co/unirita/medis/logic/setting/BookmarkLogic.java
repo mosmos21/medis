@@ -17,8 +17,10 @@ import jp.co.unirita.medis.domain.bookmark.Bookmark;
 import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
-import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
+import jp.co.unirita.medis.domain.userdetail.UserDetail;
+import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service
@@ -27,51 +29,39 @@ public class BookmarkLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
-	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
-
 	@Autowired
 	BookmarkRepository bookmarkRepository;
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
+	@Autowired
+	UserDetailRepository userDetailRepository;
 
-	public List<DocumentInfo> getBookmarkList(String employeeNumber) {
+	public List<DocumentInfoForm> getBookmarkList(String employeeNumber) {
 
-		// ユーザがお気に入りしている文書idの一覧を取得
+		// ユーザがお気に入りしている文書の一覧を取得
 		List<Bookmark> bookmark = bookmarkRepository.findByEmployeeNumberAndSelected(employeeNumber, true);
-		List<String> documentIdList = new ArrayList<>();
-
-		for (Bookmark doclist : bookmark) {
-			documentIdList.add(doclist.getDocumentId());
+		List<DocumentInfo> documentList = new ArrayList<>();
+		for (Bookmark mark : bookmark) {
+			documentList.add(documentInfoRepository.findOne(mark.getDocumentId()));
 		}
 
-		// 各documentIdごとの最新のupdateIdをもったupdate_infoのリストの取得
-		List<UpdateInfo> updateInfoList = new ArrayList<>();
-
-		for (String docs : documentIdList) {
-			updateInfoList.add(updateInfoRepository.findFirstByDocumentIdAndUpdateTypeBetweenOrderByUpdateIdDesc(docs,
-					TYPE_CREATE_DOCUMENT, TYPE_UPDATE_DOCUMENT));
+		//userDetailの取得
+		List<UserDetail> userDetail = new ArrayList<>();
+		for (DocumentInfo docInfo : documentList) {
+			userDetail.add(userDetailRepository.findOne(docInfo.getEmployeeNumber()));
 		}
 
-		// updateInfoListのdocumentIdの一覧の取得
-		List<String> updateDocIdList = new ArrayList<>();
+		//documentListとuserDetailの値をDocumentInfoFormに格納
+		List<DocumentInfoForm> form = new ArrayList<>();
 
-		for (UpdateInfo upDocId : updateInfoList) {
-			updateDocIdList.add(upDocId.getDocumentId());
+		for (int i = 0; i < documentList.size(); i++) {
+			form.add(new DocumentInfoForm(documentList.get(i), userDetail.get(i)));
 		}
+		form.sort(Comparator.comparing(DocumentInfoForm::getDocumentCreateDate).reversed());
 
-		// updateDocIdListのdocumentInfoの取得
-		List<DocumentInfo> documentInfoList = new ArrayList<>();
-
-		for (String updocs : updateDocIdList) {
-			documentInfoList.addAll(documentInfoRepository.findByDocumentId(updocs));
-		}
-
-
-		documentInfoList.sort(Comparator.comparing(DocumentInfo::getDocumentCreateDate).reversed());
-		return documentInfoList;
+		return form;
 	}
 
 	// 最新のIDを生成

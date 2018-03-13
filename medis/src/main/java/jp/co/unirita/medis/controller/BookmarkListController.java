@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import jp.co.unirita.medis.logic.setting.BookmarkLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
@@ -41,7 +41,7 @@ public class BookmarkListController {
      */
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public List<DocumentInfo> getBookmarkList(
+	public List<DocumentInfoForm> getBookmarkList(
 			@AuthenticationPrincipal User user) {
 		return bookmarkLogic.getBookmarkList(user.getEmployeeNumber());
 	}
