@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,13 @@ public class BookmarkLogicTest {
 
 	@Test
 	public void ユーザguのお気に入り情報を取得() {
-		List<DocumentInfo> bookmarkInfoList = bookmarkLogic.getBookmarkList("gu");
+		List<DocumentInfoForm> bookmarkInfoList = bookmarkLogic.getBookmarkList("gu");
 		assertEquals("ユーザguのお気に入りが取得できませんでした", 2, bookmarkInfoList.size());
 	}
 
 	@Test
 	public void ユーザmedsisのお気に入り情報を取得() {
-		List<DocumentInfo> bookmarkInfoList = bookmarkLogic.getBookmarkList("medis");
+		List<DocumentInfoForm> bookmarkInfoList = bookmarkLogic.getBookmarkList("medis");
 		assertEquals("ユーザmedisのお気に入りが取得できませんでした", 3, bookmarkInfoList.size());
 	}
 

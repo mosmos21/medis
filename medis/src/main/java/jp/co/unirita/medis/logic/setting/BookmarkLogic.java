@@ -34,8 +34,6 @@ public class BookmarkLogic {
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 	@Autowired
-	UpdateInfoRepository updateInfoRepository;
-	@Autowired
 	UserDetailRepository userDetailRepository;
 
 	public List<DocumentInfoForm> getBookmarkList(String employeeNumber) {

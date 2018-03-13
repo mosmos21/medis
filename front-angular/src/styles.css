@@ -139,6 +139,10 @@
  #info_list_date {
     width: 12em;
  }
+
+ #info_list_author {
+     width: 12em;
+ }
  
  #info_list_flag {
     width: 8em;
