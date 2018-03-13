@@ -1,5 +1,12 @@
 package jp.co.unirita.medis.logic.system;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import jp.co.unirita.medis.domain.comment.Comment;
 import jp.co.unirita.medis.domain.comment.CommentRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
@@ -12,12 +19,6 @@ import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class NotificationLogic {
@@ -78,7 +79,7 @@ public class NotificationLogic {
     public void commentNotification(String employeeNumber, String documentId) {
         UserDetail detail = userDetailRepository.findOne(employeeNumber);
         String name = new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString();
-        String mailAddress = userDetailRepository.findOne(documentInfoRepository.findOne(documentId).getDocumentId()).getMailaddress();
+        String mailAddress = userDetailRepository.findOne(documentInfoRepository.findOne(documentId).getEmployeeNumber()).getMailaddress();
         String documentName = documentInfoRepository.findOne(documentId).getDocumentName();
 
         mailLogic.sendCommentNotification(mailAddress, documentId, documentName, employeeNumber, name);

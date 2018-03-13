@@ -15,12 +15,11 @@ import org.springframework.stereotype.Service;
 
 import jp.co.unirita.medis.domain.comment.Comment;
 import jp.co.unirita.medis.domain.comment.CommentRepository;
-import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
-import jp.co.unirita.medis.logic.system.MailLogic;
+import jp.co.unirita.medis.logic.system.NotificationLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service
@@ -35,7 +34,7 @@ public class CommentLogic {
 	@Autowired
 	DocumentInfoRepository documentInfoRepository;
 	@Autowired
-	MailLogic mailLogic;
+	NotificationLogic notificationLogic;
 
 	private MailSender sender;
 
@@ -82,11 +81,8 @@ public class CommentLogic {
 	}
 
 	public void alreadyRead(String documentId, String commentId) {
-
-		DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
-		Comment commentInfo = commentRepository.findOne(commentId);
-		UserDetail userDetail = userDetailRepository.findOne(commentInfo.getEmployeeNumber());
 		// Readをtrueにする
+		Comment commentInfo = commentRepository.findOne(commentId);
 		Comment comment = new Comment();
 
 		comment.setCommentId(commentId);
@@ -98,8 +94,7 @@ public class CommentLogic {
 		commentRepository.saveAndFlush(comment);
 
 		// 既読がついたのを知らせるメール送信
-		mailLogic.sendCommentReadNotification(userDetail.getMailaddress(), documentId, documentInfo.getDocumentName(),
-				commentInfo.getEmployeeNumber(), userDetail.getLastName());
+		notificationLogic.commentReadNotification(commentId);
 
 	}
 
@@ -128,16 +123,14 @@ public class CommentLogic {
 			throws IdIssuanceUpperException {
 		Timestamp commentDate = new Timestamp(System.currentTimeMillis());
 		boolean read = false;
-		DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
-		UserDetail authorUserDetail = userDetailRepository.findOne(documentInfo.getEmployeeNumber());
 		Comment comment = new Comment(getNewCommentId(), documentId, commentDate, employeeNumber, value.get("value"),
 				read);
 		commentRepository.save(comment);
 		UserDetail userDetail = userDetailRepository.findOne(employeeNumber);
 
-		//コメントがついたのを知らせるメール送信
-		mailLogic.sendCommentNotification(authorUserDetail.getMailaddress(), documentId, documentInfo.getDocumentName(),
-				userDetail.getEmployeeNumber(), userDetail.getLastName());
+		// コメントがついたのを知らせるメール送信
+		notificationLogic.commentNotification(employeeNumber, documentId);
+
 		return createCommentInfoForm(comment, userDetail);
 
 	}
