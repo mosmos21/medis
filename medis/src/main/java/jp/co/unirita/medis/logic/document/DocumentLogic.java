@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jp.co.unirita.medis.domain.userdetail.UserDetail;
-import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +24,20 @@ import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
+import jp.co.unirita.medis.domain.userdetail.UserDetail;
+import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.DocumentContentForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
+import jp.co.unirita.medis.logic.system.NotificationLogic;
 import jp.co.unirita.medis.logic.util.TagLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service
 public class DocumentLogic {
 
-    private static final Logger logger = LoggerFactory.getLogger(DocumentLogic.class);
+	private static final Logger logger = LoggerFactory.getLogger(DocumentLogic.class);
 
-    private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
+	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
 	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
 
 	@Autowired
@@ -247,16 +248,15 @@ public class DocumentLogic {
         return String.format("d%010d", idNum + 1);
     }
 
-
-    private String createNewUpdateId() throws IdIssuanceUpperException {
-        List<UpdateInfo> list = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId"));
-        if(list.size() == 0) {
-            return "u0000000000";
-        }
-        long idNum = Long.parseLong(list.get(0).getUpdateId().substring(1));
-        if(idNum == 9999999999L){
-            throw new IdIssuanceUpperException("更新IDの発行限界");
-        }
-        return String.format("u%010d", idNum + 1);
-    }
+	private String createNewUpdateId() throws IdIssuanceUpperException {
+		List<UpdateInfo> list = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId"));
+		if (list.size() == 0) {
+			return "u0000000000";
+		}
+		long idNum = Long.parseLong(list.get(0).getUpdateId().substring(1));
+		if (idNum == 9999999999L) {
+			throw new IdIssuanceUpperException("更新IDの発行限界");
+		}
+		return String.format("u%010d", idNum + 1);
+	}
 }

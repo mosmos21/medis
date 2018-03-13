@@ -347,7 +347,7 @@ export class EditDocumentComponent implements OnInit {
   submitTags(documentId: string): void {
     let tags = new Array();
     tags = this.searchService.selectedTags.concat(this.searchService.newTags);
-    this.http.post(this.hostname + "documents/" + documentId + "/tags", tags,
+    this.http.put(this.hostname + "documents/" + documentId + "/tags", tags,
       { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
         success => {
         },
