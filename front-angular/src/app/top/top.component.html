@@ -62,10 +62,8 @@
                 <div class="list_box_content content_scroll_y">
                     <ul>
                         <li *ngFor="let mon of monDocList">
-                            <a class="toppage_list" (click)="viewDocument(mon.documentId)">
-                                {{ mon.documentName }}
-                            </a>
-                            <div class="list_content_time">{{ conv.time2Date(mon.documentCreateDate) }}</div>
+                            <a class="toppage_list" (click)="viewDocument(mon.documentId)">{{ mon.documentName }}</a>
+                            <div class="list_content_time">[投稿者] {{ mon.lastName }} {{ mon.firstName }} [最終更新日] {{ conv.time2Date(mon.documentCreateDate) }}</div>
                         </li>
                     </ul>
                 </div>
