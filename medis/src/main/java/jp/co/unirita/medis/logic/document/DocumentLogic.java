@@ -42,211 +42,222 @@ public class DocumentLogic {
 
 	@Autowired
 	BookmarkRepository bookmarkRepository;
-    @Autowired
-    DocumentInfoRepository documentInfoRepository;
-    @Autowired
-    TagRepository tagRepository;
-    @Autowired
-    DocumentTagRepository documentTagRepository;
-    @Autowired
-    DocumentItemRepository documentItemRepository;
-    @Autowired
-    UpdateInfoRepository updateInfoRepository;
-    @Autowired
-    UserDetailRepository userDetailRepository;
+	@Autowired
+	DocumentInfoRepository documentInfoRepository;
+	@Autowired
+	TagRepository tagRepository;
+	@Autowired
+	DocumentTagRepository documentTagRepository;
+	@Autowired
+	DocumentItemRepository documentItemRepository;
+	@Autowired
+	UpdateInfoRepository updateInfoRepository;
+	@Autowired
+	UserDetailRepository userDetailRepository;
+	@Autowired
+	NotificationLogic notificationLogic;
 
-    @Autowired
-    TagLogic tagLogic;
+	@Autowired
+	TagLogic tagLogic;
 
+	public DocumentForm getDocument(String documentId) {
+		Bookmark bookmark = bookmarkRepository.findOne("m0000000000");
 
-    public DocumentForm getDocument(String documentId) {
-    	Bookmark bookmark =bookmarkRepository.findOne("m0000000000");
+		DocumentInfo info = documentInfoRepository.findOne(documentId);
+		UserDetail detail = userDetailRepository.findOne(info.getEmployeeNumber());
 
-        DocumentInfo info = documentInfoRepository.findOne(documentId);
-        UserDetail detail = userDetailRepository.findOne(info.getEmployeeNumber());
+		DocumentForm document = new DocumentForm();
+		document.setEmployeeNumber(info.getEmployeeNumber());
+		document.setName(
+				new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString());
+		document.setDocumentCreateDate(info.getDocumentCreateDate());
+		document.setDocumentId(documentId);
+		document.setTemplateId(info.getTemplateId());
+		document.setDocumentName(info.getDocumentName());
+		document.setContents(getDocumentContents(documentId));
+		document.setSelected(bookmark == null ? false : bookmark.isSelected());
+		return document;
+	}
 
-        DocumentForm document = new DocumentForm();
-        document.setEmployeeNumber(info.getEmployeeNumber());
-        document.setName(new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString());
-        document.setDocumentCreateDate(info.getDocumentCreateDate());
-        document.setDocumentId(documentId);
-        document.setTemplateId(info.getTemplateId());
-        document.setDocumentName(info.getDocumentName());
-        document.setContents(getDocumentContents(documentId));
-        document.setSelected(bookmark == null ? false : bookmark.isSelected());
-        return document;
-    }
+	public List<Tag> getDocumentTags(String id) {
+		List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
+		List<Tag> tag = tagRepository
+				.findByTagId(documentTagList.stream().map(t -> t.getTagId()).collect(Collectors.toList()));
+		return tag;
+	}
 
-    public List<Tag> getDocumentTags(String id) {
-        List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
-        List<Tag> tag = tagRepository.findByTagId(documentTagList.stream().map(t -> t.getTagId()).collect(Collectors.toList()));
-        return tag;
-    }
+	public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
+		String id = saveDocumentInfo(documentForm, employeeNumber);
+		updateDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
+		String updateId = updateInfoRepository.findByDocumentId(documentForm.getDocumentId()).getUpdateId();
+		saveUpdateInfo(updateId, id, TYPE_UPDATE_DOCUMENT, employeeNumber);
+		return id;
+	}
 
-    public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
-        String id = saveDocumentInfo(documentForm, employeeNumber);
-        updateDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
-        String updateId = updateInfoRepository.findByDocumentId(documentForm.getDocumentId()).getUpdateId();
-        saveUpdateInfo(updateId, id, TYPE_UPDATE_DOCUMENT, employeeNumber);
-        return id;
-    }
+	public String saveDocumentInfo(DocumentForm document, String employeeNumber) throws IdIssuanceUpperException {
+		String documentId = document.getDocumentId() == null ? createNewDocumentId() : document.getDocumentId();
+		String templateId = document.getTemplateId();
+		String documentName = document.getDocumentName();
+		Timestamp documentCreateDate = new Timestamp(System.currentTimeMillis());
+		boolean documentPublish = document.isPublish();
+		DocumentInfo info = new DocumentInfo(documentId, documentName, employeeNumber, templateId, documentCreateDate,
+				documentPublish);
+		documentInfoRepository.saveAndFlush(info);
+		return info.getDocumentId();
+	}
 
-    public String saveDocumentInfo(DocumentForm document, String employeeNumber) throws IdIssuanceUpperException{
-        String documentId = document.getDocumentId() == null ? createNewDocumentId() : document.getDocumentId();
-        String templateId = document.getTemplateId();
-        String documentName = document.getDocumentName();
-        Timestamp documentCreateDate = new Timestamp(System.currentTimeMillis());
-        boolean documentPublish = document.isPublish();
-        DocumentInfo info = new DocumentInfo(documentId, documentName, employeeNumber, templateId, documentCreateDate, documentPublish);
-        documentInfoRepository.saveAndFlush(info);
-        return info.getDocumentId();
-    }
+	private void updateDocumentContent(String documentId, List<DocumentContentForm> contents) {
+		List<DocumentContentForm> oldContents = getDocumentContents(documentId);
 
-    private void updateDocumentContent(String documentId, List<DocumentContentForm> contents) {
-        List<DocumentContentForm> oldContents = getDocumentContents(documentId);
+		for (Iterator<DocumentContentForm> oldItr = oldContents.iterator(), itr = contents.iterator(); itr.hasNext();) {
+			DocumentContentForm oldContent = oldItr.next();
+			DocumentContentForm content = itr.next();
+			updateDocumentItems(documentId, content.getContentOrder(), oldContent.getItems(), content.getItems());
+		}
+	}
 
-        for(Iterator<DocumentContentForm> oldItr = oldContents.iterator(), itr = contents.iterator(); itr.hasNext();) {
-            DocumentContentForm oldContent = oldItr.next();
-            DocumentContentForm content = itr.next();
-            updateDocumentItems(documentId, content.getContentOrder(), oldContent.getItems(), content.getItems());
-        }
-    }
+	private List<DocumentContentForm> getDocumentContents(String documentId) {
+		List<DocumentContentForm> contents = new ArrayList<>();
 
-    private List<DocumentContentForm> getDocumentContents(String documentId) {
-        List<DocumentContentForm> contents = new ArrayList<>();
+		List<DocumentItem> items = documentItemRepository
+				.findByDocumentIdOrderByContentOrderAscLineNumberAsc(documentId);
+		int before = 1;
+		DocumentContentForm content = new DocumentContentForm();
+		content.setContentOrder(1);
+		for (DocumentItem item : items) {
+			if (item.getContentOrder() != before) {
+				contents.add(content);
+				content = new DocumentContentForm();
+				content.setContentOrder(item.getContentOrder());
+				before = item.getContentOrder();
+			}
+			content.getItems().add(item.getValue());
+		}
+		contents.add(content);
+		return contents;
+	}
 
-        List<DocumentItem> items = documentItemRepository.findByDocumentIdOrderByContentOrderAscLineNumberAsc(documentId);
-        int before = 1;
-        DocumentContentForm content = new DocumentContentForm();
-        content.setContentOrder(1);
-        for(DocumentItem item: items){
-            if(item.getContentOrder() != before){
-                contents.add(content);
-                content = new DocumentContentForm();
-                content.setContentOrder(item.getContentOrder());
-                before = item.getContentOrder();
-            }
-            content.getItems().add(item.getValue());
-        }
-        contents.add(content);
-        return contents;
-    }
+	public void toggleDocumentPublish(String documentId, boolean documentPublish) {
+		DocumentInfo info = documentInfoRepository.findOne(documentId);
+		info.setDocumentPublish(documentPublish);
+		documentInfoRepository.save(info);
+		logger.info("[method: toggleDocumentPublish] Update info of documentID '" + documentId + "' " + info);
+	}
 
-    public void toggleDocumentPublish(String documentId, boolean documentPublish) {
-        DocumentInfo info = documentInfoRepository.findOne(documentId);
-        info.setDocumentPublish(documentPublish);
-        documentInfoRepository.save(info);
-        logger.info("[method: toggleDocumentPublish] Update info of documentID '" + documentId + "' " + info);
-    }
+	public String save(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
+		String id = saveDocumentInfo(documentForm, employeeNumber);
+		documentForm.setDocumentId(id);
+		saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
+		saveUpdateInfo(createNewUpdateId(), id, TYPE_CREATE_DOCUMENT, employeeNumber);
+		return id;
+	}
 
-    public String save(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
-        String id = saveDocumentInfo(documentForm, employeeNumber);
-        documentForm.setDocumentId(id);
-        saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
-        saveUpdateInfo(createNewUpdateId(), id, TYPE_CREATE_DOCUMENT, employeeNumber);
-        return id;
-    }
+	public void saveTags(final String documentId, List<Tag> tags) throws IdIssuanceUpperException {
+		DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
+		int order = 1;
+		for (Tag tag : tagLogic.applyTags(tags)) {
+			if (tag.getTagId() == null) {
+				tag.setTagId(tagLogic.getNewTagId());
+			}
+			documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
+			order++;
+		}
 
-    public void saveTags(final String documentId, List<Tag> tags) throws IdIssuanceUpperException {
-        int order = 1;
-        for(Tag tag : tagLogic.applyTags(tags)) {
-            if(tag.getTagId() == null) {
-                tag.setTagId(tagLogic.getNewTagId());
-            }
-            documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
-            order++;
-        }
-    }
+		// 文書作成時についたTagを監視する人にメール送信
+		notificationLogic.documentContributionNotification(documentInfo.getEmployeeNumber(), documentId);
 
+	}
 
-    public void updateTags(String documentId, List<Tag> tags) throws IdIssuanceUpperException {
-        List<DocumentTag> oldTags = documentTagRepository.findByDocumentId(documentId);
-        List<Tag> newTags = tagLogic.applyTags(tags);
-        int common = Math.min(oldTags.size(), newTags.size());
-        int order = 1;
-        for(Tag tag: newTags) {
-            if(common < order){
-                break;
-            }
-            documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
-            order++;
-        }
-        if(oldTags.size() < newTags.size()) {
-            List<Tag> addTags = newTags.subList(common, newTags.size());
-            for(Tag tag: addTags) {
-                documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
-                order++;
-            }
-        } else {
-            for(;order <= oldTags.size(); order++) {
-                documentTagRepository.delete(new DocumentTag.PK(documentId, order));
-            }
-        }
-    }
+	public void updateTags(String documentId, List<Tag> tags) throws IdIssuanceUpperException {
+		DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
+		List<DocumentTag> oldTags = documentTagRepository.findByDocumentId(documentId);
+		List<Tag> newTags = tagLogic.applyTags(tags);
+		int common = Math.min(oldTags.size(), newTags.size());
+		int order = 1;
+		for (Tag tag : newTags) {
+			if (common < order) {
+				break;
+			}
+			documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
+			order++;
+		}
+		if (oldTags.size() < newTags.size()) {
+			List<Tag> addTags = newTags.subList(common, newTags.size());
+			for (Tag tag : addTags) {
+				documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
+				order++;
+			}
+		} else {
+			for (; order <= oldTags.size(); order++) {
+				documentTagRepository.delete(new DocumentTag.PK(documentId, order));
+			}
+		}
 
-    private void saveDocumentContent(String documentId, List<DocumentContentForm> contents) {
-        for(DocumentContentForm content: contents) {
-            saveDocumentItems(documentId, content.getContentOrder(), content.getItems());
-        }
-    }
+		// 文書更新時についたTagを監視する人にメール送信
+		notificationLogic.documentUpdateNotification(documentInfo.getEmployeeNumber(), documentId);
 
-    private void saveDocumentItems(String documentId, int contentOrder, List<String> items) {
-        int lineNumbeer = 1;
-        for(String item: items) {
-            documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumbeer, item));
-            lineNumbeer++;
-        }
-    }
+	}
 
+	private void saveDocumentContent(String documentId, List<DocumentContentForm> contents) {
+		for (DocumentContentForm content : contents) {
+			saveDocumentItems(documentId, content.getContentOrder(), content.getItems());
+		}
+	}
 
-    private void updateDocumentItems(String documentId, int contentOrder, List<String> oldItems,List<String> items) {
-        int lineNumber = 1;
-        int common = Math.min(oldItems.size(), items.size());
+	private void saveDocumentItems(String documentId, int contentOrder, List<String> items) {
+		int lineNumbeer = 1;
+		for (String item : items) {
+			documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumbeer, item));
+			lineNumbeer++;
+		}
+	}
 
-        for(String value: items) {
-            if(common < lineNumber) {
-                break;
-            }
-            documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumber, value));
-            lineNumber++;
-        }
-        if(oldItems.size() < items.size()) {
-            List<String> addItems = items.subList(lineNumber - 1, items.size());
-            for(String value : addItems) {
-                documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumber, value));
-                lineNumber++;
-            }
-        } else {
-            for(; lineNumber <= oldItems.size(); lineNumber++) {
-                documentItemRepository.delete(new DocumentItem.PK(documentId, contentOrder, lineNumber));
-            }
-        }
-    }
+	private void updateDocumentItems(String documentId, int contentOrder, List<String> oldItems, List<String> items) {
+		int lineNumber = 1;
+		int common = Math.min(oldItems.size(), items.size());
 
+		for (String value : items) {
+			if (common < lineNumber) {
+				break;
+			}
+			documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumber, value));
+			lineNumber++;
+		}
+		if (oldItems.size() < items.size()) {
+			List<String> addItems = items.subList(lineNumber - 1, items.size());
+			for (String value : addItems) {
+				documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumber, value));
+				lineNumber++;
+			}
+		} else {
+			for (; lineNumber <= oldItems.size(); lineNumber++) {
+				documentItemRepository.delete(new DocumentItem.PK(documentId, contentOrder, lineNumber));
+			}
+		}
+	}
 
-    private void saveUpdateInfo(String updateId, String documentId, String updateType, String employeeNumber) {
-    	UpdateInfo info = new UpdateInfo();
-    	Timestamp updateDate = new Timestamp(System.currentTimeMillis());
-    	info.setUpdateId(updateId);
-    	info.setDocumentId(documentId);
-    	info.setUpdateType(updateType);
-    	info.setEmployeeNumber(employeeNumber);
-    	info.setUpdateDate(updateDate);
-    	updateInfoRepository.saveAndFlush(info);
-    }
+	private void saveUpdateInfo(String updateId, String documentId, String updateType, String employeeNumber) {
+		UpdateInfo info = new UpdateInfo();
+		Timestamp updateDate = new Timestamp(System.currentTimeMillis());
+		info.setUpdateId(updateId);
+		info.setDocumentId(documentId);
+		info.setUpdateType(updateType);
+		info.setEmployeeNumber(employeeNumber);
+		info.setUpdateDate(updateDate);
+		updateInfoRepository.saveAndFlush(info);
+	}
 
-
-    private String createNewDocumentId() throws IdIssuanceUpperException {
-        List<DocumentInfo> list = documentInfoRepository.findAll(new Sort(Sort.Direction.DESC, "documentId"));
-        if(list.size() == 0) {
-            return "d0000000000";
-        }
-        long idNum = Long.parseLong(list.get(0).getTemplateId().substring(1));
-        if(idNum == 9999999999L){
-            throw new IdIssuanceUpperException("文書の発行限界");
-        }
-        return String.format("d%010d", idNum + 1);
-    }
+	private String createNewDocumentId() throws IdIssuanceUpperException {
+		List<DocumentInfo> list = documentInfoRepository.findAll(new Sort(Sort.Direction.DESC, "documentId"));
+		if (list.size() == 0) {
+			return "d0000000000";
+		}
+		long idNum = Long.parseLong(list.get(0).getTemplateId().substring(1));
+		if (idNum == 9999999999L) {
+			throw new IdIssuanceUpperException("文書の発行限界");
+		}
+		return String.format("d%010d", idNum + 1);
+	}
 
 	private String createNewUpdateId() throws IdIssuanceUpperException {
 		List<UpdateInfo> list = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId"));
