@@ -5,6 +5,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConvertDateService } from '../services/convert-date.service';
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from '../services/error.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
 
 @Component({
   selector: 'app-view',
@@ -46,27 +49,45 @@ export class ViewComponent implements OnInit {
 
   ngOnInit() {
     this.documentId = this.route.snapshot.paramMap.get('id');
+    this.load();
+    this.getComments();
+  }
 
-    this.http.get(this.hostname + 'templates/blocks', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.blocks = json;
-
-        for (var b of this.blocks) {
-          if (b.additionalType != null) {
-            b.offset = b.items.length;
-            for (let add of b.addItems) {
-              b.items.push(add);
-            }
-          }
-          this.contentBases[b.blockId] = b;
-        }
+  load(): void {
+    this.get('templates/blocks').subscribe(res => {
+      this.setTemplateBlocks(res);
+      this.get('documents/' + this.documentId).subscribe(res => {
+        this.setDocument(res);
+        this.get('templates/' + this.templateId + "/tags").subscribe(res => {
+          this.setTemplateTags(res);
+          this.get('documents/' + this.documentId + "/tags").subscribe(res => {
+            this.setDocumentTags(res);
+            this.get('documents/' + this.documentId + "/tags/system").subscribe(res => {
+              this.setDocumentSystemTags(res);
+            },
+              error => {
+                this.errorService.errorPath(error.status)
+              });
+          },
+            error => {
+              this.errorService.errorPath(error.status)
+            });
+        },
+          error => {
+            this.errorService.errorPath(error.status)
+          });
       },
+        error => {
+          this.errorService.errorPath(error.status)
+        });
+    },
       error => {
         this.errorService.errorPath(error.status)
-      }
-    );
-    this.assembleDocument(this.documentId);
-    this.getComments();
+      });
+  }
+
+  get(url: string) {
+    return this.http.get(this.hostname + url, { withCredentials: true, headers: this.authService.headerAddToken() });
   }
 
   isMyDocument(): boolean {
@@ -77,86 +98,70 @@ export class ViewComponent implements OnInit {
     this.router.navigate(['/edit/' + this.documentId]);
   }
 
-  assembleTemplate(templateId: string, callback: any): void {
-    this.templateId = templateId;
-
-    var data;
-    this.http.get(this.hostname + 'templates/' + templateId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        data = json;
-        for (let con of data.contents) {
-          var id = this.addBlock(con.blockId);
-          for (var i = 0; i < con.items.length - this.contentBases[con.blockId].items.length; i++) {
-            this.addItem(id);
-          }
-          this.templateValues[id] = new Array();
-          for (let i of con.items) {
-            this.templateValues[id].push(i);
-          }
+  setTemplateBlocks(blocks: Object): void {
+    this.blocks = blocks;
+    for (var b of this.blocks) {
+      if (b.additionalType != null) {
+        b.offset = b.items.length;
+        for (let add of b.addItems) {
+          b.items.push(add);
         }
-        if (callback != null) {
-          callback();
-        }
-      },
-      error => {
-        this.errorService.errorPath(error.status)
       }
-    );
+      this.contentBases[b.blockId] = b;
+    }
   }
 
-  assembleDocument(documentId) {
-    var data;
-    this.http.get(this.hostname + 'documents/' + this.documentId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        data = json;
-        this.documentName = data.documentName;
-        this.employeeNumber = data.employeeNumber;
-        this.documentCreateDate = data.documentCreateDate;
-        this.name = data.name;
-        this.isFav = data.selected
-        this.assembleTemplate(data.templateId, () => {
-          for (let i = 0; i < data.contents.length; i++) {
-            let id = this.contents[i].id;
-            for (let a of data.contents[i].items) {
-              this.documentValues[id].push(a);
-            }
-            while (this.contents[i].items.length < this.documentValues[id].length + this.contents[i].offset) {
-              this.addItem(id);
-            }
-          }
-        });
-        this.getTags(data.templateId, documentId);
-      },
-      error => {
-        this.errorService.errorPath(error.status);
+  setTemplate(data: Object): void {
+    for (let con of data["contents"]) {
+      var id = this.addBlock(con.blockId);
+      for (var i = 0; i < con.items.length - this.contentBases[con.blockId].items.length; i++) {
+        this.addItem(id);
       }
-    )
+      this.templateValues[id] = new Array();
+      for (let i of con.items) {
+        this.templateValues[id].push(i);
+      }
+    }
   }
 
-  getTags(templateId: string, documentId: string): void {
-    var instantTags: any;
-    this.http.get(this.hostname + 'templates/' + templateId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        instantTags = json;
-        for (let t of instantTags) {
-          this.tags.push(t.tagName);
+  setDocument(data: Object): void {
+    this.templateId = data["templateId"];
+    this.documentName = data["documentName"];
+    this.employeeNumber = data["employeeNumber"];
+    this.documentCreateDate = data["documentCreateDate"];
+    this.name = data["name"];
+    this.isFav = data["selected"];
+    this.get('templates/' + this.templateId).subscribe(res => {
+      this.setTemplate(res);
+      for (let i = 0; i < data["contents"].length; i++) {
+        let id = this.contents[i].id;
+        for (let a of data["contents"][i].items) {
+          this.documentValues[id].push(a);
         }
-      },
-      error => {
-        this.errorService.errorPath(error.status);
-      }
-    );
-    this.http.get(this.hostname + 'documents/' + documentId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        instantTags = json;
-        for (let t of instantTags) {
-          this.tags.push(t.tagName);
+        while (this.contents[i].items.length < this.documentValues[id].length + this.contents[i].offset) {
+          this.addItem(id);
         }
-      },
-      error => {
-        this.errorService.errorPath(error.status);
       }
-    );
+    });
+  }
+
+  setTemplateTags(tags: Object): void {
+    for (let t of JSON.parse(JSON.stringify(tags))) {
+      this.tags.push(t.tagName);
+    }
+  }
+
+  setDocumentTags(tags: Object): void {
+    console.log(tags);
+    for (let t of JSON.parse(JSON.stringify(tags))) {
+      this.tags.push(t.tagName);
+    }
+  }
+
+  setDocumentSystemTags(tags: Object): void {
+    for (let t of JSON.parse(JSON.stringify(tags))) {
+      this.tags.push(t.tagName);
+    }
   }
 
   addBlock(id: string): string {
@@ -210,7 +215,7 @@ export class ViewComponent implements OnInit {
   }
 
   getComments() {
-    this.http.get(this.hostname + "documents/" + this.documentId + "/comments", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+    this.get("documents/" + this.documentId + "/comments").subscribe(
       json => {
         this.comments = json;
         for (let c of this.comments) {
@@ -239,11 +244,11 @@ export class ViewComponent implements OnInit {
   }
 
   readComment(commentId: any) {
-    this.http.post(this.hostname + "documents/" + this.documentId + "/comments/" + commentId + "/read", {}, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text'}).subscribe(
+    this.http.post(this.hostname + "documents/" + this.documentId + "/comments/" + commentId + "/read", {}, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
       commentId => {
-        console.log(commentId);
+        //console.log(commentId);
         for (let c of this.comments) {
-          if(c.commentId == commentId){
+          if (c.commentId == commentId) {
             c.read = true;
             c['alreadyRead'] = 'read';
           }

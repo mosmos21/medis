@@ -158,7 +158,7 @@ export class EditDocumentComponent implements OnInit {
   }
 
   getTemplateTags(templateId: string): void {
-    console.log(templateId);
+    // console.log(templateId);
     this.http.get(this.hostname + 'templates/' + templateId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.fixedTags = JSON.parse(JSON.stringify(json));
@@ -212,9 +212,9 @@ export class EditDocumentComponent implements OnInit {
   }
 
   clickCheckBox(id: string, line: number, e: any) {
-    console.log(id);
-    console.log(line);
-    console.log(this.contents);
+    //console.log(id);
+    //console.log(line);
+    //console.log(this.contents);
     for (let c of this.contents) {
       if (c.id == id) {
         // this.documentValues[id][line] = e.target.checked ? "true" : "false";

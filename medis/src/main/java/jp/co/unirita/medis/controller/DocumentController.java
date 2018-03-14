@@ -80,10 +80,22 @@ public class DocumentController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<Tag> getDocumentTagList(@PathVariable(value = "documentId") String documentId)
 			throws NotExistException {
-		logger.info("[method: getDocumentTagList] Get documentTagList list by " + documentId + ".");
+		logger.info("[method: getDocumentTagList] Get documentTagList by " + documentId + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
+		System.out.print("in getDocumentTagList() ");
+		System.out.println(documentLogic.getDocumentTags(documentId));
 		return documentLogic.getDocumentTags(documentId);
 	}
+
+    @GetMapping(value = "{documentId:^d[0-9]{10}$}/tags/system")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Tag> getDocumentSystemTagList(@PathVariable(value = "documentId") String documentId) throws NotExistException {
+	    logger.info("[method: getDocumentSystemTagList] get documentSystemTagList by" + documentId + ".");
+	    argumentCheckLogic.checkDocumentId(documentId);
+		System.out.print("in getDocumentSystemTagList() ");
+		System.out.println(documentLogic.getDocumentSystemTags(documentId));
+	    return documentLogic.getDocumentSystemTags(documentId);
+    }
 
 	/**
 	 * コメントの内容を取得する

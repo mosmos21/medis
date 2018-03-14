@@ -3,6 +3,7 @@ package jp.co.unirita.medis.logic.document;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,8 +56,6 @@ public class DocumentLogic {
 	UpdateInfoRepository updateInfoRepository;
 	@Autowired
 	UserDetailRepository userDetailRepository;
-	@Autowired
-	NotificationLogic notificationLogic;
 
 	@Autowired
 	TagLogic tagLogic;
@@ -87,10 +86,22 @@ public class DocumentLogic {
 	}
 
 	public List<Tag> getDocumentTags(String id) {
+		return getDocumentTagStartWith(id, "n");
+	}
+
+	public List<Tag> getDocumentSystemTags(String id) {
+		return getDocumentTagStartWith(id, "s");
+	}
+
+	private List<Tag> getDocumentTagStartWith(String id, String startStr){
 		List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
-		List<Tag> tag = tagRepository
-				.findByTagIdIn(documentTagList.stream().map(t -> t.getTagId()).collect(Collectors.toList()));
-		return tag;
+		List<String> tagIdList = documentTagList.stream()
+				.map(DocumentTag::getTagId)
+				.filter(str -> str.startsWith(startStr))
+				.collect(Collectors.toList());
+		List<Tag> tagList = tagRepository.findByTagIdIn(tagIdList);
+		tagList.sort(Comparator.naturalOrder());
+		return tagList;
 	}
 
 	public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {

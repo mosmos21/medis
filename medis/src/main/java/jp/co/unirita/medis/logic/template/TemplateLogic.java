@@ -45,13 +45,8 @@ public class TemplateLogic {
     TagLogic tagLogic;
 
     public List<Tag> getTemplateTags(String id) {
-        System.out.println("get fix tag[templateId = " + id + "]");
         List<TemplateTag> templateTagList = templateTagRepository.findByTemplateId(id);
-        List<Tag> tags = new ArrayList<>();
-        for(TemplateTag t: templateTagList){
-            tags.add(tagRepository.findByTagId(t.getTagId()));
-        }
-        return tags;
+        return tagRepository.findByTagIdIn(templateTagList.stream().map(TemplateTag::getTagId).collect(Collectors.toList()));
     }
 
     public TemplateForm getTemplate(String id) {
