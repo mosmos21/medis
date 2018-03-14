@@ -47,6 +47,6 @@ public class SearchLogicTest {
 
     	List<String> tagNameList = new ArrayList<>(Arrays.asList( "2018年度新人研修","小テスト"));
     	List<DocumentInfoForm> documentList = searchLogic.findDocuments(tagNameList);
-        assertEquals("ユーザのロードができませんでした", testData, documentList);
+        assertEquals("検索機能が正しく動作していません", testData, documentList);
     }
 }
