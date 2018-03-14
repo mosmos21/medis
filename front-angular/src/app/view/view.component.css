@@ -162,3 +162,9 @@ input[type="checkbox"]:checked {
     margin-top: 10px;
     text-align: center;
 }
+
+.submit-button{
+    float: right;
+    bottom: 0px;
+    padding-top: 10px;
+}

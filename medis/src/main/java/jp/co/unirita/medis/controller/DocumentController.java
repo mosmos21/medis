@@ -124,8 +124,14 @@ public class DocumentController {
 	public String updateDocument(@AuthenticationPrincipal User user,
 			@PathVariable(value = "documentId") String documentId, @RequestBody DocumentForm document)
 			throws NotExistException, IdIssuanceUpperException {
+		DocumentInfo documentInfo = documentLogic.getDocumentInfo(documentId);
 		logger.info("[method: updateDocument] UpdateDocument list by " + documentId + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
+
+		if (documentInfo.isDocumentPublish()) {
+			notificationLogic.documentContributionNotification(documentInfo.getEmployeeNumber(), documentId);
+		}
+
 		return documentLogic.update(document, user.getEmployeeNumber());
 	}
 
@@ -214,7 +220,10 @@ public class DocumentController {
 		DocumentInfo documentInfo = documentLogic.getDocumentInfo(documentId);
 		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.saveTags(documentId, tags);
-		notificationLogic.documentContributionNotification(documentInfo.getEmployeeNumber(), documentId);
+
+		if (documentInfo.isDocumentPublish()) {
+			notificationLogic.documentContributionNotification(documentInfo.getEmployeeNumber(), documentId);
+		}
 
 	}
 
