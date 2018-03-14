@@ -1,24 +1,36 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { CustomSnackbarComponent } from '../custom-snackbar/custom-snackbar.component';
+import { Subject } from 'rxjs/Subject';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class SnackBarService {
 
-  constructor(public snackBar: MatSnackBar) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router,
+  ) { }
 
-  openLoginSnackBar() {
-    this.snackBar.openFromComponent(CustomSnackbarComponent, {
-      duration: 5000,
-      verticalPosition: 'top',
-    });
+  openSnackBar(message: string, link: string) {
+
+    if (link == "") {
+      let ref = this.snackBar.open(message, "閉じる", {
+        duration: 3000,
+        verticalPosition: 'top',
+      });
+      ref.onAction().subscribe(() => {
+        ref.dismiss();
+      });
+    } else {
+      let ref = this.snackBar.open(message, "ページへ移動", {
+        duration: 3000,
+        verticalPosition: 'top',
+      });
+      ref.onAction().subscribe(() => {
+        this.router.navigate([link]);
+      });
+    }
+
   }
-
-  openSaveSnackBar() {
-    this.snackBar.openFromComponent(CustomSnackbarComponent, {
-      duration: 5000,
-      verticalPosition: 'top',
-    });
-  }
-
 }
+

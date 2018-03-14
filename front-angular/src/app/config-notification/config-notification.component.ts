@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service'
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
+import { SnackBarService } from '../services/snack-bar.service';
 
 @Component({
   selector: 'app-config-notification',
@@ -25,7 +26,8 @@ export class ConfigNotificationComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     private authService: AuthService,
     private errorService: ErrorService,
-    private nav: NavigationService
+    private nav: NavigationService,
+    private snackBarService: SnackBarService,
   ) {
     this.nav.show();
     this.authService.getUserDetail(http);
@@ -85,17 +87,18 @@ export class ConfigNotificationComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.tagNotification);
+    // console.log(this.tagNotification);
     const commentNotification = {
       mailNotification: this.mailNotification,
       browserNotification: this.browserNotification,
     };
-    console.log(commentNotification);
+    // console.log(commentNotification);
     this.http.post(this.hostname + "settings/me/tag_notifications", this.tagNotification, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
     this.http.post(this.hostname + "settings/me/comment_notifications", commentNotification, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
+    this.snackBarService.openSnackBar("保存しました", "");
   }
 
-  reset() {
-
+  cancel() {
+    this.nav.toTop();
   }
 }

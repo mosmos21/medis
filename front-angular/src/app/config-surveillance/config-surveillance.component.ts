@@ -36,8 +36,12 @@ export class ConfigSurveillanceComponent implements OnInit {
     const tempTag = this.searchService.selectedTags;
     this.http.post(this.hostname + "settings/me/monitoring_tags", tempTag, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
       success => {
-        this.snackBar.openSaveSnackBar();
+        this.snackBar.openSnackBar("保存しました", "");
       }
     );
+  }
+  cancel() {
+    console.log("call cancel");
+    this.nav.toTop();
   }
 }

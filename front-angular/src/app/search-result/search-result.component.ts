@@ -38,7 +38,6 @@ export class SearchResultComponent implements OnInit {
       msg => {
         this.msg = msg;
         this.getList(this.msg);
-        // msg.length > 0 ? this.getList(msg) : this.list = [];
       }
     );
   }

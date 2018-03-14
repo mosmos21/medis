@@ -53,7 +53,6 @@ export class NavigationService {
 
   //一般ユーザ設定系
   toMySetting() {
-    const str = "/settings/me";
     this.router.navigate(["/settings/me"]);
   }
 
