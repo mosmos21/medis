@@ -22,7 +22,7 @@ export class AppComponent {
     @Inject('hostname') private hostname: string,
     public nav: NavigationService,
     private http: HttpClient,
-    private authService: AuthService,
+    public authService: AuthService,
   ) {
     this.nav.hide();
     this.nav.showUserMenu();
@@ -31,7 +31,7 @@ export class AppComponent {
   ngOnInit() {
     // console.log(this.authService.userdetail)
   }
-  
+
   mymenuOpen() {
     this.mymenuVisible = true;
     this.searchVisible = false;

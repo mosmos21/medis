@@ -9,7 +9,7 @@
 						<mat-icon>menu</mat-icon>
 					</button>
 					<img id="logo" src="../assets/image/logo.png" (click)="nav.toTop()">
-					<button mat-button [matMenuTriggerFor]="menu">{{ authService.userdetail.lastName + authService.userdetail.firstName }}</button>
+					<button mat-raised-button [matMenuTriggerFor]="menu">{{ authService.userdetail.lastName + authService.userdetail.firstName }}</button>
 					<mat-menu #menu="matMenu">
 						<button mat-menu-item (click)="logout()">ログアウト</button>
 					</mat-menu>
