@@ -4,12 +4,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 
 import { ResetPassComponent } from '../reset-pass/reset-pass.component';
-import { MessageModalComponent } from '../message-modal/message-modal.component'
+import { MessageModalComponent } from '../message-modal/message-modal.component';
 
 import { NavigationService } from '../services/navigation.service';
 import { AuthService } from '../services/auth.service';
 import { ValidatorService } from '../services/validator.service';
-import { SnackBarService } from '../services/snack-bar.service'
+import { SnackBarService } from '../services/snack-bar.service';
+import { resolve } from 'url';
+import { reject } from 'q';
 
 @Component({
   selector: 'app-login',
@@ -37,10 +39,10 @@ export class LoginComponent implements OnInit {
     public authService: AuthService,
     public router: Router,
     public dialog: MatDialog,
-    public snackBar: SnackBarService,
+    public snackBarService: SnackBarService,
     private nav: NavigationService,
     private valid: ValidatorService,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     this.nav.hide();
   }
@@ -94,7 +96,7 @@ export class LoginComponent implements OnInit {
       if (this.authService.isLoggedIn()) {
         let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'top';
         this.router.navigate([redirect]);
-        this.snackBar.openLoginSnackBar();
+        this.snackBarService.openSnackBar("ログインしました", "");
       } else {
         this.errorMessage = this.authService.message;
         console.log(this.errorMessage);
