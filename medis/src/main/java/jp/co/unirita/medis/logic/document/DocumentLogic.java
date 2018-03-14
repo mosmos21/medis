@@ -89,7 +89,7 @@ public class DocumentLogic {
 	public List<Tag> getDocumentTags(String id) {
 		List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
 		List<Tag> tag = tagRepository
-				.findByTagId(documentTagList.stream().map(t -> t.getTagId()).collect(Collectors.toList()));
+				.findByTagIdIn(documentTagList.stream().map(t -> t.getTagId()).collect(Collectors.toList()));
 		return tag;
 	}
 
