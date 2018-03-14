@@ -40,4 +40,8 @@ export class ConfigSurveillanceComponent implements OnInit {
       }
     );
   }
+  cancel() {
+    console.log("call cancel");
+    this.nav.toTop();
+  }
 }

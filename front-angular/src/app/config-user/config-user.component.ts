@@ -13,6 +13,7 @@ import { EditIconComponent } from '../edit-icon/edit-icon.component'
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
+import { SnackBarService } from '../services/snack-bar.service';
 
 @Component({
   selector: 'app-config-user',
@@ -46,9 +47,9 @@ export class ConfigUserComponent implements OnInit {
   private message;
   public isIconInput: boolean;
 
-  public uploader:FileUploader = new FileUploader({url: this.hostname});
-  public hasBaseDropZoneOver:boolean = false;
-  public hasAnotherDropZoneOver:boolean = false;
+  public uploader: FileUploader = new FileUploader({ url: this.hostname });
+  public hasBaseDropZoneOver: boolean = false;
+  public hasAnotherDropZoneOver: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -56,7 +57,8 @@ export class ConfigUserComponent implements OnInit {
     public dialog: MatDialog,
     private authService: AuthService,
     private errorService: ErrorService,
-    private nav: NavigationService
+    private nav: NavigationService,
+    private snacBarService: SnackBarService,
   ) {
     this.nav.show();
   }
@@ -105,8 +107,8 @@ export class ConfigUserComponent implements OnInit {
   }
 
   editIsIcon() {
-    let dialogRef = this. dialog.open(EditIconComponent, {
-      data: { }
+    let dialogRef = this.dialog.open(EditIconComponent, {
+      data: {}
     });
   }
 
@@ -114,15 +116,12 @@ export class ConfigUserComponent implements OnInit {
     this.settings = this.tempSettings;
     this.http.post(this.hostname + "settings/me", this.settings, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
     this.nav.toTop();
+
+    this.snacBarService.openSnackBar("保存しました", "");
   }
 
   resetAll() {
-    this.resetLastName();
-    this.resetFirstName();
-    this.resetLastNamePhonetic();
-    this.resetFirstNamePhonetic();
-    this.resetMailaddress();
-    this.resetIsIcon();
+    this.nav.toTop();
   }
 
   resetLastName() {
@@ -150,7 +149,7 @@ export class ConfigUserComponent implements OnInit {
     this.tempSettings.isIcon = this.settings.isIcon;
   }
 
-  public fileOverBase(e:any):void {
+  public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 }
