@@ -2,10 +2,14 @@
 	<div class="wrap_main_content_center content_scroll">
 		<!-- <div class="main_content_header main_content_header_text"> -->
 		<div class="main_content_header main_content_header_text">
-			<h1>監視タグ設定</h1>
+			監視タグ設定
+			<div class="apply-button">
+				<button mat-raised-button (click)="cancel()">キャンセル</button>
+				<button mat-raised-button color="primary" (click)="sabmit()">保存</button>
+			</div>
 		</div>
 		<div class="wrap_list_box">
-			<div class="list_box">
+			<div class="list_box content_scroll_y">
 				<div class="list_box_header">
 					<h3>監視タグ登録</h3>
 				</div>
@@ -22,10 +26,6 @@
 					<div id="surveillance_tag_candidate" class="content_scroll_y">
 						<div class="tag_base tag_middle surveillance_tag" *ngFor="let tag of searchService.targetTags" (click)="searchService.addTags($event,256)">{{tag.tagName}}</div>
 					</div>
-				</div>
-				<div class="btn_position">
-					<button mat-raised-button>キャンセル</button>
-					<button mat-raised-button color="primary" (click)="sabmit()">保存</button>
 				</div>
 			</div>
 		</div>

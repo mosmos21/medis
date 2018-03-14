@@ -2,9 +2,13 @@
 	<div class="wrap_main_content_center content_scroll">
 		<div class="main_content_header main_content_header_text">
 			ユーザ情報
+			<div class="apply-button">
+				<button mat-raised-button (click)="resetAll()">キャンセル</button>
+				<button mat-raised-button color="primary" (click)="submit()">保存</button>
+			</div>
 		</div>
 		<div class="wrap_list_box">
-			<div class="list_box">
+			<div class="list_box content_scroll_y">
 				<table class="company">
 					<tbody>
 						<tr>
@@ -90,10 +94,6 @@
 						</tr>
 					</tbody>
 				</table>
-				<div class="btn_position">
-					<button mat-raised-button (click)="resetAll()">キャンセル</button>
-					<button mat-raised-button color="primary" (click)="submit()">保存</button>
-				</div>
 			</div>
 		</div>
 	</div>

@@ -272,7 +272,7 @@ public class DocumentLogic {
 		if (list.size() == 0) {
 			return "d0000000000";
 		}
-		long idNum = Long.parseLong(list.get(0).getTemplateId().substring(1));
+		long idNum = Long.parseLong(list.get(0).getDocumentId().substring(1));
 		if (idNum == 9999999999L) {
 			throw new IdIssuanceUpperException("文書の発行限界");
 		}
