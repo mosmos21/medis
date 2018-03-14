@@ -93,9 +93,6 @@ public class CommentLogic {
 		comment.setRead(true);
 		commentRepository.saveAndFlush(comment);
 
-		// 既読がついたのを知らせるメール送信
-		notificationLogic.commentReadNotification(commentId);
-
 	}
 
 	/*
@@ -127,9 +124,6 @@ public class CommentLogic {
 				read);
 		commentRepository.save(comment);
 		UserDetail userDetail = userDetailRepository.findOne(employeeNumber);
-
-		// コメントがついたのを知らせるメール送信
-		notificationLogic.commentNotification(employeeNumber, documentId);
 
 		return createCommentInfoForm(comment, userDetail);
 

@@ -22,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.document.CommentLogic;
 import jp.co.unirita.medis.logic.document.DocumentLogic;
+import jp.co.unirita.medis.logic.system.NotificationLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import jp.co.unirita.medis.util.exception.NotExistException;
@@ -44,6 +46,8 @@ public class DocumentController {
 	ArgumentCheckLogic argumentCheckLogic;
 	@Autowired
 	CommentLogic commentLogic;
+	@Autowired
+	NotificationLogic notificationLogic;
 
 	/**
 	 * 文書の内容を取得する
@@ -139,8 +143,11 @@ public class DocumentController {
 	public void updateDocumentTagList(@PathVariable(value = "documentId") String documentId,
 			@RequestBody List<Tag> tags) throws NotExistException, IdIssuanceUpperException {
 		logger.info("[method: updateDocumentTagList] UpdateDocumentTagList list by DocumentId:" + documentId + ".");
+		DocumentInfo documentInfo = documentLogic.getDocumentInfo(documentId);
 		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.updateTags(documentId, tags);
+		notificationLogic.documentUpdateNotification(documentInfo.getEmployeeNumber(), documentId);
+
 	}
 
 	/**
@@ -157,15 +164,14 @@ public class DocumentController {
 	 */
 	@PostMapping("{documentId:^d[0-9]{10}$}/comments/{commentId:^o[0-9]{10}$}/read")
 	@ResponseStatus(HttpStatus.CREATED)
-	public String alreadyRead(
-	        @AuthenticationPrincipal User user,
-            @PathVariable(value = "documentId") String documentId,
-			@PathVariable(value = "commentId") String commentId
-    ) throws NotExistException {
+	public String alreadyRead(@AuthenticationPrincipal User user, @PathVariable(value = "documentId") String documentId,
+			@PathVariable(value = "commentId") String commentId) throws NotExistException {
 		logger.info("[method: alreedyRead] Set AlreadyRead And Send mail");
 		argumentCheckLogic.checkDocumentId(documentId);
 		argumentCheckLogic.checkCommentId(commentId);
 		commentLogic.alreadyRead(documentId, commentId);
+		notificationLogic.commentReadNotification(commentId);
+
 		return commentId;
 	}
 
@@ -205,8 +211,11 @@ public class DocumentController {
 	public void saveDocumentTagList(@PathVariable(value = "documentId") String documentId, @RequestBody List<Tag> tags)
 			throws NotExistException, IdIssuanceUpperException {
 		logger.info("[method: saveDocumentTagList] SaveDocumentTagList list by " + documentId + ".");
+		DocumentInfo documentInfo = documentLogic.getDocumentInfo(documentId);
 		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.saveTags(documentId, tags);
+		notificationLogic.documentContributionNotification(documentInfo.getEmployeeNumber(), documentId);
+
 	}
 
 	/**
@@ -233,6 +242,8 @@ public class DocumentController {
 		logger.info("[method: save] Add Comment EmployeeNumber:" + user.getEmployeeNumber() + "commentContent:"
 				+ value.get("commentContent"));
 		argumentCheckLogic.checkDocumentId(documentId);
+		notificationLogic.commentNotification(user.getEmployeeNumber(), documentId);
+
 		return commentLogic.save(documentId, user.getEmployeeNumber(), value);
 	}
 }

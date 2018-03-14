@@ -80,6 +80,12 @@ public class DocumentLogic {
 		return document;
 	}
 
+	public DocumentInfo getDocumentInfo(String documentId) {
+		DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
+		return documentInfo;
+
+	}
+
 	public List<Tag> getDocumentTags(String id) {
 		List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
 		List<Tag> tag = tagRepository
@@ -166,13 +172,11 @@ public class DocumentLogic {
 		// システムタグ追加
 		UserDetail detail = userDetailRepository.findOne(documentInfo.getEmployeeNumber());
 		List<Tag> systemTagList = tagRepository.findByTagName(detail.getLastName() + " " + detail.getFirstName());
-		if(systemTagList.size() == 0) {
-			systemTagList.addAll(tagLogic.applySystemTag(Arrays.asList(new Tag("", detail.getLastName() + " " + detail.getFirstName()))));
+		if (systemTagList.size() == 0) {
+			systemTagList.addAll(tagLogic
+					.applySystemTag(Arrays.asList(new Tag("", detail.getLastName() + " " + detail.getFirstName()))));
 		}
 		documentTagRepository.saveAndFlush(new DocumentTag(documentId, order, systemTagList.get(0).getTagId()));
-
-		// 文書作成時についたTagを監視する人にメール送信
-		notificationLogic.documentContributionNotification(documentInfo.getEmployeeNumber(), documentId);
 
 	}
 
@@ -200,9 +204,6 @@ public class DocumentLogic {
 				documentTagRepository.delete(new DocumentTag.PK(documentId, order));
 			}
 		}
-
-		// 文書更新時についたTagを監視する人にメール送信
-		notificationLogic.documentUpdateNotification(documentInfo.getEmployeeNumber(), documentId);
 
 	}
 
