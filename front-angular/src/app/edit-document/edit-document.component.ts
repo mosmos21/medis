@@ -11,6 +11,7 @@ import { ValidatorService } from '../services/validator.service';
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
+import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
 
 @Component({
   selector: 'app-edit-document',
@@ -45,7 +46,8 @@ export class EditDocumentComponent implements OnInit {
     private authService: AuthService,
     public searchService: SearchService,
     private errorService: ErrorService,
-    private nav: NavigationService
+    private nav: NavigationService,
+    private msgToSidenavService: MsgToSidenavService,
   ) {
     this.nav.show();
     this.authService.getUserDetail(http);
@@ -336,8 +338,10 @@ export class EditDocumentComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (type == "save") {
+          this.msgToSidenavService.sendMsg();
           this.router.navigate(['browsing/' + this.documentId]);
         } else {
+          this.msgToSidenavService.sendMsg();
           this.router.navigate(['edit']);
         }
       });
