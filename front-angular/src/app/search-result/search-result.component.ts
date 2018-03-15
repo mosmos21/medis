@@ -43,11 +43,11 @@ export class SearchResultComponent implements OnInit {
   }
 
   getList(msg: String): void {
-    console.log(msg);
+    // console.log(msg);
     this.http.get(this.hostname + "search?tags=" + this.encodeStringToUri(msg), { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.list = json;
-        console.log(this.list);
+        // console.log(this.list);
       },
       error => {
         this.errorService.errorPath(error.status)

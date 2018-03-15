@@ -53,3 +53,39 @@ tr:nth-child(odd) td {
 .toggle_button_tag {
     align-items: center;
 }
+
+.list_box {
+    border: 1px black solid;
+    height: calc(100vh - 195px);
+    width: 100%;
+    min-width: 700px;
+    padding: 0;
+    border-radius: 5px;
+    border: 2px #999 solid;
+    box-shadow: 2px 2px 2px #999;
+}
+
+.list_box_header {
+    border: 0;
+    padding: 0.3em;
+    width: 100%;
+    height: 2.6em;
+    background: #6bdba5;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 4px #0f9d58 double;
+}
+.list_box_header_square {
+    border: 0;
+    padding: 0.3em;
+    width: 100%;
+    height: 2.6em;
+    background: #6bdba5;
+    border-bottom: 4px #0f9d58 double;
+}
+.list_box_header_square h3 {
+    margin-left: 0.5em;
+    padding-left: 0.5em;
+    color: #555;
+    border-left: 4px #0f9d58 solid;
+}

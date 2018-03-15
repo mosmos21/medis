@@ -35,6 +35,7 @@ export class SearchService {
     private authService: AuthService,
     private errorService: ErrorService,
   ) {
+    this.init();
   }
 
   init(): void {
@@ -82,7 +83,7 @@ export class SearchService {
         const temp = json;
         const sub = JSON.stringify(temp);
         this.selectedTags = JSON.parse(sub);
-        console.log(json);
+        // console.log(json);
         var i = this.selectedTags.length;
         while (i--) {
           var j = this.targetTags.length;
@@ -102,7 +103,7 @@ export class SearchService {
   }
 
   addTags(event: any, num: number) {
-    console.log("add");
+    // console.log("add");
     if (this.selectedTags.length + this.newTags.length < num) {
       var i = this.targetTags.length;
       var str = event.path[0].innerText;
@@ -117,14 +118,14 @@ export class SearchService {
       while (j--) {
         if (this.tempTags[j]["tagName"] == str) {
           this.tempTags.splice(j, 1);
-          console.log(this.tempTags);
+          // console.log(this.tempTags);
         }
       }
     }
   }
 
   deleteTags(event: any) {
-    console.log("delete");
+    // console.log("delete");
     var i = this.selectedTags.length;
     var str = event.path[0].innerText;
     while (i--) {
@@ -137,7 +138,7 @@ export class SearchService {
   }
 
   addNewTags(event: any) {
-    console.log("addNew");
+    // console.log("addNew");
     if (this.selectedTags.length + this.newTags.length < 4) {
       var str = event.path[0].innerText;
       var i = this.newTags.length;
@@ -159,7 +160,7 @@ export class SearchService {
   }
 
   deleteNewTags(event: any) {
-    console.log("deleteNew");
+    // console.log("deleteNew");
     var i = this.newTags.length;
     var str = event.path[0].innerText;
     while (i--) {
@@ -170,7 +171,7 @@ export class SearchService {
   }
 
   addTagsToResult(event: any) {
-    console.log("add");
+    // console.log("add");
     if (this.selectedTags.length < 5) {
       let i = this.targetTags.length;
       let str = event.path[0].innerText;
@@ -198,7 +199,7 @@ export class SearchService {
   }
 
   deleteTagsToResult(event: any) {
-    console.log("delete");
+    // console.log("delete");
     var i = this.selectedTags.length;
     let str = event.path[0].innerText;
     while (i--) {
@@ -219,7 +220,7 @@ export class SearchService {
   }
 
   searchTag() {
-    console.log("search");
+    // console.log("search");
     const sub = JSON.stringify(this.tempTags);
     this.targetTags = JSON.parse(sub);
     let i = this.targetTags.length;
