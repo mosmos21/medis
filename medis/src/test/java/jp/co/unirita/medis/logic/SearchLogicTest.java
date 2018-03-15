@@ -22,10 +22,10 @@ import jp.co.unirita.medis.logic.util.SearchLogic;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Sql({ "file:resources/sql/document_info-delete.sql", "file:resources/sql/document_info-insert.sql",
-		"file:resources/sql/template_tag_monitoringlogictest-delete.sql",
-		"file:resources/sql/template_tag_monitoringlogictest-insert.sql",
-		"file:resources/sql/document_tag_monitoringlogictest-delete.sql",
-		"file:resources/sql/document_tag_monitoringlogictest-insert.sql",
+		"file:resources/sql/template_tag_monitoring_logic_test-delete.sql",
+		"file:resources/sql/template_tag_monitoring_logic_test-insert.sql",
+		"file:resources/sql/document_tag-delete.sql",
+		"file:resources/sql/document_tag_monitoring_logic_test-insert.sql",
 		"file:resources/sql/tag-delete.sql","file:resources/sql/tag-insert.sql" })
 public class SearchLogicTest {
 
