@@ -1,3 +1,4 @@
+DELETE FROM "tempkey_info";
 INSERT INTO "tempkey_info"
     (employee_number, change_date, temp_key)
 VALUES

@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({"file:resources/sql/template_info-delete.sql", "file:resources/sql/template_info-insert.sql"})
+@Sql({"file:resources/sql/template_info-insert.sql"})
 public class TemplateListLogicTest {
 
     @Autowired

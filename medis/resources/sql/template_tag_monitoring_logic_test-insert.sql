@@ -1,3 +1,4 @@
+DELETE FROM "template_tag";
 INSERT INTO "template_tag"
     (tag_order, template_id, tag_id)
 VALUES

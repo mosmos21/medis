@@ -1,3 +1,4 @@
+DELETE FROM "document_info";
 INSERT INTO "document_info"
     (document_id, employee_number, template_id, document_create_date, document_publish, document_name)
 VALUES

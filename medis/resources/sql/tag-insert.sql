@@ -1,3 +1,4 @@
+DELETE FROM "tag";
 INSERT INTO "tag"
     (tag_id, tag_name)
 VALUES

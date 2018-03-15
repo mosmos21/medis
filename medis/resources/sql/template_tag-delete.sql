@@ -1,1 +1,0 @@
-DELETE from "template_tag";

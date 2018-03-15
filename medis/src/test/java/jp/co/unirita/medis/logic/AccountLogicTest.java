@@ -23,9 +23,9 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({"file:resources/sql/tempkey_info-delete.sql", "file:resources/sql/tempkey_info-insert.sql",
-	"file:resources/sql/user_info-delete.sql", "file:resources/sql/user_info-insert.sql",
-		"file:resources/sql/user_detail-delete.sql", "file:resources/sql/user_detail-insert.sql"})
+@Sql({"file:resources/sql/tempkey_info-insert.sql",
+        "file:resources/sql/user_info-insert.sql",
+        "file:resources/sql/user_detail-insert.sql"})
 public class AccountLogicTest {
 
     @Autowired

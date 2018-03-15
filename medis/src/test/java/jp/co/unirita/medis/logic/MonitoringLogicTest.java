@@ -17,10 +17,10 @@ import jp.co.unirita.medis.logic.setting.MonitoringLogic;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({"file:resources/sql/document_info-delete.sql", "file:resources/sql/document_info_monitoring_logic_test-insert.sql",
-	  "file:resources/sql/notification_config-delete.sql","file:resources/sql/notification_config_monitoring_logic_test-insert.sql",
-	  "file:resources/sql/template_tag-delete.sql","file:resources/sql/template_tag_monitoring_logic_test-insert.sql",
-	  "file:resources/sql/user_detail-delete.sql","file:resources/sql/user_detail_monitoring_logic_test-insert.sql"})
+@Sql({"file:resources/sql/document_info_monitoring_logic_test-insert.sql",
+	  "file:resources/sql/notification_config_monitoring_logic_test-insert.sql",
+	  "file:resources/sql/template_tag_monitoring_logic_test-insert.sql",
+	  "file:resources/sql/user_detail_monitoring_logic_test-insert.sql"})
 public class MonitoringLogicTest {
 
 	@Autowired

@@ -19,7 +19,7 @@ import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({ "file:resources/sql/tag-delete.sql", "file:resources/sql/tag-insert.sql"})
+@Sql({"file:resources/sql/tag-insert.sql"})
 public class TagLogicTest {
 
     @Autowired

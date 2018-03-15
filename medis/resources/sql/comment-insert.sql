@@ -1,3 +1,4 @@
+DELETE FROM "comment";
 INSERT INTO "comment"
     (comment_id, comment_date, document_id, employee_number, read, value)
 VALUES

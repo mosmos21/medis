@@ -16,7 +16,7 @@ import jp.co.unirita.medis.logic.util.LoginLogic;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({ "file:resources/sql/user_info-delete.sql", "file:resources/sql/user_info-insert.sql"})
+@Sql({"file:resources/sql/user_info-insert.sql"})
 public class LoginLogicTest {
 
     @Autowired

@@ -1,3 +1,4 @@
+DELETE FROM "authority";
 INSERT INTO "authority"
     (authority_id, authority_type)
 VALUES

@@ -1,3 +1,4 @@
+DELETE FROM "template_info";
 INSERT INTO "template_info"
     (template_id, employee_number, template_name, template_create_date, template_publish)
 VALUES

@@ -1,3 +1,4 @@
+DELETE FROM "bookmark";
 INSERT INTO "bookmark"
     (bookmark_id, document_id, employee_number, selected)
 VALUES

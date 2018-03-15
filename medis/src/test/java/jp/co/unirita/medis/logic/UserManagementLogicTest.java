@@ -23,9 +23,9 @@ import jp.co.unirita.medis.util.exception.ConflictException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({ "file:resources/sql/authority-delete.sql", "file:resources/sql/authority-insert.sql",
-		"file:resources/sql/user_info-delete.sql", "file:resources/sql/user_info-insert.sql",
-		"file:resources/sql/user_detail-delete.sql", "file:resources/sql/user_detail-insert.sql"})
+@Sql({"file:resources/sql/authority-insert.sql",
+		"file:resources/sql/user_info-insert.sql",
+		"file:resources/sql/user_detail-insert.sql"})
 public class UserManagementLogicTest {
 
     @Autowired
@@ -44,7 +44,7 @@ public class UserManagementLogicTest {
     @Test
     public void 全てのユーザ情報詳細の一覧取得() {
         List<UserManagementForm> userManagementFormList = userManagementLogic.getUserManagement();
-        assertEquals("ユーザ情報が全件取得できませんでした", 3, userManagementFormList.size());
+        assertEquals("ユーザ情報が全件取得できませんでした", 12, userManagementFormList.size());
     }
 
     @Test

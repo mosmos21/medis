@@ -1,3 +1,4 @@
+DELETE FROM "notification_config";
 INSERT INTO "notification_config"
     (employee_number, tag_id, mail_notification, browser_notification)
 VALUES

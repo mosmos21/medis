@@ -1,3 +1,4 @@
+DELETE FROM "document_tag";
 INSERT INTO "document_tag"
     (document_id, tag_order, tag_id)
 VALUES

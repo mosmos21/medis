@@ -1,3 +1,4 @@
+DELETE FROM "update_info";
 INSERT INTO "update_info"
     (update_id, document_id, employee_number , update_date, update_type)
 VALUES

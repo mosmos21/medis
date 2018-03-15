@@ -15,10 +15,10 @@ import jp.co.unirita.medis.logic.setting.InfomationLogic;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({"file:resources/sql/document_info_monitoring_logic_test-delete.sql", "file:resources/sql/document_info_monitoring_logic_test-insert.sql",
-		"file:resources/sql/notification_config_monitoring_logic_test-delete.sql", "file:resources/sql/notification_config_monitoring_logic_test-insert.sql",
-		"file:resources/sql/template_tag_monitoring_logic_test-delete.sql", "file:resources/sql/template_tag_monitoring_logic_test-insert.sql",
-		"file:resources/sql/update_info_monitoring_logic_test-delete.sql", "file:resources/sql/update_info_monitoring_logic_test-insert.sql"})
+@Sql({"file:resources/sql/document_info_monitoring_logic_test-insert.sql",
+		"file:resources/sql/notification_config_monitoring_logic_test-insert.sql",
+		"file:resources/sql/template_tag_monitoring_logic_test-insert.sql",
+		"file:resources/sql/update_info_monitoring_logic_test-insert.sql"})
 public class InfomationLogicTest{
 	@Autowired
 	InfomationLogic infomationLogic;

@@ -16,11 +16,11 @@ import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({ "file:resources/sql/user_info-delete.sql", "file:resources/sql/user_info-insert.sql",
-		"file:resources/sql/update_info-delete.sql", "file:resources/sql/update_info-insert.sql",
-		"file:resources/sql/template_info-delete.sql", "file:resources/sql/template_info-insert.sql",
-		"file:resources/sql/document_info-delete.sql", "file:resources/sql/document_info-insert.sql",
-		"file:resources/sql/comment-delete.sql", "file:resources/sql/comment-insert.sql" })
+@Sql({"file:resources/sql/user_info-insert.sql",
+		"file:resources/sql/update_info-insert.sql",
+		"file:resources/sql/template_info-insert.sql",
+		"file:resources/sql/document_info-insert.sql",
+		"file:resources/sql/comment-insert.sql" })
 public class ArgumentCheckLogicTest {
 
     @Autowired
