@@ -47,7 +47,7 @@ public class BookmarkLogicTest {
 		bookmark.setDocumentId("d0000000013");
 		bookmark.setEmployeeNumber("medis");
 		bookmark.setSelected(true);
-		bookmarkLogic.updateBookmark("medis", "d0000000013");
+		bookmarkLogic.updateBookmark("medis", "d0000000013", true);
 		assertEquals("m0000000006のお気に入り情報を更新できませんでした", bookmark, bookmarkRepository.findOne("m0000000006"));
 	}
 
@@ -58,9 +58,7 @@ public class BookmarkLogicTest {
 		bookmark.setDocumentId("d0000000013");
 		bookmark.setEmployeeNumber("medis");
 		bookmark.setSelected(false);
-		bookmarkLogic.updateBookmark("medis", "d0000000013");
-		System.out.println(bookmark);
-		System.out.println(bookmarkRepository.findOne("m0000000006"));
+		bookmarkLogic.updateBookmark("medis", "d0000000013", false);
 		assertEquals("m0000000006のお気に入り情報を更新できませんでした", bookmark, bookmarkRepository.findOne("m0000000006"));
 	}
 

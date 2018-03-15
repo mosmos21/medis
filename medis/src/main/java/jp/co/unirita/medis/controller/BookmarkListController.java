@@ -1,8 +1,11 @@
 package jp.co.unirita.medis.controller;
 
-import java.lang.invoke.MethodHandles;
-import java.util.List;
-
+import jp.co.unirita.medis.domain.user.User;
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
+import jp.co.unirita.medis.logic.setting.BookmarkLogic;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
+import jp.co.unirita.medis.util.exception.NotExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +14,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.unirita.medis.domain.user.User;
-import jp.co.unirita.medis.form.document.DocumentInfoForm;
-import jp.co.unirita.medis.logic.setting.BookmarkLogic;
-import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
-import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
-import jp.co.unirita.medis.util.exception.NotExistException;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 @RequestMapping("/v1/documents/bookmark")
 
@@ -58,9 +58,10 @@ public class BookmarkListController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updateBookmark(
 		@AuthenticationPrincipal User user,
-		@PathVariable(value = "documentId") String documentId
+		@PathVariable(value = "documentId") String documentId,
+		@RequestBody boolean selected
 	) throws NotExistException, IdIssuanceUpperException {
 		argumentCheckLogic.checkDocumentId(documentId);
-		bookmarkLogic.updateBookmark(user.getEmployeeNumber(), documentId);
+		bookmarkLogic.updateBookmark(user.getEmployeeNumber(), documentId, selected);
 	}
 }
