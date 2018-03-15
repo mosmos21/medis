@@ -123,4 +123,14 @@ table.company td {
 
 .my-drop-zone { border: dotted 3px lightgray; }
   .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
-  .another-file-over-class { border: dotted 3px green; }
+  .another-file-over-class { border: dotted 3px green; 
+}
+
+.form-error {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    height: 2em;
+    white-space: pre-wrap;
+    text-align: center;
+    color: red;
+}

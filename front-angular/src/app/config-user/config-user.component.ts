@@ -14,6 +14,7 @@ import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
 import { SnackBarService } from '../services/snack-bar.service';
+import { ValidatorService } from '../services/validator.service'
 
 @Component({
   selector: 'app-config-user',
@@ -21,6 +22,8 @@ import { SnackBarService } from '../services/snack-bar.service';
   styleUrls: ['./config-user.component.css']
 })
 export class ConfigUserComponent implements OnInit {
+
+  public errorMessage: string = '';
 
   public settings: any = [
     {
@@ -59,6 +62,7 @@ export class ConfigUserComponent implements OnInit {
     private errorService: ErrorService,
     private nav: NavigationService,
     private snacBarService: SnackBarService,
+    private validate: ValidatorService,
   ) {
     this.nav.show();
   }
@@ -114,10 +118,23 @@ export class ConfigUserComponent implements OnInit {
 
   submit() {
     this.settings = this.tempSettings;
-    this.http.post(this.hostname + "settings/me", this.settings, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
-    this.nav.toTop();
+    let editUser = [
+      this.settings.lastName,
+      this.settings.firstName,
+      this.settings.lastNamePhonetic,
+      this.settings.firstNamePhonetic,
+      this.settings.mailaddress,
+    ]
+    console.log(editUser)
+    if (!this.validate.empty(editUser)) {
+      this.http.post(this.hostname + "settings/me", this.settings, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
+      this.nav.toTop();
 
-    this.snacBarService.openSnackBar("保存しました", "");
+      this.snacBarService.openSnackBar("保存しました", "");
+    } else {
+      this.errorMessage = "入力必須項目が未入力です。";
+    }
+
   }
 
   resetAll() {
