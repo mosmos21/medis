@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import jp.co.unirita.medis.logic.system.MailLogic;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,7 +113,7 @@ public class UserManagementController {
 	public void createUser(
             @AuthenticationPrincipal User user,
             @RequestBody UserManagementForm data
-    ) throws AuthorityException, ConflictException {
+    ) throws AuthorityException, ConflictException, IdIssuanceUpperException {
         logger.info("[method: createUser] employeeNumber = " + user.getEmployeeNumber());
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
 

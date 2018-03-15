@@ -7,7 +7,9 @@ import jp.co.unirita.medis.domain.user.UserRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.system.UserManagementForm;
+import jp.co.unirita.medis.logic.util.TagLogic;
 import jp.co.unirita.medis.util.exception.ConflictException;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class UserManagementLogic {
 	UserDetailRepository userDetailRepository;
 	@Autowired
 	AuthorityRepository authorityRepository;
+	@Autowired
+	TagLogic tagLogic;
 
 
     /**
@@ -74,7 +78,7 @@ public class UserManagementLogic {
      * @throws ConflictException 作成をしようとしている社員番号がすでに存在している場合に発生する例外
      * @return 作成したユーザの詳細情報
      */
-	public UserDetail createUser(UserManagementForm userManagementForm) throws ConflictException {
+	public UserDetail createUser(UserManagementForm userManagementForm) throws ConflictException, IdIssuanceUpperException {
 		User existUser = userRepository.findOne(userManagementForm.getEmployeeNumber());
 		if (existUser != null) {
 			ConflictException e =  new ConflictException("employeeNumber", userManagementForm.getEmployeeNumber(),
@@ -101,6 +105,10 @@ public class UserManagementLogic {
         detail.setIcon(userManagementForm.isIcon());
         logger.info("[method: createUser] create new use detail: " + detail.toString());
 		userDetailRepository.saveAndFlush(detail);
+
+		String systemTag = detail.getLastName() + " " + detail.getFirstName();
+		tagLogic.createSystemTag(systemTag);
+
 		return detail;
 	}
 }

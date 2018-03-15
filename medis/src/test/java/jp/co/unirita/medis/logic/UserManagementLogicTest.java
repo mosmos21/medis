@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class UserManagementLogicTest {
     }
 
     @Test
-    public void 新規ユーザの作成_成功時() throws ConflictException {
+    public void 新規ユーザの作成_成功時() throws ConflictException, IdIssuanceUpperException {
     	UserManagementForm userManagementForm = new UserManagementForm();
     	userManagementForm.setEmployeeNumber("new");
     	userManagementForm.setLastName("last");
@@ -95,7 +96,7 @@ public class UserManagementLogicTest {
     }
 
     @Test
-    public void 新規ユーザの作成_ユーザ名重複時() {
+    public void 新規ユーザの作成_ユーザ名重複時() throws IdIssuanceUpperException {
     	String result = "";
     	UserManagementForm userManagementForm = new UserManagementForm();
     	userManagementForm.setEmployeeNumber("test");

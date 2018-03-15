@@ -66,7 +66,7 @@ public class TagLogic {
 	    return tag;
 	}
 
-	private Tag createSystemTag(String value) throws IdIssuanceUpperException {
+	public Tag createSystemTag(String value) throws IdIssuanceUpperException {
 		String id = getNewSystemTagId();
 		Tag tag = new Tag(id, value);
 		tagRepository.saveAndFlush(tag);
