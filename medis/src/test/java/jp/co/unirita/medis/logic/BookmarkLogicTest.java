@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +13,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import jp.co.unirita.medis.domain.bookmark.Bookmark;
 import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
-import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import jp.co.unirita.medis.logic.setting.BookmarkLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({ "file:resources/sql/bookmark-delete.sql", "file:resources/sql/bookmark-insert.sql",
+@Sql({ "file:resources/sql/bookmark-delete.sql", "file:resources/sql/bookmark_bookmarklogictest-insert.sql",
 		"file:resources/sql/update_info-delete.sql", "file:resources/sql/update_info-insert.sql",
-		"file:resources/sql/document_info-delete.sql", "file:resources/sql/document_info-insert.sql" })
+		"file:resources/sql/document_info-delete.sql", "file:resources/sql/document_info_bookmarklogictest-insert.sql" })
 public class BookmarkLogicTest {
 	@Autowired
 	BookmarkLogic bookmarkLogic;
@@ -60,6 +59,8 @@ public class BookmarkLogicTest {
 		bookmark.setEmployeeNumber("medis");
 		bookmark.setSelected(false);
 		bookmarkLogic.updateBookmark("medis", "d0000000013");
+		System.out.println(bookmark);
+		System.out.println(bookmarkRepository.findOne("m0000000006"));
 		assertEquals("m0000000006のお気に入り情報を更新できませんでした", bookmark, bookmarkRepository.findOne("m0000000006"));
 	}
 
@@ -72,7 +73,7 @@ public class BookmarkLogicTest {
 		newBookmark.setDocumentId("d0000000015");
 		newBookmark.setSelected(true);
 
-		bookmark.setBookmarkId("m0000000008");
+		bookmark.setBookmarkId("m0000000007");
 		bookmark.setEmployeeNumber("gu");
 		bookmark.setDocumentId("d0000000015");
 		bookmark.setSelected(true);

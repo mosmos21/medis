@@ -15,7 +15,7 @@ export class SnackBarService {
 
     if (link == "") {
       let ref = this.snackBar.open(message, "閉じる", {
-        duration: 3000,
+        duration: 1000,
         verticalPosition: 'top',
       });
       ref.onAction().subscribe(() => {
