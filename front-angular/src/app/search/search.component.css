@@ -1,13 +1,14 @@
 #wrap_side_menu_content {
     position: absolute;
     background: #ddd;
-    height: 100%;
+    height: calc(100vh - 64px);
     width: 100%;
 }
 
 /* 検索 */
 .wrap_search_content {
     width: 95%;
+    height: 100%;
     margin: 10px 4px;
     padding: 1px;
 }
@@ -42,7 +43,7 @@
     border: 1px #999 solid ;
     margin-left: 10%;
     width: 80%;
-    height: 400px;
+    height: calc(100vh - 400px);
 }
 
 
