@@ -3,6 +3,8 @@ package jp.co.unirita.medis.logic.util;
 import java.lang.invoke.MethodHandles;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -34,33 +36,33 @@ public class TagLogic {
 	}
 
 	public String getNewTagId() throws IdIssuanceUpperException {
-		List<Tag> list = tagRepository.findAll(new Sort(Sort.Direction.DESC, "tagId"))
-				.stream()
-				.filter(tag -> tag.getTagId().charAt(0) == ('n'))
-				.collect(Collectors.toList());
-		if (list.size() == 0) {
+		OptionalLong maxId = tagRepository.findAll().stream()
+				.filter(tag -> tag.getTagId().charAt(0) == 'n')
+				.map(tag -> tag.getTagId().substring(1))
+				.mapToLong(Long::parseLong)
+				.max();
+		if (!maxId.isPresent()) {
 			return "n0000000000";
 		}
-		long idNum = Long.parseLong(list.get(0).getTagId().substring(1));
-		if (idNum == 9999999999L) {
+		if (maxId.getAsLong() == 9999999999L) {
 			throw new IdIssuanceUpperException("IDの発行限界");
 		}
-		return String.format("n%010d", idNum + 1);
+		return String.format("n%010d", maxId.getAsLong() + 1);
 	}
 
 	public String getNewSystemTagId() throws IdIssuanceUpperException {
-		List<Tag> list = tagRepository.findAll(new Sort(Sort.Direction.DESC, "tagId"))
-				.stream()
-				.filter(tag -> tag.getTagId().charAt(0) == ('s'))
-				.collect(Collectors.toList());
-		if (list.size() == 0) {
+		OptionalLong maxId = tagRepository.findAll().stream()
+				.filter(tag -> tag.getTagId().charAt(0) == 's')
+				.map(tag -> tag.getTagId().substring(1))
+				.mapToLong(Long::parseLong)
+				.max();
+		if (!maxId.isPresent()) {
 			return "s0000000000";
 		}
-		long idNum = Long.parseLong(list.get(0).getTagId().substring(1));
-		if (idNum == 9999999999L) {
+		if (maxId.getAsLong() == 9999999999L) {
 			throw new IdIssuanceUpperException("IDの発行限界");
 		}
-		return String.format("s%010d", idNum + 1);
+		return String.format("s%010d", maxId.getAsLong() + 1);
 	}
 
 	private Tag createTag(String value) throws IdIssuanceUpperException {
