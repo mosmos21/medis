@@ -60,6 +60,7 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { ErrorComponent } from './error/error.component';
 import { NewDocumentComponent } from './new-document/new-document.component';
 import { EditIconComponent } from './edit-icon/edit-icon.component';
+import { MsgToSidenavService } from './services/msg-to-sidenav.service';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { EditIconComponent } from './edit-icon/edit-icon.component';
     ValidatorService,
     ErrorService,
     SnackBarService,
+    MsgToSidenavService,
     { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }
   ],
   entryComponents: [

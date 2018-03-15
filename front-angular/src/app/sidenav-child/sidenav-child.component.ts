@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from '../services/error.service';
+import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
 
 @Component({
   selector: 'app-sidenav-child',
@@ -24,6 +25,7 @@ export class SidenavChildComponent implements OnInit {
     @Inject('hostname') private hostname: string,
     private authService: AuthService,
     private errorService: ErrorService,
+    private msgToSidenavService: MsgToSidenavService,
   ) {
     this.mymenuOpen();
   }
@@ -32,6 +34,11 @@ export class SidenavChildComponent implements OnInit {
     if (this.nav.visible = true) {
       this.loadDraftList();
     }
+    this.msgToSidenavService.msgToSidenavData$.subscribe(
+      msg => {
+        this.loadDraftList();
+      }
+    );
   }
 
   mymenuOpen() {
@@ -58,7 +65,6 @@ export class SidenavChildComponent implements OnInit {
       json => {
         this.list = json;
         this.num = this.list.length;
-        // console.log(this.list);
       },
       error => {
         this.errorService.errorPath(error.status)

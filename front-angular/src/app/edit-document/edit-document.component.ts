@@ -11,6 +11,7 @@ import { ValidatorService } from '../services/validator.service';
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
+import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
 
 @Component({
   selector: 'app-edit-document',
@@ -45,7 +46,8 @@ export class EditDocumentComponent implements OnInit {
     private authService: AuthService,
     public searchService: SearchService,
     private errorService: ErrorService,
-    private nav: NavigationService
+    private nav: NavigationService,
+    private msgToSidenavService: MsgToSidenavService,
   ) {
     this.nav.show();
     this.authService.getUserDetail(http);
@@ -158,7 +160,7 @@ export class EditDocumentComponent implements OnInit {
   }
 
   getTemplateTags(templateId: string): void {
-    console.log(templateId);
+    // console.log(templateId);
     this.http.get(this.hostname + 'templates/' + templateId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.fixedTags = JSON.parse(JSON.stringify(json));
@@ -212,9 +214,9 @@ export class EditDocumentComponent implements OnInit {
   }
 
   clickCheckBox(id: string, line: number, e: any) {
-    console.log(id);
-    console.log(line);
-    console.log(this.contents);
+    //console.log(id);
+    //console.log(line);
+    //console.log(this.contents);
     for (let c of this.contents) {
       if (c.id == id) {
         // this.documentValues[id][line] = e.target.checked ? "true" : "false";
@@ -336,8 +338,10 @@ export class EditDocumentComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (type == "save") {
+          this.msgToSidenavService.sendMsg();
           this.router.navigate(['browsing/' + this.documentId]);
         } else {
+          this.msgToSidenavService.sendMsg();
           this.router.navigate(['edit']);
         }
       });

@@ -21,12 +21,13 @@ public class LoginLogic {
 
     private final AuthenticationManager authManager;
 
-    public void login(UserLoginForm loginForm) {
+    public User login(UserLoginForm loginForm) {
         Authentication auth = new UsernamePasswordAuthenticationToken(loginForm.getEmployeeNumber(), loginForm.getPassword());
         Authentication result = authManager.authenticate(auth);
         SecurityContextHolder.getContext().setAuthentication(result);
 
         SecurityContextHolder.getContext().setAuthentication(result);
         User principal = (User)result.getPrincipal();
+        return principal;
     }
 }

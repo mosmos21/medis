@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
+import jp.co.unirita.medis.form.document.DocumentInfoForm;
 import jp.co.unirita.medis.logic.setting.MonitoringLogic;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({"document_info_monitoringlogictest-deletel", "document_info_monitoringlogictest-insert",
-	  "notification_config_monitoringlogictest-delete","notification_config_monitoringlogictest-insert,",
-	  "template_tag_monitoringlogictest-delete.sql","template_tag_monitoringlogictest-insert"})
+@Sql({"file:resources/sql/document_info-delete.sql", "file:resources/sql/document_info_monitoringlogictest-insert.sql",
+	  "file:resources/sql/notification_config-delete.sql","file:resources/sql/notification_config_monitoringlogictest-insert.sql",
+	  "file:resources/sql/template_tag-delete.sql","file:resources/sql/template_tag_monitoringlogictest-insert.sql",
+	  "file:resources/sql/user_detail-delete.sql","file:resources/sql/user_detail_monitoringlogictest-insert.sql"})
 public class MonitoringLogicTest {
 
 	@Autowired
@@ -29,7 +29,7 @@ public class MonitoringLogicTest {
 	@Test
     public void adminが設定した監視タグのついたドキュメント一覧() {
         List<DocumentInfoForm> documentInfoList = monitoringLogic.getMonitoringList("admin");
-        assertEquals("adminの設定した監視タグのついたドキュメントが取得できませんでした", 2, documentInfoList.size());
+        assertEquals("adminの設定した監視タグのついたドキュメントが取得できませんでした", 1, documentInfoList.size());
     }
 
 	@Test

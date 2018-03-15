@@ -67,14 +67,15 @@ export class ConfigNotificationComponent implements OnInit {
   toggleTagMailAll() {
     this.isTagMail = !this.isTagMail;
     for (const i in this.tagNotification) {
-      this.tagNotification[i]["isMailNotification"] = this.isTagMail;
+      this.tagNotification[i]["mailNotification"] = this.isTagMail;
+      console.log(this.tagNotification);
     }
   }
 
   toggleTagBrowserAll() {
     this.isTagBrowser = !this.isTagBrowser;
     for (let i in this.tagNotification) {
-      this.tagNotification[i]["isBrowserNotification"] = this.isTagBrowser;
+      this.tagNotification[i]["browserNotification"] = this.isTagBrowser;
     }
   }
 
