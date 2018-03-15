@@ -84,7 +84,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() { }
 
   onSubmit() {
-    if (!this.valid.empty(this.employeeNumber) && !this.valid.empty(this.password)) {
+    let loginUser = [
+      this.employeeNumber,
+      this.password,
+    ]
+    if (!this.valid.empty(loginUser)) {
       this.login();
     } else {
       this.errorMessage = "入力必須項目が未入力です。";

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, HostListener } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationStart, RouterEvent } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DragulaService } from 'ng2-dragula';
 import { MatDialog } from '@angular/material';
@@ -7,7 +7,6 @@ import { NavigationService } from '../services/navigation.service';
 import { ValidatorService } from '../services/validator.service';
 import { AuthService } from '../services/auth.service';
 import { SearchService } from '../services/search.service';
-import { BeforeunloadGuard, OnBeforeunload } from '../services/beforeunload.guard'
 
 import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { ErrorService } from '../services/error.service';
@@ -17,7 +16,7 @@ import { ErrorService } from '../services/error.service';
   templateUrl: './edit-template.component.html',
   styleUrls: ['./edit-template.component.css']
 })
-export class EditTemplateComponent implements OnBeforeunload {
+export class EditTemplateComponent implements OnInit {
 
   public blocks: any;
   private contentBases: { [key: string]: any } = {};
@@ -31,7 +30,6 @@ export class EditTemplateComponent implements OnBeforeunload {
   private showTags: boolean;
 
   private message = "";
-  public data = '';
 
   constructor(
     @Inject('hostname') private hostname: string,
@@ -43,7 +41,6 @@ export class EditTemplateComponent implements OnBeforeunload {
     private authService: AuthService,
     private nav: NavigationService,
     private valid: ValidatorService,
-    private beforeload: BeforeunloadGuard,
     public searchService: SearchService,
     private errorService: ErrorService,
   ) {
@@ -51,6 +48,8 @@ export class EditTemplateComponent implements OnBeforeunload {
     this.nav.show();
     this.authService.getUserDetail(http);
     this.searchService.init();
+    router.events.subscribe(event => {
+    });
   }
 
   ngOnInit() {
@@ -100,7 +99,7 @@ export class EditTemplateComponent implements OnBeforeunload {
   }
 
   shouldConfirmOnBeforeunload() {
-    return !!this.data;
+    return true;
   }
 
   assembleTemplate(): void {
@@ -288,5 +287,11 @@ export class EditTemplateComponent implements OnBeforeunload {
       );
   }
 
-  
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnload(e: Event) {
+    console.log(e);
+    if (this.shouldConfirmOnBeforeunload()) {
+      e.returnValue = true;
+    }
+  }
 }

@@ -1,6 +1,9 @@
 <form id="create-user-form">
 	<div id="create-user">
 		<h2 class="modal-title">ユーザ新規登録</h2>
+		<div class="form-item">
+			<div class="form-error">{{ errorMessage }}</div>
+		</div>
 		<mat-form-field class="half-width">
 			<input matInput [(ngModel)]="data.user.employeeNumber" name="enployeeNumber" placeholder="社員番号">
 		</mat-form-field>
@@ -47,6 +50,6 @@
 			</mat-form-field>
 		</p>
 		<button mat-raised-button id="cancel" (click)="onClose()">キャンセル</button>
-		<button mat-raised-button color="primary" id="ok" [mat-dialog-close]="data.user">登録</button>
+		<button mat-raised-button color="primary" id="ok" (click)="onSubmit()">登録</button>
 	</div>
 </form>
