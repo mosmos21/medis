@@ -66,7 +66,7 @@ public class TagLogicTest {
     public void 新規システムタグID取得_成功時() throws IdIssuanceUpperException {
 
         String tagId = tagLogic.getNewSystemTagId();
-        assertEquals("新規システムタグIDの取得（成功時）が正しく動作していません", "s0000000004", tagId);
+        assertEquals("新規システムタグIDの取得（成功時）が正しく動作していません", "s0000000000", tagId);
     }
 
     @Test
