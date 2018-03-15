@@ -55,6 +55,7 @@ export class SearchService {
         tagName: ""
       }
     ];
+    this.getTags();
   }
 
   sendMsg(msg: String) {
