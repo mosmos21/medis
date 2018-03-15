@@ -1,11 +1,12 @@
 package jp.co.unirita.medis.logic;
 
-import static org.junit.Assert.*;
-
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
-
+import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfo;
+import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfoRepository;
+import jp.co.unirita.medis.domain.user.UserRepository;
+import jp.co.unirita.medis.form.util.UserLoginForm;
+import jp.co.unirita.medis.logic.system.AccountLogic;
+import jp.co.unirita.medis.logic.util.LoginLogic;
+import jp.co.unirita.medis.util.exception.NotExistException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfo;
-import jp.co.unirita.medis.domain.tempkeyInfo.TempkeyInfoRepository;
-import jp.co.unirita.medis.domain.user.UserRepository;
-import jp.co.unirita.medis.logic.system.AccountLogic;
-import jp.co.unirita.medis.util.exception.NotExistException;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,6 +30,8 @@ public class AccountLogicTest {
 
     @Autowired
     AccountLogic accountLogic;
+    @Autowired
+    LoginLogic loginLogic;
     @Autowired
     TempkeyInfoRepository tempkeyInfoRepository;
     @Autowired
@@ -73,6 +77,8 @@ public class AccountLogicTest {
         Map<String,String> result = accountLogic.checkTempKeyIntegrity("88169f9f17664d8982cd2a38da0b357e");
         Map<String,String> testData = new HashMap<>();
         testData.put("result", "OK");
+        testData.put("mailaddress", "test@hoge.jp");
+        testData.put("employeeNumber", "gu");
         assertEquals("送信された一時キーの有効性の確認（存在する場合）が正しく動作していません", testData , result);
     }
 
@@ -96,9 +102,9 @@ public class AccountLogicTest {
 
     @Test
     public void パスワードの再設定_成功時() throws NotExistException {
-        accountLogic.passwordReset("test","medis.masa0@gmail.com","newpass");
-        String result = userRepository.findOne("test").getPassword();
-        assertEquals("パスワードの再設定（成功時）が正しく動作していません", "newpass" , result);
+        accountLogic.passwordReset("medis","test@hoge.jp","newpass");
+        String result = loginLogic.login(new UserLoginForm("medis", "newpass")).getEmployeeNumber();
+        assertEquals("パスワードの再設定（成功時）が正しく動作していません", "medis" , result);
     }
 
     @Test
