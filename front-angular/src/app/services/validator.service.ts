@@ -5,8 +5,12 @@ export class ValidatorService {
 
   constructor() { }
 
-  empty(input: string): boolean {
-    return input == "";
+  empty(input: any): boolean {
+    let bool: boolean = false;
+    for(let i of input) {
+      bool = bool || (i == "")
+    }
+    return bool;
   }
 
 }
