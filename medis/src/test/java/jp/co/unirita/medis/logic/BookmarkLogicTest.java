@@ -19,7 +19,8 @@ import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql({ "file:resources/sql/bookmark-delete.sql", "file:resources/sql/bookmark_bookmarklogictest-insert.sql",
+@Sql({ "file:resources/sql/user_detail-delete.sql", "file:resources/sql/user_detail-insert.sql",
+		"file:resources/sql/bookmark-delete.sql", "file:resources/sql/bookmark_bookmarklogictest-insert.sql",
 		"file:resources/sql/update_info-delete.sql", "file:resources/sql/update_info-insert.sql",
 		"file:resources/sql/document_info-delete.sql", "file:resources/sql/document_info_bookmarklogictest-insert.sql" })
 public class BookmarkLogicTest {
