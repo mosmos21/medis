@@ -98,10 +98,6 @@ export class EditTemplateComponent implements OnInit {
     this.searchService.getTags();
   }
 
-  shouldConfirmOnBeforeunload() {
-    return true;
-  }
-
   assembleTemplate(): void {
     var data;
     this.http.get(this.hostname + 'templates/' + this.templateId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
@@ -290,8 +286,6 @@ export class EditTemplateComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
   beforeUnload(e: Event) {
     console.log(e);
-    if (this.shouldConfirmOnBeforeunload()) {
-      e.returnValue = true;
-    }
+    e.returnValue = true;
   }
 }
