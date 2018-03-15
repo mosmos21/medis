@@ -4,14 +4,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +29,6 @@ import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.DocumentContentForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
-import jp.co.unirita.medis.logic.system.NotificationLogic;
 import jp.co.unirita.medis.logic.util.TagLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 

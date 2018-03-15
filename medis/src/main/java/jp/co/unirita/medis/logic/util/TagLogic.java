@@ -1,10 +1,8 @@
 package jp.co.unirita.medis.logic.util;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -36,7 +34,10 @@ public class TagLogic {
 	}
 
 	public String getNewTagId() throws IdIssuanceUpperException {
-		List<Tag> list = tagRepository.findAll(new Sort(Sort.Direction.DESC, "tagId"));
+		List<Tag> list = tagRepository.findAll(new Sort(Sort.Direction.DESC, "tagId"))
+				.stream()
+				.filter(tag -> tag.getTagId().charAt(0) == ('n'))
+				.collect(Collectors.toList());
 		if (list.size() == 0) {
 			return "n0000000000";
 		}
@@ -48,7 +49,10 @@ public class TagLogic {
 	}
 
 	public String getNewSystemTagId() throws IdIssuanceUpperException {
-		List<Tag> list = tagRepository.findAll(new Sort(Sort.Direction.DESC, "tagId"));
+		List<Tag> list = tagRepository.findAll(new Sort(Sort.Direction.DESC, "tagId"))
+				.stream()
+				.filter(tag -> tag.getTagId().charAt(0) == ('s'))
+				.collect(Collectors.toList());
 		if (list.size() == 0) {
 			return "s0000000000";
 		}
