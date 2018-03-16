@@ -6,6 +6,7 @@
 
 <label class="btn btn-default">
 	<input type="file" (change)="selectFile($event)">
+	<!-- <button mat-raised-button>画像選択</button> -->
 </label>
 
-<button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+<button mat-fab class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()"><mat-icon>file_upload</mat-icon></button>

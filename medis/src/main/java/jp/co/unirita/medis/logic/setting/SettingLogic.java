@@ -35,7 +35,7 @@ public class SettingLogic {
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private static final String COMMENT_NOTIFICATION_TAG = "g0000000000";
-	private final Path rootLocation = Paths.get("src/main/resources/image/");
+	private final Path rootLocation = Paths.get("resources/image/");
 
 	@Autowired
 	NotificationConfigRepository notificationConfigRepository;

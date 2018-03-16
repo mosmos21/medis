@@ -93,8 +93,8 @@ export class AuthService {
   }
 
   headerMultipart(): HttpHeaders {
-    this.headers = this.headerAddToken();
-    this.headers = this.headers.set('Content-Type', 'multipart/form-data');
+    this.headers = this.headers.set('X-XSRF-TOKEN', this.cookieService.get('XSRF-TOKEN'));
+    this.headers = this.headers.delete('Content-Type');
     return this.headers
   }
 

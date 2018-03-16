@@ -235,7 +235,7 @@ export class ViewComponent implements OnInit {
   }
 
   favorite() {
-    this.http.post(this.hostname + "documents/bookmark/" + this.documentId, { selected: this.isFav }, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+    this.http.post(this.hostname + "documents/bookmark/" + this.documentId, { selected: !this.isFav }, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => { },
       error => {
         this.errorService.errorPath(error.status);
