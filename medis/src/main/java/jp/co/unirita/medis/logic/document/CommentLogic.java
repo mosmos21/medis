@@ -104,7 +104,7 @@ public class CommentLogic {
 	 * this.sender.send(msg); }
 	 */
 	// 最新のIDを生成
-	public String getNewCommentId() throws IdIssuanceUpperException {
+	 public synchronized String getNewCommentId() throws IdIssuanceUpperException {
 		List<Comment> commentList = commentRepository.findAll(new Sort(Sort.Direction.DESC, "commentId"));
 		if (commentList.size() == 0) {
 			return "o0000000000";

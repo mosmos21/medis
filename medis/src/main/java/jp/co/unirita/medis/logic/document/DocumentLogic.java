@@ -203,7 +203,7 @@ public class DocumentLogic {
 		updateInfoRepository.saveAndFlush(info);
 	}
 
-	private String createNewDocumentId() throws IdIssuanceUpperException {
+	private synchronized String createNewDocumentId() throws IdIssuanceUpperException {
 		List<DocumentInfo> list = documentInfoRepository.findAll(new Sort(Sort.Direction.DESC, "documentId"));
 		if (list.size() == 0) {
 			return "d0000000000";
@@ -215,7 +215,7 @@ public class DocumentLogic {
 		return String.format("d%010d", idNum + 1);
 	}
 
-	private String createNewUpdateId() throws IdIssuanceUpperException {
+	private synchronized String createNewUpdateId() throws IdIssuanceUpperException {
 		List<UpdateInfo> list = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId"));
 		if (list.size() == 0) {
 			return "u0000000000";

@@ -207,7 +207,7 @@ public class TemplateLogic {
         }
     }
 
-    private String createNewTemplateId() throws IdIssuanceUpperException{
+    private synchronized String createNewTemplateId() throws IdIssuanceUpperException{
         List<TemplateInfo> list = templateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "templateId"));
         if(list.size()  == 0) {
             return "t0000000000";

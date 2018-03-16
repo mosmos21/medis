@@ -17,7 +17,6 @@ import jp.co.unirita.medis.domain.bookmark.Bookmark;
 import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
-import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.DocumentInfoForm;
@@ -63,7 +62,7 @@ public class BookmarkLogic {
 	}
 
 	// 最新のIDを生成
-	public String getNewBookmarkId() throws IdIssuanceUpperException {
+	public synchronized String getNewBookmarkId() throws IdIssuanceUpperException {
 		List<Bookmark> bookmarkList = bookmarkRepository.findAll(new Sort(Sort.Direction.DESC, "bookmarkId"));
 		if (bookmarkList.size() == 0) {
 			return "m0000000000";
