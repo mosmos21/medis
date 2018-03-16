@@ -38,14 +38,14 @@ height: 100%;
 }
 
 #edit_template_header {
-width: 100%;
+width: 50%;
 height: 50px;
 margin: 10px 0;
 padding: 10px 30px;
 }
 
 #edit_template_body {
-margin: 0 3%;
+margin: 0 0;
 padding: 0;
 height: calc(100% - 50px);
 width: 94%;
@@ -97,7 +97,7 @@ width: 94%;
   text-align: center;
   line-height: 60px;
   width: 90%;
-  margin: 5%;
+  margin: 2%;
   height: 60px;
   font-size: 18px;
   background: white;
@@ -162,7 +162,7 @@ width: 94%;
     width: 95%;
     margin: 10px 4px;
     padding: 1px;
-    
+    height: calc(100vh - 500px);
 }
 
 .wrap_search_content h2 {
@@ -191,7 +191,7 @@ width: 94%;
     border: 1px #999 solid ;
     margin-left: 10%;
     width: 80%;
-    height: 300px;
+    height: 100%;
 }
 
 /deep/.mat-tab-label{

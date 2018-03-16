@@ -2,9 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DragulaService } from 'ng2-dragula';
-import { SearchService } from '../services/search.service';
-
 import { MatDialog } from '@angular/material'
+import { Location } from '@angular/common';
 
 import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { ValidatorService } from '../services/validator.service';
@@ -12,6 +11,7 @@ import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
 import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-edit-document',
@@ -48,6 +48,7 @@ export class EditDocumentComponent implements OnInit {
     private errorService: ErrorService,
     private nav: NavigationService,
     private msgToSidenavService: MsgToSidenavService,
+    private location: Location,
   ) {
     this.nav.show();
     this.authService.getUserDetail();
@@ -347,6 +348,10 @@ export class EditDocumentComponent implements OnInit {
         }
       });
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   submitTags(documentId: string): void {

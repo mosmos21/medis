@@ -7,7 +7,7 @@ import { NavigationService } from '../services/navigation.service';
 import { ValidatorService } from '../services/validator.service';
 import { AuthService } from '../services/auth.service';
 import { SearchService } from '../services/search.service';
-
+import { Location } from '@angular/common';
 import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { ErrorService } from '../services/error.service';
 
@@ -43,6 +43,7 @@ export class EditTemplateComponent implements OnInit {
     private valid: ValidatorService,
     public searchService: SearchService,
     private errorService: ErrorService,
+    private location: Location,
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
@@ -268,6 +269,10 @@ export class EditTemplateComponent implements OnInit {
         this.router.navigate(['admin/template']);
       });
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   submitTags(templateId: string): void {

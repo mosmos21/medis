@@ -197,7 +197,7 @@
   text-align: center;
   line-height: 60px;
   width: 90%;
-  margin: 5%;
+  margin: 2%;
   height: 60px;
   font-size: 18px;
   background: white;
@@ -219,7 +219,7 @@
     width: 95%;
     margin: 10px 4px;
     padding: 1px;
-    height: 100%;
+    height: calc(100vh - 500px);
 }
 
 .wrap_search_content h2 {
@@ -248,7 +248,7 @@
     border: 1px #999 solid ;
     margin-left: 10%;
     width: 80%;
-    height: 300px;
+    height: 100%;
 }
 
 

@@ -6,6 +6,8 @@ import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
 import { ConvertDateService } from '../services/convert-date.service';
+import { SnackBarService } from '../services/snack-bar.service';
+import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
 
 @Component({
   selector: 'app-select-document',
@@ -29,7 +31,9 @@ export class SelectDocumentComponent implements OnInit {
     private authService: AuthService,
     private errorService: ErrorService,
     private nav: NavigationService,
-    public conv: ConvertDateService
+    public conv: ConvertDateService,
+    private snackBarService: SnackBarService,
+    private msgToSidenavService: MsgToSidenavService,
   ) {
     this.nav.show();
     this.authService.getUserDetail();
@@ -52,4 +56,17 @@ export class SelectDocumentComponent implements OnInit {
       );
   }
 
+  deleteDraft(documentId: string) {
+    console.log(documentId);
+    this.http.delete(this.hostname + "documents/" + documentId,
+      { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+        success => {
+          this.snackBarService.openSnackBar("下書きを削除しました", "");
+          this.loadList();
+          this.msgToSidenavService.sendMsg();
+        },
+        error => {
+          this.errorService.errorPath(error.status)
+        });
+  }
 }
