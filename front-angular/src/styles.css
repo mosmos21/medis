@@ -72,7 +72,7 @@
  }
  
  .wrap_list_box_tall {
-    height: calc(100% - 110px);
+    height: calc(100% - 150px);
  }
  
  .wrap_list_box_tall .list_box{
@@ -105,11 +105,11 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 1%;
-    /* height: 12em; */
+    height: 12em;
  }
  
  .list_box_content_tall {
-    height: 92%;
+    height: calc(100% - 60px);
  }
  
  .list_box_content ul li {

@@ -1,33 +1,31 @@
 <div id="wrap_main_content">
-  <div class="wrap_main_content_center">
-    <div class="main_content_header main_content_header_text">
-      新規文書 - テンプレート選択
-    </div>
-    <div class="wrap_list_box wrap_list_box_tall">
-      <div class="list_box">
-        <div class="list_box_header">
-          <h3>テンプレート一覧</h3>
+    <div class="wrap_main_content_center">
+        <div class="main_content_header main_content_header_text">
+            新規文書 - テンプレート選択
         </div>
-        <div class="list_box_content list_box_content_tall">
-          <div class="content_scroll_y">
-            <table id="info_list">
-              <tr>
-                <th id="info_list_id">テンプレートID</th>
-                <th id="info_list_name">テンプレート名</th>
-                <th id="info_list_date">作成日</th>
-              </tr>
+        <div class="wrap_list_box wrap_list_box_tall">
+            <div class="list_box">
+                <div class="list_box_header">
+                    <h3>テンプレート一覧</h3>
+                </div>
+                <div class="list_box_content list_box_content_tall content_scroll_y">
+                    <table id="info_list">
+                        <tr>
+                            <th id="info_list_id">テンプレートID</th>
+                            <th id="info_list_name">テンプレート名</th>
+                            <th id="info_list_date">作成日</th>
+                        </tr>
 
-              <tr *ngFor="let l of list">
-                <td>{{ l.templateId }}</td>
-                <td>
-                  <a href="/edit/new#{{ l.templateId }}">{{ l.templateName }}</a>
-                </td>
-                <td>{{ conv.time2Date(l.templateCreateDate) }}</td>
-              </tr>
-            </table>
-          </div>
+                        <tr *ngFor="let l of list">
+                            <td>{{ l.templateId }}</td>
+                            <td>
+                                <a href="/edit/new#{{ l.templateId }}">{{ l.templateName }}</a>
+                            </td>
+                            <td>{{ conv.time2Date(l.templateCreateDate) }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

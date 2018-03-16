@@ -1,6 +1,5 @@
 .list_box {
     border: 1px black solid;
-    /* height: 150em; */
     height: calc(100vh - 225px);
     width: 100%;
     min-width: 700px;
@@ -8,7 +7,7 @@
     border-radius: 5px;
     border: 2px #999 solid;
     box-shadow: 2px 2px 2px #999;
-    background: #FFFFFF;
+    background-color: #fff;
 }
 .list_box_header {
     border: 0;
@@ -82,10 +81,12 @@
 	justify-content: center;
 }
 table{
+    top: 0px;
 	width: auto;
 	padding: 0px 20px;
-    margin-top: 50px;
+    margin-top: 430px;
     margin-bottom: 50px;
+    overflow-y: scroll;
 }
 th,td{
 	padding: 5px 15px;
