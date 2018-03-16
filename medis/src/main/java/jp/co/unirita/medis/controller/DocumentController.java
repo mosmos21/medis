@@ -231,11 +231,14 @@ public class DocumentController {
         return commentLogic.save(documentId, user.getEmployeeNumber(), value);
     }
 
-
+    /**
+     *
+     * @param documentId 削除する文書の文書ID
+     * @throws NotExistException 文書IDが存在していない場合に発生する例外
+     */
     @DeleteMapping(value = "{documentId:^d[0-9]{10}$}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteComment(@AuthenticationPrincipal User user,
-            @PathVariable(value = "documentId") String documentId) throws NotExistException {
+    public void deleteComment(@PathVariable(value = "documentId") String documentId) throws NotExistException {
     	logger.info("[method: deleteDocument] Delete document by " + documentId + ".");
         argumentCheckLogic.checkDocumentId(documentId);
         deleteLogic.deleteDocument(documentId);

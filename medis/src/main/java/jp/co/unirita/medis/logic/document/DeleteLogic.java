@@ -27,18 +27,11 @@ public class DeleteLogic {
 	DocumentInfoRepository documentInfoRepository;
 
 	public void deleteDocument(String documentId) {
-		System.out.println(1);
 		bookmarkRepository.delete(bookmarkRepository.findByDocumentId(documentId));
-		System.out.println(2);
 		documentTagRepository.deleteByDocumentId(documentId);
-		System.out.println(3);
 		documentItemRepository.deleteByDocumentId(documentId);
-		System.out.println(4);
 		commentRepository.delete(commentRepository.findByDocumentId(documentId));
-		System.out.println(5);
 		updateInfoRepository.delete(updateInfoRepository.findByDocumentId(documentId));
-		System.out.println(6);
 		documentInfoRepository.delete(documentId);
-		System.out.println(7);
 	}
 }
