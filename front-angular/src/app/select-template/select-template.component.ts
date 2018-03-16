@@ -31,7 +31,7 @@ export class SelectTemplateComponent implements OnInit {
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
-    this.authService.getUserDetail(http);
+    this.authService.getUserDetail();
   }
 
   confirmChangePublish(e: any, index: number): void {

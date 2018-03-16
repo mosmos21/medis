@@ -22,7 +22,7 @@ export class ConfigSurveillanceComponent implements OnInit {
     public searchService: SearchService,
   ) {
     this.nav.show();
-    this.authService.getUserDetail(http);
+    this.authService.getUserDetail();
     this.searchService.init();
   }
 

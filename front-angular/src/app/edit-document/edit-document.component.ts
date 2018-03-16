@@ -50,7 +50,7 @@ export class EditDocumentComponent implements OnInit {
     private msgToSidenavService: MsgToSidenavService,
   ) {
     this.nav.show();
-    this.authService.getUserDetail(http);
+    this.authService.getUserDetail();
     this.searchService.init();
   }
 

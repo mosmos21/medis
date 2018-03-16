@@ -30,7 +30,7 @@ export class ConfigNotificationComponent implements OnInit {
     private snackBarService: SnackBarService,
   ) {
     this.nav.show();
-    this.authService.getUserDetail(http);
+    this.authService.getUserDetail();
   }
 
   ngOnInit() {

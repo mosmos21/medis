@@ -32,7 +32,7 @@ export class SelectDocumentComponent implements OnInit {
     public conv: ConvertDateService
   ) {
     this.nav.show();
-    this.authService.getUserDetail(http);
+    this.authService.getUserDetail();
   }
 
   ngOnInit() {

@@ -19,9 +19,9 @@ export class AuthService {
 
   public message: string;
   public redirectUrl: string;
+  public user: User;
   public userdetail: UserDetail;
 
-  private user: User;
   private headers = new HttpHeaders;
   private options = new RequestOptions;
 
@@ -68,8 +68,8 @@ export class AuthService {
     );
   }
 
-  logout(url: string): void {
-    this.http.get(url, { withCredentials: true, headers: this.headerAddToken() }).subscribe(
+  logout(): void {
+    this.http.get(this.hostname + 'logout', { withCredentials: true, headers: this.headerAddToken() }).subscribe(
       success => {
         localStorage.removeItem('token')
         this.init();

@@ -22,6 +22,6 @@ import { HttpService } from '../services/http.service';
     MatIconModule,
   ],
   declarations: [LoginComponent, ResetPassComponent],
-  providers: [NavigationService, HttpService]
+  providers: [NavigationService]
 })
 export class LoginModule { }

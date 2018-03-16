@@ -53,6 +53,6 @@ export class AppComponent {
   }
 
   logout() {
-    this.authService.logout(this.http, this.hostname + 'logout')
+    this.authService.logout()
   }
 }

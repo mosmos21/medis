@@ -46,7 +46,7 @@ export class EditTemplateComponent implements OnInit {
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
-    this.authService.getUserDetail(http);
+    this.authService.getUserDetail();
     this.searchService.init();
     router.events.subscribe(event => {
     });
