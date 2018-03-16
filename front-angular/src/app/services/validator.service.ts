@@ -8,6 +8,7 @@ export class ValidatorService {
   empty(input: any): boolean {
     let bool: boolean = false;
     for(let i of input) {
+      i = i.replace(/\s+/g, "");
       bool = bool || (i == "")
     }
     return bool;

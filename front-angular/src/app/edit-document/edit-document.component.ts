@@ -292,7 +292,8 @@ export class EditDocumentComponent implements OnInit {
 
   submit(type: string): void {
     let dataJson = this.data2Json(type);
-    if (this.valid.empty(this.documentName)) {
+    let docName = [this.documentName];
+    if (this.valid.empty(docName)) {
       this.message = "ドキュメント名を入力してください。"
       let dialogRef = this.dialog.open(MessageModalComponent, {
         data: {

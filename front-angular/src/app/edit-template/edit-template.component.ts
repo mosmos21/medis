@@ -223,7 +223,7 @@ export class EditTemplateComponent implements OnInit {
 
   submit(type): void {
     let dataJson = this.data2Json(type);
-
+    let tempName = [this.templateName];
     if (this.valid.empty(this.templateName)) {
       this.message = "テンプレート名を入力してください。"
       let dialogRef = this.dialog.open(MessageModalComponent, {
