@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from './error.service';
+import { HttpService } from './http.service';
 
 @Injectable()
 export class SearchService {
@@ -30,9 +31,7 @@ export class SearchService {
   ];
 
   constructor(
-    private http: HttpClient,
-    @Inject('hostname') private hostname: string,
-    private authService: AuthService,
+    private http: HttpService,
     private errorService: ErrorService,
   ) {
     this.init();
@@ -64,7 +63,7 @@ export class SearchService {
   }
 
   getTags() {
-    this.http.get(this.hostname + 'tags', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+    this.http.get('tags').subscribe(
       json => {
         this.tags = json;
         const sub = JSON.stringify(this.tags);
@@ -78,7 +77,7 @@ export class SearchService {
   }
 
   getMonitoringTag() {
-    this.http.get(this.hostname + '/settings/me/monitoring_tags', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
+    this.http.get('/settings/me/monitoring_tags').subscribe(
       json => {
         const temp = json;
         const sub = JSON.stringify(temp);

@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from './error.service';
@@ -16,6 +18,9 @@ export class HttpService {
   ) { }
 
   get(url: string): any {
+    if(!this.authService.isLoggedIn()) {
+      return Observable.of(false);
+    }
     return this.http.get(this.hostname + url, { withCredentials: true, headers: this.authService.headerAddToken() });
   }
 
@@ -24,6 +29,9 @@ export class HttpService {
   }
 
   post(url: string, data: Object): any {
+    if(!this.authService.isLoggedIn()) {
+      return Observable.of(false);
+    }
     this.http.post(this.hostname + url, data, { withCredentials: true, headers: this.authService.headerAddToken() });
   }
 
@@ -32,6 +40,9 @@ export class HttpService {
   }
 
   put(url: string, data: Object): any {
+    if(!this.authService.isLoggedIn()) {
+      return Observable.of(false);
+    }
     this.http.put(this.hostname + url, data, { withCredentials: true, headers: this.authService.headerAddToken() });
   }
 
