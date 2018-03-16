@@ -44,7 +44,7 @@ export class ViewComponent implements OnInit {
     private errorService: ErrorService,
     @Inject('hostname') private hostname: string,
   ) {
-    this.authService.getUserDetail(http);
+    this.authService.getUserDetail();
   }
 
   ngOnInit() {

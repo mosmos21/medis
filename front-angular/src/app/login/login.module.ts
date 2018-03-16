@@ -3,13 +3,14 @@ import { FormsModule, } from '@angular/forms';
 import { LoginComponent } from './login.component';
 import { ResetPassComponent } from '../reset-pass/reset-pass.component';
 import { LoginRoutingModule } from './login-routing.module';
-import { NavigationService } from '../services/navigation.service';
 import {
   MatDialogModule,
   MatButtonModule,
   MatInputModule,
   MatIconModule,
 } from '@angular/material'
+import { NavigationService } from '../services/navigation.service';
+import { HttpService } from '../services/http.service';
 
 @NgModule({
   imports: [
@@ -21,6 +22,6 @@ import {
     MatIconModule,
   ],
   declarations: [LoginComponent, ResetPassComponent],
-  providers: [NavigationService]
+  providers: [NavigationService, HttpService]
 })
 export class LoginModule { }

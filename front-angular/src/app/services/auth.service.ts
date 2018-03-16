@@ -1,62 +1,55 @@
 import { Injectable, Inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { RequestOptions } from '@angular/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs/Observable';
+import { tokenNotExpired } from 'angular2-jwt';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tokenNotExpired } from 'angular2-jwt';
-import { RequestOptions } from '@angular/http'
-import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+import { ErrorService } from './error.service';
+import { User } from '../model/User';
+import { UserDetail } from '../model/UserDetail';
 
 declare var auth0: any;
 
 @Injectable()
 export class AuthService {
 
-  headers = new HttpHeaders;
+  public message: string;
+  public redirectUrl: string;
+  public userdetail: UserDetail;
+
+  private user: User;
+  private headers = new HttpHeaders;
   private options = new RequestOptions;
-  user: any;
-  userdetail: any;
-
-  // store the URL so we can redirect after logging in
-  redirectUrl: string;
-
-  message: string;
 
   constructor(
+    @Inject('hostname') private hostname: string,
+    private http: HttpClient,
     private router: Router,
     private cookieService: CookieService,
-    @Inject('hostname') private hostname: string,
   ) {
     this.init();
   }
 
   init() : void {
-    this.user = new Object();
-    this.userdetail = {
-      employeeNumber: "",
-      firstName: "",
-      firstNamePhonetic: "",
-      icon: "",
-      lastName: "",
-      lastNamePhonetic: "",
-      mailaddress: "",
-    }
+    this.user = new User;
+    this.userdetail = new UserDetail;
   }
 
-  login(http: HttpClient, url: string, employeeNumber: string, password: string, callback: any): void {
+  login(employeeNumber: string, password: string, callback: any): void {
     var data = {
       employeeNumber: employeeNumber,
       password: password
     }
-    http.post(url, data, { withCredentials: true }).subscribe(
-      success => {
-        this.user = success;
-        this.getUserDetail(http);
-        // console.log(this.user);
+    this.http.post(this.hostname + 'login', data, { withCredentials: true }).subscribe(
+      data => {
+        this.user = new User(data);
+        this.getUserDetail();
         localStorage.setItem('token', this.cookieService.get('XSRF-TOKEN'))
-        if (this.user.authorityId == "a0000000000") {
+        if (this.user["authorityId"] == "a0000000000") {
           this.redirectUrl = "admin/template"
         } else {
           this.redirectUrl = "top"
@@ -64,7 +57,6 @@ export class AuthService {
         callback();
       },
       error => {
-        // console.log(error)
         localStorage.removeItem('token')
         if (error.status == '403') {
           this.message = "社員番号とパスワードの\n組み合わせが異なります";
@@ -76,8 +68,8 @@ export class AuthService {
     );
   }
 
-  logout(http: HttpClient, url: string): void {
-    http.get(url, { withCredentials: true, headers: this.headerAddToken() }).subscribe(
+  logout(url: string): void {
+    this.http.get(url, { withCredentials: true, headers: this.headerAddToken() }).subscribe(
       success => {
         localStorage.removeItem('token')
         this.init();
@@ -100,11 +92,10 @@ export class AuthService {
     return this.headers
   }
 
-  getUserDetail(http: HttpClient) {
-    http.get(this.hostname + 'settings/me', { withCredentials: true, headers: this.headerAddToken() }).subscribe(
-      json => {
-        this.userdetail = json;
-        // console.log(this.userdetail);
+  getUserDetail() {
+    this.http.get(this.hostname + 'settings/me', { withCredentials: true, headers: this.headerAddToken() }).subscribe(
+      data => {
+        this.userdetail = new UserDetail(data);
       },
       error => {
       }

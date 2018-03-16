@@ -10,8 +10,11 @@ import { NavigationService } from '../services/navigation.service';
 import { AuthService } from '../services/auth.service';
 import { ValidatorService } from '../services/validator.service';
 import { SnackBarService } from '../services/snack-bar.service';
-import { resolve } from 'url';
+import { User } from '../model/User';
+
 import { reject } from 'q';
+import { resolve } from 'url';
+import { HttpService } from '../services/http.service';
 
 @Component({
   selector: 'app-login',
@@ -20,35 +23,27 @@ import { reject } from 'q';
 })
 export class LoginComponent implements OnInit {
 
-  errorMessage: string = '';
-
-  employeeNumber: string = '';
-  password: string = 'pass2017';
-
-  private message: string;
+  public errorMessage: string = '';
+  public employeeNumber: string = '';
+  public password: string = 'pass2017';
   public hide: boolean;
 
-  private user: any = {
-    employeeNumber: '',
-    mailaddress: '',
-    password: '',
-  }
+  private message: string;
+  private user: User;
 
   constructor(
-    @Inject('hostname') private hostname: string,
     public authService: AuthService,
     public router: Router,
     public dialog: MatDialog,
     public snackBarService: SnackBarService,
     private nav: NavigationService,
     private valid: ValidatorService,
-    private http: HttpClient,
+    private http: HttpService,
   ) {
     this.nav.hide();
   }
 
   openDialog(): void {
-    console.log('ok')
     let dialogRef = this.dialog.open(ResetPassComponent, {
       width: '400px',
       data: { user: this.user },
@@ -57,9 +52,8 @@ export class LoginComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result != null) {
-        this.user.password = 'dummypass'
-        this.http.post(this.hostname + "accounts/usercheck", this.user, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-          json => {
+        this.http.post("accounts/usercheck", this.user).subscribe(
+          success => {
             this.message = 'パスワード再設定用メールを送信しました。'
             let dialogRef = this.dialog.open(MessageModalComponent, {
               data: {
@@ -96,14 +90,13 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authService.login(this.http, this.hostname + 'login', this.employeeNumber, this.password, () => {
+    this.authService.login(this.employeeNumber, this.password, () => {
       if (this.authService.isLoggedIn()) {
         let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'top';
         this.router.navigate([redirect]);
         this.snackBarService.openSnackBar("ログインしました", "");
       } else {
         this.errorMessage = this.authService.message;
-        console.log(this.errorMessage);
       }
     });
   }
