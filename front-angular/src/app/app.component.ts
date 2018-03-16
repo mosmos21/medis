@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { NavigationService } from './services/navigation.service';
 import { AuthService } from './services/auth.service';
 import { ErrorService } from './services/error.service';
+import { SnackBarService } from './services/snack-bar.service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ export class AppComponent {
     public nav: NavigationService,
     private http: HttpClient,
     public authService: AuthService,
+    private snackBarService: SnackBarService,
   ) {
     this.nav.hide();
     this.nav.showUserMenu();

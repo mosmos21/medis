@@ -1,7 +1,7 @@
 .list_box {
     border: 1px black solid;
     /* height: 150em; */
-    height: calc(100vh - 195px);
+    height: calc(100vh - 225px);
     width: 100%;
     min-width: 700px;
     padding: 0;

@@ -7,3 +7,10 @@
     text-decoration: none;
     cursor: pointer;
 }
+.wrap_list_box {
+    width: 90%;
+    margin: 30px 10px;
+    margin-left: 5%;
+    padding: 0;
+    /* height: 100px; */
+ }
