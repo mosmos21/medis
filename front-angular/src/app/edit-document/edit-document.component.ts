@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DragulaService } from 'ng2-dragula';
@@ -370,5 +370,11 @@ export class EditDocumentComponent implements OnInit {
 
   trackByIndex(index, content) {
     return content.id;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnload(e: Event) {
+    console.log(e);
+    e.returnValue = true;
   }
 }
