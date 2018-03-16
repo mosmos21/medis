@@ -3,11 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { NavigationService } from '../services/navigation.service';
 
-import { ConfirmationComponent } from '../confirmation/confirmation.component'
-import { MessageModalComponent } from '../message-modal/message-modal.component'
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { MessageModalComponent } from '../message-modal/message-modal.component';
 import { ConvertDateService } from '../services/convert-date.service';
-import { AuthService } from '../services/auth.service'
-import { ErrorService } from '../services/error.service'
+import { AuthService } from '../services/auth.service';
+import { ErrorService } from '../services/error.service';
+import { SnackBarService } from '../services/snack-bar.service';
 
 @Component({
   selector: 'app-select-template',
@@ -28,6 +29,7 @@ export class SelectTemplateComponent implements OnInit {
     public convert: ConvertDateService,
     private authService: AuthService,
     private errorService: ErrorService,
+    private snackBarService: SnackBarService,
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
@@ -59,11 +61,7 @@ export class SelectTemplateComponent implements OnInit {
         let url = this.hostname + "templates/" + this.templates[index].templateId + '/' + type;
         this.http.post(url, null, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
           success => {
-            let dialogRef = this.dialog.open(MessageModalComponent, {
-              data: {
-                message: "変更しました"
-              }
-            });
+            this.snackBarService.openSnackBar("変更しました", "");
           },
           error => {
             this.errorService.errorPath(error.status)

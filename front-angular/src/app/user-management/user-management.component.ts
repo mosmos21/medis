@@ -9,6 +9,7 @@ import { InitializationComponent } from '../initialization/initialization.compon
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
+import { SnackBarService } from '../services/snack-bar.service';
 
 @Component({
   selector: 'app-user-management',
@@ -40,7 +41,8 @@ export class UserManagementComponent implements OnInit {
     public dialog: MatDialog,
     private authService: AuthService,
     private errorService: ErrorService,
-    public nav: NavigationService
+    public nav: NavigationService,
+    private snackBarService: SnackBarService,
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
@@ -80,6 +82,7 @@ export class UserManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.users[index]["enabled"] = !this.users[index]["enabled"];
+        this.snackBarService.openSnackBar("変更しました", "");
       }
     });
   }
@@ -109,11 +112,7 @@ export class UserManagementComponent implements OnInit {
             this.errorService.errorPath(error.status);
           }
         );
-        let dialogRef = this.dialog.open(MessageModalComponent, {
-          data: {
-            message: this.message
-          }
-        });
+        this.snackBarService.openSnackBar(this.message, "");
       }
     });
   }
