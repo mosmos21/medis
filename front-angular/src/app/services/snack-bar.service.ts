@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { ErrorService } from '../services/error.service';
 import { AuthService } from '../services/auth.service';
-import { resolve } from 'dns';
+
 
 @Injectable()
 export class SnackBarService {
@@ -34,7 +34,7 @@ export class SnackBarService {
           this.openSnackBar("更新情報が複数あります", "/top");
         }
       }
-    }, 5000);
+    }, 60000);
   }
 
   getUpdateList() {
