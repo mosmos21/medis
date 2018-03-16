@@ -40,7 +40,10 @@
 						<mat-icon>menu</mat-icon>
 					</button>
 					<img id="logo" src="../assets/image/logo.png">
-					<button mat-button [matMenuTriggerFor]="menu">{{ authService.userdetail.lastName + authService.userdetail.firstName }}</button>
+					<button mat-button [matMenuTriggerFor]="menu">
+						<mat-icon>account_circle</mat-icon>
+						{{ authService.userdetail.lastName + authService.userdetail.firstName }}
+					</button>
 					<mat-menu #menu="matMenu">
 						<button mat-menu-item (click)="logout()">ログアウト</button>
 					</mat-menu>
