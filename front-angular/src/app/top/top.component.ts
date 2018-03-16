@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service'
 import { ErrorService } from '../services/error.service';
 import { ConvertDateService } from '../services/convert-date.service';
 import { NavigationService } from '../services/navigation.service';
+import { IsNewService } from '../services/is-new.service';
 
 @Component({
   selector: 'app-top',
@@ -30,7 +31,8 @@ export class TopComponent implements OnInit {
     private authService: AuthService,
     private cookieService: CookieService,
     private errorService: ErrorService,
-    public conv: ConvertDateService
+    public conv: ConvertDateService,
+    public isNewService: IsNewService,
   ) {
     this.nav.show();
     this.nav.showUserMenu();

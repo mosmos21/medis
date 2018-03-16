@@ -11,9 +11,15 @@
                             <a class="toppage_list" (click)="viewDocument(upd.documentId)" *ngIf="upd.updateType == 'v0000000002'">
                                 {{ upd.documentName }}にコメントがつきました。
                             </a>
+                            <span class="isNew" *ngIf="isNewService.checkNew(upd.documentCreateDate)">
+                                - new!!
+                            </span>
                             <a class="toppage_list" (click)="viewDocument(upd.documentId)" *ngIf="upd.updateType == 'v0000000003'">
                                 {{ upd.documentName }}に対するコメントが読まれました。
                             </a>
+                            <span class="isNew" *ngIf="isNewService.checkNew(upd.documentCreateDate)">
+                                - new!!
+                            </span>
                             <div class="list_content_time">{{ conv.time2Date(upd.updateDate) }}</div>
                         </li>
                     </ul>
@@ -31,6 +37,9 @@
                             <a class="toppage_list" (click)="viewDocument(own.documentId)">
                                 {{ own.documentName }}
                             </a>
+                            <span class="isNew" *ngIf="isNewService.checkNew(own.documentCreateDate)">
+                                - new!!
+                            </span>
                             <div class="list_content_time">{{ conv.time2Date(own.documentCreateDate) }}</div>
                         </li>
                     </ul>
@@ -48,7 +57,9 @@
                             <a class="toppage_list" (click)="viewDocument(fav.documentId)">
                                 {{ fav.documentName }}
                             </a>
-                            <div class="list_content_time">[投稿者] {{ fav.lastName }} {{ fav.firstName }} [最終更新日] {{ conv.time2Date(fav.documentCreateDate) }}</div>
+                            <div class="list_content_time">
+                                [投稿者] {{ fav.lastName }} {{ fav.firstName }} [最終更新日] {{ conv.time2Date(fav.documentCreateDate)}}
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -63,7 +74,12 @@
                     <ul>
                         <li *ngFor="let mon of monDocList">
                             <a class="toppage_list" (click)="viewDocument(mon.documentId)">{{ mon.documentName }}</a>
-                            <div class="list_content_time">[投稿者] {{ mon.lastName }} {{ mon.firstName }} [最終更新日] {{ conv.time2Date(mon.documentCreateDate) }}</div>
+                            <div class="list_content_time">
+                                [投稿者] {{ mon.lastName }} {{ mon.firstName }} [最終更新日] {{ conv.time2Date(mon.documentCreateDate)}}
+                            </div>
+                            <span class="isNew" *ngIf="isNewService.checkNew(mon.documentCreateDate)">
+                                - new!!
+                            </span>
                         </li>
                     </ul>
                 </div>
