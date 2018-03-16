@@ -92,10 +92,17 @@ export class AuthService {
     return this.headers
   }
 
+  headerMultipart(): HttpHeaders {
+    this.headers = this.headerAddToken();
+    this.headers = this.headers.set('Content-Type', 'multipart/form-data');
+    return this.headers
+  }
+
   getUserDetail() {
     this.http.get(this.hostname + 'settings/me', { withCredentials: true, headers: this.headerAddToken() }).subscribe(
       data => {
-        this.userdetail = new UserDetail(data);
+        this.userdetail = new UserDetail(data);;
+        // console.log(this.userdetail);
       },
       error => {
       }

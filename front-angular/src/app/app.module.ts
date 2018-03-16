@@ -62,6 +62,8 @@ import { NewDocumentComponent } from './new-document/new-document.component';
 import { EditIconComponent } from './edit-icon/edit-icon.component';
 import { MsgToSidenavService } from './services/msg-to-sidenav.service';
 
+import { UploadFileService } from './services/upload-file.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -118,6 +120,7 @@ import { MsgToSidenavService } from './services/msg-to-sidenav.service';
     ErrorService,
     SnackBarService,
     MsgToSidenavService,
+    UploadFileService,
     { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }
   ],
   entryComponents: [

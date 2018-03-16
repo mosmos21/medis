@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import {
-  FileSelectDirective,
-  FileDropDirective,
-  FileUploader,
-} from 'ng2-file-upload/ng2-file-upload';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpResponse, HttpEventType } from '@angular/common/http';
+import { UploadFileService } from '../services/upload-file.service';
+
+import { AuthService } from '../services/auth.service'
 
 @Component({
   selector: 'app-edit-icon',
@@ -13,28 +13,35 @@ import {
 })
 export class EditIconComponent implements OnInit {
 
-  public uploader:FileUploader = new FileUploader({url: ''});
-  public hasBaseDropZoneOver:boolean = false;
-  public hasAnotherDropZoneOver:boolean = false;
-
+  selectedFiles: FileList
+  currentFileUpload: File
+  progress: { percentage: number } = { percentage: 0 }
+ 
   constructor(
-    public dialogRef: MatDialogRef<EditIconComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    private uploadService: UploadFileService,
+    private http: HttpClient,
   ) { }
-
-  onClose(): void {
-    this.dialogRef.close();
-  }
-
-  public fileOverBase(e:any):void {
-    this.hasBaseDropZoneOver = e;
+ 
+  ngOnInit() {
   }
  
-  public fileOverAnother(e:any):void {
-    this.hasAnotherDropZoneOver = e;
+  selectFile(event) {
+    const file = event.target.files.item(0)
+ 
+    if (file.type.match('image.*')) {
+      this.selectedFiles = event.target.files;
+    } else {
+      alert('invalid format!');
+    }
   }
-
-  ngOnInit() {
+ 
+  upload() {
+    this.progress.percentage = 0;
+ 
+    this.currentFileUpload = this.selectedFiles.item(0)
+    this.uploadService.pushFileToStorage(this.currentFileUpload, this.http)
+ 
+    this.selectedFiles = undefined
   }
 
 }
