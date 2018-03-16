@@ -52,3 +52,11 @@ table tr th {
 tr:nth-child(odd) td {  
     background-color: #fff;  
 }
+
+#info_list_delete{
+    width: 100px;
+}
+
+.delete_icon{
+    text-align: center;
+}

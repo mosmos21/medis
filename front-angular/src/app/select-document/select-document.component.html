@@ -15,6 +15,7 @@
                                 <th id="info_list_id">文書ID</th>
                                 <th id="info_list_name">文書タイトル</th>
                                 <th id="info_list_date">作成日</th>
+                                <th id="info_list_delete">削除</th>
                             </tr>
                             <tr *ngFor="let l of list">
                                 <td>{{ l.documentId }}</td>
@@ -22,6 +23,13 @@
                                     <a href="/edit/{{ l.documentId }}">{{ l.documentName }}</a>
                                 </td>
                                 <td>{{ conv.time2Date(l.documentCreateDate) }}</td>
+                                <td>
+                                    <div class="delete_icon">
+                                        <button mat-icon-button (click)="deleteDraft(l.documentId)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         </table>
                     </div>
