@@ -14,7 +14,7 @@
 
 
 - ## テンプレートの削除
-    - ### [PUT] https://{hostname}/{version}/templates/{templateId}
+    - ### [DELETE] https://{hostname}/{version}/templates/{templateId}
         使用されていないテンプレートを削除する時に使用
         
 

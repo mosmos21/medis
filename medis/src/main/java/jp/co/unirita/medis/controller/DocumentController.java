@@ -4,15 +4,12 @@ import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +25,7 @@ import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.document.CommentLogic;
+import jp.co.unirita.medis.logic.document.DeleteLogic;
 import jp.co.unirita.medis.logic.document.DocumentLogic;
 import jp.co.unirita.medis.logic.system.NotificationLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
@@ -48,6 +46,8 @@ public class DocumentController {
     CommentLogic commentLogic;
     @Autowired
     NotificationLogic notificationLogic;
+    @Autowired
+    DeleteLogic deleteLogic;
 
     /**
      * 文書の内容を取得する
@@ -229,5 +229,15 @@ public class DocumentController {
         argumentCheckLogic.checkDocumentId(documentId);
         notificationLogic.commentNotification(user.getEmployeeNumber(), documentId);
         return commentLogic.save(documentId, user.getEmployeeNumber(), value);
+    }
+
+
+    @DeleteMapping(value = "{documentId:^d[0-9]{10}$}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteComment(@AuthenticationPrincipal User user,
+            @PathVariable(value = "documentId") String documentId) throws NotExistException {
+    	logger.info("[method: deleteDocument] Delete document by " + documentId + ".");
+        argumentCheckLogic.checkDocumentId(documentId);
+        deleteLogic.deleteDocument(documentId);
     }
 }
