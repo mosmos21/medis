@@ -6,6 +6,8 @@ import { AuthService } from '../services/auth.service';
 @Injectable()
 export class UploadFileService {
 
+  
+
   constructor(
     private http: HttpClient,
     @Inject('hostname') private hostname: string,
@@ -17,6 +19,7 @@ export class UploadFileService {
     formdata.append('file', file);
     http.post(this.hostname + "icon", formdata, { withCredentials: true, headers: this.authService.headerMultipart(), responseType: 'text' }).subscribe(
       id => {
+        this.authService.icon = this.hostname + "icon/me";
       },
       error => {
       }

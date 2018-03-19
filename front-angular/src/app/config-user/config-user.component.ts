@@ -24,7 +24,6 @@ import { ValidatorService } from '../services/validator.service';
 export class ConfigUserComponent implements OnInit {
 
   public errorMessage: string = '';
-  public icon: any;
 
   public settings: any = [
     {
@@ -80,7 +79,6 @@ export class ConfigUserComponent implements OnInit {
         this.errorService.errorPath(error.status)
       }
     );
-    this.icon = this.hostname + "icon/me";
     /*
     this.http.get(this.hostname + "icon", { withCredentials: true, headers: this.authService.headerMultipart(), responseType: 'text' }).subscribe(
       data => {
@@ -124,10 +122,6 @@ export class ConfigUserComponent implements OnInit {
     let dialogRef = this.dialog.open(EditIconComponent, {
       data: {}
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.icon = this.hostname + "icon/me";
-    })
   }
 
   submit() {
@@ -143,7 +137,6 @@ export class ConfigUserComponent implements OnInit {
     if (!this.validate.empty(editUser)) {
       this.http.post(this.hostname + "settings/me", this.settings, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
       this.nav.toTop();
-
       this.snacBarService.openSnackBar("保存しました", "");
     } else {
       this.errorMessage = "入力必須項目が未入力です。";

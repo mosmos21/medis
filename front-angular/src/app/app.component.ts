@@ -5,6 +5,7 @@ import { NavigationService } from './services/navigation.service';
 import { AuthService } from './services/auth.service';
 import { ErrorService } from './services/error.service';
 import { SnackBarService } from './services/snack-bar.service';
+import { UploadFileService } from './services/upload-file.service'
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ export class AppComponent {
     private http: HttpClient,
     public authService: AuthService,
     private snackBarService: SnackBarService,
+    public upload: UploadFileService,
   ) {
     this.nav.hide();
     this.nav.showUserMenu();

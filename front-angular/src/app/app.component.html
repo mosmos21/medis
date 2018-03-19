@@ -10,7 +10,7 @@
 					</button>
 					<img id="logo" src="../assets/image/logo.png" (click)="nav.toTop()">
 					<button mat-button [matMenuTriggerFor]="menu">
-						<img [src]="'http://localhost:8080/v1/icon/me'" class="account_icon" />
+						<img [src]="authService.icon" class="account_icon" />
 						{{ authService.userdetail.lastName + authService.userdetail.firstName }}
 					</button>
 					<mat-menu #menu="matMenu">

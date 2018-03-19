@@ -13,8 +13,8 @@ import { AuthService } from '../services/auth.service'
 })
 export class EditIconComponent implements OnInit {
 
-  selectedFiles: FileList
-  currentFileUpload: File
+  selectedFiles: FileList;
+  currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 }
  
   constructor(
@@ -37,13 +37,11 @@ export class EditIconComponent implements OnInit {
   }
  
   upload() {
-    this.progress.percentage = 0;
- 
     this.currentFileUpload = this.selectedFiles.item(0);
     this.uploadService.pushFileToStorage(this.currentFileUpload, this.http);
  
     this.selectedFiles = undefined
-    this.dialogRef.close();
+    this.dialogRef.close(this.currentFileUpload);
   }
 
 }
