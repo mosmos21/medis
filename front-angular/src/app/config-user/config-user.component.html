@@ -78,10 +78,10 @@
 									</div>
 								</div>
 							</td>
-						-->
+							-->
 							<td *ngIf="!isIconInput">
 								<div class="icon_position">
-									<img src="../../assets/image/account_def.svg" class="account_icon" />
+									<img [src]="icon" class="account_icon" />
 								</div>
 								<div class="pen_position">
 									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editIsIcon()">

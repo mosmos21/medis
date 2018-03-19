@@ -15,16 +15,11 @@ export class UploadFileService {
   pushFileToStorage(file: File, http: HttpClient) {
     let formdata: FormData = new FormData();
     formdata.append('file', file);
-    http.post(this.hostname + "settings/me/icon", formdata, { withCredentials: true, headers: this.authService.headerMultipart(), responseType: 'text'}).subscribe(
+    http.post(this.hostname + "icon", formdata, { withCredentials: true, headers: this.authService.headerMultipart(), responseType: 'text' }).subscribe(
       id => {
       },
       error => {
       }
     );
   }
-
-  getFiles(): Observable<Object>{
-    return this.http.get('/getallfiles')
-  }
-
 }

@@ -23,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			// CSRFのチェックをしないURL
 			private AntPathRequestMatcher[] requestMatchers = {
 					new AntPathRequestMatcher("/v1/login/**"),
-					new AntPathRequestMatcher("/v1/accounts/**")
+					new AntPathRequestMatcher("/v1/accounts/**"),
+					new AntPathRequestMatcher("/v1/icon/**"),
 			};
 
 			@Override
@@ -39,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// ログインしなくてもアクセスできるURL
 		http.authorizeRequests()
-                .antMatchers("/v1/login", "/v1/accounts/**").permitAll().anyRequest().authenticated()
+                .antMatchers("/v1/login", "/v1/accounts/**, /v1/icon/**").permitAll().anyRequest().authenticated()
 				.and()
                 .csrf().requireCsrfProtectionMatcher(csrfRequestMatcher).csrfTokenRepository(this.csrfTokenRepository());
 	}

@@ -14,7 +14,7 @@ import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
 import { ErrorService } from '../services/error.service';
 import { SnackBarService } from '../services/snack-bar.service';
-import { ValidatorService } from '../services/validator.service'
+import { ValidatorService } from '../services/validator.service';
 
 @Component({
   selector: 'app-config-user',
@@ -24,6 +24,7 @@ import { ValidatorService } from '../services/validator.service'
 export class ConfigUserComponent implements OnInit {
 
   public errorMessage: string = '';
+  public icon: any;
 
   public settings: any = [
     {
@@ -79,6 +80,15 @@ export class ConfigUserComponent implements OnInit {
         this.errorService.errorPath(error.status)
       }
     );
+    this.icon = this.hostname + "icon/me";
+    /*
+    this.http.get(this.hostname + "icon", { withCredentials: true, headers: this.authService.headerMultipart(), responseType: 'text' }).subscribe(
+      data => {
+        console.log(data);
+        this.icon = btoa(unescape(encodeURIComponent(data)));
+      }
+    )
+    */
   }
 
   initialization() {
@@ -114,6 +124,10 @@ export class ConfigUserComponent implements OnInit {
     let dialogRef = this.dialog.open(EditIconComponent, {
       data: {}
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.icon = this.hostname + "icon/me";
+    })
   }
 
   submit() {

@@ -48,26 +48,26 @@ public class SettingLogic {
 		List<NotificationConfig> notifications = notificationConfigRepository
 				.findByEmployeeNumberAndTagIdNot(employeeNumber, COMMENT_NOTIFICATION_TAG);
 		return notifications.stream()
-                .map(NotificationConfig::getTagId)
-                .map(tagRepository::findOne)
-                .collect(Collectors.toList());
+				.map(NotificationConfig::getTagId)
+				.map(tagRepository::findOne)
+				.collect(Collectors.toList());
 	}
 
 	public List<NotificationsForm> getNotificationTag(String employeeNumber) {
 		List<NotificationConfig> notifications = notificationConfigRepository
 				.findByEmployeeNumberAndTagIdNot(employeeNumber, COMMENT_NOTIFICATION_TAG);
 		List<NotificationsForm> forms = new ArrayList<>();
-		for(NotificationConfig config: notifications) {
-            Tag tag= tagRepository.findOne(config.getTagId());
-            forms.add(new NotificationsForm(tag.getTagId(),tag.getTagName(),
-                    config.isMailNotification(), config.isBrowserNotification()));
-        }
+		for (NotificationConfig config : notifications) {
+			Tag tag = tagRepository.findOne(config.getTagId());
+			forms.add(new NotificationsForm(tag.getTagId(), tag.getTagName(),
+					config.isMailNotification(), config.isBrowserNotification()));
+		}
 		return forms;
 	}
 
 	public Map<String, Boolean> getNotificationComment(String employeeNumber) {
-		NotificationConfig config =  notificationConfigRepository
-                .findOne(new NotificationConfig.PK(employeeNumber, COMMENT_NOTIFICATION_TAG));
+		NotificationConfig config = notificationConfigRepository
+				.findOne(new NotificationConfig.PK(employeeNumber, COMMENT_NOTIFICATION_TAG));
 		Map<String, Boolean> setting = new HashMap<>();
 		setting.put("browserNotification", config.isBrowserNotification());
 		setting.put("mailNotification", config.isMailNotification());
@@ -82,21 +82,21 @@ public class SettingLogic {
 	public void updateMonitoringTag(String employeeNumber, List<Tag> tags) {
 		List<NotificationConfig> notification = new ArrayList<>();
 		notification.add(notificationConfigRepository
-                .findOne(new NotificationConfig.PK(employeeNumber, COMMENT_NOTIFICATION_TAG)));
-		for(Tag tag: tags) {
-            NotificationConfig config = notificationConfigRepository
-                    .findOne(new NotificationConfig.PK(employeeNumber, tag.getTagId()));
-            if (config == null) {
-            	NotificationConfig ref = new NotificationConfig();
-            	ref.setEmployeeNumber(employeeNumber);
-            	ref.setTagId(tag.getTagId());
-                ref.setMailNotification(true);
-                ref.setBrowserNotification(true);
-                notification.add(ref);
-            } else {
-            	notification.add(config);
-            }
-        }
+				.findOne(new NotificationConfig.PK(employeeNumber, COMMENT_NOTIFICATION_TAG)));
+		for (Tag tag : tags) {
+			NotificationConfig config = notificationConfigRepository
+					.findOne(new NotificationConfig.PK(employeeNumber, tag.getTagId()));
+			if (config == null) {
+				NotificationConfig ref = new NotificationConfig();
+				ref.setEmployeeNumber(employeeNumber);
+				ref.setTagId(tag.getTagId());
+				ref.setMailNotification(true);
+				ref.setBrowserNotification(true);
+				notification.add(ref);
+			} else {
+				notification.add(config);
+			}
+		}
 		List<NotificationConfig> del = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
 		notificationConfigRepository.delete(del);
 		for (NotificationConfig conf : notification) {
@@ -110,19 +110,18 @@ public class SettingLogic {
 		notificationConfigRepository.flush();
 	}
 
-
 	public void updateNotificationComment(String employeeNumber, Map<String, Boolean> map) {
-        NotificationConfig config =  notificationConfigRepository
-                .findOne(new NotificationConfig.PK(employeeNumber, COMMENT_NOTIFICATION_TAG));
+		NotificationConfig config = notificationConfigRepository
+				.findOne(new NotificationConfig.PK(employeeNumber, COMMENT_NOTIFICATION_TAG));
 		config.setBrowserNotification(map.get("browserNotification"));
 		config.setMailNotification(map.get("mailNotification"));
 		notificationConfigRepository.saveAndFlush(config);
 	}
 
 	public void createNotificationComment(String employeeNumber, Map<String, Boolean> map) {
-        NotificationConfig config =  new NotificationConfig();
-        config.setEmployeeNumber(employeeNumber);
-        config.setTagId(COMMENT_NOTIFICATION_TAG);
+		NotificationConfig config = new NotificationConfig();
+		config.setEmployeeNumber(employeeNumber);
+		config.setTagId(COMMENT_NOTIFICATION_TAG);
 		config.setBrowserNotification(map.get("browserNotification"));
 		config.setMailNotification(map.get("mailNotification"));
 		notificationConfigRepository.saveAndFlush(config);
@@ -130,6 +129,9 @@ public class SettingLogic {
 
 	public void store(String employeeNumber, MultipartFile file) {
 		try {
+			if (Files.exists(this.rootLocation.resolve(employeeNumber + ".png"))) {
+				Files.delete(this.rootLocation.resolve(employeeNumber + ".png"));
+			}
 			Files.copy(file.getInputStream(), this.rootLocation.resolve(employeeNumber + ".png"));
 		} catch (Exception e) {
 			throw new RuntimeException("FAIL!");
@@ -143,7 +145,7 @@ public class SettingLogic {
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
-				throw new RuntimeException("FAIL!");
+				return new UrlResource(Paths.get("resources/default.png").toUri());
 			}
 		} catch (MalformedURLException e) {
 			throw new RuntimeException("FAIL!");
