@@ -232,6 +232,7 @@ public class DocumentController {
     }
 
     /**
+     * 下書き文書を削除する
      *
      * @param documentId 削除する文書の文書ID
      * @throws NotExistException 文書IDが存在していない場合に発生する例外

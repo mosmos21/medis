@@ -152,7 +152,9 @@ public class DocumentLogic {
 		documentForm.setDocumentId(id);
 		documentItemRepository.deleteByDocumentId(documentForm.getDocumentId());
 		saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
-		saveUpdateInfo(id, TYPE_CREATE_DOCUMENT, employeeNumber);
+		if (updateInfoRepository.findByDocumentId(id) == null) {
+			saveUpdateInfo(id, TYPE_CREATE_DOCUMENT, employeeNumber);
+		}
 		return id;
 	}
 
