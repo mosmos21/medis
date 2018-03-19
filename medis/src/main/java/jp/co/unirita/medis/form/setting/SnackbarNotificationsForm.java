@@ -12,6 +12,8 @@ public class SnackbarNotificationsForm {
 
 	private String updateType;
 
+	private String updateId;
+
 	private String DocumentName;
 
 }
