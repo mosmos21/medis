@@ -1,8 +1,6 @@
 
 export class Block {
 
-  private defaultValue: string = '[Not Found]';
-
   public id: string;
   public blockId: string;
   public blockName: string;
@@ -15,14 +13,14 @@ export class Block {
 
   constructor(data?: Object) {
     if (data == null) return;
-    this.blockId = 'blockId' in data ? data['blockId'] : this.defaultValue;
-    this.blockName = 'blockName' in data ? data['blockName'] : this.defaultValue;
-    this.unique = 'unique' in data ? data['unique'] : false;
-    this.templateWrapType = 'templateWrapType' in data ? data['templateWrapType'] : this.defaultValue;
-    this.documentWrapType = 'documentWrapType' in data ? data['documentWrapType'] : this.defaultValue;
-    this.items = 'items' in data ? this.getItems(data['items']) : new Array(0);
-    this.additionalType = 'additionalType' in data ? data['additionalType'] : this.defaultValue;
-    this.addItems = 'addItems' in data ? this.getItems(data['addItems']) : new Array(0);
+    this.blockId = data['blockId'];
+    this.blockName = data['blockName'];
+    this.unique = data['unique'];
+    this.templateWrapType = data['templateWrapType'];
+    this.documentWrapType = data['documentWrapType'];
+    this.items = this.getItems(data['items']);
+    this.additionalType = data['additionalType'];
+    this.addItems = this.getItems(data['addItems']);
   }
 
   public clone(): Block {

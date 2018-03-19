@@ -1,4 +1,5 @@
 export class User {
+    
     public employeeNumber: string;
 	public authorityId: string;
     public enabled: boolean;

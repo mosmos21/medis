@@ -2,8 +2,6 @@ import { Block } from "./Block";
 
 export class Template {
 
-  private defaultValue: string = '[Not Found]';
-
   public templateId: string;
   public templateName: string;
   public publish: boolean;

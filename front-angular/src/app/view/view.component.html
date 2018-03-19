@@ -40,7 +40,9 @@
                                             <span>{{ document.values[idx][content.block.getDocumentValueIndex(i)] }}</span>
                                         </div>
                                         <div *ngSwitchCase="'checkbox'">
-                                            <mat-checkbox [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))">{{ content.values[content.block.getTemplateValueIndex(i)] }}</mat-checkbox>
+                                            <mat-checkbox [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))">
+                                                {{ content.values[content.block.getTemplateValueIndex(i)] }}
+                                            </mat-checkbox>
                                         </div>
                                         <div *ngSwitchCase="'radio'">
                                             <mat-radio-button value="i" [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" (click)="false">
@@ -49,26 +51,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <br/>
-                                <ul>
-                                    <div *ngFor="let item of content.items;let i = index;">
-                                        <div [ngSwitch]="item.documentType">
-                                            <div *ngSwitchCase="'span'">
-                                                <span>{{ documentValues[content.id][i-2] }}</span>
-                                            </div>
-                                            <div *ngSwitchCase="'text'">
-                                                <li>
-                                                    {{ documentValues[content.id][i-2] }}
-                                                </li>
-                                            </div>
-                                            <div *ngSwitchCase="'textarea'">
-                                                <span>{{ documentValues[content.id][i-2] }}</span>
-                                                <br/>
-                                                <br/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ul> -->
                                 <br/>
                             </div>
                         </div>
@@ -80,7 +62,7 @@
                 <h1>コメント</h1>
                 <hr/>
                 <div id="view_comment_list">
-                    <div *ngFor="let comment of comments" class="view_comment_content">
+                    <div *ngFor="let comment of comments; let idx = index" class="view_comment_content">
                         <div class="user_icon">
                             <img [src]="comment.isIcon ? 'image/' + comment.employeeNumber + '.jpg' : '../../assets/image/user.svg'">
                         </div>
@@ -93,7 +75,7 @@
                                         <button mat-icon-button disabled></button>
                                     </div>
                                     <div *ngSwitchCase="'unreadMe'">
-                                        <button mat-mini-fab color="primary" *ngIf="comment.show" (click)="readComment(comment.commentId)">既読</button>
+                                        <button mat-mini-fab color="primary" (click)="readComment(idx)">既読</button>
                                     </div>
                                     <div *ngSwitchCase="'read'">
                                         <button mat-icon-button disabled>既読</button>
@@ -101,7 +83,7 @@
                                 </div>
                             </div>
                             <div class="comment_text">
-                                <span>{{comment.commentContent}}</span>
+                                <span>{{comment.content}}</span>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,5 @@
 export class Document {
 
-  private defaultValue: string = '[Not Found]';
-
   public documentId: string;
   public documentName: string;
   public templateId: string;
