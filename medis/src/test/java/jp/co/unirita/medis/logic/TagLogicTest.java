@@ -56,7 +56,7 @@ public class TagLogicTest {
     }
 
     @Test
-    public void 新規システムタグID取得_タグ数0の場合() throws IdIssuanceUpperException {
+    public void 新規タグID取得_タグ数0の場合() throws IdIssuanceUpperException {
     	tagRepository.deleteAll();
         String tagId = tagLogic.getNewTagId();
         assertEquals("タグ一覧の取得（タグ数0の場合）が正しく動作していません", "n0000000000", tagId);
@@ -68,7 +68,14 @@ public class TagLogicTest {
         String tagId = tagLogic.getNewSystemTagId();
         assertEquals("新規システムタグIDの取得（成功時）が正しく動作していません", "s0000000000", tagId);
     }
+/*
+    @Test
+    public void 新規システムタグID取得_フォーマット() throws IdIssuanceUpperException {
 
+        String tagId = tagLogic.getNewSystemTagId();
+        assertEquals("新規システムタグIDの取得（フォーマット）が正しく動作していません", "s%010d", tagId);
+    }
+*/
     @Test
     public void 新規システムタグID取得_タグ発行数限界の場合() {
     	Tag tag = new Tag();
@@ -85,7 +92,7 @@ public class TagLogicTest {
     }
 
     @Test
-    public void 新規タグID取得_タグ数0の場合() throws IdIssuanceUpperException {
+    public void 新規システムタグID取得_タグ数0の場合() throws IdIssuanceUpperException {
     	tagRepository.deleteAll();
         String tagId = tagLogic.getNewSystemTagId();
         assertEquals("新規システムタグ一覧の取得（タグ数0の場合）が正しく動作していません", "s0000000000", tagId);
