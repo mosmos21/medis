@@ -7,16 +7,16 @@
 				<mat-form-field>
 					<input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord" (keyup)="searchService.searchTag()">
 				</mat-form-field>
-				<div id="selected_tags" *ngFor="let stag of searchService.selectedTags">
-					<div class="tag_base tag_middle" (click)="searchService.deleteTagsToResult($event)">{{stag.tagName}}</div>
+				<div id="selected_tags" *ngFor="let stag of searchService.selectedTags; let idx = index">
+					<div class="tag_base tag_middle" (click)="searchService.deleteTagsToResult($event,idx)">{{stag.tagName}}</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="wrap_search_content">
 			<div id="search_tag_candidate" class="content_scroll_y">
-				<div *ngFor="let tag of searchService.targetTags">
-					<div class="tag_base tag_middle" (click)="searchService.addTagsToResult($event,5)">{{tag.tagName}}</div>
+				<div *ngFor="let tag of searchService.targetTags; let idx = index">
+					<div class="tag_base tag_middle" (click)="searchService.addTagsToResult($event,idx)">{{tag.tagName}}</div>
 				</div>
 			</div>
 		</div>

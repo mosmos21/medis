@@ -19,12 +19,12 @@
 							<input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord" (keyup)="searchService.searchTag()">
 						</mat-form-field>
 						<br>
-						<div class="tag_base tag_middle surveillance_tag" *ngFor="let stag of searchService.selectedTags" (click)="searchService.deleteTags($event)">{{stag.tagName}}</div>
+						<div class="tag_base tag_middle surveillance_tag" *ngFor="let stag of searchService.selectedTags; let idx = index" (click)="searchService.deleteTags($event,idx)">{{stag.tagName}}</div>
 					</div>
 				</div>
 				<div class="wrap_surveillance_content">
 					<div id="surveillance_tag_candidate" class="content_scroll_y">
-						<div class="tag_base tag_middle surveillance_tag" *ngFor="let tag of searchService.targetTags" (click)="searchService.addTags($event,256)">{{tag.tagName}}</div>
+						<div class="tag_base tag_middle surveillance_tag" *ngFor="let tag of searchService.targetTags; let idx = index" (click)="searchService.addTags($event,256,idx)">{{tag.tagName}}</div>
 					</div>
 				</div>
 			</div>

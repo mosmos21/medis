@@ -161,15 +161,16 @@ export class EditDocumentComponent implements OnInit {
   }
 
   getTemplateTags(templateId: string): void {
-    // console.log(templateId);
     this.http.get(this.hostname + 'templates/' + templateId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.fixedTags = JSON.parse(JSON.stringify(json));
-        var i = this.fixedTags.length;
+        Array.prototype.push.apply(this.searchService.selectedTags, this.fixedTags);
+        var i = this.searchService.selectedTags.length;
+        var j = this.searchService.targetTags.length;
         while (i--) {
           var j = this.searchService.targetTags.length;
           while (j--) {
-            if (this.fixedTags[i].tagId == this.searchService.targetTags[j].tagId) {
+            if (this.searchService.selectedTags[i].tagId == this.searchService.targetTags[j].tagId) {
               this.searchService.targetTags.splice(j, 1);
               this.searchService.tempTags.splice(j, 1);
               break;

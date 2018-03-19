@@ -16,12 +16,12 @@
                             <div *ngFor="let t of fixedTags">
                                 <div class="tag_base tag_middle tag_side">{{ t.tagName }}</div>
                             </div>
-                            <div *ngFor="let t of searchService.selectedTags">
-                                <div class="tag_base tag_middle tag_side tag_erasable" (click)="searchService.deleteTags($event)">{{ t.tagName }}
+                            <div *ngFor="let t of searchService.selectedTags; let idx = index">
+                                <div class="tag_base tag_middle tag_side tag_erasable" (click)="searchService.deleteTags($event,idx)">{{ t.tagName }}
                                 </div>
                             </div>
-                            <div *ngFor="let t of searchService.newTags">
-                                <div class="tag_base tag_new tag_side tag_erasable" (click)="searchService.deleteNewTags($event)">{{ t.tagName }}</div>
+                            <div *ngFor="let t of searchService.newTags; let idx = index">
+                                <div class="tag_base tag_new tag_side tag_erasable" (click)="searchService.deleteNewTags(idx)">{{ t.tagName }}</div>
                             </div>
                         </div>
                     </div>
@@ -89,8 +89,8 @@
                                     <nav *ngIf="searchService.createNewTag() != ''">
                                         <div class="tag_base tag_new" (click)="searchService.addNewTags($event)">{{searchService.newTagName}}</div>
                                     </nav>
-                                    <div *ngFor="let tag of searchService.targetTags">
-                                        <div class="tag_base tag_middle" (click)="searchService.addTags($event,4)">{{tag.tagName}}</div>
+                                    <div *ngFor="let tag of searchService.targetTags; let idx = index">
+                                        <div class="tag_base tag_middle" (click)="searchService.addTags($event,4,idx)">{{tag.tagName}}</div>
                                     </div>
                                 </div>
                             </div>
