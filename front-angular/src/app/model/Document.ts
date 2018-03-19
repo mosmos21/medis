@@ -12,12 +12,13 @@ export class Document {
   constructor() { }
 
   public setDocumentInfo(data: Object): void {
-    this.templateId = data["templateId"];
-    this.documentName = data["documentName"];
-    this.employeeNumber = data["employeeNumber"];
-    this.documentCreateDate = data["documentCreateDate"];
-    this.authorName = data["name"];
-    this.isFav = data["selected"];
+    this.documentId = data['documentId'];
+    this.templateId = data['templateId'];
+    this.documentName = data['documentName'];
+    this.employeeNumber = data['employeeNumber'];
+    this.documentCreateDate = data['documentCreateDate'];
+    this.authorName = data['name'];
+    this.isFav = data['selected'];
   }
 
   initDocumentValues(size: number): void {

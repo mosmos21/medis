@@ -6,7 +6,7 @@
             </div>
             <div id="edit_template_body" class="content_scroll_y">
                 <mat-form-field id="template_title">
-                    <input matInput [(ngModel)]="templateName" name="templateName" placeholder="テンプレート名">
+                    <input matInput [(ngModel)]="template.templateName" name="templateName" placeholder="テンプレート名">
                 </mat-form-field>
                 <div id="template_plate">
                     <div id="wrap_tag_list">
@@ -23,42 +23,42 @@
                     </div>
                     <div id="template_content_list" [dragula]='"template-contents"' [dragulaModel]='contents'>
                         <!-- コンテンツ -->
-                        <div class="template_content" *ngFor="let content of contents;trackBy:trackByIndex;" [id]="content.id">
+                        <div class="template_content" *ngFor="let content of template.contents;trackBy:trackByIndex;let idx = index;" [id]="content.id">
                             <div class="template_block_body">
-                                <div *ngIf="!content.isUnique" class="content_remove" (click)="clickRemoveBlock($event)">X</div>
+                                <div *ngIf="!content.isUnique" class="content_remove" (click)="removeBlock(idx)">X</div>
                                 <div class="block_header">
-                                    <h4>{{ content.blockName }}</h4>
+                                    <h4>{{ content.block.blockName }}</h4>
                                     <mat-form-field id="block_title">
-                                        <input matInput [(ngModel)]="values[content.id][0]" placeholder="タイトル">
+                                        <input matInput [(ngModel)]="content.values[0]" placeholder="タイトル">
                                     </mat-form-field>
                                 </div>
                                 <div class="block_body">
-                                    <div *ngFor="let item of content.items;let i = index;">
+                                    <div *ngFor="let item of content.block.items;let i = index;">
                                         <div [ngSwitch]="item.templateType">
                                             <div *ngSwitchCase="'span'">
                                                 <span>{{ item.value }}</span>
                                             </div>
                                             <div *ngSwitchCase="'text'">
                                                 <mat-form-field class="block_body_content_half">
-                                                    <input matInput [(ngModel)]="values[content.id][i]" placeholder="{{ item.value }}">
+                                                    <input matInput [(ngModel)]="content.values[content.block.getTemplateValueIndex(i)]" placeholder="{{ item.value }}">
                                                 </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'textarea'">
                                                 <mat-form-field class="block_body_content_full">
-                                                    <textarea matInput rows="3" [(ngModel)]="values[content.id][i]">{{ item.value }}</textarea>
+                                                    <textarea matInput rows="3" [(ngModel)]="content.values[content.block.getTemplateValueIndex(i)]">{{ item.value }}</textarea>
                                                 </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'checkbox'">
-                                                <mat-checkbox class="block_body_content_half" disabled>
+                                                <mat-checkbox class="block_body_content_half" (click)="false">
                                                     <mat-form-field>
-                                                        <input matInput placeholder="{{ item.value }}" [(ngModel)]="values[content.id][i]">
+                                                        <input matInput placeholder="{{ item.value }}" [(ngModel)]="content.values[content.block.getTemplateValueIndex(i)]">
                                                     </mat-form-field>
                                                 </mat-checkbox>
                                             </div>
                                             <div *ngSwitchCase="'radio'">
-                                                <mat-radio-button value="i" class="block_body_content_half" disabled>
+                                                <mat-radio-button value="i" class="block_body_content_half" (click)="false">
                                                     <mat-form-field>
-                                                        <input matInput placeholder="{{ item.value }}" [(ngModel)]="values[content.id][i]">
+                                                        <input matInput placeholder="{{ item.value }}" [(ngModel)]="content.values[content.block.getTemplateValueIndex(i)]">
                                                     </mat-form-field>
                                                 </mat-radio-button>
                                             </div>
@@ -77,9 +77,9 @@
                                             <!-- 記入者入力欄 -->
                                         </div>
                                     </div>
-                                    <div *ngIf="content.additionalType == 'template'" class="block_item">
-                                        <button mat-raised-button color="primary" (click)="addItem(content.id)">要素追加</button>
-                                        <button mat-raised-button (click)="removeItem(content.id)">要素削除</button>
+                                    <div *ngIf="content.block.additionalType == 'template'" class="block_item">
+                                        <button mat-raised-button color="primary" (click)="addItem(idx)">要素追加</button>
+                                        <button mat-raised-button (click)="removeItem(idx)">要素削除</button>
                                     </div>
                                 </div>
                             </div>
@@ -95,8 +95,8 @@
                     <mat-tab label="ブロック" id="tag_label">
                         <div id="template_block_list" class="content_scroll_y" [dragula]='"template-block"'>
                             <!-- テンプレートリスト -->
-                            <div *ngFor="let block of blocks">
-                                <div id="{{ block.blockId }}" class="template_block_info">{{ block.blockName }}</div>
+                            <div *ngFor="let block of blockList">
+                                <div id="{{ block[0] }}" class="template_block_info">{{ block[1] }}</div>
                             </div>
                             <!-- テンプレートリスト -->
                         </div>

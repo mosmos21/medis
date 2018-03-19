@@ -1,17 +1,18 @@
-import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, Inject } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../services/http.service';
 import { AuthService } from '../services/auth.service';
-import { ConvertDateService } from '../services/convert-date.service';
 import { ErrorService } from '../services/error.service';
-import { Observable } from 'rxjs/Observable';
+import { ConvertDateService } from '../services/convert-date.service';
 import 'rxjs/add/operator/map';
 
 import { Block } from '../model/Block';
+import { Comment } from '../model/Comment';
 import { Template } from '../model/Template';
 import { Document } from '../model/Document';
-import { Comment } from '../model/Comment';
+import { TypeConversionService } from '../services/type-conversion.service';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class ViewComponent implements OnInit {
   public tags: string[] = new Array();
   public comments: Comment[] = new Array();
   public commentStr: string;
-  private blocks: { [key: string]: Block } = {};
+  private blocks: Map<string, Block> = new Map();
 
   constructor(
     public convert: ConvertDateService,
@@ -35,6 +36,7 @@ export class ViewComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private errorService: ErrorService,
+    private convertService: TypeConversionService,
   ) {
     this.authService.getUserDetail();
   }
@@ -46,34 +48,35 @@ export class ViewComponent implements OnInit {
   }
 
   load(): void {
-    this.http.get('templates/blocks').subscribe(res => {
-      this.setTemplateBlocks(res);
+    this.http.getWithPromise('templates/blocks').then(res => {
+      this.blocks = this.convertService.makeTemplateBlockMap(this.convertService.makeTemplateBlockList(res));
+      console.log(this.blocks);
+      return this.http.getWithPromise('documents/' + this.document.documentId);
     }, error => {
       this.errorService.errorPath(error.status);
-    });
-
-    this.http.getWithPromise('documents/' + this.document.documentId).then(res => {
-      this.setDocument(res);
+    }).then(res => {
+      this.document = this.convertService.makeDocument(res);
+      console.log(this.document.documentId);
       return this.http.getWithPromise('templates/' + this.document.templateId);
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(res => {
-      this.setTemplate(res);
+      this.template = this.convertService.makeTemplate(res, this.blocks, this.document.values.map(ary => ary.length));
       return this.http.getWithPromise('templates/' + this.document.templateId + '/tags');
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(res => {
-      this.setTemplateTags(res);
+      this.tags = this.tags.concat(this.convertService.makeTagNameList(res));
       return this.http.getWithPromise('documents/' + this.document.documentId + '/tags');
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(res => {
-      this.setDocumentTags(res);
+      this.tags = this.tags.concat(this.convertService.makeTagNameList(res));
       return this.http.getWithPromise('documents/' + this.document.documentId + '/tags/system');
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(res => {
-      this.setDocumentSystemTags(res);
+      this.tags = this.tags.concat(this.convertService.makeTagNameList(res));
     }, error => {
       this.errorService.errorPath(error.status);
     });
@@ -87,9 +90,7 @@ export class ViewComponent implements OnInit {
           comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
           this.comments.push(comment);
         }
-        console.log(this.comments);
-      },
-      error => {
+      }, error => {
         this.errorService.errorPath(error.status);
       }
     )
@@ -103,57 +104,17 @@ export class ViewComponent implements OnInit {
     this.router.navigate(['/edit/' + this.document.documentId]);
   }
 
-  setTemplateBlocks(blocks: Object): void {
-    for (let idx in blocks) {
-      let block = new Block(blocks[idx]);
-      this.blocks[block.blockId] = block;
-    }
-  }
-
-  setTemplate(data: Object): void {
-    this.template.setTemplateInfo(data);
-    let sizeList = this.document.values.map(ary => ary.length);
-    this.template.setContents(data['contents'], this.blocks, sizeList);
-  }
-
-  setDocument(data: Object): void {
-    this.document.setDocumentInfo(data);
-    this.document.setValues(data['contents']);
-  }
-
-  setTemplateTags(tags: Object): void {
-    for (let t of JSON.parse(JSON.stringify(tags))) {
-      this.tags.push(t.tagName);
-    }
-  }
-
-  setDocumentTags(tags: Object): void {
-    for (let t of JSON.parse(JSON.stringify(tags))) {
-      this.tags.push(t.tagName);
-    }
-  }
-
-  setDocumentSystemTags(tags: Object): void {
-    for (let t of JSON.parse(JSON.stringify(tags))) {
-      this.tags.push(t.tagName);
-    }
-  }
-
   isChecked(contentIdx: number, valueIdx: number): boolean {
     return this.document.values[contentIdx][valueIdx] == 'true';
   }
 
   submit(): void {
-    var postComment = {
-      value: this.commentStr
-    }
-    this.http.put('documents/' + this.document.documentId + '/comments/create', postComment).subscribe(
+    this.http.put('documents/' + this.document.documentId + '/comments/create', { value: this.commentStr }).subscribe(
       res => {
         const comment = new Comment(res);
         comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
         this.comments.push(comment);
-      },
-      error => {
+      }, error => {
         this.errorService.errorPath(error.status);
       }
     );
@@ -162,9 +123,8 @@ export class ViewComponent implements OnInit {
 
   favorite() {
     this.http.post('documents/bookmark/' + this.document.documentId, { selected: this.document.isFav }).subscribe(
-      syccess => {
-      },
-      error => {
+      success => {
+      }, error => {
         this.errorService.errorPath(error.status);
       }
     )
@@ -174,8 +134,7 @@ export class ViewComponent implements OnInit {
     this.http.post('documents/' + this.document.documentId + '/comments/' + this.comments[idx].commentId + '/read', {}).subscribe(
       success => {
         this.comments[idx].updateToRead();
-      },
-      error => {
+      }, error => {
         this.errorService.errorPath(error.status);
       }
     )

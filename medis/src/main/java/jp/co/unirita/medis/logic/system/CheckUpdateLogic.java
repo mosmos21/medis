@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import jp.co.unirita.medis.domain.comment.Comment;
 import jp.co.unirita.medis.domain.comment.CommentRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
@@ -48,13 +50,15 @@ public class CheckUpdateLogic {
 		for (UpdateInfo add : newUpdateId) {
 			List<SnackbarNotificationsForm> snackbarNotificationsForm = new ArrayList<>();
 			if (add.getUpdateType().equals("v0000000000")) {
-				snackbarNotificationsForm = documentContributionNotificationSnackbar(employeeNumber, add.getUpdateId(),"v0000000000");
+				snackbarNotificationsForm = tagNotificationSnackbar(employeeNumber, add.getUpdateId(), "v0000000000");
 			} else if (add.getUpdateType().equals("v0000000001")) {
-				snackbarNotificationsForm = documentContributionNotificationSnackbar(employeeNumber, add.getUpdateId(),"v0000000001");
+				snackbarNotificationsForm = tagNotificationSnackbar(employeeNumber, add.getUpdateId(), "v0000000001");
 			} else if (add.getUpdateType().equals("v0000000002")) {
-				snackbarNotificationsForm = documentContributionNotificationSnackbar(employeeNumber, add.getUpdateId(),"v0000000002");
+				snackbarNotificationsForm = commentNotificationSnackbar(employeeNumber, add.getUpdateId(),
+						"v0000000002");
 			} else {
-				snackbarNotificationsForm = documentContributionNotificationSnackbar(employeeNumber, add.getUpdateId(),"v0000000003");
+				snackbarNotificationsForm = commentReadNotificationSnackbar(employeeNumber, add.getUpdateId(),
+						"v0000000003");
 			}
 			result.addAll(snackbarNotificationsForm);
 		}
@@ -65,25 +69,55 @@ public class CheckUpdateLogic {
 	}
 
 	/**
-	 * Snackbarを表示するためのロジック
+	 * コメント既読の通知Snackbarを表示するためのロジック
 	 *
-	 * @param employeeNumber ログインユーザの社員番号
-	 * @param updateId ログインユーザがもつ最新のupdateId
+	 * @param employeeNumber
+	 *            ログインユーザの社員番号
+	 * @param updateId
+	 *            ログインユーザがもつ最新のupdateId
+	 */
+	private List<SnackbarNotificationsForm> commentReadNotificationSnackbar(String employeeNumber, String updateId,
+			String updateType) {
+		List<SnackbarNotificationsForm> commentReadResult = new ArrayList<>();
+		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
+		List<Comment> commentList = commentRepository.findByDocumentIdAndEmployeeNumber(documentId, employeeNumber);
+		for (Comment add : commentList) {
+			if (add.isRead()) {
+				SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm();
+				snackbarNotificationsForm.setDocumentId(add.getDocumentId());
+				snackbarNotificationsForm.setUpdateType(updateType);
+				snackbarNotificationsForm
+						.setDocumentName(documentInfoRepository.findOne(add.getDocumentId()).getDocumentName());
+				snackbarNotificationsForm.setUpdateId(
+						updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId")).get(0).getUpdateId());
+				commentReadResult.add(snackbarNotificationsForm);
+
+			}
+
+		}
+		return commentReadResult;
+	}
+
+	/**
+	 * タグに関するSnackbarを表示するためのロジック
+	 *
+	 * @param employeeNumber
+	 *            ログインユーザの社員番号
+	 * @param updateId
+	 *            ログインユーザがもつ最新のupdateId
 	 */
 
-	public List<SnackbarNotificationsForm> documentContributionNotificationSnackbar(String employeeNumber,
-			String updateId, String updateType) {
-		List<SnackbarNotificationsForm> result = new ArrayList<>();
+	public List<SnackbarNotificationsForm> tagNotificationSnackbar(String employeeNumber, String updateId,
+			String updateType) {
+		List<SnackbarNotificationsForm> tagResult = new ArrayList<>();
 
-		System.out.println(updateId);
 		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
 		DocumentInfo documentIdInfo = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
 
 		if (!(documentIdInfo == null)) {
 
 			// ドキュメントについたタグ一覧
-			List<DocumentTag> documentTagList = documentTagRepository
-					.findByDocumentId(documentIdInfo.getDocumentId());
+			List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(documentIdInfo.getDocumentId());
 
 			// ユーザの監視タグ一覧
 			List<String> userNotificationTagList = notificationConfigRepository.findByEmployeeNumber(employeeNumber)
@@ -96,13 +130,43 @@ public class CheckUpdateLogic {
 					snackbarNotificationsForm.setUpdateType(updateType);
 					snackbarNotificationsForm
 							.setDocumentName(documentInfoRepository.findOne(add.getDocumentId()).getDocumentName());
-
-					result.add(snackbarNotificationsForm);
+					snackbarNotificationsForm.setUpdateId(updateInfoRepository
+							.findAll(new Sort(Sort.Direction.DESC, "updateId")).get(0).getUpdateId());
+					tagResult.add(snackbarNotificationsForm);
 				}
 			}
 		}
-		return result;
+		return tagResult;
 
+	}
+
+	/**
+	 * コメント通知のSnackbarを表示するためのロジック
+	 *
+	 * @param employeeNumber
+	 *            ログインユーザの社員番号
+	 * @param updateId
+	 *            ログインユーザがもつ最新のupdateId
+	 */
+
+	public List<SnackbarNotificationsForm> commentNotificationSnackbar(String employeeNumber, String updateId,
+			String updateType) {
+		List<SnackbarNotificationsForm> commentResult = new ArrayList<>();
+		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
+		String authorEmployeeNumber = documentInfoRepository.findOne(documentId).getEmployeeNumber();
+
+		if (employeeNumber.equals(authorEmployeeNumber)) {
+			SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm();
+			snackbarNotificationsForm.setDocumentId(documentId);
+			snackbarNotificationsForm.setUpdateType(updateType);
+			snackbarNotificationsForm.setDocumentName(documentInfoRepository.findOne(documentId).getDocumentName());
+			snackbarNotificationsForm.setUpdateId(
+					updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId")).get(0).getUpdateId());
+
+			commentResult.add(snackbarNotificationsForm);
+
+		}
+		return commentResult;
 	}
 
 }

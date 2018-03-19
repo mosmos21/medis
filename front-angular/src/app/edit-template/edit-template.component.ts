@@ -1,15 +1,21 @@
+import { Location } from '@angular/common';
+import { MatDialog } from '@angular/material';
 import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, NavigationStart, RouterEvent } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DragulaService } from 'ng2-dragula';
-import { MatDialog } from '@angular/material';
-import { NavigationService } from '../services/navigation.service';
-import { ValidatorService } from '../services/validator.service';
-import { AuthService } from '../services/auth.service';
-import { SearchService } from '../services/search.service';
-import { Location } from '@angular/common';
+
 import { MessageModalComponent } from '../message-modal/message-modal.component'
+
+import { AuthService } from '../services/auth.service';
+import { HttpService } from '../services/http.service';
 import { ErrorService } from '../services/error.service';
+import { SearchService } from '../services/search.service';
+import { DragulaService } from 'ng2-dragula';
+import { ValidatorService } from '../services/validator.service';
+import { NavigationService } from '../services/navigation.service';
+import { TypeConversionService } from '../services/type-conversion.service';
+
+import { Block } from '../model/Block';
+import { Template } from '../model/Template';
 
 @Component({
   selector: 'app-edit-template',
@@ -18,32 +24,24 @@ import { ErrorService } from '../services/error.service';
 })
 export class EditTemplateComponent implements OnInit {
 
-  public blocks: any;
-  private contentBases: { [key: string]: any } = {};
-
-  private templateId: string = "";
-  public templateName: string = "";
-  public contents: any[] = [];
-  public values: { [key: string]: string[] } = {};
-
-  private showBlocks: boolean;
-  private showTags: boolean;
-
-  private message = "";
+  public blocks: Map<string, Block> = new Map<string, Block>();
+  public blockList: [string, string][] = new Array();
+  public template: Template = new Template();
+  private message = '';
 
   constructor(
-    @Inject('hostname') private hostname: string,
-    private http: HttpClient,
-    private router: Router,
-    private route: ActivatedRoute,
-    private dragulaService: DragulaService,
     public dialog: MatDialog,
-    private authService: AuthService,
-    private nav: NavigationService,
-    private valid: ValidatorService,
     public searchService: SearchService,
-    private errorService: ErrorService,
+    private nav: NavigationService,
+    private http: HttpService,
+    private route: ActivatedRoute,
+    private valid: ValidatorService,
+    private router: Router,
     private location: Location,
+    private authService: AuthService,
+    private errorService: ErrorService,
+    private dragulaService: DragulaService,
+    private convertService: TypeConversionService,
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
@@ -54,16 +52,16 @@ export class EditTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dragulaService.setOptions("template-block", {
+    this.dragulaService.setOptions('template-block', {
       copy: function (el: any, source: any) {
-        return source.id === "template_block_list";
+        return source.id === 'template_block_list';
       },
       accepts: function (el: any, source: any) {
-        return source.id !== "template_block_list";
+        return source.id !== 'template_block_list';
       }
     });
 
-    this.dragulaService.drop.subscribe((value) => {
+    this.dragulaService.drop.subscribe(value => {
       let [e, el] = value.slice(1);
       let id = e.childNodes[1].id;
       if (id != '') {
@@ -71,231 +69,106 @@ export class EditTemplateComponent implements OnInit {
         this.addBlock(id);
       }
     });
-
-    this.templateId = this.route.snapshot.paramMap.get('id');
-
-    this.http.get(this.hostname + 'templates/blocks', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.blocks = json;
-
-        for (var b of this.blocks) {
-          if (b.additionalType != null) {
-            for (let add of b.addItems) {
-              b.items.push(add);
-            }
-          }
-          this.contentBases[b.blockId] = b;
-        }
-
-        if (this.templateId != 'new') {
-          this.assembleTemplate();
-        }
-      },
-      error => {
-        this.errorService.errorPath(error.status)
-      }
-    );
-
-    this.searchService.getTags();
+    this.load();
   }
 
-  assembleTemplate(): void {
-    var data;
-    this.http.get(this.hostname + 'templates/' + this.templateId, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        data = json;
-        this.templateName = data.templateName;
-        for (let con of data.contents) {
-          var id = this.addBlock(con.blockId);
-          for (var i = 0; i < con.items.length - this.contentBases[con.blockId].items.length; i++) {
-            this.addItem(id);
-          }
-          this.values[id] = new Array();
-          for (let i of con.items) {
-            this.values[id].push(i);
-          }
-        }
-        this.getTemplateTags(this.templateId);
-      },
-      error => {
-        this.errorService.errorPath(error.status)
+  load(): void {
+    this.template.templateId = this.route.snapshot.paramMap.get('id');
+    this.http.getWithPromise('templates/blocks').then(res => {
+      this.blocks = this.convertService.makeTemplateBlockMap(this.convertService.makeTemplateBlockList(res));
+      for (let id in this.blocks) {
+        this.blockList.push([id, this.blocks[id].blockName]);
       }
-    );
-  }
-
-  getTemplateTags(templateId: string): void {
-    this.http.get(this.hostname + 'templates/' + this.templateId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.searchService.selectedTags = JSON.parse(JSON.stringify(json));
-
-        for (let i = 0; i < this.searchService.selectedTags.length; i++) {
-          for (let j = 0; j < this.searchService.targetTags.length; j++) {
-            if (this.searchService.selectedTags[i].tagId == this.searchService.targetTags[j].tagId) {
-              this.searchService.targetTags.splice(j, 1);
-              this.searchService.tempTags.splice(j, 1);
-              break;
-            }
-          }
-        }
-      },
-      error => {
-
+    }, error => {
+      this.errorService.errorPath(error.status);
+    }).then(() => {
+      if (this.template.templateId != 'new') {
+        this.http.getWithPromise('templates/' + this.template.templateId).then(res => {
+          this.template = this.convertService.makeTemplate(res, this.blocks);
+          this.template.contents
+              .filter(content => content.block.additionalType == 'document')
+              .forEach(content=> content.block.addItem());
+          return this.http.getWithPromise('templates/' + this.template.templateId + '/tags');
+        }, error => {
+          this.errorService.errorPath(error.status);
+        }).then(res => {
+          this.searchService.selectedTags = JSON.parse(JSON.stringify(res));
+        }, error => {
+          this.errorService.errorPath(error.status);
+        })
       }
-    );
+    });
   }
 
   trackByIndex(index: number, value: number) {
     return index;
   }
 
-  clickRemoveBlock(e: any): void {
-    this.removeBlock(e.path[2].id);
+  addBlock(blockId: string): void {
+    this.template.addContent(this.blocks[blockId].clone());
   }
 
-  clickAddItem(e: any): void {
-    this.addItem(e.path[4].id);
+  removeBlock(idx: number): void {
+    this.template.contents.splice(idx, 1);
   }
 
-  clickRemoveItem(e: any): void {
-    this.removeItem(e.path[4].id);
+  addItem(idx: number): void {
+    this.template.contents[idx].block.addItem();
   }
 
-  addBlock(id: string): string {
-    let c = JSON.parse(JSON.stringify(this.contentBases[id]));
-    let newid = 'comp-' + Math.floor(Math.random() * 1000000);
-    c.id = newid;
-    this.contents.push(c);
-    this.values[newid] = new Array();
-    return newid;
-  }
-
-  removeBlock(target: string): void {
-    for (let idx in this.contents) {
-      if (this.contents[idx].id == target) {
-        this.contents.splice(+idx, 1);
-      }
-    }
-  }
-
-  addItem(target: string): void {
-    console.log(target)
-    for (let content of this.contents) {
-      if (content.id == target) {
-        let items = this.contentBases[content.blockId].addItems;
-        for (let add of items) {
-          content.items.push(add);
-        }
-      }
-    }
-  }
-
-  removeItem(target: string): void {
-    for (let content of this.contents) {
-      if (content.id == target) {
-        let len = content.items.length;
-        let min = this.contentBases[content.blockId].items.length;
-        let size = this.contentBases[content.blockId].addItems.length;
-        if (len > min) {
-          for (let i = 0; i < size; i++) {
-            content.items.pop();
-            this.values[target].pop();
-          }
-        }
-      }
-    }
-  }
-
-  data2Json(type: string): any {
-    var data = {
-      publish: type == "save",
-      templateName: this.templateName
-    }
-    if (this.templateId != "new") {
-      data["templateId"] = this.templateId;
-    }
-
-    var contents: any[] = [];
-    for (let i = 0; i < this.contents.length; i++) {
-      var content = {
-        contentOrder: i + 1,
-        blockId: this.contents[i].blockId
-      };
-      var items: string[] = [];
-      for (let s of this.values[this.contents[i].id]) {
-        items.push(s);
-      }
-      content["items"] = items;
-      contents.push(content);
-    }
-    data["contents"] = contents;
-    //console.log(data);
-    return data;
+  removeItem(idx: number): void {
+    this.template.contents[idx].block.removeItem();
   }
 
   submit(type): void {
-    let dataJson = this.data2Json(type);
-    let tempName = [this.templateName];
-    if (this.valid.empty(this.templateName)) {
-      this.message = "テンプレート名を入力してください。"
-      let dialogRef = this.dialog.open(MessageModalComponent, {
-        data: {
-          message: this.message
-        }
-      });
-    } else {
-      if (type == "save") {
-        this.message = "テンプレートを保存し、公開しました。"
-      } else {
-        this.message = "テンプレートを下書きとして保存しました。"
-      }
-
-      if (this.templateId == 'new') {
-        this.http.put(this.hostname + "templates/new", dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
-          id => {
-            this.submitTags(id);
-          },
-          error => {
-            this.errorService.errorPath(error.status)
-          }
-        );
-      } else {
-        this.http.post(this.hostname + "templates/" + this.templateId, dataJson, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
-          id => {
-            this.submitTags(id);
-          },
-          error => {
-            this.errorService.errorPath(error.status)
-          }
-        );
-      }
-
-      let dialogRef = this.dialog.open(MessageModalComponent, {
-        data: {
-          message: this.message
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        this.router.navigate(['admin/template']);
-      });
+    if (this.valid.empty(this.template.templateName)) {
+      this.message = 'テンプレート名を入力してください。'
+      let dialogRef = this.dialog.open(MessageModalComponent, { data: { message: this.message } });
+      return;
     }
-  }
+    let json = this.template.toJson(type);
+    if (type == 'save') {
+      this.message = 'テンプレートを保存し、公開しました。';
+    } else {
+      this.message = 'テンプレートを下書きとして保存しました。';
+    }
 
-  goBack() {
-    this.location.back();
+    if (this.template.templateId == 'new') {
+      this.http.put('templates/new', json).subscribe(
+        id => {
+          this.submitTags(id);
+        }, error => {
+          this.errorService.errorPath(error.status);
+        }
+      );
+    } else {
+      this.http.post('templates/' + this.template.templateId, json).subscribe(
+        id => {
+          this.submitTags(id);
+        }, error => {
+          this.errorService.errorPath(error.status);
+        }
+      );
+    }
+
+    let dialogRef = this.dialog.open(MessageModalComponent, { data: { message: this.message } });
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['admin/template']);
+    });
   }
 
   submitTags(templateId: string): void {
     let tags = new Array();
     tags = this.searchService.selectedTags.concat(this.searchService.newTags);
-    this.http.post(this.hostname + "templates/" + templateId + "/tags", tags,
-      { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
-        success => {
-        },
-        error => {
-          this.errorService.errorPath(error.status);
-        }
-      );
+    this.http.post('templates/' + templateId + '/tags', tags).subscribe(
+      success => {
+      }, error => {
+        this.errorService.errorPath(error.status);
+      });
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   @HostListener('window:beforeunload', ['$event'])

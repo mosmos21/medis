@@ -125,6 +125,8 @@ INSERT INTO "notification_config"
     (employee_number, tag_id, mail_notification, browser_notification)
 VALUES
     ('g00000', 'g0000000000', 'false', 'false'),
+    ('g00000', 'n0000000006', 'false', 'false'),
+    ('g00000', 's0000000001', 'false', 'false'),
     ('97958', 'g0000000000', 'false', 'false'),
     ('97962', 'g0000000000', 'false', 'false'),
     ('97965', 'g0000000000', 'false', 'false'),

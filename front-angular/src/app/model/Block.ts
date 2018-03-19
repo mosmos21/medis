@@ -10,6 +10,7 @@ export class Block {
   public items: BlockItem[] = new Array();
   public additionalType: string;
   public addItems: BlockItem[] = new Array();
+  public offset: number;
 
   constructor(data?: Object) {
     if (data == null) return;
@@ -21,6 +22,10 @@ export class Block {
     this.items = this.getItems(data['items']);
     this.additionalType = data['additionalType'];
     this.addItems = this.getItems(data['addItems']);
+    if (0 < this.addItems.length) {
+      this.addItem();
+    }
+    this.offset = this.items.length;
   }
 
   public clone(): Block {
@@ -33,6 +38,7 @@ export class Block {
     block.items = this.items.slice();
     block.additionalType = this.additionalType;
     block.addItems = this.addItems.slice();
+    block.offset = this.offset;
     return block;
   }
 
@@ -48,6 +54,12 @@ export class Block {
       return ele.documentType == 'hidden' || ele.documentType == 'span';
     }).length;
     return idx - cnt;
+  }
+
+  public getTemplateWriteableSize(): number {
+    return this.items.filter(ele => {
+      return ele.templateType != 'span';
+    }).length + 1;
   }
 
   public getDocumentWriteableSize(): number {
@@ -70,6 +82,14 @@ export class Block {
 
   public addItem(): void {
     this.items = this.items.concat(this.addItems);
+  }
+
+  public removeItem(): void {
+    if (0 < this.items.length - this.offset) {
+      for (let i = 0; i < this.addItems.length; i++) {
+        this.items.pop();
+      }
+    }
   }
 }
 

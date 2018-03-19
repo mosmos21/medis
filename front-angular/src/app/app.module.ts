@@ -64,6 +64,7 @@ import { MsgToSidenavService } from './services/msg-to-sidenav.service';
 import { IsNewService } from './services/is-new.service';
 import { UploadFileService } from './services/upload-file.service';
 import { HttpService } from './services/http.service';
+import { TypeConversionService } from './services/type-conversion.service';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { HttpService } from './services/http.service';
   ],
   providers: [
     ConvertDateService,
+    TypeConversionService,
     NavigationService,
     CookieService,
     AuthService,
