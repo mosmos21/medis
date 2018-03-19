@@ -157,6 +157,7 @@ export class ViewComponent implements OnInit {
   getComments() {
     this.http.get("documents/" + this.document.documentId + "/comments").subscribe(
       json => {
+        console.log(json);
         this.comments = json;
         for (let c of this.comments) {
           if (c.read) {

@@ -32,7 +32,7 @@ export class HttpService {
     if(!this.authService.isLoggedIn()) {
       return Observable.of(false);
     }
-    this.http.post(this.hostname + url, data, { withCredentials: true, headers: this.authService.headerAddToken() });
+    return this.http.post(this.hostname + url, data, { withCredentials: true, headers: this.authService.headerAddToken() });
   }
 
   postWithPromise(url: string, data: Object): any {
@@ -43,7 +43,7 @@ export class HttpService {
     if(!this.authService.isLoggedIn()) {
       return Observable.of(false);
     }
-    this.http.put(this.hostname + url, data, { withCredentials: true, headers: this.authService.headerAddToken() });
+    return this.http.put(this.hostname + url, data, { withCredentials: true, headers: this.authService.headerAddToken() });
   }
 
   putWithPromise(url: string, data: Object): any {
