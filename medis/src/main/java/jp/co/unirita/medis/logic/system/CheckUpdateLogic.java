@@ -41,19 +41,23 @@ public class CheckUpdateLogic {
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
 
-	public List<SnackbarNotificationsForm> updateSelect(String employeeNumber, String updateId) {
+	public List<SnackbarNotificationsForm> updatetypeConfirmation(String employeeNumber, String updateId) {
 		List<UpdateInfo> newUpdateId = updateInfoRepository.findByUpdateIdAfter(updateId);
 		List<SnackbarNotificationsForm> result = new ArrayList<>();
 
 		for (UpdateInfo add : newUpdateId) {
 			List<SnackbarNotificationsForm> snackbarNotificationsForm = new ArrayList<>();
 			if (add.getUpdateType().equals("v0000000000")) {
-				snackbarNotificationsForm = documentContributionNotificationSnackbar(employeeNumber, add.getUpdateId());
-
+				snackbarNotificationsForm = documentContributionNotificationSnackbar(employeeNumber, add.getUpdateId(),"v0000000000");
+			} else if (add.getUpdateType().equals("v0000000001")) {
+				snackbarNotificationsForm = documentContributionNotificationSnackbar(employeeNumber, add.getUpdateId(),"v0000000001");
+			} else if (add.getUpdateType().equals("v0000000002")) {
+				snackbarNotificationsForm = documentContributionNotificationSnackbar(employeeNumber, add.getUpdateId(),"v0000000002");
+			} else {
+				snackbarNotificationsForm = documentContributionNotificationSnackbar(employeeNumber, add.getUpdateId(),"v0000000003");
 			}
 			result.addAll(snackbarNotificationsForm);
 		}
-		// result.removeAll(Collections.singleton(null));
 		result = result.stream().distinct().collect(Collectors.toList());
 
 		return result;
@@ -61,28 +65,25 @@ public class CheckUpdateLogic {
 	}
 
 	/**
-	 * 新規文書が投稿されたときに、文書についたタグを監視しているユーザにSnackbarを通知するためのロジック
+	 * Snackbarを表示するためのロジック
 	 *
-	 * @param employeeNumber
-	 *            文書を投稿したユーザの社員番号
-	 * @param documentId
-	 *            投稿した文書のID
+	 * @param employeeNumber ログインユーザの社員番号
+	 * @param updateId ログインユーザがもつ最新のupdateId
 	 */
 
 	public List<SnackbarNotificationsForm> documentContributionNotificationSnackbar(String employeeNumber,
-			String updateId) {
+			String updateId, String updateType) {
 		List<SnackbarNotificationsForm> result = new ArrayList<>();
-		// 新規かつユーザがもつUpdateId以降のDocumentId取得
+
+		System.out.println(updateId);
 		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
+		DocumentInfo documentIdInfo = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
 
-		// 公開されたDocumentId取得
-		DocumentInfo privateDocumentTag = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
+		if (!(documentIdInfo == null)) {
 
-		if (!(privateDocumentTag == null)) {
-
-			// 新規かつユーザがもつUpdateId以降についたタグ一覧
+			// ドキュメントについたタグ一覧
 			List<DocumentTag> documentTagList = documentTagRepository
-					.findByDocumentId(privateDocumentTag.getDocumentId());
+					.findByDocumentId(documentIdInfo.getDocumentId());
 
 			// ユーザの監視タグ一覧
 			List<String> userNotificationTagList = notificationConfigRepository.findByEmployeeNumber(employeeNumber)
@@ -92,15 +93,16 @@ public class CheckUpdateLogic {
 				if (userNotificationTagList.contains(add.getTagId())) {
 					SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm();
 					snackbarNotificationsForm.setDocumentId(add.getDocumentId());
-					snackbarNotificationsForm.setUpdateType("v0000000000");
+					snackbarNotificationsForm.setUpdateType(updateType);
 					snackbarNotificationsForm
 							.setDocumentName(documentInfoRepository.findOne(add.getDocumentId()).getDocumentName());
-					result.add(snackbarNotificationsForm);
 
+					result.add(snackbarNotificationsForm);
 				}
 			}
 		}
 		return result;
 
 	}
+
 }

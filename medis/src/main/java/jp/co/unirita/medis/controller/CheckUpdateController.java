@@ -36,6 +36,6 @@ public class CheckUpdateController {
 		logger.info("[method ChackUpdate ] CheckUpdate by DocumentId :" + user.getEmployeeNumber() + "after UpdateId"
 				+ updateId + ".");
 
- 		return checkUpdateLogic.updateSelect(user.getEmployeeNumber(), updateId);
+ 		return checkUpdateLogic.updatetypeConfirmation(user.getEmployeeNumber(), updateId);
 	}
 }
