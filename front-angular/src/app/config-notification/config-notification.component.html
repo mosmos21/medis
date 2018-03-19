@@ -29,26 +29,26 @@
 					<mat-slide-toggle color="accent" (change)="toggleTagBrowserAll()" [checked]="isTagBrowser"></mat-slide-toggle>
 				</div>
 
-				<div class="config_text ">
-					<table class="t-line">
-						<tr>
-							<th>タグ名</th>
-							<th>メール</th>
-							<th class="boder-none">プッシュ</th>
-						</tr>
-						<tr *ngFor="let n of tagNotification; let idx = index">
-							<td>{{n.tagName}}</td>
-							<td>
-								<mat-slide-toggle color="primary" [checked]="n.mailNotification" (change)="toggleTagMail(idx)"></mat-slide-toggle>
-							</td>
-							<td>
-								<mat-slide-toggle color="accent" [checked]="n.browserNotification" (change)="toggleTagBrowser(idx)"></mat-slide-toggle>
-							</td>
-						</tr>
-					</table>
-					<br/>
-				</div>
+				<!-- <div class="config_text "> -->
+				<table class="t-line">
+					<tr>
+						<th>タグ名</th>
+						<th>メール</th>
+						<th class="boder-none">プッシュ</th>
+					</tr>
+					<tr *ngFor="let n of tagNotification; let idx = index">
+						<td>{{n.tagName}}</td>
+						<td>
+							<mat-slide-toggle color="primary" [checked]="n.mailNotification" (change)="toggleTagMail(idx)"></mat-slide-toggle>
+						</td>
+						<td>
+							<mat-slide-toggle color="accent" [checked]="n.browserNotification" (change)="toggleTagBrowser(idx)"></mat-slide-toggle>
+						</td>
+					</tr>
+				</table>
+				<br/>
 			</div>
+			<!-- </div> -->
 		</div>
 	</div>
 </div>
