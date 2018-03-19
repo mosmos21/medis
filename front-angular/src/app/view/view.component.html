@@ -64,7 +64,7 @@
                 <div id="view_comment_list">
                     <div *ngFor="let comment of comments; let idx = index" class="view_comment_content">
                         <div class="user_icon">
-                            <img [src]="comment.isIcon ? 'image/' + comment.employeeNumber + '.jpg' : '../../assets/image/user.svg'">
+                            <img [src]="'http://localhost:8080/v1/icon/' + comment.employeeNumber" class="account_icon">
                         </div>
                         <div class="comment_content">
                             <div class="comment_info">
