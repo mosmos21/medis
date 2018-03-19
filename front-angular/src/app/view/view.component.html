@@ -5,7 +5,7 @@
                 <div id="view_header">
                     <div style="overflow:auto;">
                         <h1 style="float: left;">{{ document.documentName }}</h1>
-                        <input type="checkbox" [(ngModel)]="isFav" (click)="favorite()">
+                        <input type="checkbox" [(ngModel)]="document.isFav" (click)="favorite()">
                         <button *ngIf="isMyDocument()" (click)="goEdit()" mat-raised-button color="primary" style="margin-bottom: 1em;">編集</button>
                         <div style="float:right;">
                             <h3>
@@ -34,7 +34,9 @@
                                             <span>{{ content.values[content.block.getTemplateValueIndex(i)] }}</span>
                                         </div>
                                         <div *ngSwitchCase="'text'">
-                                            <span><li>{{ document.values[idx][content.block.getDocumentValueIndex(i)] }}</li></span>
+                                            <span>
+                                                <li>{{ document.values[idx][content.block.getDocumentValueIndex(i)] }}</li>
+                                            </span>
                                         </div>
                                         <div *ngSwitchCase="'textarea'">
                                             <span>{{ document.values[idx][content.block.getDocumentValueIndex(i)] }}</span>
@@ -64,7 +66,7 @@
                 <div id="view_comment_list">
                     <div *ngFor="let comment of comments; let idx = index" class="view_comment_content">
                         <div class="user_icon">
-                            <img [src]="'http://localhost:8080/v1/icon/' + comment.employeeNumber" class="account_icon">
+                            <img [src]="comment.icon ? 'image/' + comment.employeeNumber + '.jpg' : '../../assets/image/user.svg'">
                         </div>
                         <div class="comment_content">
                             <div class="comment_info">
@@ -75,16 +77,18 @@
                                         <button mat-icon-button disabled></button>
                                     </div>
                                     <div *ngSwitchCase="'unreadMe'">
-                                        <button mat-mini-fab color="primary" (click)="readComment(idx)">既読</button>
+                                        <button mat-icon-button class="read_button" (click)="readComment(idx)">
+                                            <mat-icon>done</mat-icon>
+                                        </button>
                                     </div>
                                     <div *ngSwitchCase="'read'">
-                                        <button mat-icon-button disabled>既読</button>
+                                        <button mat-icon-button disabled class="read_button">
+                                            <mat-icon>done</mat-icon>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="comment_text">
-                                <span>{{comment.content}}</span>
-                            </div>
+                            <div class="comment_text">{{comment.content}}</div>
                         </div>
                     </div>
                 </div>

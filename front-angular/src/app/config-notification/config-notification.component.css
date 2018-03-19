@@ -7,7 +7,7 @@
     border-radius: 5px;
     border: 2px #999 solid;
     box-shadow: 2px 2px 2px #999;
-    background-color: #fff;
+    /* background-color: #fff; */
 }
 .list_box_header {
     border: 0;
@@ -33,47 +33,6 @@
     color: #555;
     border-left: 4px #0f9d58 solid;
 }
-.toggle-button {
-    appearance: none;
-    -webkit-appearance: none;
-    -ms-appearance: none;
-    -moz-appearance: none;
-    margin: 10px;
-    width: 80px;
-    height: 25px;
-    border: 0px solid rgba(0,0,0,0.0);
-    border-radius: 50px;
-    background-color: #ddd;
-    transition: background-color .4s ease;
-}
-
-.toggle-button:checked {
-    background-color: #00bbd3;
-}
-.toggle-button + label {
-    position: relative;
-    display: inline-block;
-    left: -90px;
-    width: 35px;
-    height: 35px;
-    border: 0px solid rgba(0,0,0,0.0);
-    border-radius: 50%;
-    background-color: #eee;
-    box-shadow: 0 0 4px rgba(0,0,0,0.4);
-    transition: left .4s ease, background-color .4s ease;
-}
-
-.toggle-button:checked + label {
-    position: relative;
-    display: inline-block;
-    left: -45px;
-    width: 35px;
-    height: 35px;
-    border: 0px solid rgba(0,0,0,0.0);
-    border-radius: 50%;
-    background-color: #eee;
-    box-shadow: 0 0 4px rgba(0,0,0,0.4);
-}
 .config_text {
 	height: 100px;
 	display: flex;
@@ -87,7 +46,6 @@ table{
     top: 0px;
 	width: auto;
 	padding: 0px 20px;
-    margin-top: 430px;
     margin-bottom: 50px;
     overflow-y: scroll;
 }
@@ -108,7 +66,11 @@ td{
 	text-align: center;
 }
 .t-line tr:nth-child(odd) td {  
-  background-color: #DFD;  
+  background-color: #fff;  
+}
+
+table tr th {
+    background: #aaa;
 }
 
 .t-line{
