@@ -4,14 +4,14 @@
             <div id="view_plate">
                 <div id="view_header">
                     <div style="overflow:auto;">
-                        <h1 style="float: left;">{{ documentName }}</h1>
+                        <h1 style="float: left;">{{ document.documentName }}</h1>
                         <input type="checkbox" [(ngModel)]="isFav" (click)="favorite()">
                         <button *ngIf="isMyDocument()" (click)="goEdit()" mat-raised-button color="primary" style="margin-bottom: 1em;">編集</button>
                         <div style="float:right;">
                             <h3>
-                                投稿者: {{ employeeNumber }} - {{ name }}
+                                投稿者: {{ document.employeeNumber }} - {{ document.authorName }}
                             </h3>
-                            最終更新日: {{ convert.time2Date(documentCreateDate) }}
+                            最終更新日: {{ convert.time2Date(document.documentCreateDate) }}
                         </div>
                     </div>
                     <hr />
@@ -21,35 +21,35 @@
                 </div>
                 <div id="view_content_list">
                     <!-- コンテンツ -->
-                    <div class="content" *ngFor="let content of contents;let i = index;" [id]="content.id">
+                    <div class="content" *ngFor="let content of template.contents;let idx = index;" [id]="content.id">
                         <div class="block_body">
                             <div class="block_header">
-                                <h4>{{i+1}}. {{ templateValues[content.id][0] }}</h4>
+                                <h4>{{idx + 1}}. {{ content.values[0] }}</h4>
                             </div>
                             <hr>
                             <div class="block_body">
-                                <div *ngFor="let item of content.items;let i = index;">
+                                <div *ngFor="let item of content.block.items;let i = index;">
                                     <div [ngSwitch]="item.documentType">
                                         <div *ngSwitchCase="'span'">
-                                            <span>{{ templateValues[content.id][i] }}</span>
+                                            <span>{{ content.values[content.block.getTemplateValueIndex(i)] }}</span>
                                         </div>
                                         <div *ngSwitchCase="'text'">
-                                            <span>{{ templateValues[content.id][i] }}</span>
+                                            <span><li>{{ document.values[idx][content.block.getDocumentValueIndex(i)] }}</li></span>
                                         </div>
                                         <div *ngSwitchCase="'textarea'">
-                                            <span>{{ templateValues[content.id][i] }}</span>
+                                            <span>{{ document.values[idx][content.block.getDocumentValueIndex(i)] }}</span>
                                         </div>
                                         <div *ngSwitchCase="'checkbox'">
-                                            <mat-checkbox [checked]="isChecked(content.id, i - content.offset)">{{ templateValues[content.id][i] }}</mat-checkbox>
+                                            <mat-checkbox [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))">{{ content.values[content.block.getTemplateValueIndex(i)] }}</mat-checkbox>
                                         </div>
                                         <div *ngSwitchCase="'radio'">
-                                            <mat-radio-button value="i" name="{{ content.id }}" [checked]="isChecked(content.id, i - content.offset)" (click)="false">
-                                                {{ templateValues[content.id][i] }}
+                                            <mat-radio-button value="i" [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" (click)="false">
+                                                {{ content.values[content.block.getTemplateValueIndex(i)] }}
                                             </mat-radio-button>
                                         </div>
                                     </div>
                                 </div>
-                                <br/>
+                                <!-- <br/>
                                 <ul>
                                     <div *ngFor="let item of content.items;let i = index;">
                                         <div [ngSwitch]="item.documentType">
@@ -68,7 +68,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </ul>
+                                </ul> -->
                                 <br/>
                             </div>
                         </div>

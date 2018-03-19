@@ -8,20 +8,17 @@ export class UserDetail {
     public mailaddress: string;
     public icon: boolean;
 
-    // constructor();
-    // constructor(data: Object);
-
     constructor(data?: Object) {
         if(data == null) return;
-        this.employeeNumber = data["employeeNumber"];
-        this.lastName = data["lastName"];
-        this.firstName = data["firstName"];
-        this.lastNamePhonetic = data["lastNamePhonetic"];
-        this.firstNamePhonetic = data["firstNamePhonetic"];
-        this.icon = data["icon"];
+        this.employeeNumber = data['employeeNumber'];
+        this.lastName = data['lastName'];
+        this.firstName = data['firstName'];
+        this.lastNamePhonetic = data['lastNamePhonetic'];
+        this.firstNamePhonetic = data['firstNamePhonetic'];
+        this.icon = data['icon'];
      }
 
     public getName(): string {
-        return this.lastName + " " + this.firstName;
+        return this.lastName + ' ' + this.firstName;
     }
 }
