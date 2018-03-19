@@ -84,23 +84,23 @@ export class EditDocumentComponent implements OnInit {
       }
     );
 
-    this.dragulaService.setOptions("template-block", {
-      copy: function (el: any, source: any) {
-        return source.id === "template_block_list";
-      },
-      accepts: function (el: any, source: any) {
-        return source.id !== "template_block_list";
-      }
-    });
+    // this.dragulaService.setOptions("template-block", {
+    //   copy: function (el: any, source: any) {
+    //     return source.id === "template_block_list";
+    //   },
+    //   accepts: function (el: any, source: any) {
+    //     return source.id !== "template_block_list";
+    //   }
+    // });
 
-    this.dragulaService.drop.subscribe((value) => {
-      let [e, el] = value.slice(1);
-      let id = e.childNodes[1].id;
-      if (id != '') {
-        e.remove();
-        this.addBlock(id);
-      }
-    });
+    // this.dragulaService.drop.subscribe((value) => {
+    //   let [e, el] = value.slice(1);
+    //   let id = e.childNodes[1].id;
+    //   if (id != '') {
+    //     e.remove();
+    //     this.addBlock(id);
+    //   }
+    // });
 
     this.searchService.getTags();
   }
@@ -165,17 +165,17 @@ export class EditDocumentComponent implements OnInit {
       json => {
         this.fixedTags = JSON.parse(JSON.stringify(json));
         Array.prototype.push.apply(this.searchService.selectedTags, this.fixedTags);
-        var i = this.searchService.selectedTags.length;
-        var j = this.searchService.targetTags.length;
-        while (i--) {
-          var j = this.searchService.targetTags.length;
-          while (j--) {
+        for (let i = 0; i < this.searchService.selectedTags.length; i++) {
+          for (let j = 0; j < this.searchService.targetTags.length; j++) {
             if (this.searchService.selectedTags[i].tagId == this.searchService.targetTags[j].tagId) {
               this.searchService.targetTags.splice(j, 1);
               this.searchService.tempTags.splice(j, 1);
               break;
             }
           }
+        }
+        for (let k = 0; k < this.fixedTags.length; k++) {
+          this.searchService.selectedTags.pop();
         }
       },
       error => {

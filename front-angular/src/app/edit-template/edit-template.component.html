@@ -13,8 +13,8 @@
                         <h2>固定タグ編集</h2>
                         <div id="tag_list">
 
-                            <div id="selected_tags" *ngFor="let stag of searchService.selectedTags">
-                                <div class="tag_base tag_small tag_side tag_erasable" (click)="searchService.deleteTags($event)">{{stag.tagName}}</div>
+                            <div id="selected_tags" *ngFor="let stag of searchService.selectedTags; let idx = index">
+                                <div class="tag_base tag_small tag_side tag_erasable" (click)="searchService.deleteTags($event,idx)">{{stag.tagName}}</div>
                             </div>
                             <div *ngFor="let t of searchService.newTags">
                                 <div class="tag_base tag_new tag_side tag_erasable" (click)="searchService.deleteNewTags($event)">{{ t.tagName }}</div>
@@ -115,8 +115,8 @@
                                     <nav *ngIf="searchService.createNewTag() != ''">
                                         <div class="tag_base tag_new" (click)="searchService.addNewTags($event)">{{searchService.newTagName}}</div>
                                     </nav>
-                                    <div *ngFor="let tag of searchService.targetTags">
-                                        <div class="tag_base tag_middle" (click)="searchService.addTags($event,4)">{{tag.tagName}}</div>
+                                    <div *ngFor="let tag of searchService.targetTags; let idx = index">
+                                        <div class="tag_base tag_middle" (click)="searchService.addTags($event,4,idx)">{{tag.tagName}}</div>
                                     </div>
                                 </div>
                             </div>

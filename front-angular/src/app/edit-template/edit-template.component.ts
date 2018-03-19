@@ -127,6 +127,16 @@ export class EditTemplateComponent implements OnInit {
     this.http.get(this.hostname + 'templates/' + this.templateId + "/tags", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
       json => {
         this.searchService.selectedTags = JSON.parse(JSON.stringify(json));
+
+        for (let i = 0; i < this.searchService.selectedTags.length; i++) {
+          for (let j = 0; j < this.searchService.targetTags.length; j++) {
+            if (this.searchService.selectedTags[i].tagId == this.searchService.targetTags[j].tagId) {
+              this.searchService.targetTags.splice(j, 1);
+              this.searchService.tempTags.splice(j, 1);
+              break;
+            }
+          }
+        }
       },
       error => {
 
