@@ -43,7 +43,6 @@ export class ViewComponent implements OnInit {
 
   ngOnInit() {
     this.load(this.route.snapshot.paramMap.get('id'));
-    this.getComments();
   }
 
   load(documentId: string): void {
@@ -76,66 +75,61 @@ export class ViewComponent implements OnInit {
       this.errorService.errorPath(error.status);
     }).then(res => {
       this.tags = this.tags.concat(this.convertService.makeTagNameList(res));
+      return this.http.get('documents/' + this.document.documentId + '/comments');
+    }, error => {
+      this.errorService.errorPath(error.status);
+    }).then(res => {
+      for (let data of res) {
+        let comment = new Comment(data);
+        comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
+        this.comments.push(comment);
+      }
     }, error => {
       this.errorService.errorPath(error.status);
     });
   }
 
-  getComments(): void {
-    this.http.get('documents/' + this.document.documentId + '/comments').subscribe(
-      res => {
-        for (let data of res) {
-          let comment = new Comment(data);
-          comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
-          this.comments.push(comment);
-        }
-      }, error => {
-        this.errorService.errorPath(error.status);
-      }
-    )
-  }
+isMyDocument(): boolean {
+  return this.authService.userdetail.employeeNumber == this.document.employeeNumber;
+}
 
-  isMyDocument(): boolean {
-    return this.authService.userdetail.employeeNumber == this.document.employeeNumber;
-  }
+goEdit(): void {
+  this.router.navigate(['/edit/' + this.document.documentId]);
+}
 
-  goEdit(): void {
-    this.router.navigate(['/edit/' + this.document.documentId]);
-  }
+isChecked(contentIdx: number, valueIdx: number): boolean {
+  return this.document.values[contentIdx][valueIdx] == 'true';
+}
 
-  isChecked(contentIdx: number, valueIdx: number): boolean {
-    return this.document.values[contentIdx][valueIdx] == 'true';
-  }
+submit(): void {
+  this.http.put('documents/' + this.document.documentId + '/comments/create', { value: this.commentStr }).subscribe(
+    res => {
+      const comment = new Comment(res);
+      comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
+      this.comments.push(comment);
+    }, error => {
+      this.errorService.errorPath(error.status);
+    }
+  );
+  this.commentStr = '';
+}
 
-  submit(): void {
-    this.http.put('documents/' + this.document.documentId + '/comments/create', { value: this.commentStr }).subscribe(
-      res => {
-        const comment = new Comment(res);
-        comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
-        this.comments.push(comment);
-      }, error => {
-        this.errorService.errorPath(error.status);
-      }
-    );
-    this.commentStr = '';
-  }
+favorite() {
+  this.http.post('documents/bookmark/' + this.document.documentId, { selected: this.document.isFav }).subscribe(
+    success => {
+    }, error => {
+      this.errorService.errorPath(error.status);
+    }
+  )
+}
 
-  favorite() {
-    this.http.post('documents/bookmark/' + this.document.documentId, { selected: this.document.isFav }).subscribe(
-      success => {
-      }, error => {
-        this.errorService.errorPath(error.status);
-      }
-    )
-  }
-
-  readComment(idx: number) {
-    this.http.post('documents/' + this.document.documentId + '/comments/' + this.comments[idx].commentId + '/read', {}).subscribe(
-      success => {
-        this.comments[idx].updateToRead();
-      }, error => {
-        this.errorService.errorPath(error.status);
-      }
-    )
-  }
+readComment(idx: number) {
+  this.http.post('documents/' + this.document.documentId + '/comments/' + this.comments[idx].commentId + '/read', {}).subscribe(
+    success => {
+      this.comments[idx].updateToRead();
+    }, error => {
+      this.errorService.errorPath(error.status);
+    }
+  )
+}
 }
