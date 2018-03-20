@@ -100,6 +100,27 @@
 
         - レスポンス(201 CREATED)
 
+- ## アイコンのアップロード
+    - ### [POST] https://{hostname}/{version}/icon/me
+        アイコン画像のアップロード
+
+        ---
+        - リクエスト
+            
+            FileデータをFormDataに付け加えてFormDataを送信
+        
+        - レスポンス(200 OK)
+
+- ## アイコンの取得
+    - ### [GET] https://{hostname}/{version}/icon/(employeeNumber)
+        アイコン画像の取得
+
+        ---
+        - レスポンス(200 OK)
+
+            社員番号が(employeeNumber)のアイコンのファイルデータを返す
+
+
 - ## トップページボックス一覧の取得
     - ### [GET] https://{hostname}/{version}/settings/toppageboxes
         トップページの表示順を取得
