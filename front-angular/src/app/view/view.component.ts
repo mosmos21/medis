@@ -42,16 +42,15 @@ export class ViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.document.documentId = this.route.snapshot.paramMap.get('id');
-    this.load();
+    this.load(this.route.snapshot.paramMap.get('id'));
     this.getComments();
   }
 
-  load(): void {
+  load(documentId: string): void {
     this.http.getWithPromise('templates/blocks').then(res => {
       this.blocks = this.convertService.makeTemplateBlockMap(this.convertService.makeTemplateBlockList(res));
       console.log(this.blocks);
-      return this.http.getWithPromise('documents/' + this.document.documentId);
+      return this.http.getWithPromise('documents/' + documentId);
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(res => {

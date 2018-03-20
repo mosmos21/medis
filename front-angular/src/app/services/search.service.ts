@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from './error.service';
 import { HttpService } from './http.service';
+import { Tag } from '../model/Tag';
 
 @Injectable()
 export class SearchService {
@@ -173,5 +174,21 @@ export class SearchService {
     }
     count == 0 ? this.newTagName = this.searchWord : this.newTagName = "";
     return this.newTagName;
+  }
+
+  addSearchedTag(fixedTags: Tag[]): void {
+    this.selectedTags = this.selectedTags.concat(fixedTags);
+    for (let i = 0; i < this.selectedTags.length; i++) {
+      for (let j = 0; j < this.targetTags.length; j++) {
+        if (this.selectedTags[i].tagId == this.targetTags[j].tagId) {
+          this.targetTags.splice(j, 1);
+          this.tempTags.splice(j, 1);
+          break;
+        }
+      }
+    }
+    for (let k = 0; k < fixedTags.length; k++) {
+      this.selectedTags.pop();
+    }
   }
 }

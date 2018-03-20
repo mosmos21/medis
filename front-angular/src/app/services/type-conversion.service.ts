@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Block } from "../model/Block";
 import { Template } from "../model/Template";
 import { Document } from "../model/Document";
+import { Tag } from "../model/Tag";
 
 @Injectable()
 export class TypeConversionService {
@@ -33,6 +34,17 @@ export class TypeConversionService {
     document.setDocumentInfo(data);
     document.setValues(data['contents']);
     return document;
+  }
+
+  makeTagList(data: Object): Tag[] {
+    let tags: Tag[] = new Array();
+    for(let idx in data) {
+      tags.push({
+        tagId: data[idx]['tagId'],
+        tagName: data[idx]['tagName']
+      });
+    }
+    return tags;
   }
 
   makeTagNameList(data: Object): string[] {
