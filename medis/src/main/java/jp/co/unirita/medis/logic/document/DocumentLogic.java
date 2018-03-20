@@ -37,9 +37,6 @@ public class DocumentLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(DocumentLogic.class);
 
-	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
-	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
-
 	@Autowired
 	UpdateInfoLogic updateInfoLogic;
 
@@ -104,7 +101,6 @@ public class DocumentLogic {
 
 	public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
 		save(documentForm, employeeNumber);
-		updateInfoLogic.saveUpdateInfo(documentForm.getDocumentId(), TYPE_UPDATE_DOCUMENT, employeeNumber);
 		return documentForm.getDocumentId();
 	}
 
@@ -153,9 +149,7 @@ public class DocumentLogic {
 		documentForm.setDocumentId(id);
 		documentItemRepository.deleteByDocumentId(documentForm.getDocumentId());
 		saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
-		if (updateInfoRepository.findByDocumentId(id) == null) {
-			updateInfoLogic.saveUpdateInfo(id, TYPE_CREATE_DOCUMENT, employeeNumber);
-		}
+
 		return id;
 	}
 
