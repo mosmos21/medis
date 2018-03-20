@@ -1,12 +1,9 @@
 package jp.co.unirita.medis.form.setting;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class SnackbarNotificationsForm {
 	private String documentId;
 
@@ -14,6 +11,12 @@ public class SnackbarNotificationsForm {
 
 	private String updateId;
 
-	private String DocumentName;
+	private String documentName;
 
+	public SnackbarNotificationsForm(String documentId, String updateType, String updateId, String documentName) {
+		this.documentId = documentId;
+		this.updateType = updateType;
+		this.updateId = updateId;
+		this.documentName = documentName;
+	}
 }

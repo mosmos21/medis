@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.setting.SnackbarNotificationsForm;
 import jp.co.unirita.medis.logic.system.CheckUpdateLogic;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RequestMapping("/v1/update")
 
@@ -26,16 +28,26 @@ public class CheckUpdateController {
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
+	ArgumentCheckLogic argumentCheckLogic;
+	@Autowired
 	CheckUpdateLogic checkUpdateLogic;
+
+	@GetMapping("/latest")
+	@ResponseStatus(HttpStatus.CREATED)
+	public String CheckLatestUpdateId() {
+		logger.info("[method ChackLatest] Get LatestUpdateID");
+
+		return checkUpdateLogic.getLatestUpdateId();
+
+	}
 
 	@GetMapping(value = "{updateId:^u[0-9]{10}$}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public List<SnackbarNotificationsForm> CheckUpdate(@AuthenticationPrincipal User user,
-			@PathVariable(value = "updateId") String updateId) {
-		// 例外処理
-		logger.info("[method ChackUpdate ] CheckUpdate by DocumentId :" + user.getEmployeeNumber() + "after UpdateId"
-				+ updateId + ".");
-
- 		return checkUpdateLogic.updatetypeConfirmation(user.getEmployeeNumber(), updateId);
+			@PathVariable(value = "updateId") String updateId) throws NotExistException {
+		logger.info("[method updatetypeConfirmation] GetUpdatetypeConfirmation by DocumentId :"
+				+ user.getEmployeeNumber() + "after UpdateId" + updateId + ".");
+		argumentCheckLogic.checkLastUpdateId(updateId);
+		return checkUpdateLogic.updatetypeConfirmation(user.getEmployeeNumber(), updateId);
 	}
 }
