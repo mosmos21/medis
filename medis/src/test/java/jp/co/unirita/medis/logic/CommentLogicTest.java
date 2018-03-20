@@ -37,7 +37,7 @@ public class CommentLogicTest {
     }
 
     @Test
-    public void コメント既読判定() {
+    public void コメント既読判定() throws IdIssuanceUpperException {
     	commentLogic.alreadyRead("d0000000003","c0000000013");
     	boolean result = commentRepository.findOne("c0000000013").isRead();
         assertEquals("コメント既読判定が正しく動作していません", true, result);

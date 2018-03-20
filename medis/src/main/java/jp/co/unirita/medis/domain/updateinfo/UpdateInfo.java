@@ -23,8 +23,7 @@ public class UpdateInfo {
 
 	private String updateType;
 
-	// updateType v0000000002の時のemployeeNumberはコメントした人
-	// updateType v0000000003の時のemployeeNumberはコメントを既読した人
+	// updateType v0000000002,v0000000003の時のemployeeNumberはコメントした人
 	@Size(max = 64)
 	private String employeeNumber;
 

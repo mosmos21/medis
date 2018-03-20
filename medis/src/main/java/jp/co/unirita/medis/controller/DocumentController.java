@@ -159,11 +159,12 @@ public class DocumentController {
      * @param documentId コメントが記入されている文書の文書ID
      * @param commentId  既読情報を更新するコメントID
      * @throws NotExistException 文書ID、またはコメントIDが存在していない場合に発生する例外
+     * @throws IdIssuanceUpperException
      */
     @PostMapping("{documentId:^d[0-9]{10}$}/comments/{commentId:^o[0-9]{10}$}/read")
     @ResponseStatus(HttpStatus.CREATED)
     public String alreadyRead(@AuthenticationPrincipal User user, @PathVariable(value = "documentId") String documentId,
-                              @PathVariable(value = "commentId") String commentId) throws NotExistException {
+                              @PathVariable(value = "commentId") String commentId) throws NotExistException, IdIssuanceUpperException {
         logger.info("[method: alreedyRead] Set AlreadyRead And Send mail");
         argumentCheckLogic.checkDocumentId(documentId);
         argumentCheckLogic.checkCommentId(commentId);

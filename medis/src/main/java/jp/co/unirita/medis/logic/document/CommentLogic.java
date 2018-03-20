@@ -19,6 +19,7 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
+import jp.co.unirita.medis.logic.setting.UpdateInfoLogic;
 import jp.co.unirita.medis.logic.system.NotificationLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
@@ -26,6 +27,7 @@ import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 public class CommentLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+	private static final String TYPE_COMMNET_READ = "v0000000003";
 
 	@Autowired
 	CommentRepository commentRepository;
@@ -35,6 +37,8 @@ public class CommentLogic {
 	DocumentInfoRepository documentInfoRepository;
 	@Autowired
 	NotificationLogic notificationLogic;
+	@Autowired
+	UpdateInfoLogic updateInfoLogic;
 
 	private MailSender sender;
 
@@ -66,8 +70,6 @@ public class CommentLogic {
 	}
 
 	private CommentInfoForm createCommentInfoForm(Comment comment, UserDetail userDetail) {
-		System.out.println(comment);
-		System.out.println(userDetail);
 		CommentInfoForm commentInfo = new CommentInfoForm();
 		commentInfo.setCommentDate(comment.getCommentDate());
 		commentInfo.setLastName(userDetail.getLastName());
@@ -80,7 +82,7 @@ public class CommentLogic {
 		return commentInfo;
 	}
 
-	public void alreadyRead(String documentId, String commentId) {
+	public void alreadyRead(String documentId, String commentId) throws IdIssuanceUpperException {
 		// Readをtrueにする
 		Comment commentInfo = commentRepository.findOne(commentId);
 		Comment comment = new Comment();
@@ -93,6 +95,7 @@ public class CommentLogic {
 		comment.setRead(true);
 		commentRepository.saveAndFlush(comment);
 
+		updateInfoLogic.saveUpdateInfo(documentId,TYPE_COMMNET_READ,commentInfo.getEmployeeNumber());
 	}
 
 	/*

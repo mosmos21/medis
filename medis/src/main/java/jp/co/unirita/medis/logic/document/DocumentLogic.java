@@ -23,12 +23,12 @@ import jp.co.unirita.medis.domain.documenttag.DocumentTag;
 import jp.co.unirita.medis.domain.documenttag.DocumentTagRepository;
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.tag.TagRepository;
-import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.DocumentContentForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
+import jp.co.unirita.medis.logic.setting.UpdateInfoLogic;
 import jp.co.unirita.medis.logic.util.TagLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
@@ -39,6 +39,9 @@ public class DocumentLogic {
 
 	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
 	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
+
+	@Autowired
+	UpdateInfoLogic updateInfoLogic;
 
 	@Autowired
 	BookmarkRepository bookmarkRepository;
@@ -90,12 +93,10 @@ public class DocumentLogic {
 		return getDocumentTagStartWith(id, "s");
 	}
 
-	private List<Tag> getDocumentTagStartWith(String id, String startStr){
+	private List<Tag> getDocumentTagStartWith(String id, String startStr) {
 		List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
-		List<String> tagIdList = documentTagList.stream()
-				.map(DocumentTag::getTagId)
-				.filter(str -> str.startsWith(startStr))
-				.collect(Collectors.toList());
+		List<String> tagIdList = documentTagList.stream().map(DocumentTag::getTagId)
+				.filter(str -> str.startsWith(startStr)).collect(Collectors.toList());
 		List<Tag> tagList = tagRepository.findByTagIdIn(tagIdList);
 		tagList.sort(Comparator.naturalOrder());
 		return tagList;
@@ -103,7 +104,7 @@ public class DocumentLogic {
 
 	public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
 		save(documentForm, employeeNumber);
-		saveUpdateInfo(documentForm.getDocumentId(), TYPE_UPDATE_DOCUMENT, employeeNumber);
+		updateInfoLogic.saveUpdateInfo(documentForm.getDocumentId(), TYPE_UPDATE_DOCUMENT, employeeNumber);
 		return documentForm.getDocumentId();
 	}
 
@@ -153,7 +154,7 @@ public class DocumentLogic {
 		documentItemRepository.deleteByDocumentId(documentForm.getDocumentId());
 		saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
 		if (updateInfoRepository.findByDocumentId(id) == null) {
-			saveUpdateInfo(id, TYPE_CREATE_DOCUMENT, employeeNumber);
+			updateInfoLogic.saveUpdateInfo(id, TYPE_CREATE_DOCUMENT, employeeNumber);
 		}
 		return id;
 	}
@@ -194,17 +195,6 @@ public class DocumentLogic {
 		}
 	}
 
-	private void saveUpdateInfo(String documentId, String updateType, String employeeNumber) throws IdIssuanceUpperException {
-		UpdateInfo info = new UpdateInfo();
-		Timestamp updateDate = new Timestamp(System.currentTimeMillis());
-		info.setUpdateId(createNewUpdateId());
-		info.setDocumentId(documentId);
-		info.setUpdateType(updateType);
-		info.setEmployeeNumber(employeeNumber);
-		info.setUpdateDate(updateDate);
-		updateInfoRepository.saveAndFlush(info);
-	}
-
 	private synchronized String createNewDocumentId() throws IdIssuanceUpperException {
 		List<DocumentInfo> list = documentInfoRepository.findAll(new Sort(Sort.Direction.DESC, "documentId"));
 		if (list.size() == 0) {
@@ -217,15 +207,4 @@ public class DocumentLogic {
 		return String.format("d%010d", idNum + 1);
 	}
 
-	private synchronized String createNewUpdateId() throws IdIssuanceUpperException {
-		List<UpdateInfo> list = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId"));
-		if (list.size() == 0) {
-			return "u0000000000";
-		}
-		long idNum = Long.parseLong(list.get(0).getUpdateId().substring(1));
-		if (idNum == 9999999999L) {
-			throw new IdIssuanceUpperException("更新IDの発行限界");
-		}
-		return String.format("u%010d", idNum + 1);
-	}
 }
