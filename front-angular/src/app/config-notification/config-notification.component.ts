@@ -56,15 +56,22 @@ export class ConfigNotificationComponent implements OnInit {
   }
 
   submit() {
+    let success: boolean = true;
     const commentNotification = {
       mailNotification: this.notification.mailNotification,
       browserNotification: this.notification.browserNotification,
     };
-    console.log(commentNotification);
-    console.log(this.notification.tagNotification);
-    this.http.postWithPromise('settings/me/tag_notifications', this.notification.tagNotification);
-    this.http.postWithPromise('settings/me/comment_notifications', commentNotification);
-    this.snackBarService.openSnackBar('保存しました', '');
+    this.http.postWithPromise('settings/me/tag_notifications', this.notification.tagNotification).then(res => { }, error => {
+      success = false;
+      this.errorService.errorPath(error.status);
+    });
+    this.http.postWithPromise('settings/me/comment_notifications', commentNotification).then(res => { }, error => {
+      success = false;
+      this.errorService.errorPath(error.status);
+    });
+    if (success) {
+      this.snackBarService.openSnackBar('保存しました', '');
+    }
   }
 
   cancel() {

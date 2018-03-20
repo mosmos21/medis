@@ -16,14 +16,14 @@
 					<tbody>
 						<tr>
 							<th class="arrow_box">社員番号</th>
-							<td>{{settings.employeeNumber}}
+							<td>{{userSettings.employeeNumber}}
 							</td>
 						</tr>
 						<tr>
 							<th class="arrow_box">姓</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="姓" value="{{settings.lastName}}" [(ngModel)]="tempSettings.lastName">
+									<input matInput placeholder="姓" value="{{userSettings.lastName}}" [(ngModel)]="tempUserSettings.lastName">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetLastName()">キャンセル</button>
 							</td>
@@ -32,7 +32,7 @@
 							<th class="arrow_box">名</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="名" value="{{settings.firstName}}" [(ngModel)]="tempSettings.firstName">
+									<input matInput placeholder="名" value="{{userSettings.firstName}}" [(ngModel)]="tempUserSettings.firstName">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetFirstName()">キャンセル</button>
 							</td>
@@ -41,7 +41,7 @@
 							<th>せい</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="せい" value="{{settings.lastNamePhonetic}}" [(ngModel)]="tempSettings.lastNamePhonetic">
+									<input matInput placeholder="せい" value="{{userSettings.lastNamePhonetic}}" [(ngModel)]="tempUserSettings.lastNamePhonetic">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetLastNamePhonetic()">キャンセル</button>
 
@@ -51,7 +51,7 @@
 							<th>めい</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="めい" value="{{settings.firstNamePhonetic}}" [(ngModel)]="tempSettings.firstNamePhonetic">
+									<input matInput placeholder="めい" value="{{userSettings.firstNamePhonetic}}" [(ngModel)]="tempUserSettings.firstNamePhonetic">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetFirstNamePhonetic()">キャンセル</button>
 							</td>
@@ -60,25 +60,13 @@
 							<th>メールアドレス</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="メールアドレス" value="{{settings.mailaddress}}" [(ngModel)]="tempSettings.mailaddress">
+									<input matInput placeholder="メールアドレス" value="{{userSettings.mailaddress}}" [(ngModel)]="tempUserSettings.mailaddress">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetMailaddress()">キャンセル</button>
 							</td>
 						</tr>
 						<tr>
 							<th>アイコン</th>
-							<!--
-							<td *ngIf="isIconInput">
-								<div class="row">
-									<div class="col-md-3">
-										<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" class="well my-drop-zone">
-											Base drop zone
-										</div>
-										<input type="file" ng2FileSelect/>
-									</div>
-								</div>
-							</td>
-							-->
 							<td *ngIf="!isIconInput">
 								<div class="icon_position">
 									<img [src]="authService.userdetail.iconUrl" class="account_icon" />
