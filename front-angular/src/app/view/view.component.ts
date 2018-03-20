@@ -74,7 +74,7 @@ export class ViewComponent implements OnInit {
       this.errorService.errorPath(error.status);
     }).then(res => {
       this.tags = this.tags.concat(this.convertService.makeTagNameList(res));
-      return this.http.get('documents/' + this.document.documentId + '/comments');
+      return this.http.getWithPromise('documents/' + this.document.documentId + '/comments');
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(res => {
@@ -101,7 +101,7 @@ isChecked(contentIdx: number, valueIdx: number): boolean {
 }
 
 submit(): void {
-  this.http.put('documents/' + this.document.documentId + '/comments/create', { value: this.commentStr }).subscribe(
+  this.http.putWithPromise('documents/' + this.document.documentId + '/comments/create', { value: this.commentStr }).then(
     res => {
       const comment = new Comment(res);
       comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
@@ -123,7 +123,11 @@ favorite() {
 }
 
 readComment(idx: number) {
-  this.http.post('documents/' + this.document.documentId + '/comments/' + this.comments[idx].commentId + '/read', {}).subscribe(
+  let data = {
+    employeeNumber: this.comments[idx].employeeNumber,
+  }
+  console.log(data);
+  this.http.postWithPromise('documents/' + this.document.documentId + '/comments/' + this.comments[idx].commentId + '/read', data).then(
     success => {
       this.comments[idx].updateToRead();
     }, error => {
