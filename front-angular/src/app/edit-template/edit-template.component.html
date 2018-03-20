@@ -23,7 +23,7 @@
                     </div>
                     <div id="template_content_list" [dragula]='"template-contents"' [dragulaModel]='contents'>
                         <!-- コンテンツ -->
-                        <div class="template_content" *ngFor="let content of template.contents;trackBy:trackByIndex;let idx = index;" [id]="content.id">
+                        <div class="template_content" *ngFor="let content of template.contents;trackBy:trackByIndex;let idx = index;">
                             <div class="template_block_body">
                                 <div *ngIf="!content.isUnique" class="content_remove" (click)="removeBlock(idx)">X</div>
                                 <div class="block_header">

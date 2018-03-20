@@ -7,7 +7,7 @@
             <hr />
             <div id="edit_template_body" class="content_scroll_y">
                 <mat-form-field id="document_title">
-                    <input matInput [(ngModel)]="documentName" name="documentName" placeholder="ドキュメント名">
+                    <input matInput [(ngModel)]="document.documentName" name="documentName" placeholder="ドキュメント名">
                 </mat-form-field>
                 <div id="document_plate">
                     <h3>タグ</h3>
@@ -27,43 +27,47 @@
                     </div>
                     <div id="template_content_list">
                         <!-- コンテンツ -->
-                        <div class="content" *ngFor="let content of contents;let i = index;trackBy:trackByIndex;" [id]="content.id">
+                        <div class="content" *ngFor="let content of template.contents;let idx = index;trackBy:trackByIndex;">
                             <div class="block_body">
                                 <div class="block_header">
-                                    <h4>{{i+1}}. {{ templateValues[content.id][0] }}</h4>
+                                    <h4>{{ idx + 1 }}. {{ content.values[0] }}</h4>
                                 </div>
                                 <hr>
                                 <div class="block_body">
-                                    <div *ngFor="let item of content.items;let i = index;">
+                                    <div *ngFor="let item of content.block.items;let i = index;">
                                         <div [ngSwitch]="item.documentType">
                                             <div *ngSwitchCase="'span'">
-                                                <span>{{ templateValues[content.id][i] }}</span>
+                                                <span>{{ content.values[content.block.getTemplateValueIndex(i)] }}</span>
                                             </div>
                                             <div *ngSwitchCase="'text'">
                                                 <mat-form-field class="block_body_content_full">
-                                                    <input matInput [(ngModel)]="documentValues[content.id][i - content.offset]">
+                                                    <input matInput [(ngModel)]="document.values[idx][content.block.getDocumentValueIndex(i)]">
                                                 </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'textarea'">
                                                 <mat-form-field class="block_body_content_full">
-                                                    <textarea matInput rows="3" [(ngModel)]="documentValues[content.id][i - content.offset]"></textarea>
+                                                    <textarea matInput rows="3" [(ngModel)]="document.values[idx][content.block.getDocumentValueIndex(i)]"></textarea>
                                                 </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'checkbox'">
-                                                <mat-checkbox name="{{ content.id }}" [checked]="isChecked(content.id, i - content.offset)" (click)="clickCheckBox(content.id, i - content.offset, $event)">
-                                                    {{ templateValues[content.id][i] }}
+                                                <mat-checkbox [name]="'content-' + idx" 
+                                                [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" 
+                                                (click)="clickCheckBox(idx, content.block.getDocumentValueIndex(i))">
+                                                    {{ content.values[content.block.getTemplateValueIndex(i)] }}
                                                 </mat-checkbox>
                                             </div>
                                             <div *ngSwitchCase="'radio'">
-                                                <mat-radio-button value="i" name="{{ content.id }}" [checked]="isChecked(content.id, i - content.offset)" (click)="clickRadio(content.id, i - content.offset)">
-                                                    {{ templateValues[content.id][i] }}
+                                                <mat-radio-button [name]="'content-' + idx" 
+                                                [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" 
+                                                (click)="clickRadio(idx, content.block.getDocumentValueIndex(i))">
+                                                    {{ content.values[content.block.getTemplateValueIndex(i)] }}
                                                 </mat-radio-button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div *ngIf="content.additionalType == 'document'" class="block_item">
-                                        <button mat-raised-button color="primary" (click)="addItem(content.id)">要素追加</button>
-                                        <button mat-raised-button (click)="removeItem(content.id)">要素削除</button>
+                                    <div *ngIf="content.block.additionalType == 'document'" class="block_item">
+                                        <button mat-raised-button color="primary" (click)="addItem(idx)">要素追加</button>
+                                        <button mat-raised-button (click)="removeItem(idx)">要素削除</button>
                                     </div>
                                 </div>
                             </div>

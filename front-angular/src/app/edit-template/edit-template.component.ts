@@ -69,11 +69,10 @@ export class EditTemplateComponent implements OnInit {
         this.addBlock(id);
       }
     });
-    this.load();
+    this.load(this.route.snapshot.paramMap.get('id'));
   }
 
-  load(): void {
-    this.template.templateId = this.route.snapshot.paramMap.get('id');
+  load(templateId: string): void {
     this.http.getWithPromise('templates/blocks').then(res => {
       this.blocks = this.convertService.makeTemplateBlockMap(this.convertService.makeTemplateBlockList(res));
       for (let id in this.blocks) {
@@ -83,7 +82,7 @@ export class EditTemplateComponent implements OnInit {
       this.errorService.errorPath(error.status);
     }).then(() => {
       if (this.template.templateId != 'new') {
-        this.http.getWithPromise('templates/' + this.template.templateId).then(res => {
+        this.http.getWithPromise('templates/' + templateId).then(res => {
           this.template = this.convertService.makeTemplate(res, this.blocks);
           this.template.contents
               .filter(content => content.block.additionalType == 'document')
