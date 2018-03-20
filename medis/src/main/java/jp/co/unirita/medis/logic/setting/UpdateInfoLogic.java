@@ -17,16 +17,9 @@ public class UpdateInfoLogic {
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
 
-	public void saveUpdateInfo(String documentId, String updateType, String employeeNumber)
-			throws IdIssuanceUpperException {
-		UpdateInfo info = new UpdateInfo();
-		Timestamp updateDate = new Timestamp(System.currentTimeMillis());
-		info.setUpdateId(createNewUpdateId());
-		info.setDocumentId(documentId);
-		info.setUpdateType(updateType);
-		info.setEmployeeNumber(employeeNumber);
-		info.setUpdateDate(updateDate);
-		updateInfoRepository.saveAndFlush(info);
+	public List<UpdateInfo> getUpdateInfo(String id) {
+		List<UpdateInfo> updateInfo =updateInfoRepository.findByDocumentId(id);
+		return updateInfo;
 
 	}
 
@@ -42,4 +35,16 @@ public class UpdateInfoLogic {
 		return String.format("u%010d", idNum + 1);
 	}
 
+	public void saveUpdateInfo(String documentId, String updateType, String employeeNumber)
+			throws IdIssuanceUpperException {
+		UpdateInfo info = new UpdateInfo();
+		Timestamp updateDate = new Timestamp(System.currentTimeMillis());
+		info.setUpdateId(createNewUpdateId());
+		info.setDocumentId(documentId);
+		info.setUpdateType(updateType);
+		info.setEmployeeNumber(employeeNumber);
+		info.setUpdateDate(updateDate);
+		updateInfoRepository.saveAndFlush(info);
+
+	}
 }

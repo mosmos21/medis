@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.tag.Tag;
-import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
+import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
@@ -55,8 +55,6 @@ public class DocumentController {
 	DeleteLogic deleteLogic;
 	@Autowired
 	UpdateInfoLogic updateInfoLogic;
-	@Autowired
-	UpdateInfoRepository updateInfoRepository;
 
 	/**
 	 * 文書の内容を取得する
@@ -222,7 +220,8 @@ public class DocumentController {
 			throws IdIssuanceUpperException {
 		logger.info("[method: saveDocument] SaveDocument list by " + document.getDocumentId() + ".");
 		String id = documentLogic.save(document, user.getEmployeeNumber());
-		if (updateInfoRepository.findByDocumentId(id) == null) {
+		List<UpdateInfo> updateInfo = updateInfoLogic.getUpdateInfo(id);
+		if (updateInfo == null) {
 			updateInfoLogic.saveUpdateInfo(id, TYPE_CREATE_DOCUMENT, user.getEmployeeNumber());
 		}
 		return id;
