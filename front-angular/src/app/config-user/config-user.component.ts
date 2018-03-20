@@ -38,6 +38,7 @@ export class ConfigUserComponent implements OnInit {
     private nav: NavigationService,
   ) {
     this.nav.show();
+    this.authService.getUserDetail();
   }
 
   ngOnInit() {
@@ -74,6 +75,9 @@ export class ConfigUserComponent implements OnInit {
 
   editIsIcon() {
     let dialogRef = this.dialog.open(EditIconComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      location.reload();
+    })
   }
 
   submit() {
