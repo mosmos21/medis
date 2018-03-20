@@ -13,7 +13,8 @@
     - [GET] https://{hostname}/{version}/update/latest
        
        Sbackbar通知をするために定期的にUpdateInfoテーブルを監視して、ログインユーザに関わる更新情報を取得する際に使用される
-        - レスポンス(200 OK)
+
+      - レスポンス(200 OK)
 
 
 
