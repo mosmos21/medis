@@ -26,9 +26,8 @@ import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.document.CommentLogic;
-import jp.co.unirita.medis.logic.document.DeleteLogic;
 import jp.co.unirita.medis.logic.document.DocumentLogic;
-import jp.co.unirita.medis.logic.setting.UpdateInfoLogic;
+import jp.co.unirita.medis.logic.document.UpdateInfoLogic;
 import jp.co.unirita.medis.logic.system.NotificationLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
@@ -52,8 +51,6 @@ public class DocumentController {
 	CommentLogic commentLogic;
 	@Autowired
 	NotificationLogic notificationLogic;
-	@Autowired
-	DeleteLogic deleteLogic;
 	@Autowired
 	UpdateInfoLogic updateInfoLogic;
 
@@ -295,6 +292,6 @@ public class DocumentController {
 	public void deleteComment(@PathVariable(value = "documentId") String documentId) throws NotExistException {
 		logger.info("[method: deleteDocument] Delete document by " + documentId + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
-		deleteLogic.deleteDocument(documentId);
+		documentLogic.deleteDocument(documentId);
 	}
 }

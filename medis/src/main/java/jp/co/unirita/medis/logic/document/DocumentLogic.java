@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import jp.co.unirita.medis.domain.bookmark.Bookmark;
 import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
+import jp.co.unirita.medis.domain.comment.CommentRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.documentitem.DocumentItem;
@@ -28,7 +29,6 @@ import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.DocumentContentForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
-import jp.co.unirita.medis.logic.setting.UpdateInfoLogic;
 import jp.co.unirita.medis.logic.util.TagLogic;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
@@ -54,6 +54,8 @@ public class DocumentLogic {
 	UpdateInfoRepository updateInfoRepository;
 	@Autowired
 	UserDetailRepository userDetailRepository;
+	@Autowired
+	CommentRepository commentRepository;
 
 	@Autowired
 	TagLogic tagLogic;
@@ -187,6 +189,15 @@ public class DocumentLogic {
 			documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumber, item));
 			lineNumber++;
 		}
+	}
+
+	public void deleteDocument(String documentId) {
+		bookmarkRepository.delete(bookmarkRepository.findByDocumentId(documentId));
+		documentTagRepository.deleteByDocumentId(documentId);
+		documentItemRepository.deleteByDocumentId(documentId);
+		commentRepository.delete(commentRepository.findByDocumentId(documentId));
+		updateInfoRepository.delete(updateInfoRepository.findByDocumentId(documentId));
+		documentInfoRepository.delete(documentId);
 	}
 
 	private synchronized String createNewDocumentId() throws IdIssuanceUpperException {

@@ -74,7 +74,7 @@ public class MonitoringLogic {
 			}
 			return form;
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: getMonitoringList]");
 		}
 	}
 }

@@ -56,7 +56,7 @@ public class SettingLogic {
 					.map(tagRepository::findOne)
 					.collect(Collectors.toList());
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: getMonitoringTag]");
 		}
 	}
 
@@ -72,7 +72,7 @@ public class SettingLogic {
 			}
 			return forms;
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: getNotificationTag]");
 		}
 	}
 
@@ -85,7 +85,7 @@ public class SettingLogic {
 			setting.put("mailNotification", config.isMailNotification());
 			return setting;
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: getNotificationComment]");
 		}
 	}
 
@@ -94,7 +94,7 @@ public class SettingLogic {
 			userDetail.setEmployeeNumber(employeeNumber);
 			userDetailRepository.saveAndFlush(userDetail);
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: updateUserDetail]");
 		}
 	}
 
@@ -123,7 +123,7 @@ public class SettingLogic {
 				notificationConfigRepository.saveAndFlush(conf);
 			}
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: updateMonitoringTag]");
 		}
 	}
 
@@ -133,7 +133,7 @@ public class SettingLogic {
 			notifications.forEach(notificationConfigRepository::save);
 			notificationConfigRepository.flush();
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: updateNotificationTag]");
 		}
 	}
 
@@ -145,7 +145,7 @@ public class SettingLogic {
 			config.setMailNotification(map.get("mailNotification"));
 			notificationConfigRepository.saveAndFlush(config);
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: updateNotificationComment]");
 		}
 	}
 
@@ -158,7 +158,7 @@ public class SettingLogic {
 			config.setMailNotification(map.get("mailNotification"));
 			notificationConfigRepository.saveAndFlush(config);
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: createNotificationComment]");
 		}
 	}
 

@@ -60,7 +60,7 @@ public class BookmarkLogic {
 
 			return form;
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: getBookmarkList]");
 		}
 	}
 
@@ -77,7 +77,7 @@ public class BookmarkLogic {
 			}
 			return String.format("m%010d", idNum + 1);
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: getNewBookmarkId]");
 		}
 	}
 
@@ -100,7 +100,7 @@ public class BookmarkLogic {
 				bookmarkRepository.saveAndFlush(bookmark);
 			}
 		} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: updateBookmark]");
 		}
 	}
 }

@@ -74,7 +74,7 @@ public class InfomationLogic {
                     .collect(Collectors.toList());
             return list;
     	} catch (DBException e) {
-			throw new DBException("Internal Server Error");
+			throw new DBException("DB Runtime Error[method: getAllInfomationList]");
 		}
     }
 
