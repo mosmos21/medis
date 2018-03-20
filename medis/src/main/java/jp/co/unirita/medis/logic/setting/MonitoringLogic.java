@@ -25,9 +25,10 @@ import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.DocumentInfoForm;
+import jp.co.unirita.medis.util.exception.DBException;
 
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class MonitoringLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -47,30 +48,33 @@ public class MonitoringLogic {
 
 
 	public List<DocumentInfoForm> getMonitoringList(String employeeNumber) {
-
-		List<String> tagIdList = notificationConfigRepository.findByEmployeeNumber(employeeNumber).stream()
-                .map(NotificationConfig::getTagId)
-                .collect(Collectors.toList());
-		List<String> templateIdList = templateTagRepository.findByTagIdIn(tagIdList).stream()
-                .map(TemplateTag::getTemplateId)
-                .collect(Collectors.toList());
-	    List<String> documentIdList = documentTagRepository.findByTagIdIn(tagIdList).stream()
-                .map(DocumentTag::getDocumentId)
-                .collect(Collectors.toList());
-	    List<DocumentInfo> documentInfoList1 = documentInfoRepository.findByTemplateIdIn(templateIdList);
-	    List<DocumentInfo> documentInfoList2 = documentInfoRepository.findByDocumentIdIn(documentIdList);
-	    List<DocumentInfo> documentInfoList = Stream.concat(documentInfoList1.stream(), documentInfoList2.stream())
-	    		.distinct()
-	    		.sorted(Comparator.comparing(DocumentInfo::getDocumentCreateDate).reversed())
-	    		.collect(Collectors.toList());
-	    List<UserDetail> userDetail = new ArrayList<>();
-	    for (DocumentInfo docInfo : documentInfoList) {
-			userDetail.add(userDetailRepository.findOne(docInfo.getEmployeeNumber()));
+		try {
+			List<String> tagIdList = notificationConfigRepository.findByEmployeeNumber(employeeNumber).stream()
+	                .map(NotificationConfig::getTagId)
+	                .collect(Collectors.toList());
+			List<String> templateIdList = templateTagRepository.findByTagIdIn(tagIdList).stream()
+	                .map(TemplateTag::getTemplateId)
+	                .collect(Collectors.toList());
+		    List<String> documentIdList = documentTagRepository.findByTagIdIn(tagIdList).stream()
+	                .map(DocumentTag::getDocumentId)
+	                .collect(Collectors.toList());
+		    List<DocumentInfo> documentInfoList1 = documentInfoRepository.findByTemplateIdIn(templateIdList);
+		    List<DocumentInfo> documentInfoList2 = documentInfoRepository.findByDocumentIdIn(documentIdList);
+		    List<DocumentInfo> documentInfoList = Stream.concat(documentInfoList1.stream(), documentInfoList2.stream())
+		    		.distinct()
+		    		.sorted(Comparator.comparing(DocumentInfo::getDocumentCreateDate).reversed())
+		    		.collect(Collectors.toList());
+		    List<UserDetail> userDetail = new ArrayList<>();
+		    for (DocumentInfo docInfo : documentInfoList) {
+				userDetail.add(userDetailRepository.findOne(docInfo.getEmployeeNumber()));
+			}
+		    List<DocumentInfoForm> form = new ArrayList<>();
+			for (int i = 0; i < documentInfoList.size(); i++) {
+				form.add(new DocumentInfoForm(documentInfoList.get(i), userDetail.get(i)));
+			}
+			return form;
+		} catch (DBException e) {
+			throw new DBException("Internal Server Error");
 		}
-	    List<DocumentInfoForm> form = new ArrayList<>();
-		for (int i = 0; i < documentInfoList.size(); i++) {
-			form.add(new DocumentInfoForm(documentInfoList.get(i), userDetail.get(i)));
-		}
-		return form;
 	}
 }
