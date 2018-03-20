@@ -41,7 +41,8 @@ public class DocumentController {
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
 	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
-	private static final String TYPE_COMMNET_READ = "v0000000003";
+	private static final String TYPE_COMMENT_DOCUMENT = "v0000000002";
+	private static final String TYPE_COMMNETREAD_DOCUMENT = "v0000000003";
 
 	@Autowired
 	DocumentLogic documentLogic;
@@ -198,7 +199,7 @@ public class DocumentController {
 		argumentCheckLogic.checkDocumentId(documentId);
 		argumentCheckLogic.checkCommentId(commentId);
 		commentLogic.alreadyRead(documentId, commentId);
-		updateInfoLogic.saveUpdateInfo(documentId, TYPE_COMMNET_READ, employeeNumber);
+		updateInfoLogic.saveUpdateInfo(documentId, TYPE_COMMNETREAD_DOCUMENT, employeeNumber);
 		notificationLogic.commentReadNotification(commentId);
 		return commentId;
 	}
@@ -276,7 +277,9 @@ public class DocumentController {
 				+ value.get("commentContent"));
 		argumentCheckLogic.checkDocumentId(documentId);
 		notificationLogic.commentNotification(user.getEmployeeNumber(), documentId);
+		updateInfoLogic.saveUpdateInfo(documentId,TYPE_COMMENT_DOCUMENT,user.getEmployeeNumber());
 		return commentLogic.save(documentId, user.getEmployeeNumber(), value);
+
 	}
 
 	/**
