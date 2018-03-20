@@ -18,7 +18,6 @@ export class ConfigNotificationComponent implements OnInit {
   public notification: Notification = new Notification();
   public isTagMail: boolean = true;
   public isTagBrowser: boolean = true;
-  private tempJson: any = [];
 
   constructor(
     private http: HttpService,
@@ -45,14 +44,12 @@ export class ConfigNotificationComponent implements OnInit {
   }
 
   toggleTagMailAll() {
-    this.isTagMail = !this.isTagMail;
     for (const i in this.notification.tagNotification) {
       this.notification.tagNotification[i]['mailNotification'] = this.isTagMail;
     }
   }
 
   toggleTagBrowserAll() {
-    this.isTagBrowser = !this.isTagBrowser;
     for (let i in this.notification.tagNotification) {
       this.notification.tagNotification[i]['browserNotification'] = this.isTagBrowser;
     }

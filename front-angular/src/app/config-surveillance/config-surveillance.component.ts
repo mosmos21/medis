@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '../services/auth.service';
-import { NavigationService } from '../services/navigation.service';
 import { SearchService } from '../services/search.service';
 import { SnackBarService } from '../services/snack-bar.service';
+import { NavigationService } from '../services/navigation.service';
+import { HttpService } from '../services/http.service';
 
 @Component({
   selector: 'app-config-surveillance',
@@ -14,16 +14,15 @@ import { SnackBarService } from '../services/snack-bar.service';
 export class ConfigSurveillanceComponent implements OnInit {
 
   constructor(
-    private http: HttpClient,
+    private http: HttpService,
     private nav: NavigationService,
     private snackBar: SnackBarService,
-    @Inject('hostname') private hostname: string,
     private authService: AuthService,
     public searchService: SearchService,
   ) {
     this.nav.show();
-    this.authService.getUserDetail();
     this.searchService.init();
+    this.authService.getUserDetail();
   }
 
   ngOnInit() {
@@ -32,16 +31,13 @@ export class ConfigSurveillanceComponent implements OnInit {
   }
 
   sabmit() {
-    console.log(this.searchService.selectedTags);
     const tempTag = this.searchService.selectedTags;
-    this.http.post(this.hostname + "settings/me/monitoring_tags", tempTag, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe(
-      success => {
-        this.snackBar.openSnackBar("保存しました", "");
-      }
-    );
+    this.http.postWithPromise("settings/me/monitoring_tags", tempTag).subscribe(res => {
+      this.snackBar.openSnackBar("保存しました", "");
+    });
   }
+
   cancel() {
-    console.log("call cancel");
     this.nav.toTop();
   }
 }

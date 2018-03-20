@@ -24,9 +24,9 @@
 				</div>
 				<div class="config_text">
 					メール：
-					<mat-slide-toggle color="primary" (change)="toggleTagMailAll()" [checked]="isTagMail"></mat-slide-toggle>
+					<mat-slide-toggle color="primary" (change)="toggleTagMailAll()" [(ngModel)]="isTagMail"></mat-slide-toggle>
 					&emsp;&emsp;&emsp; プッシュ：
-					<mat-slide-toggle color="accent" (change)="toggleTagBrowserAll()" [checked]="isTagBrowser"></mat-slide-toggle>
+					<mat-slide-toggle color="accent" (change)="toggleTagBrowserAll()" [(ngModel)]="isTagBrowser"></mat-slide-toggle>
 				</div>
 				<table class="t-line">
 					<tr>
