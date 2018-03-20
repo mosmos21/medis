@@ -14,9 +14,9 @@
 				</div>
 				<div class="config_text">
 					メール：
-					<mat-slide-toggle color="primary" (change)="toggleCommentMail()" [checked]="mailNotification"></mat-slide-toggle>
+					<mat-slide-toggle color="primary" [(ngModel)]="notification.mailNotification"></mat-slide-toggle>
 					&emsp;&emsp;&emsp; プッシュ：
-					<mat-slide-toggle color="accent" (change)="toggleCommentBrowser()" [checked]="browserNotification"></mat-slide-toggle>
+					<mat-slide-toggle color="accent" [(ngModel)]="notification.browserNotification"></mat-slide-toggle>
 				</div>
 				<div class="list_box_header_square">
 					<h3>監視タグ通知</h3>
@@ -28,27 +28,24 @@
 					&emsp;&emsp;&emsp; プッシュ：
 					<mat-slide-toggle color="accent" (change)="toggleTagBrowserAll()" [checked]="isTagBrowser"></mat-slide-toggle>
 				</div>
-
-				<!-- <div class="config_text "> -->
 				<table class="t-line">
 					<tr>
 						<th>タグ名</th>
 						<th>メール</th>
 						<th class="boder-none">プッシュ</th>
 					</tr>
-					<tr *ngFor="let n of tagNotification; let idx = index">
+					<tr *ngFor="let n of notification.tagNotification; let idx = index">
 						<td>{{n.tagName}}</td>
 						<td>
-							<mat-slide-toggle color="primary" [checked]="n.mailNotification" (change)="toggleTagMail(idx)"></mat-slide-toggle>
+							<mat-slide-toggle color="primary" [(ngModel)]="n.mailNotification"></mat-slide-toggle>
 						</td>
 						<td>
-							<mat-slide-toggle color="accent" [checked]="n.browserNotification" (change)="toggleTagBrowser(idx)"></mat-slide-toggle>
+							<mat-slide-toggle color="accent" [(ngModel)]="n.browserNotification"></mat-slide-toggle>
 						</td>
 					</tr>
 				</table>
 				<br/>
 			</div>
-			<!-- </div> -->
 		</div>
 	</div>
 </div>

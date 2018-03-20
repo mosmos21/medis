@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ConfigNotificationComponent } from './config-notification.component';
 import { ConfigNotificationRoutingModule } from './config-notification-routing.module';
@@ -10,6 +11,7 @@ import {
 @NgModule({
   imports: [
     ConfigNotificationRoutingModule,
+    FormsModule,
     CommonModule,
     MatButtonModule,
     MatSlideToggleModule,

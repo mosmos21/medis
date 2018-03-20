@@ -36,7 +36,7 @@ export class HttpService {
   }
 
   postWithPromise(url: string, data: Object): any {
-    return this.post(url, data);
+    return this.post(url, data).toPromise();
   }
 
   put(url: string, data: Object): any {
@@ -47,6 +47,6 @@ export class HttpService {
   }
 
   putWithPromise(url: string, data: Object): any {
-    return this.put(url, data);
+    return this.put(url, data).toPromise();
   }
 }

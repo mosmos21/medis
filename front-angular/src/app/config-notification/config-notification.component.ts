@@ -1,102 +1,73 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
-import { AuthService } from '../services/auth.service'
-import { NavigationService } from '../services/navigation.service';
+import { HttpService } from '../services/http.service';
+import { AuthService } from '../services/auth.service';
 import { ErrorService } from '../services/error.service';
 import { SnackBarService } from '../services/snack-bar.service';
+import { NavigationService } from '../services/navigation.service';
+
+import { Notification } from '../model/Notification';
 
 @Component({
   selector: 'app-config-notification',
   templateUrl: './config-notification.component.html',
-  styleUrls: ['./config-notification.component.css']
+  styleUrls: ['./config-notification.component.css'],
 })
 export class ConfigNotificationComponent implements OnInit {
 
-  public mailNotification: boolean;
-  public browserNotification: boolean;
+  public notification: Notification = new Notification();
   public isTagMail: boolean = true;
   public isTagBrowser: boolean = true;
-
-  public tagNotification: any = [];
   private tempJson: any = [];
 
   constructor(
-    private http: HttpClient,
-    @Inject('hostname') private hostname: string,
+    private http: HttpService,
     private authService: AuthService,
     private errorService: ErrorService,
-    private nav: NavigationService,
     private snackBarService: SnackBarService,
+    private nav: NavigationService,
   ) {
     this.nav.show();
     this.authService.getUserDetail();
   }
 
   ngOnInit() {
-    this.http.get(this.hostname + 'settings/me/tag_notifications', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.tagNotification = json;
-        console.log(this.tagNotification);
-      },
-      error => {
-        this.errorService.errorPath(error.status)
-      }
-    );
-
-    this.http.get(this.hostname + 'settings/me/comment_notifications', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.tempJson = json;
-        this.mailNotification = this.tempJson.mailNotification;
-        this.browserNotification = this.tempJson.browserNotification;
-      },
-      error => {
-        this.errorService.errorPath(error.status)
-      }
-    );
-  }
-
-  toggleCommentMail() {
-    this.mailNotification = !this.mailNotification;
-  }
-
-  toggleCommentBrowser() {
-    this.browserNotification = !this.browserNotification;
+    this.http.getWithPromise('settings/me/tag_notifications').then(res => {
+      this.notification.setTagNotification(res);
+    }, error => {
+      this.errorService.errorPath(error.status);
+    });
+    this.http.getWithPromise('settings/me/comment_notifications').then(res => {
+      this.notification.setCommentNotification(res);
+    }, error => {
+      this.errorService.errorPath(error.status);
+    });
   }
 
   toggleTagMailAll() {
     this.isTagMail = !this.isTagMail;
-    for (const i in this.tagNotification) {
-      this.tagNotification[i]["mailNotification"] = this.isTagMail;
-      console.log(this.tagNotification);
+    for (const i in this.notification.tagNotification) {
+      this.notification.tagNotification[i]['mailNotification'] = this.isTagMail;
     }
   }
 
   toggleTagBrowserAll() {
     this.isTagBrowser = !this.isTagBrowser;
-    for (let i in this.tagNotification) {
-      this.tagNotification[i]["browserNotification"] = this.isTagBrowser;
+    for (let i in this.notification.tagNotification) {
+      this.notification.tagNotification[i]['browserNotification'] = this.isTagBrowser;
     }
   }
 
-  toggleTagMail(idx: number) {
-    this.tagNotification[idx].mailNotification = !this.tagNotification[idx].mailNotification;
-  }
-
-  toggleTagBrowser(idx: number) {
-    this.tagNotification[idx].browserNotification = !this.tagNotification[idx].browserNotification;
-  }
-
   submit() {
-    // console.log(this.tagNotification);
     const commentNotification = {
-      mailNotification: this.mailNotification,
-      browserNotification: this.browserNotification,
+      mailNotification: this.notification.mailNotification,
+      browserNotification: this.notification.browserNotification,
     };
-    // console.log(commentNotification);
-    this.http.post(this.hostname + "settings/me/tag_notifications", this.tagNotification, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
-    this.http.post(this.hostname + "settings/me/comment_notifications", commentNotification, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' }).subscribe();
-    this.snackBarService.openSnackBar("保存しました", "");
+    console.log(commentNotification);
+    console.log(this.notification.tagNotification);
+    this.http.postWithPromise('settings/me/tag_notifications', this.notification.tagNotification);
+    this.http.postWithPromise('settings/me/comment_notifications', commentNotification);
+    this.snackBarService.openSnackBar('保存しました', '');
   }
 
   cancel() {

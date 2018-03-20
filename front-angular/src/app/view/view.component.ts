@@ -1,7 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Inject } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../services/http.service';
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from '../services/error.service';

@@ -21,7 +21,6 @@ export class AuthService {
   public redirectUrl: string;
   public user: User;
   public userdetail: UserDetail;
-  public icon: string;
 
   private headers = new HttpHeaders;
   private options = new RequestOptions;
@@ -37,7 +36,7 @@ export class AuthService {
 
   init() : void {
     this.user = new User;
-    this.userdetail = new UserDetail;
+    this.userdetail = new UserDetail(this.hostname);
   }
 
   login(employeeNumber: string, password: string, callback: any): void {
@@ -100,10 +99,9 @@ export class AuthService {
   }
 
   getUserDetail() {
-    this.icon = this.hostname + "icon/me";
     this.http.get(this.hostname + 'settings/me', { withCredentials: true, headers: this.headerAddToken() }).subscribe(
       data => {
-        this.userdetail = new UserDetail(data);;
+        this.userdetail = new UserDetail(this.hostname, data);;
         // console.log(this.userdetail);
       },
       error => {

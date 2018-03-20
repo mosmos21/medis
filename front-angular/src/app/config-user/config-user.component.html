@@ -81,7 +81,7 @@
 							-->
 							<td *ngIf="!isIconInput">
 								<div class="icon_position">
-									<img [src]="authService.icon" class="account_icon" />
+									<img [src]="authService.userdetail.iconUrl" class="account_icon" />
 								</div>
 								<div class="pen_position">
 									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editIsIcon()">
