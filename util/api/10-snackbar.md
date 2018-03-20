@@ -16,7 +16,7 @@
         ---
         - レスポンス(200 OK)
 
-        
+
             ```json
             [
                 {
@@ -24,6 +24,6 @@
                     "updateType": "(updateType)",
                     "updateId": "(updateId)",
                     "documentName": "(documentName)"
-                },
+                }
             ]
             ```
