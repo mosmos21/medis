@@ -34,7 +34,7 @@ export class AuthService {
     this.init();
   }
 
-  init() : void {
+  init(): void {
     this.user = new User;
     this.userdetail = new UserDetail(this.hostname);
   }
@@ -82,6 +82,18 @@ export class AuthService {
     );
   }
 
+  errorLogout(): void {
+    this.http.get(this.hostname + 'logout', { withCredentials: true, headers: this.headerAddToken() }).subscribe(
+      success => {
+        localStorage.removeItem('token')
+        this.init();
+      },
+      error => {
+        localStorage.removeItem('token')
+      }
+    );
+  }
+
   isLoggedIn(): boolean {
     return this.cookieService.get('XSRF-TOKEN') == localStorage.getItem('token')
   }
@@ -101,8 +113,7 @@ export class AuthService {
   getUserDetail() {
     this.http.get(this.hostname + 'settings/me', { withCredentials: true, headers: this.headerAddToken() }).subscribe(
       data => {
-        this.userdetail = new UserDetail(this.hostname, data);;
-        // console.log(this.userdetail);
+        this.userdetail = new UserDetail(this.hostname, data);
       },
       error => {
       }
