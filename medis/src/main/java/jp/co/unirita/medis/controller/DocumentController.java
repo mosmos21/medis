@@ -44,7 +44,7 @@ public class DocumentController {
 	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
 	private static final String TYPE_COMMENT_DOCUMENT = "v0000000002";
 	private static final String TYPE_COMMNETREAD_DOCUMENT = "v0000000003";
-	private static final String SELECT_NOTIFICATION_COMMNET = "g0000000000";
+	private static final String COMMENT_NOTIFICATION_TAG = "g0000000000";
 
 	@Autowired
 	DocumentLogic documentLogic;
@@ -257,7 +257,7 @@ public class DocumentController {
 		logger.info("[method: save] Add Comment EmployeeNumber:" + user.getEmployeeNumber() + "commentContent:"
 				+ value.get("commentContent"));
 		NotificationConfig notificationConfig =notificationConfigRepository.
-				findByEmployeeNumberAndTagId(user.getEmployeeNumber(),SELECT_NOTIFICATION_COMMNET);
+				findByEmployeeNumberAndTagId(user.getEmployeeNumber(),COMMENT_NOTIFICATION_TAG);
 		argumentCheckLogic.checkDocumentId(documentId);
 		updateInfoLogic.saveUpdateInfo(documentId, TYPE_COMMENT_DOCUMENT, user.getEmployeeNumber());
 		if(notificationConfig.isMailNotification()) {
