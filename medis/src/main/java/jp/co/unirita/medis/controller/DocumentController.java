@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
+import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
+import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
 import jp.co.unirita.medis.domain.tag.Tag;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.user.User;
@@ -42,6 +44,7 @@ public class DocumentController {
 	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
 	private static final String TYPE_COMMENT_DOCUMENT = "v0000000002";
 	private static final String TYPE_COMMNETREAD_DOCUMENT = "v0000000003";
+	private static final String SELECT_NOTIFICATION_COMMNET = "g0000000000";
 
 	@Autowired
 	DocumentLogic documentLogic;
@@ -53,6 +56,8 @@ public class DocumentController {
 	NotificationLogic notificationLogic;
 	@Autowired
 	UpdateInfoLogic updateInfoLogic;
+	@Autowired
+	NotificationConfigRepository notificationConfigRepository;
 
 	/**
 	 * 文書の内容を取得する
@@ -251,9 +256,14 @@ public class DocumentController {
 			throws NotExistException, IdIssuanceUpperException {
 		logger.info("[method: save] Add Comment EmployeeNumber:" + user.getEmployeeNumber() + "commentContent:"
 				+ value.get("commentContent"));
+		NotificationConfig notificationConfig =notificationConfigRepository.
+				findByEmployeeNumberAndTagId(user.getEmployeeNumber(),SELECT_NOTIFICATION_COMMNET);
 		argumentCheckLogic.checkDocumentId(documentId);
-		notificationLogic.commentNotification(user.getEmployeeNumber(), documentId);
 		updateInfoLogic.saveUpdateInfo(documentId, TYPE_COMMENT_DOCUMENT, user.getEmployeeNumber());
+		if(notificationConfig.isMailNotification()) {
+		notificationLogic.commentNotification(user.getEmployeeNumber(), documentId);
+		}
+
 		return commentLogic.save(documentId, user.getEmployeeNumber(), value);
 
 	}
