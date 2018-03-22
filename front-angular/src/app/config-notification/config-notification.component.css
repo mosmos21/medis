@@ -76,3 +76,11 @@ table tr th {
 .t-line{
     margin-top: 10px;
 }
+
+.notification_mail {
+    margin-right: 1.5em;
+}
+
+.notification_browser {
+    margin-left: 1.5em;
+}
