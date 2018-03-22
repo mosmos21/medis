@@ -27,6 +27,10 @@ import jp.co.unirita.medis.form.system.SnackbarNotificationsForm;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CheckUpdateLogic {
+	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
+	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
+	private static final String TYPE_COMMENT_DOCUMENT = "v0000000002";
+	private static final String TYPE_COMMNETREAD_DOCUMENT = "v0000000003";
 
 	@Autowired
 	MailLogic mailLogic;
@@ -49,11 +53,14 @@ public class CheckUpdateLogic {
 	/**
 	 * コメント通知のSnackbarを表示するためのロジック
 	 *
-	 * @param employeeNumber ログインユーザの社員番号
-	 * @param updateId ログインユーザがもつ最新のupdateId
+	 * @param employeeNumber
+	 *            ログインユーザの社員番号
+	 * @param updateId
+	 *            ログインユーザがもつ最新のupdateId
 	 */
 
-	public List<SnackbarNotificationsForm> getCommentSnackbar(String employeeNumber, String updateId, String updateType) {
+	public List<SnackbarNotificationsForm> getCommentSnackbar(String employeeNumber, String updateId,
+			String updateType) {
 		List<SnackbarNotificationsForm> commentResult = new ArrayList<>();
 		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
 		String authorEmployeeNumber = documentInfoRepository.findOne(documentId).getEmployeeNumber();
@@ -61,7 +68,7 @@ public class CheckUpdateLogic {
 
 		if (employeeNumber.equals(authorEmployeeNumber)) {
 			SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(documentId, updateType,
-					latestUpdateId,documentInfoRepository.findOne(documentId).getDocumentName());
+					latestUpdateId, documentInfoRepository.findOne(documentId).getDocumentName());
 			commentResult.add(snackbarNotificationsForm);
 
 		}
@@ -72,19 +79,21 @@ public class CheckUpdateLogic {
 	/**
 	 * コメント既読の通知Snackbarを表示するためのロジック
 	 *
-	 * @param employeeNumber ログインユーザの社員番号
-	 * @param updateId ログインユーザがもつ最新のupdateId
+	 * @param employeeNumber
+	 *            ログインユーザの社員番号
+	 * @param updateId
+	 *            ログインユーザがもつ最新のupdateId
 	 */
 
-	private List<SnackbarNotificationsForm> commentReadNotificationSnackbar(String employeeNumber, String updateId,
+	private List<SnackbarNotificationsForm> getCommentReadSnackbar(String employeeNumber, String updateId,
 			String updateType) {
 		List<SnackbarNotificationsForm> commentReadResult = new ArrayList<>();
 		UpdateInfo updateInfo = updateInfoRepository.findOne(updateId);
-		String latestUpdateId =getLatestUpdateId().get("updateId");
+		String latestUpdateId = getLatestUpdateId().get("updateId");
 		if (updateInfo.getEmployeeNumber().equals(employeeNumber)) {
 			SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
-					updateInfo.getDocumentId(), updateType,
-					latestUpdateId,documentInfoRepository.findOne(updateInfo.getDocumentId()).getDocumentName());
+					updateInfo.getDocumentId(), updateType, latestUpdateId,
+					documentInfoRepository.findOne(updateInfo.getDocumentId()).getDocumentName());
 			commentReadResult.add(snackbarNotificationsForm);
 
 		}
@@ -95,15 +104,16 @@ public class CheckUpdateLogic {
 	/**
 	 * タグに関するSnackbarを表示するためのロジック
 	 *
-	 * @param employeeNumber ログインユーザの社員番号
-	 * @param updateId ログインユーザがもつ最新のupdateId
+	 * @param employeeNumber
+	 *            ログインユーザの社員番号
+	 * @param updateId
+	 *            ログインユーザがもつ最新のupdateId
 	 */
 
-	public List<SnackbarNotificationsForm> tagNotificationSnackbar(String employeeNumber, String updateId,
-			String updateType) {
+	public List<SnackbarNotificationsForm> getTagSnackbar(String employeeNumber, String updateId, String updateType) {
 		List<SnackbarNotificationsForm> tagResult = new ArrayList<>();
-				String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
-				String latestUpdateId =getLatestUpdateId().get("updateId");
+		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
+		String latestUpdateId = getLatestUpdateId().get("updateId");
 
 		DocumentInfo documentIdInfo = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
 
@@ -117,8 +127,8 @@ public class CheckUpdateLogic {
 			for (DocumentTag add : documentTagList) {
 				if (userNotificationTagList.contains(add.getTagId())) {
 					SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
-							add.getDocumentId(), updateType,
-							latestUpdateId,documentInfoRepository.findOne(add.getDocumentId()).getDocumentName());
+							add.getDocumentId(), updateType, latestUpdateId,
+							documentInfoRepository.findOne(add.getDocumentId()).getDocumentName());
 					tagResult.add(snackbarNotificationsForm);
 
 				}
@@ -134,31 +144,35 @@ public class CheckUpdateLogic {
 
 		for (UpdateInfo add : newUpdateId) {
 			List<SnackbarNotificationsForm> snackbarNotificationsForm = new ArrayList<>();
-			if (add.getUpdateType().equals("v0000000000")) {
-				snackbarNotificationsForm = tagNotificationSnackbar(employeeNumber, add.getUpdateId(), "v0000000000");
-			} else if (add.getUpdateType().equals("v0000000001")) {
-				snackbarNotificationsForm = tagNotificationSnackbar(employeeNumber, add.getUpdateId(), "v0000000001");
-			} else if (add.getUpdateType().equals("v0000000002")) {
+			switch (add.getUpdateType()) {
+			case TYPE_CREATE_DOCUMENT:
+				snackbarNotificationsForm = getTagSnackbar(employeeNumber, add.getUpdateId(), TYPE_CREATE_DOCUMENT);
+				break;
+
+			case TYPE_UPDATE_DOCUMENT:
+				snackbarNotificationsForm = getTagSnackbar(employeeNumber, add.getUpdateId(), TYPE_UPDATE_DOCUMENT);
+				break;
+
+			case TYPE_COMMENT_DOCUMENT:
 				snackbarNotificationsForm = getCommentSnackbar(employeeNumber, add.getUpdateId(),
-						"v0000000002");
-			} else {
-				snackbarNotificationsForm = commentReadNotificationSnackbar(employeeNumber, add.getUpdateId(),
-						"v0000000003");
+						TYPE_COMMENT_DOCUMENT);
+				break;
+
+			default:
+				snackbarNotificationsForm = getCommentReadSnackbar(employeeNumber, add.getUpdateId(),
+						TYPE_COMMNETREAD_DOCUMENT);
 			}
+
 			result.addAll(snackbarNotificationsForm);
-
+			result = result.stream().distinct().collect(Collectors.toList());
 		}
-		result = result.stream().distinct().collect(Collectors.toList());
-
 		return result;
 	}
 
 	public Map<String, String> getLatestUpdateId() {
 		HashMap<String, String> updateId = new HashMap<String, String>();
-		List<String> updateInfo = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId"))
-				.stream()
-				.map(UpdateInfo::getUpdateId)
-				.collect(Collectors.toList());
+		List<String> updateInfo = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId")).stream()
+				.map(UpdateInfo::getUpdateId).collect(Collectors.toList());
 		updateId.put("updateId", updateInfo.get(0));
 		return updateId;
 	}
