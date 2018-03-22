@@ -55,14 +55,16 @@
                                             <div *ngSwitchCase="'checkbox'">
                                                 <mat-checkbox [name]="'content-' + idx" 
                                                 [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" 
-                                                (click)="clickCheckBox(idx, content.block.getDocumentValueIndex(i))">
+                                                (click)="clickCheckBox(idx, content.block.getDocumentValueIndex(i))"
+                                                style="margin-left:1em">
                                                     {{ content.values[content.block.getTemplateValueIndex(i)] }}
                                                 </mat-checkbox>
                                             </div>
                                             <div *ngSwitchCase="'radio'">
                                                 <mat-radio-button [name]="'content-' + idx" 
                                                 [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" 
-                                                (click)="clickRadio(idx, content.block.getDocumentValueIndex(i))">
+                                                (click)="clickRadio(idx, content.block.getDocumentValueIndex(i))"
+                                                style="margin-left:1em">
                                                     {{ content.values[content.block.getTemplateValueIndex(i)] }}
                                                 </mat-radio-button>
                                             </div>

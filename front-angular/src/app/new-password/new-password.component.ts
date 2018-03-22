@@ -56,7 +56,6 @@ export class NewPasswordComponent implements OnInit {
             this.router.navigate(['/login']);
           });
         } else {
-          console.log(res);
           this.user['employeeNumber'] = result['employeeNumber'];
           this.user['mailaddress'] = result['mailaddress'];
         }
@@ -71,7 +70,6 @@ export class NewPasswordComponent implements OnInit {
     if (this.password == this.passwordCheck) {
       this.errorMessage = '';
       this.user['password'] = this.password;
-      console.log(this.user);
       this.http.post('accounts/reset', this.user).subscribe(success => {
         const dialogRef = this.dialog.open(MessageModalComponent, {
           data: {

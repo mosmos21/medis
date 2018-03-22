@@ -43,7 +43,7 @@ export class HttpService {
     if (!this.authService.isLoggedIn()) {
       return Observable.of(false);
     }
-    return this.http.put(this.hostname + url, data, { withCredentials: true, headers: this.authService.headerAddToken() });
+    return this.http.put(this.hostname + url, data, { withCredentials: true, headers: this.authService.headerAddToken(), responseType: 'text' });
   }
 
   putWithPromise(url: string, data: Object): any {

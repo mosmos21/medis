@@ -84,6 +84,7 @@ export class EditDocumentComponent implements OnInit {
       } else {
         this.http.get('templates/' + this.route.snapshot.fragment).subscribe(res => {
           this.template = this.convertService.makeTemplate(res, this.blocks);
+          this.document.templateId = this.template.templateId;
           this.document.initValues(this.template.contents.map(content => content.block));
           this.loadTags();
         }, error => {
@@ -147,13 +148,14 @@ export class EditDocumentComponent implements OnInit {
       let dialogRef = this.dialog.open(MessageModalComponent, { data: { message: this.message } });
     }
     let data = this.document.toJson(type);
+    console.log(data);
     if (type == 'save') {
       this.message = 'ドキュメントを保存し、公開しました。';
     } else {
       this.message = 'ドキュメントを下書きとして保存しました。';
     }
 
-    if (this.document.documentId == 'new') {
+    if (this.document.documentId == null) {
       this.http.put('documents/new', data).subscribe(id => {
         this.document.documentId = id;
         this.submitTags();
