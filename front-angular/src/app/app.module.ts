@@ -62,7 +62,6 @@ import { NewDocumentComponent } from './new-document/new-document.component';
 import { EditIconComponent } from './edit-icon/edit-icon.component';
 import { MsgToSidenavService } from './services/msg-to-sidenav.service';
 import { IsNewService } from './services/is-new.service';
-import { UploadFileService } from './services/upload-file.service';
 import { HttpService } from './services/http.service';
 import { TypeConversionService } from './services/type-conversion.service';
 
@@ -123,7 +122,6 @@ import { TypeConversionService } from './services/type-conversion.service';
     ErrorService,
     SnackBarService,
     MsgToSidenavService,
-    UploadFileService,
     IsNewService,
     HttpService,
     { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }

@@ -54,6 +54,13 @@ export class HttpService {
     return this.http.delete(url, { withCredentials: true, headers: this.authService.headerAddToken() });
   }
 
+  postIcon(file: File) {
+    let formdata: FormData = new FormData();
+    formdata.append('file', file);
+    this.http.post(this.hostname + "icon", formdata, { withCredentials: true, headers: this.authService.headerMultipart(), responseType: 'text' }).subscribe(id => { }, error => {
+    });
+  }
+
   getHostname(): string {
     return this.hostname;
   }

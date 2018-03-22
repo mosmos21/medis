@@ -60,8 +60,13 @@ export class ConfigUserComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      let resetUser: any = {
+        employeeNumber: this.userSettings.employeeNumber,
+        mailaddress: this.userSettings.mailaddress,
+        password: 'dammy'
+      }
       if (result != null) {
-        this.http.postWithPromise('accounts/usercheck', this.userSettings).then(res => { }, error => {
+        this.http.postWithPromise('accounts/usercheck', resetUser).then(res => { }, error => {
           this.errorService.errorPath(error.status);
         });
         let dialogRef = this.dialog.open(MessageModalComponent, {
@@ -75,9 +80,6 @@ export class ConfigUserComponent implements OnInit {
 
   editIcon(): void {
     let dialogRef = this.dialog.open(EditIconComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      location.reload();
-    })
   }
 
   submit(): void {
@@ -93,7 +95,7 @@ export class ConfigUserComponent implements OnInit {
       this.http.postWithPromise('settings/me', this.userSettings).then(res => { }, error => {
         this.errorService.errorPath(error.status);
       });
-      this.nav.toTop();
+      location.reload();
       this.snacBarService.openSnackBar('保存しました', '');
     } else {
       this.errorMessage = '入力必須項目が未入力です。';
