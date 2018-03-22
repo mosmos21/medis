@@ -3,6 +3,7 @@ import { Block } from "../model/Block";
 import { Template } from "../model/Template";
 import { Document } from "../model/Document";
 import { TagContent } from "../model/Tag";
+import { UpdateList } from '../model/UpdateList';
 
 @Injectable()
 export class TypeConversionService {
@@ -53,5 +54,18 @@ export class TypeConversionService {
       tags.push(data[idx]['tagName']);
     }
     return tags;
+  }
+
+  makeUpdateList(data: Object): UpdateList[] {
+    let update: UpdateList[] = new Array();
+    for (let idx in data) {
+      update.push({
+        documentId: data[idx]['documentId'],
+        updateType: data[idx]['updateType'],
+        updateId: data[idx]['updateId'],
+        documentName: data[idx]['documentName'],
+      });
+    }
+    return update;
   }
 }

@@ -73,7 +73,7 @@ export class ConfigUserComponent implements OnInit {
     });
   }
 
-  editIsIcon(): void {
+  editIcon(): void {
     let dialogRef = this.dialog.open(EditIconComponent);
     dialogRef.afterClosed().subscribe(result => {
       location.reload();
