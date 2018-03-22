@@ -9,6 +9,7 @@ import { ConvertDateService } from '../services/convert-date.service';
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from '../services/error.service';
 import { SnackBarService } from '../services/snack-bar.service';
+import { HttpService } from '../services/http.service';
 
 @Component({
   selector: 'app-select-template',
@@ -17,16 +18,13 @@ import { SnackBarService } from '../services/snack-bar.service';
 })
 export class SelectTemplateComponent implements OnInit {
 
-  public templates;
-  private enable;
-  private message;
+  public templates: TemplateInfo[] = new Array();
 
   constructor(
-    private http: HttpClient,
-    @Inject('hostname') private hostname: string,
     public dialog: MatDialog,
-    private nav: NavigationService,
     public convert: ConvertDateService,
+    private nav: NavigationService,
+    private http: HttpService,
     private authService: AuthService,
     private errorService: ErrorService,
     private snackBarService: SnackBarService,
@@ -35,63 +33,50 @@ export class SelectTemplateComponent implements OnInit {
     this.nav.show();
     this.authService.getUserDetail();
   }
-
-  confirmChangePublish(e: any, index: number): void {
-    e.preventDefault();
-
-    if (!this.templates[index]["templatePublish"]) {
-      this.enable = "公開";
-    } else {
-      this.enable = "非公開に";
-    }
-
-    this.message = this.templates[index]['templateName'] + 'を' + this.enable + 'します。'
-
-    let dialogRef = this.dialog.open(ConfirmationComponent, {
-      data: {
-        message: this.message
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.templates[index]["templatePublish"] = !this.templates[index]["templatePublish"];
-
-        let type = this.templates[index].templatePublish ? "public" : "private";
-        let url = this.hostname + "templates/" + this.templates[index].templateId + '/' + type;
-        this.http.post(url, null, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-          success => {
-            this.snackBarService.openSnackBar("変更しました", "");
-          },
-          error => {
-            this.errorService.errorPath(error.status)
-          }
-        );
-      }
+  
+  ngOnInit() {
+    this.http.get('templates').subscribe(list => {
+      this.templates = list;
+    }, error => {
+      this.errorService.errorPath(error.status);
     });
   }
 
-  ngOnInit() {
-    this.http.get(this.hostname + 'templates', { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.templates = json;
-      },
-      error => {
-        console.log(error);
-        this.errorService.errorPath(error.status)
+  confirmChangePublish(e: any, index: number): void {
+    e.preventDefault();
+    const enable = this.templates[index]['templatePublish'] ? '非公開に' : '公開';
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: {
+        message: this.templates[index]['templateName'] + 'を' + enable + 'します。',
       }
-    );
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.templates[index]['templatePublish'] = !this.templates[index]['templatePublish'];
+        const type = this.templates[index].templatePublish ? 'public' : 'private';
+        const url = 'templates/' + this.templates[index].templateId + '/' + type;
+        this.http.post(url, null).subscribe(success => {
+          this.snackBarService.openSnackBar('変更しました', '');
+        }, error => {
+          this.errorService.errorPath(error.status);
+        });
+      }
+    });
   }
 
   @HostListener('window:unload', ['$event'])
   unloadHandler() {
-    this.http.post(this.hostname + "users/update", this.templates, { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-      },
-      error => {
-        this.errorService.errorPath(error.status)
-      }
-    );
+    this.http.post('users/update', this.templates).subscribe(success => {
+    }, error => {
+      this.errorService.errorPath(error.status);
+    });
   }
+}
 
+interface TemplateInfo {
+  employeeNumber: string,
+  templateCreateDate: number,
+  templateId: string,
+  templateName: string,
+  templatePublish: boolean,
 }
