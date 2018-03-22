@@ -63,12 +63,11 @@ public class DocumentLogic {
 	@Autowired
 	TagLogic tagLogic;
 
-	public DocumentForm getDocument(String documentId) {
+	public DocumentForm getDocument(String employeeNumber, String documentId) {
 		try {
-			Bookmark bookmark = bookmarkRepository.findOne("m0000000000");
-
 			DocumentInfo info = documentInfoRepository.findOne(documentId);
 			UserDetail detail = userDetailRepository.findOne(info.getEmployeeNumber());
+			Bookmark bookmark = bookmarkRepository.findByEmployeeNumberAndDocumentId(employeeNumber, documentId);
 
 			DocumentForm document = new DocumentForm();
 			document.setEmployeeNumber(info.getEmployeeNumber());

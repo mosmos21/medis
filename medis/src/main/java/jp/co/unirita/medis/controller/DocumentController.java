@@ -62,6 +62,7 @@ public class DocumentController {
 	/**
 	 * 文書の内容を取得する
 	 *
+	 * @param user ログインしているユーザ
 	 * @param documentId 取得する文書の文書ID
 	 * @return 文書情報(@ see jp.co.unirita.medis.form.DocumentForm)のリスト
 	 * @throws NotExistException 文書IDが存在していない場合に発生する例外
@@ -72,7 +73,7 @@ public class DocumentController {
 			@PathVariable(value = "documentId") String documentId) throws NotExistException {
 		logger.info("[method: getDocument] Get document list by " + documentId + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
-		return documentLogic.getDocument(documentId);
+		return documentLogic.getDocument(user.getEmployeeNumber(), documentId);
 	}
 
 	/**
