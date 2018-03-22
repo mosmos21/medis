@@ -32,7 +32,7 @@ export class ConfigSurveillanceComponent implements OnInit {
     this.searchService.getMonitoringTag();
   }
 
-  sabmit() {
+  sabmit(): void {
     const tempTag = this.searchService.selectedTags;
     this.http.postWithPromise('settings/me/monitoring_tags', tempTag).then(res => {
       this.snackBarService.openSnackBar('保存しました', '');
@@ -41,7 +41,7 @@ export class ConfigSurveillanceComponent implements OnInit {
     });
   }
 
-  cancel() {
+  cancel(): void {
     this.nav.toTop();
   }
 }
