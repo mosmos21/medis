@@ -34,7 +34,10 @@
                                             <pre>{{ content.values[content.block.getTemplateValueIndex(i)] }}</pre>
                                         </div>
                                         <div *ngSwitchCase="'text'">
-                                            <li style="margin-left:1em">{{ document.values[+idx][content.block.getDocumentValueIndex(i)] }}</li>
+                                            <li style="margin-left:1em" 
+                                                *ngIf="document.values[+idx][content.block.getDocumentValueIndex(i)].length > 0">
+                                                {{ document.values[+idx][content.block.getDocumentValueIndex(i)] }}
+                                            </li>
                                         </div>
                                         <div *ngSwitchCase="'textarea'">
                                             <pre>{{ document.values[+idx][content.block.getDocumentValueIndex(i)] }}</pre>
