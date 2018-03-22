@@ -2,6 +2,7 @@ package jp.co.unirita.medis.controller;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class CheckUpdateController {
 	 */
 	@GetMapping("/latest")
 	@ResponseStatus(HttpStatus.CREATED)
-	public List<String> CheckLatestUpdateId() {
+	public Map<String, String> CheckLatestUpdateId() {
 		logger.info("[method ChackLatest] Get LatestUpdateID");
 
 		return checkUpdateLogic.getLatestUpdateId();
