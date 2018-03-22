@@ -110,7 +110,7 @@ export class AuthService {
     return this.headers
   }
 
-  getUserDetail() {
+  getUserDetail(): void {
     this.http.get(this.hostname + 'settings/me', { withCredentials: true, headers: this.headerAddToken() }).subscribe(
       data => {
         this.userdetail = new UserDetail(this.hostname, data);

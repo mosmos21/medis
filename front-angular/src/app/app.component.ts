@@ -33,7 +33,6 @@ export class AppComponent {
     this.mymenuVisible = true;
   }
   ngOnInit() {
-    // console.log(this.authService.userdetail)
   }
 
   mymenuOpen() {
@@ -56,5 +55,9 @@ export class AppComponent {
 
   logout() {
     this.authService.logout()
+  }
+
+  isUserEmpty(): boolean {
+    return !Object.keys(this.authService.userdetail).length;
   }
 }
