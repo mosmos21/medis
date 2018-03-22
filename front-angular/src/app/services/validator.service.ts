@@ -10,7 +10,7 @@ export class ValidatorService {
     for (let i of input) {
       i = i.replace(/\s+/g, "");
       console.log(i);
-      bool = bool || (i != "")
+      bool = bool || (i == "")
     }
     return bool;
   }
