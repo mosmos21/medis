@@ -24,7 +24,7 @@ public class UpdateInfoLogic {
 		try {
 			return updateInfoRepository.findByDocumentId(id);
 		} catch (DBException e) {
-			throw new DBException("DB Runtime Error[method: getUpdateInfo]");
+			throw new DBException("DB Runtime Error[class: UpdateInfoLogic, method: getUpdateInfo]");
 		}
 	}
 
@@ -40,7 +40,7 @@ public class UpdateInfoLogic {
 			}
 			return String.format("u%010d", idNum + 1);
 		} catch (DBException e) {
-			throw new DBException("DB Runtime Error[method: createNewUpdateId]");
+			throw new DBException("DB Runtime Error[class: UpdateInfoLogic, method: createNewUpdateId]");
 		}
 	}
 
@@ -55,7 +55,7 @@ public class UpdateInfoLogic {
 			info.setUpdateDate(updateDate);
 			updateInfoRepository.saveAndFlush(info);
 		} catch (DBException e) {
-			throw new DBException("DB Runtime Error[method: saveUpdateInfo]");
+			throw new DBException("DB Runtime Error[class: UpdateInfoLogic, method: saveUpdateInfo]");
 		}
 	}
 }
