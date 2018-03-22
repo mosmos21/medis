@@ -31,23 +31,21 @@
                                 <div *ngFor="let item of content.block.items;let i = index;">
                                     <div [ngSwitch]="item.documentType">
                                         <div *ngSwitchCase="'span'">
-                                            <span>{{ content.values[content.block.getTemplateValueIndex(i)] }}</span>
+                                            <pre>{{ content.values[content.block.getTemplateValueIndex(i)] }}</pre>
                                         </div>
                                         <div *ngSwitchCase="'text'">
-                                            <span>
-                                                <li>{{ document.values[idx][content.block.getDocumentValueIndex(i)] }}</li>
-                                            </span>
+                                                <li style="margin-left:1em">{{ document.values[+idx][content.block.getDocumentValueIndex(i)] }}</li>
                                         </div>
                                         <div *ngSwitchCase="'textarea'">
-                                            <span>{{ document.values[idx][content.block.getDocumentValueIndex(i)] }}</span>
+                                            <pre>{{ document.values[idx][content.block.getDocumentValueIndex(i)] }}</pre>
                                         </div>
                                         <div *ngSwitchCase="'checkbox'">
-                                            <mat-checkbox [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))">
+                                            <mat-checkbox [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" style="margin-left:1em">
                                                 {{ content.values[content.block.getTemplateValueIndex(i)] }}
                                             </mat-checkbox>
                                         </div>
                                         <div *ngSwitchCase="'radio'">
-                                            <mat-radio-button value="i" [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" (click)="false">
+                                            <mat-radio-button value="i" [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" (click)="false" style="margin-left:1em">
                                                 {{ content.values[content.block.getTemplateValueIndex(i)] }}
                                             </mat-radio-button>
                                         </div>
