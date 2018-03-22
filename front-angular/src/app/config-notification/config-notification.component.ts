@@ -20,11 +20,11 @@ export class ConfigNotificationComponent implements OnInit {
   public isTagBrowser: boolean = true;
 
   constructor(
+    private nav: NavigationService,
     private http: HttpService,
     private authService: AuthService,
     private errorService: ErrorService,
     private snackBarService: SnackBarService,
-    private nav: NavigationService,
   ) {
     this.nav.show();
     this.authService.getUserDetail();
@@ -43,38 +43,41 @@ export class ConfigNotificationComponent implements OnInit {
     });
   }
 
-  toggleTagMailAll() {
-    for (const i in this.notification.tagNotification) {
+  toggleTagMailAll(): void {
+    for (let i in this.notification.tagNotification) {
       this.notification.tagNotification[i]['mailNotification'] = this.isTagMail;
     }
   }
 
-  toggleTagBrowserAll() {
+  toggleTagBrowserAll(): void {
     for (let i in this.notification.tagNotification) {
       this.notification.tagNotification[i]['browserNotification'] = this.isTagBrowser;
     }
   }
 
-  submit() {
+  submit(): void {
     let success: boolean = true;
     const commentNotification = {
       mailNotification: this.notification.mailNotification,
       browserNotification: this.notification.browserNotification,
     };
-    this.http.postWithPromise('settings/me/tag_notifications', this.notification.tagNotification).then(res => { }, error => {
+    this.http.postWithPromise('settings/me/tag_notifications', this.notification.tagNotification).then(res => {
+      return this.http.postWithPromise('settings/me/comment_notifications', commentNotification);
+    }, error => {
       success = false;
       this.errorService.errorPath(error.status);
-    });
-    this.http.postWithPromise('settings/me/comment_notifications', commentNotification).then(res => { }, error => {
+    }).then(res => {
+    }, error => {
       success = false;
       this.errorService.errorPath(error.status);
+    }).then(() => {
+      if (success) {
+        this.snackBarService.openSnackBar('保存しました', '');
+      }
     });
-    if (success) {
-      this.snackBarService.openSnackBar('保存しました', '');
-    }
   }
 
-  cancel() {
+  cancel(): void {
     this.nav.toTop();
   }
 }

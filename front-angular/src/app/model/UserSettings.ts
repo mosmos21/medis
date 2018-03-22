@@ -10,7 +10,7 @@ export class UserSettings {
 
 	constructor() { };
 
-	setSettings(data: Object) {
+	setSettings(data: Object): void {
 		if (data == null) return;
 		this.employeeNumber = data['employeeNumber'];
 		this.lastName = data['lastName'];
