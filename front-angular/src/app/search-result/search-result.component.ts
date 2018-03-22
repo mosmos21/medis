@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { NavigationService } from '../services/navigation.service';
-import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '../services/auth.service';
-import { SearchService } from '../services/search.service';
+import { HttpService } from '../services/http.service';
 import { ErrorService } from '../services/error.service';
+import { SearchService } from '../services/search.service';
+import { NavigationService } from '../services/navigation.service';
 import { ConvertDateService } from '../services/convert-date.service';
+import { DocumentInfo } from '../model/DocumentInfo';
 
 @Component({
   selector: 'app-search-result',
@@ -14,16 +15,12 @@ import { ConvertDateService } from '../services/convert-date.service';
 })
 export class SearchResultComponent implements OnInit {
 
-  public title: string = "検索結果";
-  public id: string = "ドキュメントID";
-  public name: string = "ドキュメント名";
-  public list: any;
+  public documents: DocumentInfo[] = new Array();
   private msg: String;
 
   constructor(
     private nav: NavigationService,
-    private http: HttpClient,
-    @Inject('hostname') private hostname: string,
+    private http: HttpService,
     private authService: AuthService,
     private searchService: SearchService,
     private errorService: ErrorService,
@@ -34,30 +31,25 @@ export class SearchResultComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchService.searchTagsData$.subscribe(
-      msg => {
-        this.msg = msg;
-        this.getList(this.msg);
-      }
-    );
+    this.searchService.searchTagsData$.subscribe(msg => {
+      this.msg = msg;
+      this.getList(this.msg);
+    });
   }
 
   getList(msg: String): void {
     console.log(msg);
-    this.http.get(this.hostname + "search?tags=" + this.encodeStringToUri(msg), { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.list = json;
-        console.log(this.list);
-      },
-      error => {
-        this.errorService.errorPath(error.status)
+    this.http.get("search?tags=" + this.encodeStringToUri(msg)).subscribe(list => {
+      console.log(list);
+        this.documents = list;
+      },error => {
+        this.errorService.errorPath(error.status);
       }
     );
   }
 
-  encodeStringToUri(msg: any) {
-    var encord_tag = encodeURIComponent(msg);
-    return encord_tag;
+  encodeStringToUri(msg: any): string {
+    return encodeURIComponent(msg);
   }
 
 }

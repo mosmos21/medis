@@ -47,13 +47,13 @@ export class ViewComponent implements OnInit {
   load(documentId: string): void {
     this.http.getWithPromise('templates/blocks').then(res => {
       this.blocks = this.convertService.makeTemplateBlockMap(this.convertService.makeTemplateBlockList(res));
-      console.log(this.blocks);
       return this.http.getWithPromise('documents/' + documentId);
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(res => {
+      console.log(res);
       this.document = this.convertService.makeDocument(res);
-      console.log(this.document.documentId);
+      console.log(this.document.isFav);
       return this.http.getWithPromise('templates/' + this.document.templateId);
     }, error => {
       this.errorService.errorPath(error.status);
@@ -114,7 +114,7 @@ export class ViewComponent implements OnInit {
   }
 
   favorite() {
-    this.http.post('documents/bookmark/' + this.document.documentId, { selected: this.document.isFav }).subscribe(
+    this.http.post('documents/bookmark/' + this.document.documentId, { selected: !this.document.isFav }).subscribe(
       success => {
       }, error => {
         this.errorService.errorPath(error.status);

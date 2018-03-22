@@ -9,6 +9,7 @@ import { ConvertDateService } from '../services/convert-date.service';
 import { SnackBarService } from '../services/snack-bar.service';
 import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
 import { HttpService } from '../services/http.service';
+import { DocumentInfo } from '../model/DocumentInfo';
 
 @Component({
   selector: 'app-select-document',
@@ -55,15 +56,4 @@ export class SelectDocumentComponent implements OnInit {
       this.errorService.errorPath(error.status);
     });
   }
-}
-
-interface DocumentInfo {
-  documentCreateDate: number,
-  documentId: string,
-  documentName: string,
-  documentPublish: boolean,
-  employeeNumber: number,
-  firstName: string,
-  lastName: string,
-  templateId: string,
 }

@@ -11,12 +11,12 @@
 				<div class="list_box_content list_box_content_tall content_scroll_y">
 					<table id="info_list">
 						<tr>
-							<th id="info_list_id">{{ id }}</th>
-							<th id="info_list_name">{{ name }}</th>
+							<th id="info_list_id">ドキュメントID</th>
+							<th id="info_list_name">ドキュメント名</th>
 							<th id="info_list_author">作成者</th>
 							<th id="info_list_date">作成日</th>
 						</tr>
-						<tr *ngFor="let l of list">
+						<tr *ngFor="let l of documents">
 							<td>{{ l.documentId }}</td>
 							<td>
 								<a href="/browsing/{{ l.documentId }}">{{ l.documentName }}</a>
