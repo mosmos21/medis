@@ -53,6 +53,7 @@ public class SearchLogic {
 	    List<DocumentInfo> documentInfoList2 = documentInfoRepository.findByDocumentIdIn(documentIdList);
 
 		List<DocumentInfoForm> result = Stream.concat(documentInfoList1.stream(), documentInfoList2.stream()).distinct()
+				.filter(info -> info.isDocumentPublish())
 				.map(info -> new DocumentInfoForm(info, userDetailRepository.findOne(info.getEmployeeNumber())))
 				.sorted(Comparator.comparing(DocumentInfoForm::getDocumentCreateDate).reversed())
 				.collect(Collectors.toList());
