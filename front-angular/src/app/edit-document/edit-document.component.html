@@ -37,7 +37,9 @@
                                     <div *ngFor="let item of content.block.items;let i = index;">
                                         <div [ngSwitch]="item.documentType">
                                             <div *ngSwitchCase="'span'">
-                                                <span>{{ content.values[content.block.getTemplateValueIndex(i)] }}</span>
+                                                <span>
+                                                    <pre>{{ content.values[content.block.getTemplateValueIndex(i)] }}</pre>
+                                                </span>
                                             </div>
                                             <div *ngSwitchCase="'text'">
                                                 <mat-form-field class="block_body_content_full">
@@ -46,7 +48,8 @@
                                             </div>
                                             <div *ngSwitchCase="'textarea'">
                                                 <mat-form-field class="block_body_content_full">
-                                                    <textarea matInput rows="3" [(ngModel)]="document.values[idx][content.block.getDocumentValueIndex(i)]"></textarea>
+                                                    <textarea matInput rows="3" 
+                                                    [(ngModel)]="document.values[idx][content.block.getDocumentValueIndex(i)]"></textarea>
                                                 </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'checkbox'">
@@ -84,7 +87,9 @@
                         <div id="menu_search_content" class="menu_content">
                             <div *ngIf="searchService.selectedTags.length < 8">
                                 <mat-form-field>
-                                    <input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord" (keyup)="searchService.searchTag()">
+                                    <input matInput placeholder="Tag Name" value="" 
+                                    [(ngModel)]="searchService.searchWord" 
+                                    (keyup)="searchService.searchTag()">
                                 </mat-form-field>
                             </div>
 

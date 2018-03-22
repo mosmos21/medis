@@ -116,14 +116,14 @@ export class EditDocumentComponent implements OnInit {
     return this.document.values[contentIdx][valueIdx] == 'true';
   }
 
-  clickRadio(contentIdx: number, valueIdx: number) {
+  clickRadio(contentIdx: number, valueIdx: number): void {
     const size = this.template.contents[contentIdx].block.getDocumentWriteableSize();
     for (let i = 0; i < size; i++) {
       this.document.values[contentIdx][i] = String(i == valueIdx);
     }
   }
 
-  clickCheckBox(contentIdx: number, valueIdx: number) {
+  clickCheckBox(contentIdx: number, valueIdx: number): void {
     console.log(contentIdx + ' ' + valueIdx);
     this.document.values[contentIdx][valueIdx] = String(this.document.values[contentIdx][valueIdx] == 'false');
   }
@@ -178,7 +178,7 @@ export class EditDocumentComponent implements OnInit {
     });
   }
 
-  goBack() {
+  goBack():void {
     this.location.back();
   }
 
@@ -190,13 +190,8 @@ export class EditDocumentComponent implements OnInit {
     });
   }
 
-  trackByIndex(index, content) {
-    return content.id;
-  }
-
   @HostListener('window:beforeunload', ['$event'])
-  beforeUnload(e: Event) {
-    console.log(e);
+  beforeUnload(e: Event): void {
     e.returnValue = true;
   }
 }
