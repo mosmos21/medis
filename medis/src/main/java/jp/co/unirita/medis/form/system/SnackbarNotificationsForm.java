@@ -1,4 +1,4 @@
-package jp.co.unirita.medis.form.setting;
+package jp.co.unirita.medis.form.system;
 
 import lombok.Data;
 

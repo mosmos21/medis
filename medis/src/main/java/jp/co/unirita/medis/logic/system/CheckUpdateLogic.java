@@ -22,7 +22,7 @@ import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
-import jp.co.unirita.medis.form.setting.SnackbarNotificationsForm;
+import jp.co.unirita.medis.form.system.SnackbarNotificationsForm;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -57,11 +57,11 @@ public class CheckUpdateLogic {
 		List<SnackbarNotificationsForm> commentResult = new ArrayList<>();
 		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
 		String authorEmployeeNumber = documentInfoRepository.findOne(documentId).getEmployeeNumber();
-		String latestUpdateId = getLatestUpdateId().get(0);
+		String latestUpdateId = getLatestUpdateId().get("updateId");
 
 		if (employeeNumber.equals(authorEmployeeNumber)) {
 			SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(documentId, updateType,
-					documentInfoRepository.findOne(documentId).getDocumentName(), latestUpdateId);
+					latestUpdateId,documentInfoRepository.findOne(documentId).getDocumentName());
 			commentResult.add(snackbarNotificationsForm);
 
 		}
@@ -80,11 +80,11 @@ public class CheckUpdateLogic {
 			String updateType) {
 		List<SnackbarNotificationsForm> commentReadResult = new ArrayList<>();
 		UpdateInfo updateInfo = updateInfoRepository.findOne(updateId);
-		String latestUpdateId =getLatestUpdateId().get(0);
+		String latestUpdateId =getLatestUpdateId().get("updateId");
 		if (updateInfo.getEmployeeNumber().equals(employeeNumber)) {
 			SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
 					updateInfo.getDocumentId(), updateType,
-					documentInfoRepository.findOne(updateInfo.getDocumentId()).getDocumentName(), latestUpdateId);
+					latestUpdateId,documentInfoRepository.findOne(updateInfo.getDocumentId()).getDocumentName());
 			commentReadResult.add(snackbarNotificationsForm);
 
 		}
@@ -103,7 +103,7 @@ public class CheckUpdateLogic {
 			String updateType) {
 		List<SnackbarNotificationsForm> tagResult = new ArrayList<>();
 				String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
-				String latestUpdateId =getLatestUpdateId().get(0);
+				String latestUpdateId =getLatestUpdateId().get("updateId");
 
 		DocumentInfo documentIdInfo = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
 
@@ -118,7 +118,7 @@ public class CheckUpdateLogic {
 				if (userNotificationTagList.contains(add.getTagId())) {
 					SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
 							add.getDocumentId(), updateType,
-							documentInfoRepository.findOne(add.getDocumentId()).getDocumentName(), latestUpdateId);
+							latestUpdateId,documentInfoRepository.findOne(add.getDocumentId()).getDocumentName());
 					tagResult.add(snackbarNotificationsForm);
 
 				}
