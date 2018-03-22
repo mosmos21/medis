@@ -53,6 +53,7 @@ public class BookmarkListController {
      * 既にブックマークされている文書は、ブックマークを取り消す
      * @param user ログインしているユーザ
      * @param documentId お気に入りした文書ID
+     * @param type ブックマークの変更させる状態
      * @throws NotExistException 文書IDが存在していない場合に発生する例外
 	 * @throws IdIssuanceUpperException 新規で発行するブックマークIDの発行数が限界になった場合に発生する例外
      */

@@ -74,7 +74,7 @@ public class InfomationLogic {
                     .collect(Collectors.toList());
             return list;
     	} catch (DBException e) {
-			throw new DBException("DB Runtime Error[method: getAllInfomationList]");
+			throw new DBException("DB Runtime Error[class: infomationLogic, method: getAllInfomationList]");
 		}
     }
 
