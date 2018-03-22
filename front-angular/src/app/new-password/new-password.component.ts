@@ -45,7 +45,8 @@ export class NewPasswordComponent implements OnInit {
         secret: qParams['secret'],
       }
       this.http.post('accounts/keycheck', params).subscribe(res => {
-        if (res['result'] == 'NG') {
+        const result = JSON.parse(res);
+        if (result['result'] == 'NG') {
           const dialogRef = this.dialog.open(MessageModalComponent, {
             data: {
               message: res['message'],
@@ -55,8 +56,9 @@ export class NewPasswordComponent implements OnInit {
             this.router.navigate(['/login']);
           });
         } else {
-          this.user['employeeNumber'] = res['employeeNumber'];
-          this.user['mailaddress'] = res['mailaddress'];
+          console.log(res);
+          this.user['employeeNumber'] = result['employeeNumber'];
+          this.user['mailaddress'] = result['mailaddress'];
         }
       }, error => {
         this.errorService.errorPath(error.status);
@@ -69,6 +71,7 @@ export class NewPasswordComponent implements OnInit {
     if (this.password == this.passwordCheck) {
       this.errorMessage = '';
       this.user['password'] = this.password;
+      console.log(this.user);
       this.http.post('accounts/reset', this.user).subscribe(success => {
         const dialogRef = this.dialog.open(MessageModalComponent, {
           data: {

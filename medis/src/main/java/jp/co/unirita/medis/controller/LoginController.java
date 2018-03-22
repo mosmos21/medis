@@ -40,7 +40,6 @@ public class LoginController {
     @PostMapping(value = "login")
     @ResponseStatus(HttpStatus.CREATED)
     User login(@RequestBody UserLoginForm data, HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("ユーザID" + data.getEmployeeNumber() + "のログイン処理");
         loginLogic.login(data);
 
         CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());

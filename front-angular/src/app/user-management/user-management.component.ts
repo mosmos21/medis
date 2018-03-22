@@ -84,6 +84,7 @@ export class UserManagementComponent implements OnInit {
 
   createUser(): void {
     let user: UserForm = new UserForm();
+    user.enabled = true;
     const dialogRef = this.dialog.open(CreateUserComponent, {
       data: {
         user: user,

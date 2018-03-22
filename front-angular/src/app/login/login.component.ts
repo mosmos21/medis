@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   public password: string = 'pass2017';
   public hide: boolean;
 
-  private user: User;
+  private user: User = new User();
 
   constructor(
     public router: Router,
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(ResetPassComponent, {
+    let dialogRef = this.dialog.open(ResetPassComponent, {
       width: '400px',
       data: { user: this.user },
     });

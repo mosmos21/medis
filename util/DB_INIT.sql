@@ -5,8 +5,8 @@ CREATE ROLE
 
 
 CREATE DATABASE medis_db 
-    WITH OWNER = 'spring_user' 
+    WITH OWNER = spring_user 
     ENCODING   = 'utf8'
     LC_COLLATE = 'C'
     LC_CTYPE   = 'C'
-    TEMPLATE   = 'template0';
+    TEMPLATE   = template0;
