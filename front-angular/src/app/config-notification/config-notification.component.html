@@ -13,20 +13,28 @@
 					<h3>コメント通知</h3>
 				</div>
 				<div class="config_text">
-					メール：
-					<mat-slide-toggle color="primary" [(ngModel)]="notification.mailNotification"></mat-slide-toggle>
-					&emsp;&emsp;&emsp; プッシュ：
-					<mat-slide-toggle color="accent" [(ngModel)]="notification.browserNotification"></mat-slide-toggle>
+					<div class="notification_mail">
+						メール：
+						<mat-slide-toggle color="primary" [(ngModel)]="notification.mailNotification"></mat-slide-toggle>
+					</div>
+					<div class="notification_browser">
+						プッシュ：
+						<mat-slide-toggle color="accent" [(ngModel)]="notification.browserNotification"></mat-slide-toggle>
+					</div>
 				</div>
 				<div class="list_box_header_square">
 					<h3>監視タグ通知</h3>
 					<br>
 				</div>
 				<div class="config_text">
-					メール：
-					<mat-slide-toggle color="primary" (change)="toggleTagMailAll()" [(ngModel)]="isTagMail"></mat-slide-toggle>
-					&emsp;&emsp;&emsp; プッシュ：
-					<mat-slide-toggle color="accent" (change)="toggleTagBrowserAll()" [(ngModel)]="isTagBrowser"></mat-slide-toggle>
+					<div class="notification_mail">
+						メール：
+						<mat-slide-toggle color="primary" (change)="toggleTagMailAll()" [(ngModel)]="isTagMail"></mat-slide-toggle>
+					</div>
+					<div class="notification_browser">
+						プッシュ：
+						<mat-slide-toggle color="accent" (change)="toggleTagBrowserAll()" [(ngModel)]="isTagBrowser"></mat-slide-toggle>
+					</div>
 				</div>
 				<table class="t-line">
 					<tr>
