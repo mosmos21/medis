@@ -3,12 +3,12 @@ import { Block } from "./Block";
 export class Document {
 
   public documentId: string;
-  public documentName: string;
-  public templateId: string;
-  public employeeNumber: string;
-  public authorName: string;
-  public documentCreateDate: number;
-  public isFav: boolean;
+  public documentName: string = '';
+  public templateId: string = '';
+  public employeeNumber: string = '';
+  public authorName: string = '';
+  public documentCreateDate: number = 0;
+  public isFav: boolean = false;
   public values: string[][] = new Array();
 
   constructor() { }

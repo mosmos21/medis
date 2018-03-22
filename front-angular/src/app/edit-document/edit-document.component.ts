@@ -143,42 +143,43 @@ export class EditDocumentComponent implements OnInit {
   }
 
   submit(type: string): void {
-    if (this.valid.empty(this.document.documentName)) {
+    if (this.valid.empty([this.document.documentName])) {
       this.message = 'ドキュメント名を入力してください。';
       let dialogRef = this.dialog.open(MessageModalComponent, { data: { message: this.message } });
-    }
-    let data = this.document.toJson(type);
-    console.log(data);
-    if (type == 'save') {
-      this.message = 'ドキュメントを保存し、公開しました。';
     } else {
-      this.message = 'ドキュメントを下書きとして保存しました。';
-    }
-
-    if (this.document.documentId == null) {
-      this.http.put('documents/new', data).subscribe(id => {
-        this.document.documentId = id;
-        this.submitTags();
-      }, error => {
-        this.errorService.errorPath(error.status);
-      });
-    } else {
-      this.http.post('documents/' + this.document.documentId, data).subscribe(success => {
-        this.submitTags();
-      }, error => {
-        this.errorService.errorPath(error.status);
-      });
-    }
-    let dialogRef = this.dialog.open(MessageModalComponent, { data: { message: this.message } });
-    dialogRef.afterClosed().subscribe(result => {
+      let data = this.document.toJson(type);
+      console.log(data);
       if (type == 'save') {
-        this.msgToSidenavService.sendMsg();
-        this.router.navigate(['browsing/' + this.document.documentId]);
+        this.message = 'ドキュメントを保存し、公開しました。';
       } else {
-        this.msgToSidenavService.sendMsg();
-        this.router.navigate(['edit']);
+        this.message = 'ドキュメントを下書きとして保存しました。';
       }
-    });
+
+      if (this.document.documentId == null) {
+        this.http.put('documents/new', data).subscribe(id => {
+          this.document.documentId = id;
+          this.submitTags();
+        }, error => {
+          this.errorService.errorPath(error.status);
+        });
+      } else {
+        this.http.post('documents/' + this.document.documentId, data).subscribe(success => {
+          this.submitTags();
+        }, error => {
+          this.errorService.errorPath(error.status);
+        });
+      }
+      let dialogRef = this.dialog.open(MessageModalComponent, { data: { message: this.message } });
+      dialogRef.afterClosed().subscribe(result => {
+        if (type == 'save') {
+          this.msgToSidenavService.sendMsg();
+          this.router.navigate(['browsing/' + this.document.documentId]);
+        } else {
+          this.msgToSidenavService.sendMsg();
+          this.router.navigate(['edit']);
+        }
+      });
+    }
   }
 
   goBack(): void {

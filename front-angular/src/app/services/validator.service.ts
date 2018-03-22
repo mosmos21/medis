@@ -5,7 +5,7 @@ export class ValidatorService {
 
   constructor() { }
 
-  empty(input: any): boolean {
+  empty(input: string[]): boolean {
     let bool: boolean = false;
     for (let i of input) {
       i = i.replace(/\s+/g, "");

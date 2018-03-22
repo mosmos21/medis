@@ -99,7 +99,7 @@ export class ConfigUserComponent implements OnInit {
       this.http.postWithPromise('settings/me', this.userSettings).then(res => { }, error => {
         this.errorService.errorPath(error.status);
       });
-      location.reload();
+      this.nav.toTop();
       this.snacBarService.openSnackBar('保存しました', '');
     } else {
       if (!this.validate.empty(editUser)) {
