@@ -38,7 +38,7 @@ public class CheckUpdateController {
 	 */
 	@GetMapping("/latest")
 	@ResponseStatus(HttpStatus.CREATED)
-	public String CheckLatestUpdateId() {
+	public List<String> CheckLatestUpdateId() {
 		logger.info("[method ChackLatest] Get LatestUpdateID");
 
 		return checkUpdateLogic.getLatestUpdateId();

@@ -45,10 +45,8 @@ public class CheckUpdateLogic {
 	/**
 	 * コメント通知のSnackbarを表示するためのロジック
 	 *
-	 * @param employeeNumber
-	 *            ログインユーザの社員番号
-	 * @param updateId
-	 *            ログインユーザがもつ最新のupdateId
+	 * @param employeeNumber ログインユーザの社員番号
+	 * @param updateId ログインユーザがもつ最新のupdateId
 	 */
 
 	public List<SnackbarNotificationsForm> commentNotificationSnackbar(String employeeNumber, String updateId,
@@ -56,10 +54,11 @@ public class CheckUpdateLogic {
 		List<SnackbarNotificationsForm> commentResult = new ArrayList<>();
 		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
 		String authorEmployeeNumber = documentInfoRepository.findOne(documentId).getEmployeeNumber();
+		String latestUpdateId =getLatestUpdateId().get(0);
 
 		if (employeeNumber.equals(authorEmployeeNumber)) {
 			SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(documentId, updateType,
-					documentInfoRepository.findOne(documentId).getDocumentName(), getLatestUpdateId());
+					documentInfoRepository.findOne(documentId).getDocumentName(), latestUpdateId);
 			commentResult.add(snackbarNotificationsForm);
 
 		}
@@ -70,20 +69,19 @@ public class CheckUpdateLogic {
 	/**
 	 * コメント既読の通知Snackbarを表示するためのロジック
 	 *
-	 * @param employeeNumber
-	 *            ログインユーザの社員番号
-	 * @param updateId
-	 *            ログインユーザがもつ最新のupdateId
+	 * @param employeeNumber ログインユーザの社員番号
+	 * @param updateId ログインユーザがもつ最新のupdateId
 	 */
 
 	private List<SnackbarNotificationsForm> commentReadNotificationSnackbar(String employeeNumber, String updateId,
 			String updateType) {
 		List<SnackbarNotificationsForm> commentReadResult = new ArrayList<>();
 		UpdateInfo updateInfo = updateInfoRepository.findOne(updateId);
+		String latestUpdateId =getLatestUpdateId().get(0);
 		if (updateInfo.getEmployeeNumber().equals(employeeNumber)) {
 			SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
 					updateInfo.getDocumentId(), updateType,
-					documentInfoRepository.findOne(updateInfo.getDocumentId()).getDocumentName(), getLatestUpdateId());
+					documentInfoRepository.findOne(updateInfo.getDocumentId()).getDocumentName(), latestUpdateId);
 			commentReadResult.add(snackbarNotificationsForm);
 
 		}
@@ -94,16 +92,16 @@ public class CheckUpdateLogic {
 	/**
 	 * タグに関するSnackbarを表示するためのロジック
 	 *
-	 * @param employeeNumber
-	 *            ログインユーザの社員番号
-	 * @param updateId
-	 *            ログインユーザがもつ最新のupdateId
+	 * @param employeeNumber ログインユーザの社員番号
+	 * @param updateId ログインユーザがもつ最新のupdateId
 	 */
 
 	public List<SnackbarNotificationsForm> tagNotificationSnackbar(String employeeNumber, String updateId,
 			String updateType) {
 		List<SnackbarNotificationsForm> tagResult = new ArrayList<>();
-		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
+				String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
+				String latestUpdateId =getLatestUpdateId().get(0);
+
 		DocumentInfo documentIdInfo = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
 
 		if (!(documentIdInfo == null)) {
@@ -117,7 +115,7 @@ public class CheckUpdateLogic {
 				if (userNotificationTagList.contains(add.getTagId())) {
 					SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
 							add.getDocumentId(), updateType,
-							documentInfoRepository.findOne(add.getDocumentId()).getDocumentName(), getLatestUpdateId());
+							documentInfoRepository.findOne(add.getDocumentId()).getDocumentName(), latestUpdateId);
 					tagResult.add(snackbarNotificationsForm);
 
 				}
@@ -152,9 +150,11 @@ public class CheckUpdateLogic {
 		return result;
 	}
 
-	public String getLatestUpdateId() {
-		String latestUpdateId = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId")).get(0)
-				.getUpdateId();
+	public List <String> getLatestUpdateId() {
+		List<String> latestUpdateId =new ArrayList<>();
+				List<String> updateInfo = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId"))
+				.stream().map(UpdateInfo::getUpdateId).collect(Collectors.toList());
+			latestUpdateId.add(updateInfo.get(0));
 
 		return latestUpdateId;
 	}
