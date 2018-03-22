@@ -50,6 +50,10 @@ export class HttpService {
     return this.put(url, data).toPromise();
   }
 
+  delete(url: string): any {
+    return this.http.delete(url, { withCredentials: true, headers: this.authService.headerAddToken() });
+  }
+
   getHostname(): string {
     return this.hostname;
   }

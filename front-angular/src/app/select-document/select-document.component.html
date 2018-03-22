@@ -17,7 +17,7 @@
                                 <th id="info_list_date">作成日</th>
                                 <th id="info_list_delete">削除</th>
                             </tr>
-                            <tr *ngFor="let l of list">
+                            <tr *ngFor="let l of documents">
                                 <td>{{ l.documentId }}</td>
                                 <td>
                                     <a href="/edit/{{ l.documentId }}">{{ l.documentName }}</a>

@@ -8,6 +8,7 @@ import { ErrorService } from '../services/error.service';
 import { ConvertDateService } from '../services/convert-date.service';
 import { SnackBarService } from '../services/snack-bar.service';
 import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
+import { HttpService } from '../services/http.service';
 
 @Component({
   selector: 'app-select-document',
@@ -16,22 +17,16 @@ import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
 })
 export class SelectDocumentComponent implements OnInit {
 
-  public title: string = "下書き文書";
-  public id: string = "文書ID";
-  public name: string = "文書タイトル";
-
-  public category: string = "documents/private";
-  public list: any;
+  public documents: DocumentInfo[] = new Array();
 
   constructor(
-    private http: HttpClient,
-    @Inject('hostname') private hostname: string,
+    public conv: ConvertDateService,
+    private nav: NavigationService,
+    private http: HttpService,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
     private errorService: ErrorService,
-    private nav: NavigationService,
-    public conv: ConvertDateService,
     private snackBarService: SnackBarService,
     private msgToSidenavService: MsgToSidenavService,
   ) {
@@ -44,29 +39,31 @@ export class SelectDocumentComponent implements OnInit {
   }
 
   loadList(): void {
-    this.http.get(this.hostname + this.category,
-      { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-        json => {
-          this.list = json;
-          console.log(this.list);
-        },
-        error => {
-          this.errorService.errorPath(error.status)
-        }
-      );
+    this.http.get('documents/private').subscribe(list => {
+      this.documents = list;
+    }, error => {
+      this.errorService.errorPath(error.status);
+    });
   }
 
   deleteDraft(documentId: string) {
-    console.log(documentId);
-    this.http.delete(this.hostname + "documents/" + documentId,
-      { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-        success => {
-          this.snackBarService.openSnackBar("下書きを削除しました", "");
-          this.loadList();
-          this.msgToSidenavService.sendMsg();
-        },
-        error => {
-          this.errorService.errorPath(error.status)
-        });
+    this.http.delete('documents/' + documentId, ).subscribe(success => {
+      this.snackBarService.openSnackBar('下書きを削除しました', '');
+      this.loadList();
+      this.msgToSidenavService.sendMsg();
+    }, error => {
+      this.errorService.errorPath(error.status);
+    });
   }
+}
+
+interface DocumentInfo {
+  documentCreateDate: number,
+  documentId: string,
+  documentName: string,
+  documentPublish: boolean,
+  employeeNumber: number,
+  firstName: string,
+  lastName: string,
+  templateId: string,
 }
