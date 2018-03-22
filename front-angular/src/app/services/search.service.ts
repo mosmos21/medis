@@ -5,7 +5,8 @@ import { Subject } from 'rxjs/Subject';
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from './error.service';
 import { HttpService } from './http.service';
-import { Tag } from '../model/Tag';
+import { TypeConversionService } from './type-conversion.service';
+import { TagContent } from '../model/Tag';
 
 @Injectable()
 export class SearchService {
@@ -14,181 +15,134 @@ export class SearchService {
   public searchTagsData$ = this.searchTagsDataSource.asObservable();
 
   public newTagName = "";
-  public selectedTags = [];
-  public tempTags = [];
-  public newTags = [];
   public searchWord = "";
-  private tags: any = [
-    {
-      tagId: "",
-      tagName: ""
-    }
-  ];
-  public targetTags: any = [
-    {
-      tagId: "",
-      tagName: ""
-    }
-  ];
+  public selectedTags: TagContent[] = new Array();
+  public tempTags: TagContent[] = new Array();
+  public newTags: TagContent[] = new Array();
+  public tagList: TagContent[] = new Array();
+  public targetTags: TagContent[] = new Array();
 
   constructor(
     private http: HttpService,
     private errorService: ErrorService,
+    private typeConversionService: TypeConversionService,
   ) {
     this.init();
   }
 
   init(): void {
     this.newTagName = "";
+    this.searchWord = "";
     this.selectedTags = [];
     this.tempTags = [];
     this.newTags = [];
-    this.searchWord = "";
-    this.tags = [
-      {
-        tagId: "",
-        tagName: ""
-      }
-    ];
-    this.targetTags = [
-      {
-        tagId: "",
-        tagName: ""
-      }
-    ];
+    this.tagList = [];
+    this.targetTags = [];
     this.getTags();
   }
 
-  sendMsg(msg: String) {
+  sendMsg(msg: String): void {
     this.searchTagsDataSource.next(msg);
   }
 
-  getTags() {
-    this.http.get('tags').subscribe(
-      json => {
-        this.tags = json;
-        const sub = JSON.stringify(this.tags);
-        this.targetTags = JSON.parse(sub);
-        this.tempTags = JSON.parse(sub);
+  getTags(): void {
+    this.http.get("tags").subscribe(
+      res => {
+        this.tagList = this.typeConversionService.makeTagList(res);
+        this.targetTags = this.typeConversionService.makeTagList(res);
+        this.tempTags = this.typeConversionService.makeTagList(res);
       },
       error => {
-        this.errorService.errorPath(error.status)
+        this.errorService.errorPath(error.status);
       }
     );
   }
 
-  getMonitoringTag() {
-    this.http.get('/settings/me/monitoring_tags').subscribe(
-      json => {
-        const temp = json;
-        const sub = JSON.stringify(temp);
-        this.selectedTags = JSON.parse(sub);
-        // console.log(json);
-        var i = this.selectedTags.length;
-        while (i--) {
-          var j = this.targetTags.length;
-          while (j--) {
-            if (this.selectedTags[i].tagId == this.targetTags[j].tagId) {
-              this.targetTags.splice(j, 1);
-              this.tempTags.splice(j, 1);
-              break;
-            }
-          }
-        }
+  getMonitoringTag(): void {
+    this.http.get("/settings/me/monitoring_tags").subscribe(
+      res => {
+        this.selectedTags = this.typeConversionService.makeTagList(res);
+        this.excludeTagList(this.selectedTags);
       },
       error => {
-        this.errorService.errorPath(error.status)
+        this.errorService.errorPath(error.status);
       }
     );
   }
 
-  addTags(event: any, num: number, idx: number) {
-    this.selectedTags.push(this.targetTags[idx]);
-    this.targetTags.splice(idx, 1);
-    this.tempTags.splice(idx, 1);
+  excludeTagList(tagArray): void {
+    for (let i = 0; i < this.targetTags.length; i++) {
+      if (this.checkTagId(tagArray, this.targetTags[i].tagId)) {
+        this.targetTags.splice(i, 1);
+        this.tempTags.splice(i, 1);
+      }
+    }
   }
 
-  deleteTags(event: any, idx: number) {
+  addTags(event: any, num: number, idx: number): void {
+    if (this.selectedTags.length < num) {
+      this.selectedTags.push(this.targetTags[idx]);
+      this.targetTags.splice(idx, 1);
+      this.tempTags.splice(idx, 1);
+    }
+  }
+
+  deleteTags(event: any, idx: number): void {
     this.targetTags.push(this.selectedTags[idx]);
     this.tempTags.push(this.selectedTags[idx]);
     this.selectedTags.splice(idx, 1);
   }
 
-  addNewTags(event: any) {
-    if (this.selectedTags.length + this.newTags.length < 4) {
-      let i = this.newTags.length;
-      let count = 0;
-      while (i--) {
-        this.newTags[i].tagName == event.path[0].innerText ? count++ : false;
-      }
-      count == 0 ? this.newTags.push({ tagId: "", tagName: event.path[0].innerText }) : false;
+  addNewTags(event: any): void {
+    const str = event.path[0].innerText;
+    if (this.selectedTags.length + this.newTags.length < 4 && !this.checkTagName(this.newTags, str)) {
+      this.newTags.push({ tagId: "", tagName: str });
     }
   }
 
-  deleteNewTags(idx: number) {
+  deleteNewTags(idx: number): void {
     this.newTags.splice(idx, 1);
   }
 
-  addTagsToResult(event: any, idx: number) {
+  addTagsToResult(event: any, idx: number): void {
     if (this.selectedTags.length < 5) {
       this.selectedTags.push(this.targetTags[idx]);
       this.targetTags.splice(idx, 1);
       this.tempTags.splice(idx, 1);
     }
-    let i = this.selectedTags.length;
-    let tagList = [];
-    while (i--) {
-      tagList.push(this.selectedTags[i].tagName);
-    }
-    this.sendMsg(tagList.join(","));
+    this.sendMsg(this.typeConversionService.makeTagNameList(this.selectedTags).join(","));
   }
 
-  deleteTagsToResult(event: any, idx: number) {
+  deleteTagsToResult(event: any, idx: number): void {
     this.targetTags.push(this.selectedTags[idx]);
     this.tempTags.push(this.selectedTags[idx]);
     this.selectedTags.splice(idx, 1);
-    let i = this.selectedTags.length;
-    let tagList = [];
-    while (i--) {
-      tagList.push(this.selectedTags[i].tagName);
-    }
-    this.sendMsg(tagList.join(","));
+    this.sendMsg(this.typeConversionService.makeTagNameList(this.selectedTags).join(","));
   }
 
-  searchTag() {
-    console.log("search");
-    const sub = JSON.stringify(this.tempTags);
-    this.targetTags = JSON.parse(sub);
-    this.targetTags = this.targetTags.filter((item, index) => {
+  searchTag(): void {
+    this.targetTags = this.tempTags;
+    this.targetTags = this.targetTags.filter((item) => {
       if (item.tagName.indexOf(this.searchWord) != -1) {
         return true;
       }
     });
   }
 
-  createNewTag() {
-    var i = this.tags.length;
-    var count = 0;
-    while (i--) {
-      this.tags[i].tagName == this.searchWord ? count++ : false;
+  createNewTag(): string {
+    if (!this.checkTagName(this.tagList, this.searchWord)) {
+      this.newTagName = this.searchWord;
+      return this.newTagName;
+    } else {
+      return "";
     }
-    count == 0 ? this.newTagName = this.searchWord : this.newTagName = "";
-    return this.newTagName;
   }
 
-  addSearchedTag(fixedTags: Tag[]): void {
-    this.selectedTags = this.selectedTags.concat(fixedTags);
-    for (let i = 0; i < this.selectedTags.length; i++) {
-      for (let j = 0; j < this.targetTags.length; j++) {
-        if (this.selectedTags[i].tagId == this.targetTags[j].tagId) {
-          this.targetTags.splice(j, 1);
-          this.tempTags.splice(j, 1);
-          break;
-        }
-      }
-    }
-    for (let k = 0; k < fixedTags.length; k++) {
-      this.selectedTags.pop();
-    }
+  checkTagName(tagArray: TagContent[], str: string): boolean {
+    return tagArray.some(val => val.tagName == str);
+  }
+
+  checkTagId(tagArray: TagContent[], id: string): boolean {
+    return tagArray.some(val => val.tagId == id);
   }
 }
