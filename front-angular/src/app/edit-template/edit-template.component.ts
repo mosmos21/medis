@@ -81,7 +81,7 @@ export class EditTemplateComponent implements OnInit {
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(() => {
-      if (this.template.templateId != 'new') {
+      if (this.template.templateId != null) {
         this.http.getWithPromise('templates/' + templateId).then(res => {
           this.template = this.convertService.makeTemplate(res, this.blocks);
           this.template.contents
@@ -117,6 +117,7 @@ export class EditTemplateComponent implements OnInit {
 
   removeItem(idx: number): void {
     this.template.contents[idx].block.removeItem();
+    this.template.contents[idx].values.pop();
   }
 
   submit(type): void {
@@ -126,6 +127,7 @@ export class EditTemplateComponent implements OnInit {
       return;
     }
     let json = this.template.toJson(type);
+    console.log(json);
     if (type == 'save') {
       this.message = 'テンプレートを保存し、公開しました。';
     } else {
