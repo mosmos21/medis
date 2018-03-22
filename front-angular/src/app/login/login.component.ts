@@ -28,8 +28,6 @@ export class LoginComponent implements OnInit {
   public password: string = 'pass2017';
   public hide: boolean;
 
-  private user: User = new User();
-
   constructor(
     public router: Router,
     public dialog: MatDialog,
@@ -58,13 +56,18 @@ export class LoginComponent implements OnInit {
   }
 
   openDialog(): void {
+    let data = {
+        employeeNumber: '',
+        mailaddress: '',
+        password: 'DUMMY',
+    }
     let dialogRef = this.dialog.open(ResetPassComponent, {
       width: '400px',
-      data: { user: this.user },
+      data: { user: data },
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.http.post('accounts/usercheck', this.user).subscribe(success => {
+        this.http.post('accounts/usercheck', data).subscribe(success => {
           let dialogRef = this.dialog.open(MessageModalComponent, {
             data: {
               message: 'パスワード再設定用メールを送信しました。'
