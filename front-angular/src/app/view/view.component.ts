@@ -51,9 +51,7 @@ export class ViewComponent implements OnInit {
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(res => {
-      console.log(res);
       this.document = this.convertService.makeDocument(res);
-      console.log(this.document.isFav);
       return this.http.getWithPromise('templates/' + this.document.templateId);
     }, error => {
       this.errorService.errorPath(error.status);
@@ -103,7 +101,7 @@ export class ViewComponent implements OnInit {
   submit(): void {
     this.http.putWithPromise('documents/' + this.document.documentId + '/comments/create', { value: this.commentStr }).then(
       res => {
-        const comment = new Comment(res);
+        const comment = new Comment(JSON.parse(res));
         comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
         this.comments.push(comment);
       }, error => {
