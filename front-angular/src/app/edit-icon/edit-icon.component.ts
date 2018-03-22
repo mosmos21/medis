@@ -1,9 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpResponse, HttpEventType } from '@angular/common/http';
-import { UploadFileService } from '../services/upload-file.service';
 
+import { UploadFileService } from '../services/upload-file.service';
 import { AuthService } from '../services/auth.service'
 
 @Component({

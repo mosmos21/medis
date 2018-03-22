@@ -88,51 +88,55 @@ export class ViewComponent implements OnInit {
     });
   }
 
-isMyDocument(): boolean {
-  return this.authService.userdetail.employeeNumber == this.document.employeeNumber;
-}
-
-goEdit(): void {
-  this.router.navigate(['/edit/' + this.document.documentId]);
-}
-
-isChecked(contentIdx: number, valueIdx: number): boolean {
-  return this.document.values[contentIdx][valueIdx] == 'true';
-}
-
-submit(): void {
-  this.http.putWithPromise('documents/' + this.document.documentId + '/comments/create', { value: this.commentStr }).then(
-    res => {
-      const comment = new Comment(res);
-      comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
-      this.comments.push(comment);
-    }, error => {
-      this.errorService.errorPath(error.status);
-    }
-  );
-  this.commentStr = '';
-}
-
-favorite() {
-  this.http.post('documents/bookmark/' + this.document.documentId, { selected: this.document.isFav }).subscribe(
-    success => {
-    }, error => {
-      this.errorService.errorPath(error.status);
-    }
-  )
-}
-
-readComment(idx: number) {
-  let data = {
-    employeeNumber: this.comments[idx].employeeNumber,
+  isMyDocument(): boolean {
+    return this.authService.userdetail.employeeNumber == this.document.employeeNumber;
   }
-  console.log(data);
-  this.http.postWithPromise('documents/' + this.document.documentId + '/comments/' + this.comments[idx].commentId + '/read', data).then(
-    success => {
-      this.comments[idx].updateToRead();
-    }, error => {
-      this.errorService.errorPath(error.status);
+
+  goEdit(): void {
+    this.router.navigate(['/edit/' + this.document.documentId]);
+  }
+
+  isChecked(contentIdx: number, valueIdx: number): boolean {
+    return this.document.values[contentIdx][valueIdx] == 'true';
+  }
+
+  submit(): void {
+    this.http.putWithPromise('documents/' + this.document.documentId + '/comments/create', { value: this.commentStr }).then(
+      res => {
+        const comment = new Comment(res);
+        comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
+        this.comments.push(comment);
+      }, error => {
+        this.errorService.errorPath(error.status);
+      }
+    );
+    this.commentStr = '';
+  }
+
+  favorite() {
+    this.http.post('documents/bookmark/' + this.document.documentId, { selected: this.document.isFav }).subscribe(
+      success => {
+      }, error => {
+        this.errorService.errorPath(error.status);
+      }
+    )
+  }
+
+  readComment(idx: number) {
+    let data = {
+      employeeNumber: this.comments[idx].employeeNumber,
     }
-  )
-}
+    console.log(data);
+    this.http.postWithPromise('documents/' + this.document.documentId + '/comments/' + this.comments[idx].commentId + '/read', data).then(
+      success => {
+        this.comments[idx].updateToRead();
+      }, error => {
+        this.errorService.errorPath(error.status);
+      }
+    )
+  }
+
+  commenterIcon(idx: number): string {
+    return this.http.getHostname() + "icon/" + this.comments[idx].employeeNumber;
+  }
 }

@@ -49,4 +49,8 @@ export class HttpService {
   putWithPromise(url: string, data: Object): any {
     return this.put(url, data).toPromise();
   }
+
+  getHostname(): string {
+    return this.hostname;
+  }
 }
