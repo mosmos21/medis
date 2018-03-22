@@ -91,15 +91,34 @@ export class ConfigUserComponent implements OnInit {
       this.userSettings.firstNamePhonetic,
       this.userSettings.mailaddress,
     ]
-    if (!this.validate.empty(editUser)) {
+    this.errorMessage = "";
+    let boolEmpty: boolean = this.validate.empty(editUser);
+    let boolKana: boolean = this.validate.kana(editUser);
+
+    if (boolEmpty && boolKana) {
       this.http.postWithPromise('settings/me', this.userSettings).then(res => { }, error => {
         this.errorService.errorPath(error.status);
       });
       location.reload();
       this.snacBarService.openSnackBar('保存しました', '');
     } else {
-      this.errorMessage = '入力必須項目が未入力です。';
+      if (!this.validate.empty(editUser)) {
+        this.errorMessage += "入力必須項目が未入力です。";
+      }
+      if (!this.validate.kana(editUser)) {
+        this.errorMessage += "フリガナは全角カナで入力してください";
+      }
     }
+
+    // if (!this.validate.empty(editUser)) {
+    //   this.http.postWithPromise('settings/me', this.userSettings).then(res => { }, error => {
+    //     this.errorService.errorPath(error.status);
+    //   });
+    //   this.nav.toTop();
+    //   this.snacBarService.openSnackBar('保存しました', '');
+    // } else {
+    //   this.errorMessage = '入力必須項目が未入力です。';
+    // }
   }
 
   resetAll(): void {
