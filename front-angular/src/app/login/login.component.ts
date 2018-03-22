@@ -84,6 +84,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login(this.employeeNumber, this.password, () => {
       if (this.authService.isLoggedIn()) {
+        this.snackBarService.getUpdateId();
         let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'top';
         this.router.navigate([redirect]);
         this.snackBarService.openSnackBar('ログインしました', '');

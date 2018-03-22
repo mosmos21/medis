@@ -1,5 +1,5 @@
 <div id="wrap_main_content">
-	<div class="wrap_main_content_center content_scroll">
+	<div class="wrap_main_content_center">
 		<div class="main_content_header main_content_header_text">
 			ユーザ情報
 			<div class="apply-button">
@@ -72,7 +72,10 @@
 									<img *ngIf="!authService.isUserEmpty()" [src]="authService.userdetail.iconUrl" class="account_icon" />
 								</div>
 								<div class="pen_position">
-									<input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editIsIcon()">
+									<!-- <input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editIcon()"> -->
+									<button mat-icon-button (click)="editIcon()">
+										<mat-icon>mode_edit</mat-icon>
+									</button>
 								</div>
 							</td>
 						</tr>

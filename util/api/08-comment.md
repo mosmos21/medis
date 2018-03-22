@@ -52,4 +52,12 @@
         | パラメータ | 省略 |  |  
         | :---: | :---: | --- |
         | documentId | x | ドキュメントID |   
-        | commentId | x | コメントID |   
+        | commentId | x | コメントID | 
+
+        ---
+        - リクエスト
+            ```json
+            {
+                "employeeNumber": "(employeeNumber)"
+            }
+            ```  
