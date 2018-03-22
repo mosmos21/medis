@@ -81,7 +81,7 @@ public class BookmarkLogic {
 		}
 	}
 
-	public void updateBookmark(String employeeNumber, String documentId, boolean isSelected) throws IdIssuanceUpperException {
+	public void updateBookmark(String employeeNumber, String documentId, boolean selected) throws IdIssuanceUpperException {
 		try {
 			Bookmark info = bookmarkRepository.findByEmployeeNumberAndDocumentId(employeeNumber, documentId);
 			System.out.println("info = " + info);
@@ -96,7 +96,7 @@ public class BookmarkLogic {
 			} else {
 				// 既にあるブックマークIDのフラグを変更
 				Bookmark bookmark = bookmarkRepository.findByEmployeeNumberAndDocumentId(employeeNumber, documentId);
-				bookmark.setSelected(isSelected);
+				bookmark.setSelected(selected);
 				bookmarkRepository.saveAndFlush(bookmark);
 			}
 		} catch (DBException e) {
