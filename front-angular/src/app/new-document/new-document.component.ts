@@ -1,9 +1,13 @@
-import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, Inject } from '@angular/core';
 
 import { AuthService } from '../services/auth.service';
+import { HttpService } from '../services/http.service';
+import { ErrorService } from '../services/error.service';
 import { NavigationService } from '../services/navigation.service';
 import { ConvertDateService } from '../services/convert-date.service';
+
+import { TemplateInfo } from '../model/TemplateInfo';
 
 @Component({
   selector: 'app-new-document',
@@ -12,13 +16,14 @@ import { ConvertDateService } from '../services/convert-date.service';
 })
 export class NewDocumentComponent implements OnInit {
 
-  public list;
+  public templates: TemplateInfo[] = new Array();
+
   constructor(
-    private http: HttpClient,
-    @Inject('hostname') private hostname: string,
+    public conv: ConvertDateService,
     private nav: NavigationService,
+    private http: HttpService,
     private authService: AuthService,
-    public conv: ConvertDateService
+    private errorService: ErrorService
   ) {
     this.nav.show();
     this.authService.getUserDetail();
@@ -29,16 +34,10 @@ export class NewDocumentComponent implements OnInit {
   }
 
   loadlist(): void {
-    this.http.get(this.hostname + "templates/public",
-      { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-        json => {
-          this.list = json;
-          console.log(this.conv.time2Date(this.list[0].templateCreateDate));
-        },
-        error => {
-          // TODO;
-        }
-      );
+    this.http.get("templates/public").subscribe(res => {
+      this.templates = res;
+    }, error => {
+      this.errorService.errorPath(error.status);
+    });
   }
-
 }

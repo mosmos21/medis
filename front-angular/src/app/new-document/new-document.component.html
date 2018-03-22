@@ -16,7 +16,7 @@
                             <th id="info_list_date">作成日</th>
                         </tr>
 
-                        <tr *ngFor="let l of list">
+                        <tr *ngFor="let l of templates">
                             <td>{{ l.templateId }}</td>
                             <td>
                                 <a href="/edit/new#{{ l.templateId }}">{{ l.templateName }}</a>

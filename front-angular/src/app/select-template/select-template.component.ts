@@ -1,15 +1,17 @@
-import { Component, OnInit, Inject, HostListener } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
-import { NavigationService } from '../services/navigation.service';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
-import { ConvertDateService } from '../services/convert-date.service';
+
 import { AuthService } from '../services/auth.service';
+import { HttpService } from '../services/http.service';
 import { ErrorService } from '../services/error.service';
 import { SnackBarService } from '../services/snack-bar.service';
-import { HttpService } from '../services/http.service';
+import { NavigationService } from '../services/navigation.service';
+import { ConvertDateService } from '../services/convert-date.service';
+
+import { TemplateInfo } from '../model/TemplateInfo';
 
 @Component({
   selector: 'app-select-template',
@@ -33,7 +35,7 @@ export class SelectTemplateComponent implements OnInit {
     this.nav.show();
     this.authService.getUserDetail();
   }
-  
+
   ngOnInit() {
     this.http.get('templates').subscribe(list => {
       this.templates = list;
@@ -71,12 +73,4 @@ export class SelectTemplateComponent implements OnInit {
       this.errorService.errorPath(error.status);
     });
   }
-}
-
-interface TemplateInfo {
-  employeeNumber: string,
-  templateCreateDate: number,
-  templateId: string,
-  templateName: string,
-  templatePublish: boolean,
 }
