@@ -1,4 +1,4 @@
-export interface Tag{
-    tagId: string;
-    tagName: string;
+export interface TagContent {
+  tagId: string;
+  tagName: string;
 }

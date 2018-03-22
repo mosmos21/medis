@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.logic.setting.SettingLogic;
+import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
+import jp.co.unirita.medis.util.exception.NotExistException;
 
 @Controller
 @RequestMapping("/v1/icon")
@@ -27,9 +29,19 @@ public class IconController {
 
 	@Autowired
 	SettingLogic settingLogic;
+	@Autowired
+	ArgumentCheckLogic argumentCheckLogic;
 
 	List<String> files = new ArrayList<String>();
 
+
+	/**
+	 * アイコン用のファイルをアップロードする
+	 *
+	 * @param user ログインしているユーザ
+	 * @param file アップロードするアイコンのファイル
+	 * @return HttpStatus、message
+	 */
 	@PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<String> handleFileUpload(@AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file) {
@@ -45,8 +57,18 @@ public class IconController {
 		}
 	}
 
+
+	/**
+	 * アイコンを表示させる
+	 *
+	 * @param employeeNumber アイコンを取得したいユーザの社員番号
+	 * @param user ログインしているユーザ
+	 * @return HttpStatus、ファイル名、アイコンリソース
+	 * @throws NotExistException 社員番号が存在していない場合に発生する例外
+	 */
     @GetMapping(value = "{employeeNumber:.+}", produces = "image/png")
-	public ResponseEntity<Resource> getFile(@PathVariable String employeeNumber, @AuthenticationPrincipal User user) {
+	public ResponseEntity<Resource> getFile(@PathVariable String employeeNumber, @AuthenticationPrincipal User user) throws NotExistException {
+    	argumentCheckLogic.checkEmployeeNumber(employeeNumber);
 		Resource file;
 		if(employeeNumber.equals("me")) {
 			file = settingLogic.loadFile(user.getEmployeeNumber() + ".png");
