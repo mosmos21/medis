@@ -14,7 +14,7 @@ import { NavigationService } from '../services/navigation.service';
 import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
 import { TypeConversionService } from '../services/type-conversion.service';
 
-import { Tag } from '../model/Tag';
+import { TagContent } from '../model/Tag';
 import { Block } from '../model/Block';
 import { Document } from '../model/Document';
 import { Template } from '../model/Template';
@@ -31,7 +31,7 @@ export class EditDocumentComponent implements OnInit {
   public blockList: [string, string][] = new Array();
   public template: Template = new Template();
   public document: Document = new Document();
-  public fixedTags: Tag[] = new Array();
+  public fixedTags: TagContent[] = new Array();
   private message: string = '';
 
   constructor(
@@ -97,7 +97,7 @@ export class EditDocumentComponent implements OnInit {
     if (this.template.templateId != 'null') {
       this.http.get('templates/' + this.template.templateId + '/tags').subscribe(res => {
         this.fixedTags = this.convertService.makeTagList(res);
-        this.searchService.addSearchedTag(this.fixedTags);
+        this.searchService.excludeTagList(this.fixedTags);
       }, error => {
         this.errorService.errorPath(error.status);
       });
@@ -105,6 +105,7 @@ export class EditDocumentComponent implements OnInit {
     if (this.document.documentId != null && this.document.documentId != 'new') {
       this.http.get('documents/' + this.document.documentId + '/tags').subscribe(res => {
         this.searchService.selectedTags = this.convertService.makeTagList(res);
+        this.searchService.excludeTagList(this.searchService.selectedTags);
       }, error => {
         this.errorService.errorPath(error.status);
       });
@@ -112,7 +113,7 @@ export class EditDocumentComponent implements OnInit {
   }
 
   isChecked(contentIdx: number, valueIdx: number): boolean {
-  
+
     return this.document.values[contentIdx][valueIdx] == 'true';
   }
 
@@ -178,7 +179,7 @@ export class EditDocumentComponent implements OnInit {
     });
   }
 
-  goBack():void {
+  goBack(): void {
     this.location.back();
   }
 

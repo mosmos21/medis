@@ -18,6 +18,7 @@ export class ConfigNotificationComponent implements OnInit {
   public notification: Notification = new Notification();
   public isTagMail: boolean = true;
   public isTagBrowser: boolean = true;
+  public existTags: boolean;
 
   constructor(
     private nav: NavigationService,
@@ -33,6 +34,8 @@ export class ConfigNotificationComponent implements OnInit {
   ngOnInit() {
     this.http.getWithPromise('settings/me/tag_notifications').then(res => {
       this.notification.setTagNotification(res);
+      this.existTags = this.notification.tagNotification.length != 0;
+      console.log(this.existTags);
     }, error => {
       this.errorService.errorPath(error.status);
     });

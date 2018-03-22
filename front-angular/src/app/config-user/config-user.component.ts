@@ -51,7 +51,7 @@ export class ConfigUserComponent implements OnInit {
     });
   }
 
-  initialization() {
+  initialization(): void {
     this.message = this.userSettings.mailaddress + '宛にパスワード初期化用メールを送信しました。';
     let dialogRef = this.dialog.open(InitializationComponent, {
       data: {
@@ -73,14 +73,14 @@ export class ConfigUserComponent implements OnInit {
     });
   }
 
-  editIsIcon() {
+  editIsIcon(): void {
     let dialogRef = this.dialog.open(EditIconComponent);
     dialogRef.afterClosed().subscribe(result => {
       location.reload();
     })
   }
 
-  submit() {
+  submit(): void {
     this.userSettings = this.tempUserSettings;
     let editUser = [
       this.userSettings.lastName,
@@ -100,27 +100,27 @@ export class ConfigUserComponent implements OnInit {
     }
   }
 
-  resetAll() {
+  resetAll(): void {
     this.nav.toTop();
   }
 
-  resetLastName() {
+  resetLastName(): void {
     this.tempUserSettings.lastName = this.userSettings.lastName;
   }
 
-  resetFirstName() {
+  resetFirstName(): void {
     this.tempUserSettings.firstName = this.userSettings.firstName;
   }
 
-  resetLastNamePhonetic() {
+  resetLastNamePhonetic(): void {
     this.tempUserSettings.lastNamePhonetic = this.userSettings.lastNamePhonetic;
   }
 
-  resetFirstNamePhonetic() {
+  resetFirstNamePhonetic(): void {
     this.tempUserSettings.firstNamePhonetic = this.userSettings.firstNamePhonetic;
   }
 
-  resetMailaddress() {
+  resetMailaddress(): void {
     this.tempUserSettings.mailaddress = this.userSettings.mailaddress;
   }
 }

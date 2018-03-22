@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.mail.MailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.unirita.medis.domain.comment.Comment;
 import jp.co.unirita.medis.domain.comment.CommentRepository;
@@ -20,9 +21,11 @@ import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
 import jp.co.unirita.medis.logic.system.NotificationLogic;
+import jp.co.unirita.medis.util.exception.DBException;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class CommentLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -39,30 +42,33 @@ public class CommentLogic {
 	private MailSender sender;
 
 	public List<CommentInfoForm> getCommentInfo(String documentId) {
+		try {
+			List<String> commentIdList = new ArrayList<>();
+			List<String> employeeNumberList = new ArrayList<>();
+			List<CommentInfoForm> commentInfoList = new ArrayList<>();
 
-		List<String> commentIdList = new ArrayList<>();
-		List<String> employeeNumberList = new ArrayList<>();
-		List<CommentInfoForm> commentInfoList = new ArrayList<>();
+			List<Comment> commentList = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
 
-		List<Comment> commentList = commentRepository.findByDocumentIdOrderByCommentDateAsc(documentId);
+			// comment_id取得
+			for (Comment com : commentList) {
+				commentIdList.add(com.getCommentId());
+			}
 
-		// comment_id取得
-		for (Comment com : commentList) {
-			commentIdList.add(com.getCommentId());
+			// employee_number取得
+			for (Comment com : commentList) {
+				employeeNumberList.add(com.getEmployeeNumber());
+			}
+
+			// レスポンスJSON作成
+			for (int i = 0; i < employeeNumberList.size(); i++) {
+				Comment comment = commentRepository.findOne(commentIdList.get(i));
+				UserDetail userDetail = userDetailRepository.findOne(employeeNumberList.get(i));
+				commentInfoList.add(createCommentInfoForm(comment, userDetail));
+			}
+			return commentInfoList;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: CommentLogic, method: getCommentInfo]");
 		}
-
-		// employee_number取得
-		for (Comment com : commentList) {
-			employeeNumberList.add(com.getEmployeeNumber());
-		}
-
-		// レスポンスJSON作成
-		for (int i = 0; i < employeeNumberList.size(); i++) {
-			Comment comment = commentRepository.findOne(commentIdList.get(i));
-			UserDetail userDetail = userDetailRepository.findOne(employeeNumberList.get(i));
-			commentInfoList.add(createCommentInfoForm(comment, userDetail));
-		}
-		return commentInfoList;
 	}
 
 	private CommentInfoForm createCommentInfoForm(Comment comment, UserDetail userDetail) {
@@ -79,24 +85,21 @@ public class CommentLogic {
 	}
 
 	public void alreadyRead(String documentId, String commentId) throws IdIssuanceUpperException {
-		// Readをtrueにする
-		Comment commentInfo = commentRepository.findOne(commentId);
-		Comment comment = new Comment();
+		try {
+			// Readをtrueにする
+			Comment commentInfo = commentRepository.findOne(commentId);
+			Comment comment = new Comment();
 
-		comment.setCommentId(commentId);
-		comment.setDocumentId(documentId);
-		comment.setCommentDate(commentInfo.getCommentDate());
-		comment.setEmployeeNumber(commentInfo.getEmployeeNumber());
-		comment.setValue(commentInfo.getValue());
-		comment.setRead(true);
-		commentRepository.saveAndFlush(comment);
-
-	}
-
-	public String getEmployeeNumber(String commentId) {
-		String employeeNumber = commentRepository.findOne(commentId).getEmployeeNumber();
-		return employeeNumber;
-
+			comment.setCommentId(commentId);
+			comment.setDocumentId(documentId);
+			comment.setCommentDate(commentInfo.getCommentDate());
+			comment.setEmployeeNumber(commentInfo.getEmployeeNumber());
+			comment.setValue(commentInfo.getValue());
+			comment.setRead(true);
+			commentRepository.saveAndFlush(comment);
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: CommentLogic, method: alreadyRead]");
+		}
 	}
 
 	/*
@@ -109,27 +112,34 @@ public class CommentLogic {
 	 */
 	// 最新のIDを生成
 	 public synchronized String getNewCommentId() throws IdIssuanceUpperException {
-		List<Comment> commentList = commentRepository.findAll(new Sort(Sort.Direction.DESC, "commentId"));
-		if (commentList.size() == 0) {
-			return "o0000000000";
+		try {
+			List<Comment> commentList = commentRepository.findAll(new Sort(Sort.Direction.DESC, "commentId"));
+			if (commentList.size() == 0) {
+				return "o0000000000";
+			}
+			long idNum = Long.parseLong(commentList.get(0).getCommentId().substring(1));
+			if (idNum == 9999999999L) {
+				throw new IdIssuanceUpperException("IDの発行限界");
+			}
+			return String.format("o%010d", idNum + 1);
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: CommentLogic, method: getNewCommentId]");
 		}
-		long idNum = Long.parseLong(commentList.get(0).getCommentId().substring(1));
-		if (idNum == 9999999999L) {
-			throw new IdIssuanceUpperException("IDの発行限界");
-		}
-		return String.format("o%010d", idNum + 1);
 	}
 
 	public CommentInfoForm save(String documentId, String employeeNumber, Map<String, String> value)
 			throws IdIssuanceUpperException {
-		Timestamp commentDate = new Timestamp(System.currentTimeMillis());
-		boolean read = false;
-		Comment comment = new Comment(getNewCommentId(), documentId, commentDate, employeeNumber, value.get("value"),
-				read);
-		commentRepository.save(comment);
-		UserDetail userDetail = userDetailRepository.findOne(employeeNumber);
+		try {
+			Timestamp commentDate = new Timestamp(System.currentTimeMillis());
+			boolean read = false;
+			Comment comment = new Comment(getNewCommentId(), documentId, commentDate, employeeNumber, value.get("value"),
+					read);
+			commentRepository.save(comment);
+			UserDetail userDetail = userDetailRepository.findOne(employeeNumber);
 
-		return createCommentInfoForm(comment, userDetail);
-
+			return createCommentInfoForm(comment, userDetail);
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: CommentLogic, method: save]");
+		}
 	}
 }

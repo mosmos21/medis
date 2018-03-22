@@ -32,6 +32,10 @@ public class CheckUpdateController {
 	@Autowired
 	CheckUpdateLogic checkUpdateLogic;
 
+	/**
+	 * 定期的にUpdateInfoテーブルを監視して、Sbackbar通知をするために必要な最初のUpdateIDを取得
+	 * @return updateId 最新のUpdateID
+	 */
 	@GetMapping("/latest")
 	@ResponseStatus(HttpStatus.CREATED)
 	public String CheckLatestUpdateId() {
@@ -41,6 +45,14 @@ public class CheckUpdateController {
 
 	}
 
+	/**
+	 * 	Snackbar通知のために定期的に呼ばれ、ログインユーザに関わるコメント、既読、監視タグのついた文書情報を取得のためにUpdateInfoテーブルを監視
+	 *
+	 * @param user ログインしているユーザ
+	 * @param updateId ログインユーザがもつ最新のUpdateID
+	 * @return uopdateInfo ログインユーザが持つ最新のUpdateID以降の、ログインユーザに関わるコメント、既読、監視タグ更新情報
+	 * @throws NotExistException UpdateIDが存在していない場合に発生する例外
+	 */
 	@GetMapping(value = "{updateId:^u[0-9]{10}$}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public List<SnackbarNotificationsForm> CheckUpdate(@AuthenticationPrincipal User user,

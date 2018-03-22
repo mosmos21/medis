@@ -84,3 +84,7 @@ table tr th {
 .notification_browser {
     margin-left: 1.5em;
 }
+
+.no_tags {
+    text-align: center;
+}

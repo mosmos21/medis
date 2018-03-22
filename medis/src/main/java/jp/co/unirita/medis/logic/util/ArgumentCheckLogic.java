@@ -79,6 +79,16 @@ public class ArgumentCheckLogic {
 		}
 	}
 
+	public void checkEmployeeNumber(String employeeNumber) throws NotExistException {
+
+		User info = userRepository.findOne(employeeNumber);
+
+		if (info == null) {
+			System.out.println(employeeNumber);
+			throw new NotExistException("employeeNumber", employeeNumber, "存在しない社員番号です");
+		}
+	}
+
 	public void checkLastUpdateId(String updateId) throws NotExistException {
 
 		UpdateInfo info = updateInfoRepository.findOne(updateId);

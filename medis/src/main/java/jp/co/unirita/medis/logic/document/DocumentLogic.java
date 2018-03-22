@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.unirita.medis.domain.bookmark.Bookmark;
 import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
@@ -30,9 +31,11 @@ import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.DocumentContentForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
 import jp.co.unirita.medis.logic.util.TagLogic;
+import jp.co.unirita.medis.util.exception.DBException;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class DocumentLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(DocumentLogic.class);
@@ -61,27 +64,35 @@ public class DocumentLogic {
 	TagLogic tagLogic;
 
 	public DocumentForm getDocument(String documentId) {
-		Bookmark bookmark = bookmarkRepository.findOne("m0000000000");
+		try {
+			Bookmark bookmark = bookmarkRepository.findOne("m0000000000");
 
-		DocumentInfo info = documentInfoRepository.findOne(documentId);
-		UserDetail detail = userDetailRepository.findOne(info.getEmployeeNumber());
+			DocumentInfo info = documentInfoRepository.findOne(documentId);
+			UserDetail detail = userDetailRepository.findOne(info.getEmployeeNumber());
 
-		DocumentForm document = new DocumentForm();
-		document.setEmployeeNumber(info.getEmployeeNumber());
-		document.setName(
-				new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString());
-		document.setDocumentCreateDate(info.getDocumentCreateDate());
-		document.setDocumentId(documentId);
-		document.setTemplateId(info.getTemplateId());
-		document.setDocumentName(info.getDocumentName());
-		document.setContents(getDocumentContents(documentId));
-		document.setSelected(bookmark == null ? false : bookmark.isSelected());
-		return document;
+			DocumentForm document = new DocumentForm();
+			document.setEmployeeNumber(info.getEmployeeNumber());
+			document.setName(
+					new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString());
+			document.setDocumentCreateDate(info.getDocumentCreateDate());
+			document.setDocumentId(documentId);
+			document.setTemplateId(info.getTemplateId());
+			document.setDocumentName(info.getDocumentName());
+			document.setContents(getDocumentContents(documentId));
+			document.setSelected(bookmark == null ? false : bookmark.isSelected());
+			return document;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocument]");
+		}
 	}
 
 	public DocumentInfo getDocumentInfo(String documentId) {
-		DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
-		return documentInfo;
+		try {
+			DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
+			return documentInfo;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocumentInfo]");
+		}
 	}
 
 	public List<Tag> getDocumentTags(String id) {
@@ -93,12 +104,16 @@ public class DocumentLogic {
 	}
 
 	private List<Tag> getDocumentTagStartWith(String id, String startStr) {
-		List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
-		List<String> tagIdList = documentTagList.stream().map(DocumentTag::getTagId)
-				.filter(str -> str.startsWith(startStr)).collect(Collectors.toList());
-		List<Tag> tagList = tagRepository.findByTagIdIn(tagIdList);
-		tagList.sort(Comparator.naturalOrder());
-		return tagList;
+		try {
+			List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
+			List<String> tagIdList = documentTagList.stream().map(DocumentTag::getTagId)
+					.filter(str -> str.startsWith(startStr)).collect(Collectors.toList());
+			List<Tag> tagList = tagRepository.findByTagIdIn(tagIdList);
+			tagList.sort(Comparator.naturalOrder());
+			return tagList;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocumentTagStartWith]");
+		}
 	}
 
 	public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
@@ -107,109 +122,143 @@ public class DocumentLogic {
 	}
 
 	public String saveDocumentInfo(DocumentForm document, String employeeNumber) throws IdIssuanceUpperException {
-		String documentId = document.getDocumentId() == null ? createNewDocumentId() : document.getDocumentId();
-		String templateId = document.getTemplateId();
-		String documentName = document.getDocumentName();
-		Timestamp documentCreateDate = new Timestamp(System.currentTimeMillis());
-		boolean documentPublish = document.isPublish();
-		DocumentInfo info = new DocumentInfo(documentId, documentName, employeeNumber, templateId, documentCreateDate,
-				documentPublish);
-		documentInfoRepository.saveAndFlush(info);
-		return info.getDocumentId();
+		try {
+			String documentId = document.getDocumentId() == null ? createNewDocumentId() : document.getDocumentId();
+			String templateId = document.getTemplateId();
+			String documentName = document.getDocumentName();
+			Timestamp documentCreateDate = new Timestamp(System.currentTimeMillis());
+			boolean documentPublish = document.isPublish();
+			DocumentInfo info = new DocumentInfo(documentId, documentName, employeeNumber, templateId, documentCreateDate,
+					documentPublish);
+			documentInfoRepository.saveAndFlush(info);
+			return info.getDocumentId();
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentInfo]");
+		}
 	}
 
 	private List<DocumentContentForm> getDocumentContents(String documentId) {
-		List<DocumentContentForm> contents = new ArrayList<>();
+		try {
+			List<DocumentContentForm> contents = new ArrayList<>();
 
-		List<DocumentItem> items = documentItemRepository
-				.findByDocumentIdOrderByContentOrderAscLineNumberAsc(documentId);
-		int before = 1;
-		DocumentContentForm content = new DocumentContentForm();
-		content.setContentOrder(1);
-		for (DocumentItem item : items) {
-			if (item.getContentOrder() != before) {
-				contents.add(content);
-				content = new DocumentContentForm();
-				content.setContentOrder(item.getContentOrder());
-				before = item.getContentOrder();
+			List<DocumentItem> items = documentItemRepository
+					.findByDocumentIdOrderByContentOrderAscLineNumberAsc(documentId);
+			int before = 1;
+			DocumentContentForm content = new DocumentContentForm();
+			content.setContentOrder(1);
+			for (DocumentItem item : items) {
+				if (item.getContentOrder() != before) {
+					contents.add(content);
+					content = new DocumentContentForm();
+					content.setContentOrder(item.getContentOrder());
+					before = item.getContentOrder();
+				}
+				content.getItems().add(item.getValue());
 			}
-			content.getItems().add(item.getValue());
+			contents.add(content);
+			return contents;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocumentContents]");
 		}
-		contents.add(content);
-		return contents;
 	}
 
 	public void toggleDocumentPublish(String documentId, boolean documentPublish) {
-		DocumentInfo info = documentInfoRepository.findOne(documentId);
-		info.setDocumentPublish(documentPublish);
-		documentInfoRepository.save(info);
-		logger.info("[method: toggleDocumentPublish] Update info of documentID '" + documentId + "' " + info);
+		try {
+			DocumentInfo info = documentInfoRepository.findOne(documentId);
+			info.setDocumentPublish(documentPublish);
+			documentInfoRepository.save(info);
+			logger.info("[method: toggleDocumentPublish] Update info of documentID '" + documentId + "' " + info);
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: toggleDocumentPublish]");
+		}
 	}
 
 	public String save(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
-		String id = saveDocumentInfo(documentForm, employeeNumber);
-		documentForm.setDocumentId(id);
-		documentItemRepository.deleteByDocumentId(documentForm.getDocumentId());
-		saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
-
-		return id;
+		try {
+			String id = saveDocumentInfo(documentForm, employeeNumber);
+			documentForm.setDocumentId(id);
+			documentItemRepository.deleteByDocumentId(documentForm.getDocumentId());
+			saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
+			return id;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: save]");
+		}
 	}
 
 	public void saveTags(final String documentId, List<Tag> tags) throws IdIssuanceUpperException {
-		documentTagRepository.deleteByDocumentId(documentId);
-		DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
-		int order = 1;
-		for (Tag tag : tagLogic.applyTags(tags)) {
-			if (tag.getTagId() == null) {
-				tag.setTagId(tagLogic.getNewTagId());
+		try {
+			documentTagRepository.deleteByDocumentId(documentId);
+			DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
+			int order = 1;
+			for (Tag tag : tagLogic.applyTags(tags)) {
+				if (tag.getTagId() == null) {
+					tag.setTagId(tagLogic.getNewTagId());
+				}
+				documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
+				order++;
 			}
-			documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
-			order++;
+			// システムタグ追加
+			UserDetail detail = userDetailRepository.findOne(documentInfo.getEmployeeNumber());
+			List<Tag> systemTagList = tagRepository.findByTagName(detail.getLastName() + " " + detail.getFirstName());
+			if (systemTagList.size() == 0) {
+				systemTagList.addAll(tagLogic
+						.applySystemTag(Arrays.asList(new Tag("", detail.getLastName() + " " + detail.getFirstName()))));
+			}
+			documentTagRepository.saveAndFlush(new DocumentTag(documentId, order, systemTagList.get(0).getTagId()));
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveTags]");
 		}
-		// システムタグ追加
-		UserDetail detail = userDetailRepository.findOne(documentInfo.getEmployeeNumber());
-		List<Tag> systemTagList = tagRepository.findByTagName(detail.getLastName() + " " + detail.getFirstName());
-		if (systemTagList.size() == 0) {
-			systemTagList.addAll(tagLogic
-					.applySystemTag(Arrays.asList(new Tag("", detail.getLastName() + " " + detail.getFirstName()))));
-		}
-		documentTagRepository.saveAndFlush(new DocumentTag(documentId, order, systemTagList.get(0).getTagId()));
 	}
 
 	private void saveDocumentContent(String documentId, List<DocumentContentForm> contents) {
-		for (DocumentContentForm content : contents) {
-			saveDocumentItems(documentId, content.getContentOrder(), content.getItems());
+		try {
+			for (DocumentContentForm content : contents) {
+				saveDocumentItems(documentId, content.getContentOrder(), content.getItems());
+			}
+			documentItemRepository.flush();
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentContent]");
 		}
-		documentItemRepository.flush();
 	}
 
 	private void saveDocumentItems(String documentId, int contentOrder, List<String> items) {
-		int lineNumber = 1;
-		for (String item : items) {
-			documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumber, item));
-			lineNumber++;
+		try {
+			int lineNumber = 1;
+			for (String item : items) {
+				documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumber, item));
+				lineNumber++;
+			}
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentItems]");
 		}
 	}
 
 	public void deleteDocument(String documentId) {
-		bookmarkRepository.delete(bookmarkRepository.findByDocumentId(documentId));
-		documentTagRepository.deleteByDocumentId(documentId);
-		documentItemRepository.deleteByDocumentId(documentId);
-		commentRepository.delete(commentRepository.findByDocumentId(documentId));
-		updateInfoRepository.delete(updateInfoRepository.findByDocumentId(documentId));
-		documentInfoRepository.delete(documentId);
+		try {
+			bookmarkRepository.delete(bookmarkRepository.findByDocumentId(documentId));
+			documentTagRepository.deleteByDocumentId(documentId);
+			documentItemRepository.deleteByDocumentId(documentId);
+			commentRepository.delete(commentRepository.findByDocumentId(documentId));
+			updateInfoRepository.delete(updateInfoRepository.findByDocumentId(documentId));
+			documentInfoRepository.delete(documentId);
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: deleteDocument]");
+		}
 	}
 
 	private synchronized String createNewDocumentId() throws IdIssuanceUpperException {
-		List<DocumentInfo> list = documentInfoRepository.findAll(new Sort(Sort.Direction.DESC, "documentId"));
-		if (list.size() == 0) {
-			return "d0000000000";
+		try {
+			List<DocumentInfo> list = documentInfoRepository.findAll(new Sort(Sort.Direction.DESC, "documentId"));
+			if (list.size() == 0) {
+				return "d0000000000";
+			}
+			long idNum = Long.parseLong(list.get(0).getDocumentId().substring(1));
+			if (idNum == 9999999999L) {
+				throw new IdIssuanceUpperException("文書の発行限界");
+			}
+			return String.format("d%010d", idNum + 1);
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: createNewDocumentId]");
 		}
-		long idNum = Long.parseLong(list.get(0).getDocumentId().substring(1));
-		if (idNum == 9999999999L) {
-			throw new IdIssuanceUpperException("文書の発行限界");
-		}
-		return String.format("d%010d", idNum + 1);
 	}
-
 }

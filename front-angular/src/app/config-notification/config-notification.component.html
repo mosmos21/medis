@@ -36,22 +36,28 @@
 						<mat-slide-toggle color="accent" (change)="toggleTagBrowserAll()" [(ngModel)]="isTagBrowser"></mat-slide-toggle>
 					</div>
 				</div>
-				<table class="t-line">
-					<tr>
-						<th>タグ名</th>
-						<th>メール</th>
-						<th class="boder-none">プッシュ</th>
-					</tr>
-					<tr *ngFor="let n of notification.tagNotification; let idx = index">
-						<td>{{n.tagName}}</td>
-						<td>
-							<mat-slide-toggle color="primary" [(ngModel)]="n.mailNotification"></mat-slide-toggle>
-						</td>
-						<td>
-							<mat-slide-toggle color="accent" [(ngModel)]="n.browserNotification"></mat-slide-toggle>
-						</td>
-					</tr>
-				</table>
+				<div *ngIf="existTags; then tagsTable; else noTags"></div>
+				<ng-template #tagsTable>
+					<table class="t-line">
+						<tr>
+							<th>タグ名</th>
+							<th>メール</th>
+							<th class="boder-none">プッシュ</th>
+						</tr>
+						<tr *ngFor="let n of notification.tagNotification; let idx = index">
+							<td>{{n.tagName}}</td>
+							<td>
+								<mat-slide-toggle color="primary" [(ngModel)]="n.mailNotification"></mat-slide-toggle>
+							</td>
+							<td>
+								<mat-slide-toggle color="accent" [(ngModel)]="n.browserNotification"></mat-slide-toggle>
+							</td>
+						</tr>
+					</table>
+				</ng-template>
+				<ng-template #noTags>
+					<div class="no_tags">監視タグが設定されていません。</div>
+				</ng-template>
 				<br/>
 			</div>
 		</div>
