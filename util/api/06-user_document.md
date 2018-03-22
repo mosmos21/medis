@@ -99,6 +99,14 @@
         | user | x | 社員番号 |
         | document | x | ドキュメントID |
 
+        ---
+        - リクエスト
+            ```json
+            {
+                "selected": "(selected)"
+            }
+            ```
+
 
         
         
