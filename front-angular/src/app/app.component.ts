@@ -56,8 +56,4 @@ export class AppComponent {
   logout() {
     this.authService.logout()
   }
-
-  isUserEmpty(): boolean {
-    return !Object.keys(this.authService.userdetail).length;
-  }
 }

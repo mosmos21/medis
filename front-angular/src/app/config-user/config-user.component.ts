@@ -30,8 +30,8 @@ export class ConfigUserComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    public authService: AuthService,
     private http: HttpService,
-    private authService: AuthService,
     private errorService: ErrorService,
     private snacBarService: SnackBarService,
     private validate: ValidatorService,

@@ -119,4 +119,8 @@ export class AuthService {
       }
     );
   }
+
+  isUserEmpty(): boolean {
+    return !Object.keys(this.userdetail).length;
+  }
 }
