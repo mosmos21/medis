@@ -58,8 +58,8 @@ public class CheckUpdateController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public List<SnackbarNotificationsForm> CheckUpdate(@AuthenticationPrincipal User user,
 			@PathVariable(value = "updateId") String updateId) throws NotExistException {
-		logger.info("[method updatetypeConfirmation] GetUpdatetypeConfirmation by DocumentId :"
-				+ user.getEmployeeNumber() + "after UpdateId" + updateId + ".");
+		logger.info("[method updatetypeConfirmation] GetUpdatetypeConfirmation by DocumentId : "
+				+ user.getEmployeeNumber() + " After UpdateId " + updateId + ".");
 		argumentCheckLogic.checkLastUpdateId(updateId);
 		return checkUpdateLogic.updateTypeConfirmation(user.getEmployeeNumber(), updateId);
 	}
