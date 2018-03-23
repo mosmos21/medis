@@ -12,6 +12,8 @@ import { Comment } from '../model/Comment';
 import { Template } from '../model/Template';
 import { Document } from '../model/Document';
 import { TypeConversionService } from '../services/type-conversion.service';
+import { validateConfig } from '@angular/router/src/config';
+import { ValidatorService } from '../services/validator.service';
 
 
 @Component({
@@ -36,6 +38,7 @@ export class ViewComponent implements OnInit {
     private authService: AuthService,
     private errorService: ErrorService,
     private convertService: TypeConversionService,
+    private varidator: ValidatorService,
   ) {
     this.authService.getUserDetail();
   }
@@ -99,16 +102,18 @@ export class ViewComponent implements OnInit {
   }
 
   submit(): void {
-    this.http.putWithPromise('documents/' + this.document.documentId + '/comments/create', { value: this.commentStr }).then(
-      res => {
-        const comment = new Comment(JSON.parse(res));
-        comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
-        this.comments.push(comment);
-      }, error => {
-        this.errorService.errorPath(error.status);
-      }
-    );
-    this.commentStr = '';
+    if (!this.varidator.empty([this.commentStr])) {
+      this.http.putWithPromise('documents/' + this.document.documentId + '/comments/create', { value: this.commentStr }).then(
+        res => {
+          const comment = new Comment(JSON.parse(res));
+          comment.setAlreadyRead(this.document.employeeNumber, this.authService.userdetail.employeeNumber);
+          this.comments.push(comment);
+        }, error => {
+          this.errorService.errorPath(error.status);
+        }
+      );
+      this.commentStr = '';
+    }
   }
 
   favorite() {
@@ -137,5 +142,11 @@ export class ViewComponent implements OnInit {
 
   commenterIcon(idx: number): string {
     return this.http.getHostname() + "icon/" + this.comments[idx].employeeNumber;
+  }
+
+  eventHandler(event) {
+    if (event.keyCode == 10) {
+      this.submit();
+    }
   }
 }

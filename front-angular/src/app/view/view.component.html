@@ -114,7 +114,7 @@
     <div id="footer">
         <div id="footer_content">
             <mat-form-field class="comment_input">
-                <textarea matInput placeholder="コメント入力欄" matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5" [(ngModel)]="commentStr"></textarea>
+                <textarea matInput placeholder="コメント入力欄" matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5" [(ngModel)]="commentStr" (keypress)="eventHandler($event)"></textarea>
                 <button mat-icon-button *ngIf="commentStr" matSuffix aria-label="Clear" (click)="commentStr=''">
                     <mat-icon>close</mat-icon>
                 </button>
