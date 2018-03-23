@@ -1,11 +1,13 @@
 <div id="wrap_main_content">
     <div class="wrap_main_content_center content_scroll">
+        <button class="edit_button" *ngIf="isMyDocument()" (click)="goEdit()" mat-raised-button style="margin-bottom: 1em;">
+            <mat-icon>edit</mat-icon>
+        </button>
         <div id="view_body">
             <div id="view_plate">
                 <div id="view_header">
                     <div style="overflow:auto;">
                         <h1 style="float: left;">{{ document.documentName }}</h1>
-                        <!-- <input type="checkbox" [(ngModel)]="document.isFav" (click)="favorite()"> -->
                         <nav *ngIf="document.isFav">
                             <button mat-icon-button class="fav_button" (click)="favorite()">
                                 <mat-icon class="fav">star</mat-icon>
@@ -16,7 +18,7 @@
                                 <mat-icon class="unfav">star_border</mat-icon>
                             </button>
                         </nav>
-                        <button *ngIf="isMyDocument()" (click)="goEdit()" mat-raised-button color="primary" style="margin-bottom: 1em;">編集</button>
+
                         <div style="float:right;">
                             <h3>
                                 投稿者: {{ document.employeeNumber }} - {{ document.authorName }}
@@ -118,7 +120,9 @@
                 </button>
             </mat-form-field>
             <div class="submit-button">
-                <button mat-raised-button color="primary" (click)="submit()">送信</button>
+                <button mat-raised-button color="primary" (click)="submit()">
+                    <mat-icon>send</mat-icon>
+                </button>
             </div>
         </div>
     </div>
