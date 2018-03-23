@@ -155,7 +155,7 @@ public class DocumentController {
 		argumentCheckLogic.checkDocumentId(documentId);
 
 		if (documentInfo.isDocumentPublish()) {
-			notificationLogic.documentContributionNotification(documentInfo.getEmployeeNumber(), documentId);
+			notificationLogic.documentUpdateNotification(documentInfo.getEmployeeNumber(), documentId);
 		}
 		updateInfoLogic.saveUpdateInfo(documentId, TYPE_UPDATE_DOCUMENT, user.getEmployeeNumber());
 
