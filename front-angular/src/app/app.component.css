@@ -42,6 +42,11 @@
     margin: 0 auto;
 }
 
+#logo:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .account_icon {
     height: 30px;
     width: 30px;
