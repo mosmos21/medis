@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,7 @@ import jp.co.unirita.medis.form.setting.NotificationsForm;
 import jp.co.unirita.medis.util.exception.DBException;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class SettingLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -117,6 +119,7 @@ public class SettingLogic {
 			}
 			List<NotificationConfig> del = notificationConfigRepository.findByEmployeeNumber(employeeNumber);
 			notificationConfigRepository.delete(del);
+			notificationConfigRepository.flush();
 			for (NotificationConfig conf : notification) {
 				notificationConfigRepository.saveAndFlush(conf);
 			}
