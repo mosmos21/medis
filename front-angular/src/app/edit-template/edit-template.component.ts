@@ -85,8 +85,8 @@ export class EditTemplateComponent implements OnInit {
         this.http.getWithPromise('templates/' + templateId).then(res => {
           this.template = this.convertService.makeTemplate(res, this.blocks);
           this.template.contents
-              .filter(content => content.block.additionalType == 'document')
-              .forEach(content=> content.block.addItem());
+            .filter(content => content.block.additionalType == 'document')
+            .forEach(content => content.block.addItem());
           return this.http.getWithPromise('templates/' + this.template.templateId + '/tags');
         }, error => {
           this.errorService.errorPath(error.status);
@@ -125,37 +125,37 @@ export class EditTemplateComponent implements OnInit {
       this.message = 'テンプレート名を入力してください。'
       let dialogRef = this.dialog.open(MessageModalComponent, { data: { message: this.message } });
       return;
-    }
-    let json = this.template.toJson(type);
-    console.log(json);
-    if (type == 'save') {
-      this.message = 'テンプレートを保存し、公開しました。';
     } else {
-      this.message = 'テンプレートを下書きとして保存しました。';
-    }
+      let json = this.template.toJson(type);
+      console.log(json);
+      if (type == 'save') {
+        this.message = 'テンプレートを保存し、公開しました。';
+      } else {
+        this.message = 'テンプレートを下書きとして保存しました。';
+      }
+      if (this.template.templateId == null) {
+        this.http.put('templates/new', json).subscribe(
+          id => {
+            this.submitTags(id);
+          }, error => {
+            this.errorService.errorPath(error.status);
+          }
+        );
+      } else {
+        this.http.post('templates/' + this.template.templateId, json).subscribe(
+          id => {
+            this.submitTags(id);
+          }, error => {
+            this.errorService.errorPath(error.status);
+          }
+        );
+      }
 
-    if (this.template.templateId == 'new') {
-      this.http.put('templates/new', json).subscribe(
-        id => {
-          this.submitTags(id);
-        }, error => {
-          this.errorService.errorPath(error.status);
-        }
-      );
-    } else {
-      this.http.post('templates/' + this.template.templateId, json).subscribe(
-        id => {
-          this.submitTags(id);
-        }, error => {
-          this.errorService.errorPath(error.status);
-        }
-      );
+      let dialogRef = this.dialog.open(MessageModalComponent, { data: { message: this.message } });
+      dialogRef.afterClosed().subscribe(result => {
+        this.router.navigate(['admin/template']);
+      });
     }
-
-    let dialogRef = this.dialog.open(MessageModalComponent, { data: { message: this.message } });
-    dialogRef.afterClosed().subscribe(result => {
-      this.router.navigate(['admin/template']);
-    });
   }
 
   submitTags(templateId: string): void {
