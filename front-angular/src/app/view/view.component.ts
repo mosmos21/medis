@@ -112,7 +112,8 @@ export class ViewComponent implements OnInit {
   }
 
   favorite() {
-    this.http.post('documents/bookmark/' + this.document.documentId, { selected: !this.document.isFav }).subscribe(
+    this.document.isFav = !this.document.isFav;
+    this.http.post('documents/bookmark/' + this.document.documentId, { selected: this.document.isFav }).subscribe(
       success => {
       }, error => {
         this.errorService.errorPath(error.status);

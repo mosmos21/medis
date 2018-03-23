@@ -32,7 +32,7 @@
     width: 90%;
 }
 
-input[type="checkbox"]{
+/* input[type="checkbox"]{
     -webkit-appearance:none;
     width: 3em;
     text-align:center;
@@ -48,7 +48,7 @@ input[type="checkbox"]:before {
 
 input[type="checkbox"]:checked {
     color:#ffae00;
-} 
+}  */
 
 /*固定タグ*/
 #tag_list {
@@ -180,4 +180,8 @@ input[type="checkbox"]:checked {
     float: right;
     bottom: 0px;
     padding-top: 10px;
+}
+
+.fav{
+    color:#ffae00;
 }

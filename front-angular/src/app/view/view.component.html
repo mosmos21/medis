@@ -5,7 +5,17 @@
                 <div id="view_header">
                     <div style="overflow:auto;">
                         <h1 style="float: left;">{{ document.documentName }}</h1>
-                        <input type="checkbox" [(ngModel)]="document.isFav" (click)="favorite()">
+                        <!-- <input type="checkbox" [(ngModel)]="document.isFav" (click)="favorite()"> -->
+                        <nav *ngIf="document.isFav">
+                            <button mat-icon-button class="fav_button" (click)="favorite()">
+                                <mat-icon class="fav">star</mat-icon>
+                            </button>
+                        </nav>
+                        <nav *ngIf="!document.isFav">
+                            <button mat-icon-button class="fav_button" (click)="favorite()">
+                                <mat-icon class="unfav">star_border</mat-icon>
+                            </button>
+                        </nav>
                         <button *ngIf="isMyDocument()" (click)="goEdit()" mat-raised-button color="primary" style="margin-bottom: 1em;">編集</button>
                         <div style="float:right;">
                             <h3>
@@ -34,8 +44,7 @@
                                             <pre>{{ content.values[content.block.getTemplateValueIndex(i)] }}</pre>
                                         </div>
                                         <div *ngSwitchCase="'text'">
-                                            <li style="margin-left:1em" 
-                                                *ngIf="document.values[+idx][content.block.getDocumentValueIndex(i)].length > 0">
+                                            <li style="margin-left:1em" *ngIf="document.values[+idx][content.block.getDocumentValueIndex(i)].length > 0">
                                                 {{ document.values[+idx][content.block.getDocumentValueIndex(i)] }}
                                             </li>
                                         </div>

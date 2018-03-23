@@ -41,7 +41,7 @@
 							<th>セイ</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="せい" value="{{userSettings.lastNamePhonetic}}" [(ngModel)]="tempUserSettings.lastNamePhonetic">
+									<input matInput placeholder="セイ" value="{{userSettings.lastNamePhonetic}}" [(ngModel)]="tempUserSettings.lastNamePhonetic">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetLastNamePhonetic()">キャンセル</button>
 
@@ -51,7 +51,7 @@
 							<th>メイ</th>
 							<td>
 								<mat-form-field class="input-form">
-									<input matInput placeholder="めい" value="{{userSettings.firstNamePhonetic}}" [(ngModel)]="tempUserSettings.firstNamePhonetic">
+									<input matInput placeholder="メイ" value="{{userSettings.firstNamePhonetic}}" [(ngModel)]="tempUserSettings.firstNamePhonetic">
 								</mat-form-field>
 								<button class="apply-button" mat-raised-button (click)="resetFirstNamePhonetic()">キャンセル</button>
 							</td>
@@ -72,7 +72,6 @@
 									<img *ngIf="!authService.isUserEmpty()" [src]="authService.userdetail.iconUrl" class="account_icon" />
 								</div>
 								<div class="pen_position">
-									<!-- <input type="image" src="../../assets/image/pen.svg" class="pen_btn" (click)="editIcon()"> -->
 									<button mat-icon-button (click)="editIcon()">
 										<mat-icon>mode_edit</mat-icon>
 									</button>

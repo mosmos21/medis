@@ -30,6 +30,7 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
     MatDividerModule,
     MatButtonToggleModule,
+    MatIconModule,
   ],
   declarations: [ViewComponent],
   providers: [
