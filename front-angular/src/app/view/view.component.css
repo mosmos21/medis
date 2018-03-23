@@ -78,13 +78,6 @@ input[type="checkbox"]:checked {
 
 /* コメント部分 */
 
-.footer {
-    background-color:rgba(97, 97, 97, 0.5);
-    padding: 10px;
-    left: 320px;
-    width: 100%;
-    height: 200px;
-}
 .comment_input{
     width: 100%;
     height: 125px;
@@ -151,7 +144,7 @@ input[type="checkbox"]:checked {
 #footer-fixed
 {
     position: absolute;
-    bottom: 0px;
+    bottom: 15px;
     width: 100%;
     height: 200px;
 }
@@ -184,4 +177,10 @@ input[type="checkbox"]:checked {
 
 .fav{
     color:#ffae00;
+}
+
+.edit_button{
+    margin-right: 3%;
+    margin-top: 10px;
+    float: right;
 }
