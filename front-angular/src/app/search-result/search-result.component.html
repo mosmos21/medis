@@ -6,9 +6,35 @@
 		<div class="wrap_list_box wrap_list_box_tall">
 			<div class="list_box">
 				<div class="list_box_header">
-					<h3>{{ title }}一覧</h3>
+					<h3>検索結果一覧</h3>
 				</div>
-				<div class="list_box_content list_box_content_tall content_scroll_y">
+				<div *ngIf="existDocuments()">
+					<div class="table_container">
+						<mat-table #table [dataSource]="dataSource" matSort>
+
+							<ng-container matColumnDef="documentId">
+								<mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメントID </mat-header-cell>
+								<mat-cell *matCellDef="let documents"> {{documents.documentId}} </mat-cell>
+							</ng-container>
+							<ng-container matColumnDef="documentName">
+								<mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
+								<mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
+							</ng-container>
+							<ng-container matColumnDef="creatorName">
+								<mat-header-cell *matHeaderCellDef mat-sort-header> 作成者 </mat-header-cell>
+								<mat-cell *matCellDef="let documents"> {{documents.lastName}}{{documents.firstName}} </mat-cell>
+							</ng-container>
+							<ng-container matColumnDef="createDate">
+								<mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
+								<mat-cell *matCellDef="let documents"> {{conv.time2Date(documents.documentCreateDate)}} </mat-cell>
+							</ng-container>
+
+							<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+							<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+						</mat-table>
+					</div>
+				</div>
+				<!-- <div class="list_box_content list_box_content_tall content_scroll_y">
 					<table id="info_list">
 						<tr>
 							<th id="info_list_id">ドキュメントID</th>
@@ -25,8 +51,7 @@
 							<td>{{ conv.time2Date(l.documentCreateDate) }}</td>
 						</tr>
 					</table>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
-</div>

@@ -124,9 +124,7 @@ export class SearchService {
     console.log(searchWord);
     this.targetTags = this.tempTags;
     this.targetTags = this.targetTags.filter((item) => {
-      if (item.tagName.indexOf(searchWord) != -1) {
-        return true;
-      }
+      return item.tagName.indexOf(this.searchWord) != -1
     });
   }
 

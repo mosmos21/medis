@@ -1,4 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 
 import { AuthService } from '../services/auth.service';
 import { HttpService } from '../services/http.service';
@@ -7,6 +8,8 @@ import { SearchService } from '../services/search.service';
 import { NavigationService } from '../services/navigation.service';
 import { ConvertDateService } from '../services/convert-date.service';
 import { DocumentInfo } from '../model/DocumentInfo';
+import { MatTableDataSource } from '@angular/material';
+import { MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-search-result',
@@ -17,6 +20,9 @@ export class SearchResultComponent implements OnInit {
 
   public documents: DocumentInfo[] = new Array();
   private msg: String;
+  public displayedColumns = ["documentId", "documentName", "creatorName", "createDate"];
+  public dataSource;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private nav: NavigationService,
@@ -37,15 +43,25 @@ export class SearchResultComponent implements OnInit {
     });
   }
 
+  // ngAfterViewInit() {
+  //   this.dataSource.sort = this.sort;
+  // }
+
   getList(msg: String): void {
     console.log(msg);
     this.http.get("search?tags=" + this.encodeStringToUri(msg)).subscribe(list => {
-      console.log(list);
-        this.documents = list;
-      },error => {
-        this.errorService.errorPath(error.status);
-      }
+      this.documents = list;
+      this.dataSource = new MatTableDataSource<DocumentInfo>(this.documents);
+      this.dataSource.sort = this.sort;
+      console.log(this.dataSource);
+    }, error => {
+      this.errorService.errorPath(error.status);
+    }
     );
+  }
+
+  existDocuments(): boolean {
+    return Object.keys(this.documents).length > 1;
   }
 
   encodeStringToUri(msg: any): string {

@@ -13,7 +13,9 @@ import {
   MatFormFieldModule,
   MatProgressSpinnerModule,
   MatSnackBarModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatTableModule,
+  MatSortModule,
 } from '@angular/material';
 
 import { FileUploadModule } from 'ng2-file-upload'
@@ -94,6 +96,8 @@ import { TypeConversionService } from './services/type-conversion.service';
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
 
     LoginModule,
     TopModule,
