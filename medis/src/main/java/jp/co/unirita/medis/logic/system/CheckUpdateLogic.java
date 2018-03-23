@@ -28,6 +28,7 @@ import jp.co.unirita.medis.util.exception.DBException;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CheckUpdateLogic {
+	private static final String COMMENT_NOTIFICATION_TAG = "g0000000000";
 	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
 	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
 	private static final String TYPE_COMMENT_DOCUMENT = "v0000000002";
@@ -60,12 +61,13 @@ public class CheckUpdateLogic {
 
 	private List<SnackbarNotificationsForm> getCommentSnackbar(String employeeNumber, String updateId, String updateType) {
 		try {
+			NotificationConfig notificationConfig = notificationConfigRepository.findByEmployeeNumberAndTagId(employeeNumber, COMMENT_NOTIFICATION_TAG);
 			List<SnackbarNotificationsForm> commentResult = new ArrayList<>();
 			String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
 			String authorEmployeeNumber = documentInfoRepository.findOne(documentId).getEmployeeNumber();
 			String latestUpdateId = getLatestUpdateId().get("updateId");
 
-			if (employeeNumber.equals(authorEmployeeNumber)) {
+			if (notificationConfig != null && notificationConfig.isBrowserNotification() && employeeNumber.equals(authorEmployeeNumber)) {
 				SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(documentId, updateType,
 						latestUpdateId, documentInfoRepository.findOne(documentId).getDocumentName());
 				commentResult.add(snackbarNotificationsForm);
@@ -87,10 +89,11 @@ public class CheckUpdateLogic {
 	private List<SnackbarNotificationsForm> getCommentReadSnackbar(String employeeNumber, String updateId, String updateType) {
 		try {
 			List<SnackbarNotificationsForm> commentReadResult = new ArrayList<>();
-			UpdateInfo updateInfo = updateInfoRepository.findOne(updateId);
+			NotificationConfig notificationConfig = notificationConfigRepository.findByEmployeeNumberAndTagId(employeeNumber, COMMENT_NOTIFICATION_TAG);
 			String latestUpdateId = getLatestUpdateId().get("updateId");
+			UpdateInfo updateInfo = updateInfoRepository.findOne(updateId);
 
-			if (updateInfo.getEmployeeNumber().equals(employeeNumber)) {
+			if (notificationConfig != null && notificationConfig.isBrowserNotification() && updateInfo.getEmployeeNumber().equals(employeeNumber)) {
 				SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
 						updateInfo.getDocumentId(), updateType, latestUpdateId,
 						documentInfoRepository.findOne(updateInfo.getDocumentId()).getDocumentName());
@@ -115,18 +118,16 @@ public class CheckUpdateLogic {
 			List<SnackbarNotificationsForm> tagResult = new ArrayList<>();
 			String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
 			String latestUpdateId = getLatestUpdateId().get("updateId");
-
 			DocumentInfo documentIdInfo = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
 
 		    if (documentIdInfo != null) {
-				// ドキュメントについたタグ一覧
 				List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(documentIdInfo.getDocumentId());
-				// ユーザの監視タグ一覧
 				List<String> userNotificationTagList = notificationConfigRepository.findByEmployeeNumber(employeeNumber)
 						.stream().map(NotificationConfig::getTagId).collect(Collectors.toList());
 
 				for (DocumentTag documentTag : documentTagList) {
-					if (userNotificationTagList.contains(documentTag.getTagId())) {
+					NotificationConfig notificationConfig = notificationConfigRepository.findByEmployeeNumberAndTagId(employeeNumber, documentTag.getTagId());
+					if (notificationConfig != null && notificationConfig.isBrowserNotification() && userNotificationTagList.contains(documentTag.getTagId())) {
 						SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
 								documentTag.getDocumentId(), updateType, latestUpdateId,
 								documentInfoRepository.findOne(documentTag.getDocumentId()).getDocumentName());
@@ -150,11 +151,11 @@ public class CheckUpdateLogic {
 
 	public List<SnackbarNotificationsForm> updateTypeConfirmation(String employeeNumber, String updateId) {
 		try {
-			List<UpdateInfo> newUpdateId = updateInfoRepository.findByUpdateIdAfter(updateId);
 			List<SnackbarNotificationsForm> result = new ArrayList<>();
+			List<SnackbarNotificationsForm> snackbarNotificationsForm;
+			List<UpdateInfo> newUpdateId = updateInfoRepository.findByUpdateIdAfter(updateId);
 
 			for (UpdateInfo updateInfo : newUpdateId) {
-				List<SnackbarNotificationsForm> snackbarNotificationsForm;
 
 				switch (updateInfo.getUpdateType()) {
 				case TYPE_CREATE_DOCUMENT:
@@ -189,7 +190,7 @@ public class CheckUpdateLogic {
 
 	public Map<String, String> getLatestUpdateId() {
 		try {
-			HashMap<String, String> updateId = new HashMap<String, String>();
+			Map<String, String> updateId = new HashMap<>();
 			List<String> updateInfo = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId")).stream()
 					.map(UpdateInfo::getUpdateId).collect(Collectors.toList());
 			updateId.put("updateId", updateInfo.get(0));
