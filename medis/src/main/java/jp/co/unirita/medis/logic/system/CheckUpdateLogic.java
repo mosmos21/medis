@@ -23,6 +23,7 @@ import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.system.SnackbarNotificationsForm;
+import jp.co.unirita.medis.util.exception.DBException;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -57,19 +58,23 @@ public class CheckUpdateLogic {
 	 * @param updateId ログインユーザがもつ最新のupdateId
 	 */
 
-	public List<SnackbarNotificationsForm> getCommentSnackbar(String employeeNumber, String updateId, String updateType) {
-		List<SnackbarNotificationsForm> commentResult = new ArrayList<>();
-		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
-		String authorEmployeeNumber = documentInfoRepository.findOne(documentId).getEmployeeNumber();
-		String latestUpdateId = getLatestUpdateId().get("updateId");
+	private List<SnackbarNotificationsForm> getCommentSnackbar(String employeeNumber, String updateId, String updateType) {
+		try {
+			List<SnackbarNotificationsForm> commentResult = new ArrayList<>();
+			String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
+			String authorEmployeeNumber = documentInfoRepository.findOne(documentId).getEmployeeNumber();
+			String latestUpdateId = getLatestUpdateId().get("updateId");
 
-		if (employeeNumber.equals(authorEmployeeNumber)) {
-			SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(documentId, updateType,
-					latestUpdateId, documentInfoRepository.findOne(documentId).getDocumentName());
-			commentResult.add(snackbarNotificationsForm);
+			if (employeeNumber.equals(authorEmployeeNumber)) {
+				SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(documentId, updateType,
+						latestUpdateId, documentInfoRepository.findOne(documentId).getDocumentName());
+				commentResult.add(snackbarNotificationsForm);
+			}
+
+			return commentResult;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: CheckUpdateLogic, method: getCommentSnackbar]");
 		}
-
-		return commentResult;
 	}
 
 	/**
@@ -80,18 +85,22 @@ public class CheckUpdateLogic {
 	 */
 
 	private List<SnackbarNotificationsForm> getCommentReadSnackbar(String employeeNumber, String updateId, String updateType) {
-		List<SnackbarNotificationsForm> commentReadResult = new ArrayList<>();
-		UpdateInfo updateInfo = updateInfoRepository.findOne(updateId);
-		String latestUpdateId = getLatestUpdateId().get("updateId");
+		try {
+			List<SnackbarNotificationsForm> commentReadResult = new ArrayList<>();
+			UpdateInfo updateInfo = updateInfoRepository.findOne(updateId);
+			String latestUpdateId = getLatestUpdateId().get("updateId");
 
-		if (updateInfo.getEmployeeNumber().equals(employeeNumber)) {
-			SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
-					updateInfo.getDocumentId(), updateType, latestUpdateId,
-					documentInfoRepository.findOne(updateInfo.getDocumentId()).getDocumentName());
-			commentReadResult.add(snackbarNotificationsForm);
+			if (updateInfo.getEmployeeNumber().equals(employeeNumber)) {
+				SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
+						updateInfo.getDocumentId(), updateType, latestUpdateId,
+						documentInfoRepository.findOne(updateInfo.getDocumentId()).getDocumentName());
+				commentReadResult.add(snackbarNotificationsForm);
+			}
+
+			return commentReadResult;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: CheckUpdateLogic, method: getCommentReadSnackbar]");
 		}
-
-		return commentReadResult;
 	}
 
 	/**
@@ -101,31 +110,35 @@ public class CheckUpdateLogic {
 	 * @param updateId ログインユーザがもつ最新のupdateId
 	 */
 
-	public List<SnackbarNotificationsForm> getTagSnackbar(String employeeNumber, String updateId, String updateType) {
-		List<SnackbarNotificationsForm> tagResult = new ArrayList<>();
-		String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
-		String latestUpdateId = getLatestUpdateId().get("updateId");
+	private List<SnackbarNotificationsForm> getTagSnackbar(String employeeNumber, String updateId, String updateType) {
+		try {
+			List<SnackbarNotificationsForm> tagResult = new ArrayList<>();
+			String documentId = updateInfoRepository.findOne(updateId).getDocumentId();
+			String latestUpdateId = getLatestUpdateId().get("updateId");
 
-		DocumentInfo documentIdInfo = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
+			DocumentInfo documentIdInfo = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
 
-	    if (documentIdInfo != null) {
-			// ドキュメントについたタグ一覧
-			List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(documentIdInfo.getDocumentId());
-			// ユーザの監視タグ一覧
-			List<String> userNotificationTagList = notificationConfigRepository.findByEmployeeNumber(employeeNumber)
-					.stream().map(NotificationConfig::getTagId).collect(Collectors.toList());
+		    if (documentIdInfo != null) {
+				// ドキュメントについたタグ一覧
+				List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(documentIdInfo.getDocumentId());
+				// ユーザの監視タグ一覧
+				List<String> userNotificationTagList = notificationConfigRepository.findByEmployeeNumber(employeeNumber)
+						.stream().map(NotificationConfig::getTagId).collect(Collectors.toList());
 
-			for (DocumentTag add : documentTagList) {
-				if (userNotificationTagList.contains(add.getTagId())) {
-					SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
-							add.getDocumentId(), updateType, latestUpdateId,
-							documentInfoRepository.findOne(add.getDocumentId()).getDocumentName());
-					tagResult.add(snackbarNotificationsForm);
+				for (DocumentTag add : documentTagList) {
+					if (userNotificationTagList.contains(add.getTagId())) {
+						SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
+								add.getDocumentId(), updateType, latestUpdateId,
+								documentInfoRepository.findOne(add.getDocumentId()).getDocumentName());
+						tagResult.add(snackbarNotificationsForm);
+					}
 				}
-			}
-	    }
+		    }
 
-		return tagResult;
+			return tagResult;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: CheckUpdateLogic, method: getTagSnackbar]");
+		}
 	}
 
 	/**
@@ -136,35 +149,38 @@ public class CheckUpdateLogic {
 	 */
 
 	public List<SnackbarNotificationsForm> updateTypeConfirmation(String employeeNumber, String updateId) {
-		List<UpdateInfo> newUpdateId = updateInfoRepository.findByUpdateIdAfter(updateId);
-		List<SnackbarNotificationsForm> result = new ArrayList<>();
+		try {
+			List<UpdateInfo> newUpdateId = updateInfoRepository.findByUpdateIdAfter(updateId);
+			List<SnackbarNotificationsForm> result = new ArrayList<>();
 
-		for (UpdateInfo add : newUpdateId) {
-			List<SnackbarNotificationsForm> snackbarNotificationsForm = new ArrayList<>();
+			for (UpdateInfo add : newUpdateId) {
+				List<SnackbarNotificationsForm> snackbarNotificationsForm;
 
-			switch (add.getUpdateType()) {
-			case TYPE_CREATE_DOCUMENT:
-				snackbarNotificationsForm = getTagSnackbar(employeeNumber, add.getUpdateId(), TYPE_CREATE_DOCUMENT);
-				break;
+				switch (add.getUpdateType()) {
+				case TYPE_CREATE_DOCUMENT:
+					snackbarNotificationsForm = getTagSnackbar(employeeNumber, add.getUpdateId(), TYPE_CREATE_DOCUMENT);
+					break;
 
-			case TYPE_UPDATE_DOCUMENT:
-				snackbarNotificationsForm = getTagSnackbar(employeeNumber, add.getUpdateId(), TYPE_UPDATE_DOCUMENT);
-				break;
+				case TYPE_UPDATE_DOCUMENT:
+					snackbarNotificationsForm = getTagSnackbar(employeeNumber, add.getUpdateId(), TYPE_UPDATE_DOCUMENT);
+					break;
 
-			case TYPE_COMMENT_DOCUMENT:
-				snackbarNotificationsForm = getCommentSnackbar(employeeNumber, add.getUpdateId(),
-						TYPE_COMMENT_DOCUMENT);
-				break;
+				case TYPE_COMMENT_DOCUMENT:
+					snackbarNotificationsForm = getCommentSnackbar(employeeNumber, add.getUpdateId(),
+							TYPE_COMMENT_DOCUMENT);
+					break;
 
-			default:
-				snackbarNotificationsForm = getCommentReadSnackbar(employeeNumber, add.getUpdateId(),
-						TYPE_COMMNETREAD_DOCUMENT);
+				default:
+					snackbarNotificationsForm = getCommentReadSnackbar(employeeNumber, add.getUpdateId(),
+							TYPE_COMMNETREAD_DOCUMENT);
+				}
+				result.addAll(snackbarNotificationsForm);
 			}
-			result.addAll(snackbarNotificationsForm);
-			result = result.stream().distinct().collect(Collectors.toList());
-		}
 
-		return result;
+			return result.stream().distinct().collect(Collectors.toList());
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: CheckUpdateLogic, method: updateTypeConfirmation]");
+		}
 	}
 
 	/**
@@ -172,11 +188,15 @@ public class CheckUpdateLogic {
 	 */
 
 	public Map<String, String> getLatestUpdateId() {
-		HashMap<String, String> updateId = new HashMap<String, String>();
-		List<String> updateInfo = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId")).stream()
-				.map(UpdateInfo::getUpdateId).collect(Collectors.toList());
-		updateId.put("updateId", updateInfo.get(0));
+		try {
+			HashMap<String, String> updateId = new HashMap<String, String>();
+			List<String> updateInfo = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId")).stream()
+					.map(UpdateInfo::getUpdateId).collect(Collectors.toList());
+			updateId.put("updateId", updateInfo.get(0));
 
-		return updateId;
+			return updateId;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: CheckUpdateLogic, method: getLatestUpdateId]");
+		}
 	}
 }
