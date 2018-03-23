@@ -3,8 +3,8 @@ import { Block } from './Block';
 export class Template {
 
   public templateId: string;
-  public templateName: string;
-  public publish: boolean;
+  public templateName: string = '';
+  public publish: boolean = false;
   public contents: TemplateContent[] = new Array();
 
   constructor() { }
