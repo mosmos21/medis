@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.unirita.medis.domain.comment.Comment;
 import jp.co.unirita.medis.domain.comment.CommentRepository;
@@ -19,8 +20,10 @@ import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
+import jp.co.unirita.medis.util.exception.DBException;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class NotificationLogic {
 
     @Autowired
@@ -45,14 +48,18 @@ public class NotificationLogic {
      * @param documentId 投稿した文書のID
      */
     public void documentContributionNotification(String employeeNumber, String documentId) {
-        UserDetail detail = userDetailRepository.findOne(employeeNumber);
-        String name = new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString();
-        String documentName = documentInfoRepository.findOne(documentId).getDocumentName();
-        Stream<String> mailAddressStream = getNotificationMailAdressStream(documentId);
+    	try {
+    		UserDetail detail = userDetailRepository.findOne(employeeNumber);
+            String name = new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString();
+            String documentName = documentInfoRepository.findOne(documentId).getDocumentName();
+            Stream<String> mailAddressStream = getNotificationMailAdressStream(documentId);
 
-        mailAddressStream.forEach(address -> {
-            mailLogic.sendDocumentContributionNotification(address, documentId, documentName, employeeNumber, name);
-        });
+            mailAddressStream.forEach(address -> {
+                mailLogic.sendDocumentContributionNotification(address, documentId, documentName, employeeNumber, name);
+            });
+    	} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: NotificationLogic, method: documentContributionNotification]");
+		}
     }
 
     /**
@@ -61,14 +68,18 @@ public class NotificationLogic {
      * @param documentId　更新した文書のID
      */
     public void documentUpdateNotification(String employeeNumber, String documentId) {
-        UserDetail detail = userDetailRepository.findOne(employeeNumber);
-        String name = new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString();
-        String documentName = documentInfoRepository.findOne(documentId).getDocumentName();
-        Stream<String> mailAddressStream = getNotificationMailAdressStream(documentId);
+    	try {
+    		UserDetail detail = userDetailRepository.findOne(employeeNumber);
+            String name = new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString();
+            String documentName = documentInfoRepository.findOne(documentId).getDocumentName();
+            Stream<String> mailAddressStream = getNotificationMailAdressStream(documentId);
 
-        mailAddressStream.forEach(address -> {
-            mailLogic.sendDocumentUpdateNotification(address, documentId, documentName, employeeNumber, name);
-        });
+            mailAddressStream.forEach(address -> {
+                mailLogic.sendDocumentUpdateNotification(address, documentId, documentName, employeeNumber, name);
+            });
+    	} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: NotificationLogic, method: documentUpdateNotification]");
+		}
     }
 
     /**
@@ -77,12 +88,16 @@ public class NotificationLogic {
      * @param documentId コメントを書いた文書ID
      */
     public void commentNotification(String employeeNumber, String documentId) {
-        UserDetail detail = userDetailRepository.findOne(employeeNumber);
-        String name = new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString();
-        String mailAddress = userDetailRepository.findOne(documentInfoRepository.findOne(documentId).getEmployeeNumber()).getMailaddress();
-        String documentName = documentInfoRepository.findOne(documentId).getDocumentName();
+    	try {
+    		UserDetail detail = userDetailRepository.findOne(employeeNumber);
+            String name = new StringBuilder().append(detail.getLastName()).append(" ").append(detail.getFirstName()).toString();
+            String mailAddress = userDetailRepository.findOne(documentInfoRepository.findOne(documentId).getEmployeeNumber()).getMailaddress();
+            String documentName = documentInfoRepository.findOne(documentId).getDocumentName();
 
-        mailLogic.sendCommentNotification(mailAddress, documentId, documentName, employeeNumber, name);
+            mailLogic.sendCommentNotification(mailAddress, documentId, documentName, employeeNumber, name);
+    	} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: NotificationLogic, method: commentNotification]");
+		}
     }
 
     /**
@@ -90,34 +105,42 @@ public class NotificationLogic {
      * @param commentId 既読にしたコメントID
      */
     public void commentReadNotification(String commentId) {
-        Comment comment = commentRepository.findOne(commentId);
-        String mailAddress = userDetailRepository.findOne(comment.getEmployeeNumber()).getMailaddress();
+    	try {
+    		Comment comment = commentRepository.findOne(commentId);
+            String mailAddress = userDetailRepository.findOne(comment.getEmployeeNumber()).getMailaddress();
 
-        DocumentInfo info = documentInfoRepository.findOne(commentRepository.findOne(commentId).getDocumentId());
-        UserDetail detail = userDetailRepository.findOne(info.getEmployeeNumber());
-        String name = detail.getLastName() + " " + detail.getFirstName();
+            DocumentInfo info = documentInfoRepository.findOne(commentRepository.findOne(commentId).getDocumentId());
+            UserDetail detail = userDetailRepository.findOne(info.getEmployeeNumber());
+            String name = detail.getLastName() + " " + detail.getFirstName();
 
-        mailLogic.sendCommentReadNotification(mailAddress, info.getDocumentId(), info.getDocumentName(), info.getEmployeeNumber(), name);
+            mailLogic.sendCommentReadNotification(mailAddress, info.getDocumentId(), info.getDocumentName(), info.getEmployeeNumber(), name);
+    	} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: NotificationLogic, method: commentReadNotification]");
+		}
     }
 
     // ドキュメントについているタグを監視している人のメールのリスト
     private Stream<String> getNotificationMailAdressStream(String documentId) {
-        String templateId = documentInfoRepository.findOne(documentId).getTemplateId();
+    	try {
+    		String templateId = documentInfoRepository.findOne(documentId).getTemplateId();
 
-        List<String> documentTagList = documentTagRepository.findByDocumentId(documentId).stream()
-                .map(DocumentTag::getTagId).collect(Collectors.toList());
-        List<String> templateTagList = templateTagRepository.findByTemplateId(templateId).stream()
-                .map(TemplateTag::getTagId).collect(Collectors.toList());
-        Stream<String> employeeNumberStream1 = notificationConfigRepository.findByTagIdIn(documentTagList).stream()
-                .filter(NotificationConfig::isMailNotification)
-                .map(NotificationConfig::getEmployeeNumber);
-        Stream<String> emploueeNumberStream2 = notificationConfigRepository.findByTagIdIn(templateTagList).stream()
-                .filter(NotificationConfig::isMailNotification)
-                .map(NotificationConfig::getEmployeeNumber);
+            List<String> documentTagList = documentTagRepository.findByDocumentId(documentId).stream()
+                    .map(DocumentTag::getTagId).collect(Collectors.toList());
+            List<String> templateTagList = templateTagRepository.findByTemplateId(templateId).stream()
+                    .map(TemplateTag::getTagId).collect(Collectors.toList());
+            Stream<String> employeeNumberStream1 = notificationConfigRepository.findByTagIdIn(documentTagList).stream()
+                    .filter(NotificationConfig::isMailNotification)
+                    .map(NotificationConfig::getEmployeeNumber);
+            Stream<String> emploueeNumberStream2 = notificationConfigRepository.findByTagIdIn(templateTagList).stream()
+                    .filter(NotificationConfig::isMailNotification)
+                    .map(NotificationConfig::getEmployeeNumber);
 
-        return Stream.concat(employeeNumberStream1, emploueeNumberStream2).distinct()
-                .map(userDetailRepository::findOne)
-                .map(UserDetail::getMailaddress);
+            return Stream.concat(employeeNumberStream1, emploueeNumberStream2).distinct()
+                    .map(userDetailRepository::findOne)
+                    .map(UserDetail::getMailaddress);
+    	} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: NotificationLogic, method: getNotificationMailAdressStream]");
+		}
     }
 
     public static void main(String[] args) {
