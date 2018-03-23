@@ -1,5 +1,6 @@
 #wrap_edit_template {
-  width: calc(100% - 250px);
+  width: calc(100% - 270px);
+  margin-right: 20px;
 }
 
 #wrap_edit_template_toolbar {
@@ -33,10 +34,11 @@
 }
 
 #edit_template_body {
-  margin: 0 3%;
+  margin: 0 0;
   padding: 0;
   height: calc(100% - 50px);
-  width: 94%;
+  /* width: 94%; */
+  width: 100%;
 }
 
 #template_title {

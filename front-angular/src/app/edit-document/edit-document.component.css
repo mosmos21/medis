@@ -1,5 +1,6 @@
 #wrap_edit_template {
-  width: calc(100% - 250px);
+  width: calc(100% - 270px);
+  margin-right: 20px;
 }
 
 .edit_template_tab {
@@ -48,7 +49,8 @@ padding: 10px 30px;
 margin: 0 0;
 padding: 0;
 height: calc(100% - 50px);
-width: 94%;
+/* width: 94%; */
+width :100%;
 }
 
 #document_plate {
