@@ -88,7 +88,7 @@
                         <div id="menu_search_content" class="menu_content">
                             <div *ngIf="searchService.selectedTags.length < 8">
                                 <mat-form-field>
-                                    <input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord" (keyup)="searchService.searchTag()">
+                                    <input matInput placeholder="Tag Name" value="" (input)="searchService.searchTag($event.target.value)">
                                 </mat-form-field>
                             </div>
 

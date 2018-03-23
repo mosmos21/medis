@@ -164,6 +164,7 @@ export class EditDocumentComponent implements OnInit {
           this.errorService.errorPath(error.status);
         });
       } else {
+        console.log(this.document.documentId);
         this.http.post('documents/' + this.document.documentId, data).subscribe(success => {
           this.submitTags();
         }, error => {

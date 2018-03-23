@@ -120,10 +120,11 @@ export class SearchService {
     this.sendMsg(this.typeConversionService.makeTagNameList(this.selectedTags).join(","));
   }
 
-  searchTag(): void {
+  searchTag(searchWord): void {
+    console.log(searchWord);
     this.targetTags = this.tempTags;
     this.targetTags = this.targetTags.filter((item) => {
-      if (item.tagName.indexOf(this.searchWord) != -1) {
+      if (item.tagName.indexOf(searchWord) != -1) {
         return true;
       }
     });

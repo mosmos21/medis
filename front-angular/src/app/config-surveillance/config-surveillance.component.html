@@ -15,7 +15,7 @@
 				<div class="wrap_surveillance_content">
 					<div id="surveillance_box">
 						<mat-form-field>
-							<input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord" (keyup)="searchService.searchTag()">
+							<input matInput placeholder="Tag Name" value="" (input)="searchService.searchTag($event.target.value)">
 						</mat-form-field>
 						<br>
 						<div class="tag_base tag_middle surveillance_tag" *ngFor="let stag of searchService.selectedTags; let idx = index" (click)="searchService.deleteTags($event,idx)">{{stag.tagName}}</div>
