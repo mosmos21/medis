@@ -80,6 +80,10 @@ export class ConfigUserComponent implements OnInit {
 
   editIcon(): void {
     let dialogRef = this.dialog.open(EditIconComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      this.authService.userdetail.iconUrl = '';
+      this.authService.getUserDetail();
+    })
   }
 
   submit(): void {
