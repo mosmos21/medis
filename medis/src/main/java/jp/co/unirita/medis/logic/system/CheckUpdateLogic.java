@@ -73,13 +73,13 @@ public class CheckUpdateLogic {
 	}
 
 	/**
-	 * 自分のコメントについた既読ている場合に情報を取得
+	 * 自分のコメントに既読がついている場合に情報を取得
 	 *
 	 * @param employeeNumber ログインユーザの社員番号
 	 * @param updateId ログインユーザがもつ最新のupdateId
 	 */
 
-	private List<SnackbarNotificationsForm> getCommentReadSnackbar(String employeeNumber, String updateId,String updateType) {
+	private List<SnackbarNotificationsForm> getCommentReadSnackbar(String employeeNumber, String updateId, String updateType) {
 		List<SnackbarNotificationsForm> commentReadResult = new ArrayList<>();
 		UpdateInfo updateInfo = updateInfoRepository.findOne(updateId);
 		String latestUpdateId = getLatestUpdateId().get("updateId");
@@ -108,7 +108,7 @@ public class CheckUpdateLogic {
 
 		DocumentInfo documentIdInfo = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
 
-		if (documentIdInfo != null) {
+	//	if (documentIdInfo != null) {
 			// ドキュメントについたタグ一覧
 			List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(documentIdInfo.getDocumentId());
 			// ユーザの監視タグ一覧
@@ -123,7 +123,7 @@ public class CheckUpdateLogic {
 					tagResult.add(snackbarNotificationsForm);
 				}
 			}
-		}
+	//	}
 
 		return tagResult;
 	}
@@ -135,7 +135,7 @@ public class CheckUpdateLogic {
 	 * @param updateId ログインユーザがもつ最新のupdateId
 	 */
 
-	public List<SnackbarNotificationsForm> updatetypeConfirmation(String employeeNumber, String updateId) {
+	public List<SnackbarNotificationsForm> updateTypeConfirmation(String employeeNumber, String updateId) {
 		List<UpdateInfo> newUpdateId = updateInfoRepository.findByUpdateIdAfter(updateId);
 		List<SnackbarNotificationsForm> result = new ArrayList<>();
 

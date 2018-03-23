@@ -61,6 +61,6 @@ public class CheckUpdateController {
 		logger.info("[method updatetypeConfirmation] GetUpdatetypeConfirmation by DocumentId :"
 				+ user.getEmployeeNumber() + "after UpdateId" + updateId + ".");
 		argumentCheckLogic.checkLastUpdateId(updateId);
-		return checkUpdateLogic.updatetypeConfirmation(user.getEmployeeNumber(), updateId);
+		return checkUpdateLogic.updateTypeConfirmation(user.getEmployeeNumber(), updateId);
 	}
 }
