@@ -71,6 +71,7 @@ export class EditDocumentComponent implements OnInit {
     }).then(() => {
       if (documentId != 'new') {
         this.http.getWithPromise('documents/' + documentId).then(res => {
+          this.document.setDocumentInfo(res);
           this.document = this.convertService.makeDocument(res);
           return this.http.getWithPromise('templates/' + this.document.templateId);
         }, error => {

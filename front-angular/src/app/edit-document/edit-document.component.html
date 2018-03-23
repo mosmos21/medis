@@ -48,23 +48,18 @@
                                             </div>
                                             <div *ngSwitchCase="'textarea'">
                                                 <mat-form-field class="block_body_content_full">
-                                                    <textarea matInput rows="3" 
-                                                    [(ngModel)]="document.values[idx][content.block.getDocumentValueIndex(i)]"></textarea>
+                                                    <textarea matInput rows="3" [(ngModel)]="document.values[idx][content.block.getDocumentValueIndex(i)]"></textarea>
                                                 </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'checkbox'">
-                                                <mat-checkbox [name]="'content-' + idx" 
-                                                [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" 
-                                                (click)="clickCheckBox(idx, content.block.getDocumentValueIndex(i))"
-                                                style="margin-left:1em">
+                                                <mat-checkbox [name]="'content-' + idx" [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" (click)="clickCheckBox(idx, content.block.getDocumentValueIndex(i))"
+                                                    style="margin-left:1em">
                                                     {{ content.values[content.block.getTemplateValueIndex(i)] }}
                                                 </mat-checkbox>
                                             </div>
                                             <div *ngSwitchCase="'radio'">
-                                                <mat-radio-button [name]="'content-' + idx" 
-                                                [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" 
-                                                (click)="clickRadio(idx, content.block.getDocumentValueIndex(i))"
-                                                style="margin-left:1em">
+                                                <mat-radio-button [name]="'content-' + idx" [checked]="isChecked(idx, content.block.getDocumentValueIndex(i))" (click)="clickRadio(idx, content.block.getDocumentValueIndex(i))"
+                                                    style="margin-left:1em">
                                                     {{ content.values[content.block.getTemplateValueIndex(i)] }}
                                                 </mat-radio-button>
                                             </div>
@@ -89,9 +84,7 @@
                         <div id="menu_search_content" class="menu_content">
                             <div *ngIf="searchService.selectedTags.length < 8">
                                 <mat-form-field>
-                                    <input matInput placeholder="Tag Name" value="" 
-                                    [(ngModel)]="searchService.searchWord" 
-                                    (keyup)="searchService.searchTag()">
+                                    <input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord" (keyup)="searchService.searchTag()">
                                 </mat-form-field>
                             </div>
 
@@ -110,7 +103,7 @@
                 </mat-tab-group>
             </div>
             <div id="wrap_template_toolbar_button">
-                <div>
+                <div *ngIf="!document.documentId">
                     <button mat-raised-button class="send_button" (click)="submit('draft')">下書き</button>
                 </div>
                 <div>
