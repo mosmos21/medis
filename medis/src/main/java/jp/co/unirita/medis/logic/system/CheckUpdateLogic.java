@@ -108,7 +108,7 @@ public class CheckUpdateLogic {
 
 		DocumentInfo documentIdInfo = documentInfoRepository.findByDocumentPublishAndDocumentId(true, documentId);
 
-	//	if (documentIdInfo != null) {
+	    if (documentIdInfo != null) {
 			// ドキュメントについたタグ一覧
 			List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(documentIdInfo.getDocumentId());
 			// ユーザの監視タグ一覧
@@ -123,7 +123,7 @@ public class CheckUpdateLogic {
 					tagResult.add(snackbarNotificationsForm);
 				}
 			}
-	//	}
+	    }
 
 		return tagResult;
 	}
