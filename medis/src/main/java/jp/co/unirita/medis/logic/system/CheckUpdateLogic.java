@@ -125,11 +125,11 @@ public class CheckUpdateLogic {
 				List<String> userNotificationTagList = notificationConfigRepository.findByEmployeeNumber(employeeNumber)
 						.stream().map(NotificationConfig::getTagId).collect(Collectors.toList());
 
-				for (DocumentTag add : documentTagList) {
-					if (userNotificationTagList.contains(add.getTagId())) {
+				for (DocumentTag documentTag : documentTagList) {
+					if (userNotificationTagList.contains(documentTag.getTagId())) {
 						SnackbarNotificationsForm snackbarNotificationsForm = new SnackbarNotificationsForm(
-								add.getDocumentId(), updateType, latestUpdateId,
-								documentInfoRepository.findOne(add.getDocumentId()).getDocumentName());
+								documentTag.getDocumentId(), updateType, latestUpdateId,
+								documentInfoRepository.findOne(documentTag.getDocumentId()).getDocumentName());
 						tagResult.add(snackbarNotificationsForm);
 					}
 				}
@@ -153,25 +153,25 @@ public class CheckUpdateLogic {
 			List<UpdateInfo> newUpdateId = updateInfoRepository.findByUpdateIdAfter(updateId);
 			List<SnackbarNotificationsForm> result = new ArrayList<>();
 
-			for (UpdateInfo add : newUpdateId) {
+			for (UpdateInfo updateInfo : newUpdateId) {
 				List<SnackbarNotificationsForm> snackbarNotificationsForm;
 
-				switch (add.getUpdateType()) {
+				switch (updateInfo.getUpdateType()) {
 				case TYPE_CREATE_DOCUMENT:
-					snackbarNotificationsForm = getTagSnackbar(employeeNumber, add.getUpdateId(), TYPE_CREATE_DOCUMENT);
+					snackbarNotificationsForm = getTagSnackbar(employeeNumber, updateInfo.getUpdateId(), TYPE_CREATE_DOCUMENT);
 					break;
 
 				case TYPE_UPDATE_DOCUMENT:
-					snackbarNotificationsForm = getTagSnackbar(employeeNumber, add.getUpdateId(), TYPE_UPDATE_DOCUMENT);
+					snackbarNotificationsForm = getTagSnackbar(employeeNumber, updateInfo.getUpdateId(), TYPE_UPDATE_DOCUMENT);
 					break;
 
 				case TYPE_COMMENT_DOCUMENT:
-					snackbarNotificationsForm = getCommentSnackbar(employeeNumber, add.getUpdateId(),
+					snackbarNotificationsForm = getCommentSnackbar(employeeNumber, updateInfo.getUpdateId(),
 							TYPE_COMMENT_DOCUMENT);
 					break;
 
 				default:
-					snackbarNotificationsForm = getCommentReadSnackbar(employeeNumber, add.getUpdateId(),
+					snackbarNotificationsForm = getCommentReadSnackbar(employeeNumber, updateInfo.getUpdateId(),
 							TYPE_COMMNETREAD_DOCUMENT);
 				}
 				result.addAll(snackbarNotificationsForm);
