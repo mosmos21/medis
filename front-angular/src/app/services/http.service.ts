@@ -51,7 +51,7 @@ export class HttpService {
   }
 
   delete(url: string): any {
-    return this.http.delete(url, { withCredentials: true, headers: this.authService.headerAddToken() });
+    return this.http.delete(this.hostname + url, { withCredentials: true, headers: this.authService.headerAddToken() });
   }
 
   postIcon(file: File) {

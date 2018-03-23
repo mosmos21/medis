@@ -7,7 +7,9 @@ import { ErrorService } from '../services/error.service';
 import { AuthService } from '../services/auth.service';
 import { HttpService } from '../services/http.service';
 import { TypeConversionService } from '../services/type-conversion.service';
+
 import { UpdateList } from '../model/UpdateList';
+import { Notification } from '../model/Notification';
 
 
 @Injectable()
@@ -15,6 +17,8 @@ export class SnackBarService {
 
   private updateList: any = [];
   private latestUpdateId: string;
+  private notification: Notification = new Notification();
+  public existTags: boolean;
 
   constructor(
     private snackBar: MatSnackBar,
