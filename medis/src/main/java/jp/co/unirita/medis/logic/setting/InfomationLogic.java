@@ -14,11 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
-import jp.co.unirita.medis.domain.documenttag.DocumentTag;
 import jp.co.unirita.medis.domain.documenttag.DocumentTagRepository;
-import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
-import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
@@ -47,29 +44,25 @@ public class InfomationLogic {
 
     public List<InfomationForm> getAllInfomationList(String employeeNumber) {
     	try {
-    		// 監視しているタグの一覧を取得
-            List<String> tagIds = notificationConfigRepository.findByEmployeeNumber(employeeNumber)
-                    .stream().map(NotificationConfig::getTagId).collect(Collectors.toList());
-
-            // タグが付与されている各文書の情報を取得
-            List<String> documentIds = documentTagRepository.findByTagIdIn(tagIds)
-                    .stream().map(DocumentTag::getDocumentId).collect(Collectors.toList());
-            List<String> templateIds = templateTagRepository.findByTagIdIn(tagIds)
-                    .stream().map(TemplateTag::getTemplateId).collect(Collectors.toList());
-            List<String> docInfos = documentInfoRepository.findByDocumentIdIn(documentIds)
-                    .stream().map(DocumentInfo::getDocumentId).collect(Collectors.toList());
-            List<String> tmpInfos = documentInfoRepository.findByTemplateIdIn(templateIds)
-                    .stream().map(DocumentInfo::getDocumentId).collect(Collectors.toList());
             List<String> mydocIds = documentInfoRepository.findByEmployeeNumber(employeeNumber)
                     .stream().map(DocumentInfo::getDocumentId).collect(Collectors.toList());
 
             // 結合して更新情報フォームに変換
+            /*
             List<String> ids = Stream.concat(Stream.concat(docInfos.stream(), tmpInfos.stream()), mydocIds.stream())
                     .distinct().collect(Collectors.toList());
-            List<UpdateInfo> updateInfos = updateInfoRepository.findByDocumentIdIn(ids);
-            List<InfomationForm> list = updateInfos.stream()
-                    .filter(info -> info.getUpdateType().equals(TYPE_WRITE_COMMENT) || info.getUpdateType().equals(TYPE_READ_COMMENT))
-                    .map(info -> new InfomationForm(info, documentInfoRepository.findOne(info.getDocumentId()).getDocumentName()))
+                    */
+            List<UpdateInfo> writeUpdateInfos = updateInfoRepository.findByDocumentIdIn(mydocIds);
+            List<InfomationForm> writeList = writeUpdateInfos.stream()
+            		.filter(info -> info.getUpdateType().equals(TYPE_WRITE_COMMENT))
+            		.map(info -> new InfomationForm(info, documentInfoRepository.findOne(info.getDocumentId()).getDocumentName()))
+            		.collect(Collectors.toList());
+            List<UpdateInfo> readUpdateInfos = updateInfoRepository.findByEmployeeNumber(employeeNumber);
+            List<InfomationForm> readList = readUpdateInfos.stream()
+            		.filter(info -> info.getUpdateType().equals(TYPE_READ_COMMENT))
+            		.map(info -> new InfomationForm(info, documentInfoRepository.findOne(info.getDocumentId()).getDocumentName()))
+            		.collect(Collectors.toList());
+            List<InfomationForm> list = Stream.concat(writeList.stream(), readList.stream())
                     .sorted(Comparator.comparing(InfomationForm::getUpdateId).reversed())
                     .collect(Collectors.toList());
             return list;
