@@ -8,16 +8,16 @@
                 <div id="view_header">
                     <div style="overflow:auto;">
                         <h1 style="float: left;">{{ document.documentName }}</h1>
-                        <nav *ngIf="document.isFav">
+                        <div *ngIf="document.isFav">
                             <button mat-icon-button class="fav_button" (click)="favorite()">
                                 <mat-icon class="fav">star</mat-icon>
                             </button>
-                        </nav>
-                        <nav *ngIf="!document.isFav">
+                        </div>
+                        <div *ngIf="!document.isFav">
                             <button mat-icon-button class="fav_button" (click)="favorite()">
                                 <mat-icon class="unfav">star_border</mat-icon>
                             </button>
-                        </nav>
+                        </div>
 
                         <div style="float:right;">
                             <h3>

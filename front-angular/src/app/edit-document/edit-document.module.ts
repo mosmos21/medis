@@ -11,6 +11,7 @@ import {
   MatRadioModule,
   MatFormFieldModule,
   MatInputModule,
+  MatIconModule,
 } from '@angular/material';
 
 
@@ -26,6 +27,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     DragulaModule,
+    MatIconModule,
   ],
   declarations: [EditDocumentComponent],
   providers: []

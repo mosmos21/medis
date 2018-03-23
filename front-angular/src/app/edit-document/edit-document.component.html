@@ -66,8 +66,12 @@
                                         </div>
                                     </div>
                                     <div *ngIf="content.block.additionalType == 'document'" class="block_item">
-                                        <button mat-raised-button color="primary" (click)="addItem(idx)">要素追加</button>
-                                        <button mat-raised-button (click)="removeItem(idx)">要素削除</button>
+                                        <button mat-raised-button color="primary" (click)="addItem(idx)">
+                                            <mat-icon>add</mat-icon>
+                                        </button>
+                                        <button mat-raised-button (click)="removeItem(idx)">
+                                            <mat-icon>remove</mat-icon>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
