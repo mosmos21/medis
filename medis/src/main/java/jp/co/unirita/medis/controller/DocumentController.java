@@ -159,7 +159,7 @@ public class DocumentController {
 		}
 		updateInfoLogic.saveUpdateInfo(documentId, TYPE_UPDATE_DOCUMENT, user.getEmployeeNumber());
 
-		return documentLogic.update(document, user.getEmployeeNumber());
+		return documentLogic.save(document, user.getEmployeeNumber());
 	}
 
 	/**

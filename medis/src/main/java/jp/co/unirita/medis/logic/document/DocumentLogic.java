@@ -63,6 +63,16 @@ public class DocumentLogic {
 	@Autowired
 	TagLogic tagLogic;
 
+
+	public DocumentInfo getDocumentInfo(String documentId) {
+		try {
+			DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
+			return documentInfo;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocumentInfo]");
+		}
+	}
+
 	public DocumentForm getDocument(String employeeNumber, String documentId) {
 		try {
 			DocumentInfo info = documentInfoRepository.findOne(documentId);
@@ -82,57 +92,6 @@ public class DocumentLogic {
 			return document;
 		} catch (DBException e) {
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocument]");
-		}
-	}
-
-	public DocumentInfo getDocumentInfo(String documentId) {
-		try {
-			DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
-			return documentInfo;
-		} catch (DBException e) {
-			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocumentInfo]");
-		}
-	}
-
-	public List<Tag> getDocumentTags(String id) {
-		return getDocumentTagStartWith(id, "n");
-	}
-
-	public List<Tag> getDocumentSystemTags(String id) {
-		return getDocumentTagStartWith(id, "s");
-	}
-
-	private List<Tag> getDocumentTagStartWith(String id, String startStr) {
-		try {
-			List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
-			List<String> tagIdList = documentTagList.stream().map(DocumentTag::getTagId)
-					.filter(str -> str.startsWith(startStr)).collect(Collectors.toList());
-			List<Tag> tagList = tagRepository.findByTagIdIn(tagIdList);
-			tagList.sort(Comparator.naturalOrder());
-			return tagList;
-		} catch (DBException e) {
-			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocumentTagStartWith]");
-		}
-	}
-
-	public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
-		save(documentForm, employeeNumber);
-		return documentForm.getDocumentId();
-	}
-
-	public String saveDocumentInfo(DocumentForm document, String employeeNumber) throws IdIssuanceUpperException {
-		try {
-			String documentId = document.getDocumentId() == null ? createNewDocumentId() : document.getDocumentId();
-			String templateId = document.getTemplateId();
-			String documentName = document.getDocumentName();
-			Timestamp documentCreateDate = new Timestamp(System.currentTimeMillis());
-			boolean documentPublish = document.isPublish();
-			DocumentInfo info = new DocumentInfo(documentId, documentName, employeeNumber, templateId, documentCreateDate,
-					documentPublish);
-			documentInfoRepository.saveAndFlush(info);
-			return info.getDocumentId();
-		} catch (DBException e) {
-			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentInfo]");
 		}
 	}
 
@@ -161,6 +120,27 @@ public class DocumentLogic {
 		}
 	}
 
+	public List<Tag> getDocumentTags(String id) {
+		return getDocumentTagStartWith(id, "n");
+	}
+
+	public List<Tag> getDocumentSystemTags(String id) {
+		return getDocumentTagStartWith(id, "s");
+	}
+
+	private List<Tag> getDocumentTagStartWith(String id, String startStr) {
+		try {
+			List<DocumentTag> documentTagList = documentTagRepository.findByDocumentId(id);
+			List<String> tagIdList = documentTagList.stream().map(DocumentTag::getTagId)
+					.filter(str -> str.startsWith(startStr)).collect(Collectors.toList());
+			List<Tag> tagList = tagRepository.findByTagIdIn(tagIdList);
+			tagList.sort(Comparator.naturalOrder());
+			return tagList;
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocumentTagStartWith]");
+		}
+	}
+
 	public void toggleDocumentPublish(String documentId, boolean documentPublish) {
 		try {
 			DocumentInfo info = documentInfoRepository.findOne(documentId);
@@ -174,13 +154,52 @@ public class DocumentLogic {
 
 	public String save(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
 		try {
+			documentItemRepository.deleteByDocumentId(documentForm.getDocumentId());
 			String id = saveDocumentInfo(documentForm, employeeNumber);
 			documentForm.setDocumentId(id);
-			documentItemRepository.deleteByDocumentId(documentForm.getDocumentId());
 			saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
 			return id;
 		} catch (DBException e) {
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: save]");
+		}
+	}
+
+	public String saveDocumentInfo(DocumentForm document, String employeeNumber) throws IdIssuanceUpperException {
+		try {
+			String documentId = document.getDocumentId() == null ? createNewDocumentId() : document.getDocumentId();
+			String templateId = document.getTemplateId();
+			String documentName = document.getDocumentName();
+			Timestamp documentCreateDate = new Timestamp(System.currentTimeMillis());
+			boolean documentPublish = document.isPublish();
+			DocumentInfo info = new DocumentInfo(documentId, documentName, employeeNumber, templateId, documentCreateDate,
+					documentPublish);
+			documentInfoRepository.saveAndFlush(info);
+			return info.getDocumentId();
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentInfo]");
+		}
+	}
+
+	private void saveDocumentContent(String documentId, List<DocumentContentForm> contents) {
+		try {
+			for (DocumentContentForm content : contents) {
+				saveDocumentItems(documentId, content.getContentOrder(), content.getItems());
+			}
+			documentItemRepository.flush();
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentContent]");
+		}
+	}
+
+	private void saveDocumentItems(String documentId, int contentOrder, List<String> items) {
+		try {
+			int lineNumber = 1;
+			for (String item : items) {
+				documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumber, item));
+				lineNumber++;
+			}
+		} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentItems]");
 		}
 	}
 
@@ -206,29 +225,6 @@ public class DocumentLogic {
 			documentTagRepository.saveAndFlush(new DocumentTag(documentId, order, systemTagList.get(0).getTagId()));
 		} catch (DBException e) {
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveTags]");
-		}
-	}
-
-	private void saveDocumentContent(String documentId, List<DocumentContentForm> contents) {
-		try {
-			for (DocumentContentForm content : contents) {
-				saveDocumentItems(documentId, content.getContentOrder(), content.getItems());
-			}
-			documentItemRepository.flush();
-		} catch (DBException e) {
-			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentContent]");
-		}
-	}
-
-	private void saveDocumentItems(String documentId, int contentOrder, List<String> items) {
-		try {
-			int lineNumber = 1;
-			for (String item : items) {
-				documentItemRepository.save(new DocumentItem(documentId, contentOrder, lineNumber, item));
-				lineNumber++;
-			}
-		} catch (DBException e) {
-			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentItems]");
 		}
 	}
 
@@ -260,4 +256,10 @@ public class DocumentLogic {
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: createNewDocumentId]");
 		}
 	}
+
+//	public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
+//		save(documentForm, employeeNumber);
+//		return documentForm.getDocumentId();
+//	}
+
 }
