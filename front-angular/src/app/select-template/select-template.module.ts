@@ -12,11 +12,13 @@ import {
   MatSlideToggleModule,
   MatToolbarModule,
   MatFormFieldModule,
+  MatSortModule,
+  MatTableModule,
 } from '@angular/material';
 
 @NgModule({
   imports: [
-    SelectTemplateRoutingModule, 
+    SelectTemplateRoutingModule,
     FormsModule,
     CommonModule,
     HttpClientModule,
@@ -26,11 +28,13 @@ import {
     MatSelectModule,
     MatSlideToggleModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSortModule,
+    MatTableModule,
   ],
-  declarations: [ 
+  declarations: [
     SelectTemplateComponent,
-   ],
+  ],
   providers: []
 })
-export class SelectTemplateModule {}
+export class SelectTemplateModule { }

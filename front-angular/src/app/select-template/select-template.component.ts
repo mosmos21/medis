@@ -1,5 +1,5 @@
-import { MatDialog } from '@angular/material';
-import { Component, OnInit, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, Inject, HostListener, ViewChild } from '@angular/core';
+import { MatDialog, MatSort } from '@angular/material';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
@@ -10,6 +10,7 @@ import { ErrorService } from '../services/error.service';
 import { SnackBarService } from '../services/snack-bar.service';
 import { NavigationService } from '../services/navigation.service';
 import { ConvertDateService } from '../services/convert-date.service';
+import { TableService } from '../services/table.service';
 
 import { TemplateInfo } from '../model/TemplateInfo';
 
@@ -21,6 +22,8 @@ import { TemplateInfo } from '../model/TemplateInfo';
 export class SelectTemplateComponent implements OnInit {
 
   public templates: TemplateInfo[] = new Array();
+  public dataSource;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
@@ -30,6 +33,7 @@ export class SelectTemplateComponent implements OnInit {
     private authService: AuthService,
     private errorService: ErrorService,
     private snackBarService: SnackBarService,
+    public tableService: TableService,
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
@@ -39,6 +43,8 @@ export class SelectTemplateComponent implements OnInit {
   ngOnInit() {
     this.http.get('templates').subscribe(list => {
       this.templates = list;
+      this.dataSource = this.tableService.insertDataSourceTemplate(list);
+      this.dataSource.sort = this.sort;
     }, error => {
       this.errorService.errorPath(error.status);
     });

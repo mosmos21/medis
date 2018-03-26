@@ -43,8 +43,8 @@ import { ConfigNotificationModule } from './config-notification/config-notificat
 import { ConfigSurveillanceModule } from './config-surveillance/config-surveillance.module';
 import { ConfigUserModule } from './config-user/config-user.module';
 import { NewPasswordModule } from './new-password/new-password.module';
-
 import { AppRoutingModule } from './app-routing.module';
+
 import { ConvertDateService } from './services/convert-date.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
@@ -52,6 +52,7 @@ import { SearchService } from './services/search.service';
 import { ValidatorService } from './services/validator.service';
 import { ErrorService } from './services/error.service';
 import { SnackBarService } from './services/snack-bar.service';
+import { TableService } from './services/table.service';
 import { SidenavChildComponent } from './sidenav-child/sidenav-child.component';
 import { SearchComponent } from './search/search.component';
 
@@ -128,6 +129,7 @@ import { TypeConversionService } from './services/type-conversion.service';
     MsgToSidenavService,
     IsNewService,
     HttpService,
+    TableService,
     { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }
   ],
   entryComponents: [

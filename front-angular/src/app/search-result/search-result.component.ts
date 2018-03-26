@@ -53,7 +53,6 @@ export class SearchResultComponent implements OnInit {
       this.documents = list;
       this.dataSource = new MatTableDataSource<DocumentInfo>(this.documents);
       this.dataSource.sort = this.sort;
-      console.log(this.dataSource);
     }, error => {
       this.errorService.errorPath(error.status);
     }

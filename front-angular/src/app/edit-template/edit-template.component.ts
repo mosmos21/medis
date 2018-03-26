@@ -52,24 +52,24 @@ export class EditTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dragulaService.setOptions('template-block', {
-      copy: function (el: any, source: any) {
-        return source.id === 'template_block_list';
-      },
-      accepts: function (el: any, source: any) {
-        return source.id !== 'template_block_list';
-      }
-    });
+    // this.dragulaService.setOptions('template-block', {
+    //   copy: function (el: any, source: any) {
+    //     return source.id === 'template_block_list';
+    //   },
+    //   accepts: function (el: any, source: any) {
+    //     return source.id !== 'template_block_list';
+    //   }
+    // });
 
-    this.dragulaService.drop.subscribe(value => {
-      let [e, el] = value.slice(1);
-      let id = e.childNodes[1].id;
-      if (id != '') {
-        e.remove();
-        this.addBlock(id);
-      }
-    });
-    this.load(this.route.snapshot.paramMap.get('id'));
+    // this.dragulaService.drop.subscribe(value => {
+    //   let [e, el] = value.slice(1);
+    //   let id = e.childNodes[1].id;
+    //   if (id != '') {
+    //     e.remove();
+    //     this.addBlock(id);
+    //   }
+    // });
+    // this.load(this.route.snapshot.paramMap.get('id'));
   }
 
   load(templateId: string): void {
@@ -87,7 +87,7 @@ export class EditTemplateComponent implements OnInit {
           this.template.contents
             .filter(content => content.block.additionalType == 'document')
             .forEach(content => content.block.addItem());
-            console.log(this.template);
+          console.log(this.template);
           return this.http.getWithPromise('templates/' + this.template.templateId + '/tags');
         }, error => {
           this.errorService.errorPath(error.status);
