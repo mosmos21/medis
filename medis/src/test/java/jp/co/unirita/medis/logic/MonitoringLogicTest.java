@@ -20,7 +20,8 @@ import jp.co.unirita.medis.logic.setting.MonitoringLogic;
 @Sql({"file:resources/sql/document_info_monitoring_logic_test-insert.sql",
 	  "file:resources/sql/notification_config_monitoring_logic_test-insert.sql",
 	  "file:resources/sql/template_tag_monitoring_logic_test-insert.sql",
-	  "file:resources/sql/user_detail_monitoring_logic_test-insert.sql"})
+	  "file:resources/sql/user_detail_monitoring_logic_test-insert.sql",
+	  "file:resources/sql/document_tag_monitoring_logic_test-insert.sql"})
 public class MonitoringLogicTest {
 
 	@Autowired
@@ -35,7 +36,7 @@ public class MonitoringLogicTest {
 	@Test
     public void g00000が設定した監視タグのついたドキュメント一覧() {
         List<DocumentInfoForm> documentInfoList = monitoringLogic.getMonitoringList("g00000");
-        assertEquals("g00000の設定した監視タグのついたドキュメントが取得できませんでした", 1, documentInfoList.size());
+        assertEquals("g00000の設定した監視タグのついたドキュメントが取得できませんでした", 0, documentInfoList.size());
     }
 
 	@Test
