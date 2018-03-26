@@ -1,5 +1,6 @@
 import { Router } from '@angular/router'
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatSort } from '@angular/material';
 
 import { AuthService } from '../services/auth.service';
 import { HttpService } from '../services/http.service';
@@ -25,6 +26,17 @@ export class TopComponent implements OnInit {
 
   private user: User;
 
+  public displayedColumnsND = ["documentName", "createDate"];
+  public displayedColumnsNND = ["documentName", "creatorName", "createDate"];
+  public commentDataSource;
+  public ownDataSource;
+  public favDataSource;
+  public monitoringDataSource;
+  @ViewChild('commentTable', { read: MatSort }) commentSort: MatSort;
+  @ViewChild('ownTable', { read: MatSort }) ownSort: MatSort;
+  @ViewChild('favTable', { read: MatSort }) favSort: MatSort;
+  @ViewChild('monitoringTable', { read: MatSort }) monitoringSort: MatSort;
+
   constructor(
     public conv: ConvertDateService,
     public isNewService: IsNewService,
@@ -43,21 +55,29 @@ export class TopComponent implements OnInit {
   ngOnInit() {
     this.http.get("infomations").subscribe(list => {
       this.updateList = list;
+      this.commentDataSource = new MatTableDataSource<DocumentInfo>(list);
+      this.commentDataSource.sort = this.commentSort;
     }, error => {
       this.errorService.errorPath(error.status);
     });
     this.http.get("documents/public").subscribe(list => {
       this.ownDocList = list;
+      this.ownDataSource = new MatTableDataSource<DocumentInfo>(list);
+      this.ownDataSource.sort = this.ownSort;
     }, error => {
       this.errorService.errorPath(error.status);
     });
     this.http.get("documents/bookmark").subscribe(list => {
       this.favDocList = list;
+      this.favDataSource = new MatTableDataSource<DocumentInfo>(list);
+      this.favDataSource.sort = this.favSort;
     }, error => {
       this.errorService.errorPath(error.status);
     });
     this.http.get("documents/monitoring_tags").subscribe(list => {
       this.monDocList = list;
+      this.monitoringDataSource = new MatTableDataSource<DocumentInfo>(list);
+      this.monitoringDataSource.sort = this.monitoringSort;
     }, error => {
       this.errorService.errorPath(error.status);
     });

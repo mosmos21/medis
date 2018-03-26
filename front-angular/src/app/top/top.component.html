@@ -5,7 +5,24 @@
                 <div class="list_box_header">
                     <h3>コメント通知一覧</h3>
                 </div>
-                <div class="list_box_content content_scroll_y">
+                <div class="table_container">
+                    <mat-table #commentTable [dataSource]="commentDataSource" matSort>
+
+                        <ng-container matColumnDef="documentName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメント名 </mat-header-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="createDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
+                            <mat-cell *matCellDef="let documents"> {{conv.time2Date(documents.updateDate)}} </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsND"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsND;"></mat-row>
+                    </mat-table>
+                </div>
+                <!-- <div class="list_box_content content_scroll_y">
                     <ul>
                         <li *ngFor="let upd of updateList">
                             <a class="toppage_list" (click)="viewDocument(upd.documentId)" *ngIf="upd.updateType == 'v0000000002'">
@@ -23,7 +40,7 @@
                             <div class="list_content_time">{{ conv.time2Date(upd.updateDate) }}</div>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="wrap_list_box">
@@ -31,7 +48,24 @@
                 <div class="list_box_header">
                     <h3>自分の投稿一覧</h3>
                 </div>
-                <div class="list_box_content content_scroll_y">
+                <div class="table_container">
+                    <mat-table #ownTable [dataSource]="ownDataSource" matSort>
+
+                        <ng-container matColumnDef="documentName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメント名 </mat-header-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="createDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
+                            <mat-cell *matCellDef="let documents"> {{conv.time2Date(documents.documentCreateDate)}} </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsND"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsND;"></mat-row>
+                    </mat-table>
+                </div>
+                <!-- <div class="list_box_content content_scroll_y">
                     <ul>
                         <li *ngFor="let own of ownDocList">
                             <a class="toppage_list" (click)="viewDocument(own.documentId)">
@@ -43,7 +77,7 @@
                             <div class="list_content_time">{{ conv.time2Date(own.documentCreateDate) }}</div>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="wrap_list_box">
@@ -51,7 +85,27 @@
                 <div class="list_box_header">
                     <h3>お気に入り文書一覧</h3>
                 </div>
-                <div class="list_box_content content_scroll_y">
+                <div class="table_container">
+                    <mat-table #favTable [dataSource]="favDataSource" matSort>
+
+                        <ng-container matColumnDef="documentName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="creatorName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> 作成者 </mat-header-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.lastName}}{{documents.firstName}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="createDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
+                            <mat-cell *matCellDef="let documents"> {{conv.time2Date(documents.documentCreateDate)}} </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsNND"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsNND;"></mat-row>
+                    </mat-table>
+                </div>
+                <!-- <div class="list_box_content content_scroll_y">
                     <ul>
                         <li *ngFor="let fav of favDocList">
                             <a class="toppage_list" (click)="viewDocument(fav.documentId)">
@@ -62,7 +116,7 @@
                             </div>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="wrap_list_box">
@@ -70,7 +124,27 @@
                 <div class="list_box_header">
                     <h3>監視タグ付き文書一覧</h3>
                 </div>
-                <div class="list_box_content content_scroll_y">
+                <div class="table_container">
+                    <mat-table #monitoringTable [dataSource]="monitoringDataSource" matSort>
+
+                        <ng-container matColumnDef="documentName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="creatorName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> 作成者 </mat-header-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.lastName}}{{documents.firstName}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="createDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
+                            <mat-cell *matCellDef="let documents"> {{conv.time2Date(documents.documentCreateDate)}} </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsNND"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsNND;"></mat-row>
+                    </mat-table>
+                </div>
+                <!-- <div class="list_box_content content_scroll_y">
                     <ul>
                         <li *ngFor="let mon of monDocList">
                             <a class="toppage_list" (click)="viewDocument(mon.documentId)">{{ mon.documentName }}</a>
@@ -82,7 +156,7 @@
                             </span>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

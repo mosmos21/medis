@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
+import { MatTableDataSource } from '@angular/material';
+import { MatSort } from '@angular/material';
 
 import { AuthService } from '../services/auth.service';
 import { HttpService } from '../services/http.service';
@@ -8,8 +10,6 @@ import { SearchService } from '../services/search.service';
 import { NavigationService } from '../services/navigation.service';
 import { ConvertDateService } from '../services/convert-date.service';
 import { DocumentInfo } from '../model/DocumentInfo';
-import { MatTableDataSource } from '@angular/material';
-import { MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-search-result',
