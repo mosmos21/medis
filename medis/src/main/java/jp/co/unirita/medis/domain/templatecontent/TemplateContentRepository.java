@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TemplateContentRepository extends JpaRepository<TemplateContent, TemplateContent.PK>{
     List<TemplateContent> findByTemplateIdOrderByContentOrderAsc(String templateId);
+	void deleteByTemplateId(String templateId);
 }

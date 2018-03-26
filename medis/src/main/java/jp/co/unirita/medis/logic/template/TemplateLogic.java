@@ -47,14 +47,6 @@ public class TemplateLogic {
     @Autowired
     TagLogic tagLogic;
 
-    public List<Tag> getTemplateTags(String id) {
-    	try {
-    		List<TemplateTag> templateTagList = templateTagRepository.findByTemplateId(id);
-            return tagRepository.findByTagIdIn(templateTagList.stream().map(TemplateTag::getTagId).collect(Collectors.toList()));
-    	} catch (DBException e) {
-			throw new DBException("DB Runtime Error[class: TemplateLogic, method: getTemplateTags]");
-		}
-    }
 
     public TemplateForm getTemplate(String id) {
     	try {
@@ -89,6 +81,15 @@ public class TemplateLogic {
 		}
     }
 
+    public List<Tag> getTemplateTags(String id) {
+    	try {
+    		List<TemplateTag> templateTagList = templateTagRepository.findByTemplateId(id);
+            return tagRepository.findByTagIdIn(templateTagList.stream().map(TemplateTag::getTagId).collect(Collectors.toList()));
+    	} catch (DBException e) {
+			throw new DBException("DB Runtime Error[class: TemplateLogic, method: getTemplateTags]");
+		}
+    }
+
     public void toggleTemplatePublish(String templateId, boolean templatePublish) {
     	try {
     		TemplateInfo info = templateInfoRepository.findOne(templateId);
@@ -102,65 +103,14 @@ public class TemplateLogic {
 
     public String save(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException{
     	try {
+    		templateItemRepository.deleteByTemplateId(templateForm.getTemplateId());
+    		templateContentRepository.deleteByTemplateId(templateForm.getTemplateId());
     		String id = saveTemplateInfo(templateForm, employeeNumber);
             templateForm.setTemplateId(id);
             saveTemplateContent(id, templateForm.getContents());
             return id;
     	} catch (DBException e) {
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: save]");
-		}
-    }
-
-    public void saveTags(String templateId, List<Tag> tags) throws  IdIssuanceUpperException {
-    	try {
-    		int order = 1;
-            for(Tag tag : tagLogic.applyTags(tags)) {
-                if(tag.getTagId() == null) {
-                    tag.setTagId(tagLogic.getNewTagId());
-                }
-                templateTagRepository.save(new TemplateTag(templateId, order, tag.getTagId()));
-                order++;
-            }
-    	} catch (DBException e) {
-			throw new DBException("DB Runtime Error[class: TemplateLogic, method: saveTags]");
-		}
-    }
-
-    public String update(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException {
-        String id = saveTemplateInfo(templateForm, employeeNumber);
-        updateTemplateContent(templateForm.getTemplateId(), templateForm.getContents());
-        return id;
-    }
-
-    public void updateTags(String tempalateId, List<Tag> tags) throws IdIssuanceUpperException {
-    	try {
-    		List<TemplateTag> oldTags = templateTagRepository.findByTemplateId(tempalateId);
-            List<Tag> newTags = tagLogic.applyTags(tags);
-            System.out.println(newTags);
-            int common = Math.min(oldTags.size(), newTags.size());
-            int order = 1;
-            for(Tag tag: newTags) {
-                if(common < order){
-                    break;
-                }
-                templateTagRepository.save(new TemplateTag(tempalateId, order, tag.getTagId()));
-                order++;
-            }
-            templateTagRepository.flush();
-            if(oldTags.size() < newTags.size()) {
-                List<Tag> addTags = newTags.subList(common, newTags.size());
-                for(Tag tag: addTags) {
-                    templateTagRepository.save(new TemplateTag(tempalateId, order, tag.getTagId()));
-                    order++;
-                }
-            } else {
-                for(;order <= oldTags.size(); order++) {
-                    templateTagRepository.delete(new TemplateTag.PK(tempalateId, order));
-                }
-            }
-            templateTagRepository.flush();
-    	} catch (DBException e) {
-			throw new DBException("DB Runtime Error[class: TemplateLogic, method: updateTags]");
 		}
     }
 
@@ -201,63 +151,19 @@ public class TemplateLogic {
 		}
     }
 
-    private void updateTemplateContent(String templateId, List<TemplateContentForm> contents) {
+    public void saveTags(final String templateId, List<Tag> tags) throws  IdIssuanceUpperException {
     	try {
-    		List<TemplateContent> oldContents = templateContentRepository.findByTemplateIdOrderByContentOrderAsc(templateId);
-
-            int common = Math.min(oldContents.size(), contents.size());
-            for(TemplateContentForm content : contents){
-                if(common < content.getContentOrder()) {
-                    break;
+    		templateTagRepository.deleteByTemplateId(templateId);
+    		int order = 1;
+            for(Tag tag : tagLogic.applyTags(tags)) {
+                if(tag.getTagId() == null) {
+                    tag.setTagId(tagLogic.getNewTagId());
                 }
-                templateContentRepository.save(new TemplateContent(templateId, content.getContentOrder(), content.getBlockId()));
-                updateContentItem(templateId, content.getContentOrder(), content.getItems());
-            }
-            templateContentRepository.flush();
-            if(oldContents.size() < contents.size()) {
-                List<TemplateContentForm> addContents = contents.subList(common, contents.size());
-                for(TemplateContentForm content: addContents) {
-                    templateContentRepository.save(new TemplateContent(templateId, content.getContentOrder(), content.getBlockId()));
-                    saveContentItems(templateId, content.getContentOrder(), content.getItems());
-                }
-            } else {
-                for(int i = common + 1;i <= oldContents.size(); i++) {
-                    templateContentRepository.delete(new TemplateContent.PK(templateId, i));
-                }
+                templateTagRepository.save(new TemplateTag(templateId, order, tag.getTagId()));
+                order++;
             }
     	} catch (DBException e) {
-			throw new DBException("DB Runtime Error[class: TemplateLogic, method: updateTemplateContent]");
-		}
-    }
-
-    private void updateContentItem(String templateId, int contentOrder, List<String> items) {
-    	try {
-    		List<TemplateItem> oldItems = templateItemRepository.findByTemplateIdAndContentOrderOrderByLineNumberAsc(templateId, contentOrder);
-
-            int lineNumber = 1;
-            int common = Math.min(oldItems.size(), items.size());
-
-            for(String value: items) {
-                if(common < lineNumber){
-                    break;
-                }
-                templateItemRepository.save(new TemplateItem(templateId, contentOrder, lineNumber, value));
-                lineNumber++;
-            }
-            templateItemRepository.flush();
-            if(oldItems.size() < items.size()) {
-                List<String> addItems = items.subList(lineNumber-1, items.size());
-                for(String value: addItems) {
-                    templateItemRepository.save(new TemplateItem(templateId, contentOrder, lineNumber, value));
-                    lineNumber++;
-                }
-            } else {
-                for(;lineNumber <= oldItems.size(); lineNumber++) {
-                    templateItemRepository.delete(new TemplateItem.PK(templateId, contentOrder, lineNumber));
-                }
-            }
-    	} catch (DBException e) {
-			throw new DBException("DB Runtime Error[class: TemplateLogic, method: updateContentItem]");
+			throw new DBException("DB Runtime Error[class: TemplateLogic, method: saveTags]");
 		}
     }
 
@@ -276,4 +182,110 @@ public class TemplateLogic {
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: createNewTemplateId]");
 		}
     }
+
+
+//    public String update(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException {
+//    	try {
+//    		String id = saveTemplateInfo(templateForm, employeeNumber);
+//            templateItemRepository.deleteByTemplateId(templateForm.getTemplateId());
+//            templateContentRepository.deleteByTemplateId(templateForm.getTemplateId());
+//            saveTemplateContent(templateForm.getTemplateId(), templateForm.getContents());
+//            return id;
+//    	} catch (DBException e) {
+//			throw new DBException("DB Runtime Error[class: TemplateLogic, method: update]");
+//		}
+//    }
+
+//    private void updateTemplateContent(String templateId, List<TemplateContentForm> contents) {
+//    	try {
+//    		List<TemplateContent> oldContents = templateContentRepository.findByTemplateIdOrderByContentOrderAsc(templateId);
+//
+//            int common = Math.min(oldContents.size(), contents.size());
+//            for(TemplateContentForm content : contents){
+//                if(common < content.getContentOrder()) {
+//                    break;
+//                }
+//                templateContentRepository.save(new TemplateContent(templateId, content.getContentOrder(), content.getBlockId()));
+//                updateContentItem(templateId, content.getContentOrder(), content.getItems());
+//            }
+//            templateContentRepository.flush();
+//            if(oldContents.size() < contents.size()) {
+//                List<TemplateContentForm> addContents = contents.subList(common, contents.size());
+//                for(TemplateContentForm content: addContents) {
+//                    templateContentRepository.save(new TemplateContent(templateId, content.getContentOrder(), content.getBlockId()));
+//                    saveContentItems(templateId, content.getContentOrder(), content.getItems());
+//                }
+//            } else {
+//                for(int i = common + 1;i <= oldContents.size(); i++) {
+//                    templateContentRepository.delete(new TemplateContent.PK(templateId, i));
+//                }
+//            }
+//    	} catch (DBException e) {
+//			throw new DBException("DB Runtime Error[class: TemplateLogic, method: updateTemplateContent]");
+//		}
+//    }
+
+//    private void updateContentItem(String templateId, int contentOrder, List<String> items) {
+//    	try {
+//    		List<TemplateItem> oldItems = templateItemRepository.findByTemplateIdAndContentOrderOrderByLineNumberAsc(templateId, contentOrder);
+//
+//            int lineNumber = 1;
+//            int common = Math.min(oldItems.size(), items.size());
+//
+//            for(String value: items) {
+//                if(common < lineNumber){
+//                    break;
+//                }
+//                templateItemRepository.save(new TemplateItem(templateId, contentOrder, lineNumber, value));
+//                lineNumber++;
+//            }
+//            templateItemRepository.flush();
+//            if(oldItems.size() < items.size()) {
+//                List<String> addItems = items.subList(lineNumber-1, items.size());
+//                for(String value: addItems) {
+//                    templateItemRepository.save(new TemplateItem(templateId, contentOrder, lineNumber, value));
+//                    lineNumber++;
+//                }
+//            } else {
+//                for(;lineNumber <= oldItems.size(); lineNumber++) {
+//                    templateItemRepository.delete(new TemplateItem.PK(templateId, contentOrder, lineNumber));
+//                }
+//            }
+//    	} catch (DBException e) {
+//			throw new DBException("DB Runtime Error[class: TemplateLogic, method: updateContentItem]");
+//		}
+//    }
+
+//    public void updateTags(String tempalateId, List<Tag> tags) throws IdIssuanceUpperException {
+//    	try {
+//    		List<TemplateTag> oldTags = templateTagRepository.findByTemplateId(tempalateId);
+//            List<Tag> newTags = tagLogic.applyTags(tags);
+//            System.out.println(newTags);
+//            int common = Math.min(oldTags.size(), newTags.size());
+//            int order = 1;
+//            for(Tag tag: newTags) {
+//                if(common < order){
+//                    break;
+//                }
+//                templateTagRepository.save(new TemplateTag(tempalateId, order, tag.getTagId()));
+//                order++;
+//            }
+//            templateTagRepository.flush();
+//            if(oldTags.size() < newTags.size()) {
+//                List<Tag> addTags = newTags.subList(common, newTags.size());
+//                for(Tag tag: addTags) {
+//                    templateTagRepository.save(new TemplateTag(tempalateId, order, tag.getTagId()));
+//                    order++;
+//                }
+//            } else {
+//                for(;order <= oldTags.size(); order++) {
+//                    templateTagRepository.delete(new TemplateTag.PK(tempalateId, order));
+//                }
+//            }
+//            templateTagRepository.flush();
+//    	} catch (DBException e) {
+//			throw new DBException("DB Runtime Error[class: TemplateLogic, method: updateTags]");
+//		}
+//    }
+
 }

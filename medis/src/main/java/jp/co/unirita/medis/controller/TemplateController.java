@@ -68,7 +68,6 @@ public class TemplateController {
 
         argumentCheckLogic.checkTemplateId(templateId);
         TemplateForm template = templateLogic.getTemplate(templateId);
-        System.out.println(template);
         return template;
     }
 
@@ -109,7 +108,7 @@ public class TemplateController {
 
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
         argumentCheckLogic.checkTemplateId(template.getTemplateId());
-        return templateLogic.update(template, user.getEmployeeNumber());
+        return templateLogic.save(template, user.getEmployeeNumber());
     }
 
     /**
@@ -155,7 +154,7 @@ public class TemplateController {
 
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
         argumentCheckLogic.checkTemplateId(templateId);
-        templateLogic.updateTags(templateId, tags);
+        templateLogic.saveTags(templateId, tags);
     }
 
     /**
