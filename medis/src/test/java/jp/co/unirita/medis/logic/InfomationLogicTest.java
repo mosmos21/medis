@@ -24,9 +24,9 @@ public class InfomationLogicTest{
 	InfomationLogic infomationLogic;
 
 	@Test
-    public void adminが設定した監視タグのついたドキュメント一覧() {
-        List<InfomationForm> documentInfoList = infomationLogic.getAllInfomationList("admin");
-        assertEquals("adminの設定した監視タグのついたドキュメントが取得できませんでした", 2, documentInfoList.size());
+    public void g00001が設定した監視タグのついたドキュメント一覧() {
+        List<InfomationForm> documentInfoList = infomationLogic.getAllInfomationList("g00001");
+        assertEquals("g00001の設定した監視タグのついたドキュメントが取得できませんでした", 2, documentInfoList.size());
     }
 
 }
