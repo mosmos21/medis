@@ -23,7 +23,7 @@ public class TagLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private static final String COMMENT_NOTIFICATION_TAG_ID = "g0000000000";
+	private static final String COMMENT_NOTIFICATION_TAG = "g0000000000";
 
 	@Autowired
 	TagRepository tagRepository;
@@ -31,7 +31,7 @@ public class TagLogic {
 	public List<Tag> getTagList() {
 		try {
 			List<Tag> tagList = tagRepository.findAll().stream()
-					.filter(tag -> !tag.getTagId().equals(COMMENT_NOTIFICATION_TAG_ID))
+					.filter(tag -> !tag.getTagId().equals(COMMENT_NOTIFICATION_TAG))
 					.collect(Collectors.toList());
 			tagList.sort(Comparator.naturalOrder());
 			return tagList;
