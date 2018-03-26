@@ -24,6 +24,6 @@ public class DocumentInfoForm {
 
 	public DocumentInfoForm(DocumentInfo doc, UserDetail user) {
 		this(doc.getDocumentId(), doc.getDocumentName(), doc.getEmployeeNumber(), user.getLastName(), user.getFirstName()
-				, user.getLastName() + " " + user.getFirstName(), doc.getTemplateId(), doc.getDocumentCreateDate(), doc.isDocumentPublish());
+				, user.getLastName() + user.getFirstName(), doc.getTemplateId(), doc.getDocumentCreateDate(), doc.isDocumentPublish());
 	}
 }

@@ -10,37 +10,18 @@
 
                         <ng-container matColumnDef="documentName">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメント名 </mat-header-cell>
-                            <mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
+                            <mat-cell *matCellDef="let documents" (click)="viewDocument(documents.documentId)"> {{documents.documentName}} </mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="createDate">
+                        <ng-container matColumnDef="updateDate">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-                            <mat-cell *matCellDef="let documents"> {{conv.time2Date(documents.updateDate)}} </mat-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.updateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                         </ng-container>
 
-                        <mat-header-row *matHeaderRowDef="displayedColumnsND"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumnsND;"></mat-row>
+                        <mat-header-row *matHeaderRowDef="displayedColumnsNU"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsNU;"></mat-row>
                     </mat-table>
                 </div>
-                <!-- <div class="list_box_content content_scroll_y">
-                    <ul>
-                        <li *ngFor="let upd of updateList">
-                            <a class="toppage_list" (click)="viewDocument(upd.documentId)" *ngIf="upd.updateType == 'v0000000002'">
-                                {{ upd.documentName }}にコメントがつきました。
-                            </a>
-                            <span class="isNew" *ngIf="isNewService.checkNew(upd.documentCreateDate)">
-                                - new!!
-                            </span>
-                            <a class="toppage_list" (click)="viewDocument(upd.documentId)" *ngIf="upd.updateType == 'v0000000003'">
-                                {{ upd.documentName }}に対するコメントが読まれました。
-                            </a>
-                            <span class="isNew" *ngIf="isNewService.checkNew(upd.documentCreateDate)">
-                                - new!!
-                            </span>
-                            <div class="list_content_time">{{ conv.time2Date(upd.updateDate) }}</div>
-                        </li>
-                    </ul>
-                </div> -->
             </div>
         </div>
         <div class="wrap_list_box">
@@ -53,31 +34,18 @@
 
                         <ng-container matColumnDef="documentName">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメント名 </mat-header-cell>
-                            <mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
+                            <mat-cell *matCellDef="let documents" (click)="viewDocument(documents.documentId)"> {{documents.documentName}} </mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="createDate">
+                        <ng-container matColumnDef="documentCreateDate">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-                            <mat-cell *matCellDef="let documents"> {{conv.time2Date(documents.documentCreateDate)}} </mat-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                         </ng-container>
 
                         <mat-header-row *matHeaderRowDef="displayedColumnsND"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumnsND;"></mat-row>
                     </mat-table>
                 </div>
-                <!-- <div class="list_box_content content_scroll_y">
-                    <ul>
-                        <li *ngFor="let own of ownDocList">
-                            <a class="toppage_list" (click)="viewDocument(own.documentId)">
-                                {{ own.documentName }}
-                            </a>
-                            <span class="isNew" *ngIf="isNewService.checkNew(own.documentCreateDate)">
-                                - new!!
-                            </span>
-                            <div class="list_content_time">{{ conv.time2Date(own.documentCreateDate) }}</div>
-                        </li>
-                    </ul>
-                </div> -->
             </div>
         </div>
         <div class="wrap_list_box">
@@ -90,33 +58,21 @@
 
                         <ng-container matColumnDef="documentName">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
-                            <mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
+                            <mat-cell *matCellDef="let documents" (click)="viewDocument(documents.documentId)"> {{documents.documentName}} </mat-cell>
                         </ng-container>
-                        <ng-container matColumnDef="creatorName">
+                        <ng-container matColumnDef="name">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> 作成者 </mat-header-cell>
                             <mat-cell *matCellDef="let documents"> {{documents.lastName}}{{documents.firstName}} </mat-cell>
                         </ng-container>
-                        <ng-container matColumnDef="createDate">
+                        <ng-container matColumnDef="documentCreateDate">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-                            <mat-cell *matCellDef="let documents"> {{conv.time2Date(documents.documentCreateDate)}} </mat-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                         </ng-container>
 
                         <mat-header-row *matHeaderRowDef="displayedColumnsNND"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumnsNND;"></mat-row>
                     </mat-table>
                 </div>
-                <!-- <div class="list_box_content content_scroll_y">
-                    <ul>
-                        <li *ngFor="let fav of favDocList">
-                            <a class="toppage_list" (click)="viewDocument(fav.documentId)">
-                                {{ fav.documentName }}
-                            </a>
-                            <div class="list_content_time">
-                                [投稿者] {{ fav.lastName }} {{ fav.firstName }} [最終更新日] {{ conv.time2Date(fav.documentCreateDate)}}
-                            </div>
-                        </li>
-                    </ul>
-                </div> -->
             </div>
         </div>
         <div class="wrap_list_box">
@@ -129,34 +85,21 @@
 
                         <ng-container matColumnDef="documentName">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
-                            <mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
+                            <mat-cell *matCellDef="let documents" (click)="viewDocument(documents.documentId)"> {{documents.documentName}} </mat-cell>
                         </ng-container>
-                        <ng-container matColumnDef="creatorName">
+                        <ng-container matColumnDef="name">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> 作成者 </mat-header-cell>
-                            <mat-cell *matCellDef="let documents"> {{documents.lastName}}{{documents.firstName}} </mat-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.name}} </mat-cell>
                         </ng-container>
-                        <ng-container matColumnDef="createDate">
+                        <ng-container matColumnDef="documentCreateDate">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-                            <mat-cell *matCellDef="let documents"> {{conv.time2Date(documents.documentCreateDate)}} </mat-cell>
+                            <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                         </ng-container>
 
                         <mat-header-row *matHeaderRowDef="displayedColumnsNND"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumnsNND;"></mat-row>
                     </mat-table>
                 </div>
-                <!-- <div class="list_box_content content_scroll_y">
-                    <ul>
-                        <li *ngFor="let mon of monDocList">
-                            <a class="toppage_list" (click)="viewDocument(mon.documentId)">{{ mon.documentName }}</a>
-                            <div class="list_content_time">
-                                [投稿者] {{ mon.lastName }} {{ mon.firstName }} [最終更新日] {{ conv.time2Date(mon.documentCreateDate)}}
-                            </div>
-                            <span class="isNew" *ngIf="isNewService.checkNew(mon.documentCreateDate)">
-                                - new!!
-                            </span>
-                        </li>
-                    </ul>
-                </div> -->
             </div>
         </div>
     </div>
