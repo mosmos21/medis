@@ -26,8 +26,9 @@ export class TopComponent implements OnInit {
 
   private user: User;
 
-  public displayedColumnsND = ["documentName", "createDate"];
-  public displayedColumnsNND = ["documentName", "creatorName", "createDate"];
+  public displayedColumnsNU = ["documentName", "updateDate"];
+  public displayedColumnsND = ["documentName", "documentCreateDate"];
+  public displayedColumnsNND = ["documentName", "name", "documentCreateDate"];
   public commentDataSource;
   public ownDataSource;
   public favDataSource;

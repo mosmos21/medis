@@ -20,7 +20,7 @@ export class SearchResultComponent implements OnInit {
 
   public documents: DocumentInfo[] = new Array();
   private msg: String;
-  public displayedColumns = ["documentId", "documentName", "creatorName", "createDate"];
+  public displayedColumns = ["documentId", "documentName", "name", "documentCreateDate"];
   public dataSource;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -43,9 +43,9 @@ export class SearchResultComponent implements OnInit {
     });
   }
 
-  // ngAfterViewInit() {
-  //   this.dataSource.sort = this.sort;
-  // }
+  ngAfterViewInit() {
+    console.log("ngAfterViewInit");
+  }
 
   getList(msg: String): void {
     console.log(msg);

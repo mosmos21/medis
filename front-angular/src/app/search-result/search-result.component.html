@@ -20,13 +20,13 @@
 								<mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
 								<mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
 							</ng-container>
-							<ng-container matColumnDef="creatorName">
+							<ng-container matColumnDef="name">
 								<mat-header-cell *matHeaderCellDef mat-sort-header> 作成者 </mat-header-cell>
-								<mat-cell *matCellDef="let documents"> {{documents.lastName}}{{documents.firstName}} </mat-cell>
+								<mat-cell *matCellDef="let documents"> {{documents.name}} </mat-cell>
 							</ng-container>
-							<ng-container matColumnDef="createDate">
+							<ng-container matColumnDef="documentCreateDate">
 								<mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-								<mat-cell *matCellDef="let documents"> {{conv.time2Date(documents.documentCreateDate)}} </mat-cell>
+								<mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date: 'yyyy/MM/dd HH:mm'}} </mat-cell>
 							</ng-container>
 
 							<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -34,24 +34,6 @@
 						</mat-table>
 					</div>
 				</div>
-				<!-- <div class="list_box_content list_box_content_tall content_scroll_y">
-					<table id="info_list">
-						<tr>
-							<th id="info_list_id">ドキュメントID</th>
-							<th id="info_list_name">ドキュメント名</th>
-							<th id="info_list_author">作成者</th>
-							<th id="info_list_date">作成日</th>
-						</tr>
-						<tr *ngFor="let l of documents">
-							<td>{{ l.documentId }}</td>
-							<td>
-								<a href="/browsing/{{ l.documentId }}">{{ l.documentName }}</a>
-							</td>
-							<td>{{ l.lastName }} {{ l.firstName }}</td>
-							<td>{{ conv.time2Date(l.documentCreateDate) }}</td>
-						</tr>
-					</table>
-				</div> -->
 			</div>
 		</div>
 	</div>
