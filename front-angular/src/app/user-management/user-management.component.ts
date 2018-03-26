@@ -1,5 +1,9 @@
-import { Component, OnInit, Inject, HostListener } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, OnInit, Inject, HostListener, ViewChild } from '@angular/core';
+import {
+  MatDialog,
+  MatTableDataSource,
+  MatSort,
+} from '@angular/material';
 
 import { CreateUserComponent } from '../create-user/create-user.component'
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
@@ -19,8 +23,12 @@ import { NavigationService } from '../services/navigation.service';
 })
 export class UserManagementComponent implements OnInit {
 
+  public displayedColumns = ["employeeNumber", "name", "mailaddress", "enabled", "reset"];
   public searchWord: string = '';
   private users: UserForm[] = new Array();
+
+  public dataSource;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public nav: NavigationService,
@@ -38,9 +46,17 @@ export class UserManagementComponent implements OnInit {
   ngOnInit() {
     this.http.get('system/users').subscribe(users => {
       this.users = users;
+      this.dataSource = new MatTableDataSource<UserForm>(users);
+      this.dataSource.sort = this.sort;
     }, error => {
       this.errorService.errorPath(error.status);
     });
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   confirmChangeEnable(e: any, index: number): void {

@@ -89,3 +89,24 @@ tr:nth-child(odd) td {
     color: #555;
     border-left: 4px #0f9d58 solid;
 }
+
+/* テーブル関係 */
+.mat-table{
+    overflow: auto;
+    width: 90%;
+    margin-top: 20px;
+    margin-left: 5%;
+    height: calc(100vh - 150px);
+}
+
+.user_filter{
+    float: right;
+}
+
+.mat-column-enabled{
+    flex: 0 0 100px;
+}
+
+.mat-column-reset{
+    flex: 0 0 150px;
+}

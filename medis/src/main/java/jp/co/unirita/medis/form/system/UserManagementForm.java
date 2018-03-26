@@ -1,15 +1,16 @@
 package jp.co.unirita.medis.form.system;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -40,6 +41,7 @@ public class UserManagementForm {
 	@NotBlank(message = "名前（ふりがな）が入力されていません。")
 	@Pattern(regexp = "(?!.*(http://|https://|\r\n|[\n\r\u2028\u2029\u0085]|<.*>.*</.*>|<.*/>)).*", message = "名前（ふりがな）に不正な文字が含まれています。")
     private String firstNamePhonetic;
+	private String name;
 
 	@Size(max = 64, message = "メールアドレスは64文字以内で入力してください。")
 	@NotBlank(message = "メールアドレスが入力されていません。")
@@ -67,6 +69,7 @@ public class UserManagementForm {
 		this.firstName = detail.getFirstName();
 		this.lastNamePhonetic = detail.getLastNamePhonetic();
 		this.firstNamePhonetic = detail.getFirstNamePhonetic();
+		this.name = detail.getLastName() + " " + detail.getFirstName();
 		this.mailaddress = detail.getMailaddress();
 		this.icon = detail.isIcon();
 	}
