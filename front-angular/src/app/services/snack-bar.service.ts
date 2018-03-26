@@ -41,7 +41,7 @@ export class SnackBarService {
           this.openSnackBar("更新情報が複数あります", "/top");
         }
       }
-    }, 60000);
+    }, 6000);
   }
 
   getUpdateList(): void {
