@@ -25,7 +25,6 @@ import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfig;
 import jp.co.unirita.medis.domain.notificationconfig.NotificationConfigRepository;
 import jp.co.unirita.medis.domain.tag.Tag;
-import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.form.document.CommentInfoForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
@@ -223,10 +222,8 @@ public class DocumentController {
 			throws IdIssuanceUpperException {
 		logger.info("[method: saveDocument] SaveDocument list by " + document.getDocumentId() + ".");
 		String id = documentLogic.save(document, user.getEmployeeNumber());
-		List<UpdateInfo> updateInfo = updateInfoLogic.getUpdateInfo(id);
-		if (updateInfo == null) {
-			updateInfoLogic.saveUpdateInfo(id, TYPE_CREATE_DOCUMENT, user.getEmployeeNumber());
-		}
+		updateInfoLogic.saveUpdateInfo(id, TYPE_CREATE_DOCUMENT, user.getEmployeeNumber());
+
 		return id;
 	}
 
