@@ -121,17 +121,6 @@ export class UserManagementComponent implements OnInit {
     this.users[index].enabled = !this.users[index].enabled;
   }
 
-  searchUser(): UserForm[] {
-    return this.users.filter(user =>
-      user.employeeNumber.includes(this.searchWord)
-      || user.lastName.includes(this.searchWord)
-      || user.firstName.includes(this.searchWord)
-      || user.lastNamePhonetic.includes(this.searchWord)
-      || user.firstNamePhonetic.includes(this.searchWord)
-      || user.mailaddress.includes(this.searchWord)
-    );
-  }
-
   @HostListener('window:unload', ['$event'])
   unloadHandler() {
     this.http.post('users/update', this.users).subscribe(success => {
