@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +22,14 @@ import jp.co.unirita.medis.domain.templatetag.TemplateTag;
 import jp.co.unirita.medis.domain.templatetag.TemplateTagRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
+import jp.co.unirita.medis.logic.template.TemplateLogic;
 import jp.co.unirita.medis.util.exception.DBException;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class NotificationLogic {
+
+	private static final Logger logger = LoggerFactory.getLogger(TemplateLogic.class);
 
     @Autowired
     MailLogic mailLogic;
@@ -58,6 +63,7 @@ public class NotificationLogic {
                 mailLogic.sendDocumentContributionNotification(address, documentId, documentName, employeeNumber, name);
             });
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: NotificationLogic, method: documentContributionNotification]");
 			throw new DBException("DB Runtime Error[class: NotificationLogic, method: documentContributionNotification]");
 		}
     }
@@ -78,6 +84,7 @@ public class NotificationLogic {
                 mailLogic.sendDocumentUpdateNotification(address, documentId, documentName, employeeNumber, name);
             });
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: NotificationLogic, method: documentUpdateNotification]");
 			throw new DBException("DB Runtime Error[class: NotificationLogic, method: documentUpdateNotification]");
 		}
     }
@@ -96,6 +103,7 @@ public class NotificationLogic {
 
             mailLogic.sendCommentNotification(mailAddress, documentId, documentName, employeeNumber, name);
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: NotificationLogic, method: commentNotification]");
 			throw new DBException("DB Runtime Error[class: NotificationLogic, method: commentNotification]");
 		}
     }
@@ -115,6 +123,7 @@ public class NotificationLogic {
 
             mailLogic.sendCommentReadNotification(mailAddress, info.getDocumentId(), info.getDocumentName(), info.getEmployeeNumber(), name);
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: NotificationLogic, method: commentReadNotification]");
 			throw new DBException("DB Runtime Error[class: NotificationLogic, method: commentReadNotification]");
 		}
     }
@@ -139,6 +148,7 @@ public class NotificationLogic {
                     .map(userDetailRepository::findOne)
                     .map(UserDetail::getMailaddress);
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: NotificationLogic, method: getNotificationMailAdressStream]");
 			throw new DBException("DB Runtime Error[class: NotificationLogic, method: getNotificationMailAdressStream]");
 		}
     }

@@ -41,6 +41,7 @@ public class UserLogic implements UserDetailsService{
             }
             return user;
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: UserLogic, method: loadUserByUsername]");
 			throw new DBException("DB Runtime Error[class: UserLogic, method: loadUserByUsername]");
 		}
     }

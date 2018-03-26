@@ -64,6 +64,7 @@ public class SearchLogic {
 			logger.info("[method: findDocuments] result: " + result.size());
 			return result;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: SearchLogic, method: findDocuments]");
 			throw new DBException("DB Runtime Error[class: SearchLogic, method: findDocuments]");
 		}
     }

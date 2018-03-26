@@ -1,8 +1,11 @@
 package jp.co.unirita.medis.logic.document;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,8 @@ import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 @Transactional(rollbackFor = Exception.class)
 public class UpdateInfoLogic {
 
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
 	@Autowired
 	UpdateInfoRepository updateInfoRepository;
 
@@ -24,6 +29,7 @@ public class UpdateInfoLogic {
 		try {
 			return updateInfoRepository.findByDocumentId(id);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: UpdateInfoLogic, method: getUpdateInfo]");
 			throw new DBException("DB Runtime Error[class: UpdateInfoLogic, method: getUpdateInfo]");
 		}
 	}
@@ -40,6 +46,7 @@ public class UpdateInfoLogic {
 			}
 			return String.format("u%010d", idNum + 1);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: UpdateInfoLogic, method: createNewUpdateId]");
 			throw new DBException("DB Runtime Error[class: UpdateInfoLogic, method: createNewUpdateId]");
 		}
 	}
@@ -55,6 +62,7 @@ public class UpdateInfoLogic {
 			info.setUpdateDate(updateDate);
 			updateInfoRepository.saveAndFlush(info);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: UpdateInfoLogic, method: saveUpdateInfo]");
 			throw new DBException("DB Runtime Error[class: UpdateInfoLogic, method: saveUpdateInfo]");
 		}
 	}

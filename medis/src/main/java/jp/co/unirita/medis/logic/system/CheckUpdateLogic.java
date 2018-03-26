@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,16 +25,20 @@ import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.system.SnackbarNotificationsForm;
+import jp.co.unirita.medis.logic.template.TemplateLogic;
 import jp.co.unirita.medis.util.exception.DBException;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CheckUpdateLogic {
+
 	private static final String COMMENT_NOTIFICATION_TAG = "g0000000000";
 	private static final String TYPE_CREATE_DOCUMENT = "v0000000000";
 	private static final String TYPE_UPDATE_DOCUMENT = "v0000000001";
 	private static final String TYPE_COMMENT_DOCUMENT = "v0000000002";
 	private static final String TYPE_COMMNETREAD_DOCUMENT = "v0000000003";
+
+	private static final Logger logger = LoggerFactory.getLogger(TemplateLogic.class);
 
 	@Autowired
 	MailLogic mailLogic;
@@ -75,6 +81,7 @@ public class CheckUpdateLogic {
 
 			return commentResult;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: CheckUpdateLogic, method: getCommentSnackbar]");
 			throw new DBException("DB Runtime Error[class: CheckUpdateLogic, method: getCommentSnackbar]");
 		}
 	}
@@ -102,6 +109,7 @@ public class CheckUpdateLogic {
 
 			return commentReadResult;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: CheckUpdateLogic, method: getCommentReadSnackbar]");
 			throw new DBException("DB Runtime Error[class: CheckUpdateLogic, method: getCommentReadSnackbar]");
 		}
 	}
@@ -138,6 +146,7 @@ public class CheckUpdateLogic {
 
 			return tagResult;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: CheckUpdateLogic, method: getTagSnackbar]");
 			throw new DBException("DB Runtime Error[class: CheckUpdateLogic, method: getTagSnackbar]");
 		}
 	}
@@ -180,6 +189,7 @@ public class CheckUpdateLogic {
 
 			return result.stream().distinct().collect(Collectors.toList());
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: CheckUpdateLogic, method: updateTypeConfirmation]");
 			throw new DBException("DB Runtime Error[class: CheckUpdateLogic, method: updateTypeConfirmation]");
 		}
 	}
@@ -197,6 +207,7 @@ public class CheckUpdateLogic {
 
 			return updateId;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: CheckUpdateLogic, method: getLatestUpdateId]");
 			throw new DBException("DB Runtime Error[class: CheckUpdateLogic, method: getLatestUpdateId]");
 		}
 	}

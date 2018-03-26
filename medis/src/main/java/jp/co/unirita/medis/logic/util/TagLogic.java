@@ -36,6 +36,7 @@ public class TagLogic {
 			tagList.sort(Comparator.naturalOrder());
 			return tagList;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: TagLogic, method: getTagList]");
 			throw new DBException("DB Runtime Error[class: TagLogic, method: getTagList]");
 		}
 	}
@@ -55,6 +56,7 @@ public class TagLogic {
 			}
 			return String.format("n%010d", maxId.getAsLong() + 1);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: TagLogic, method: getNewTagId]");
 			throw new DBException("DB Runtime Error[class: TagLogic, method: getNewTagId]");
 		}
 	}
@@ -74,6 +76,7 @@ public class TagLogic {
 			}
 			return String.format("s%010d", maxId.getAsLong() + 1);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: TagLogic, method: getNewSystemTagId]");
 			throw new DBException("DB Runtime Error[class: TagLogic, method: getNewSystemTagId]");
 		}
 	}
@@ -85,6 +88,7 @@ public class TagLogic {
 		    tagRepository.saveAndFlush(tag);
 		    return tag;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: TagLogic, method: createTag]");
 			throw new DBException("DB Runtime Error[class: TagLogic, method: createTag]");
 		}
 	}
@@ -96,6 +100,7 @@ public class TagLogic {
 			tagRepository.saveAndFlush(tag);
 			return tag;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: TagLogic, method: createSystemTag]");
 			throw new DBException("DB Runtime Error[class: TagLogic, method: createSystemTag]");
 		}
 	}
@@ -112,6 +117,7 @@ public class TagLogic {
 	        }
 	        return tagRepository.findByTagNameIn(tags.stream().map(Tag::getTagName).collect(Collectors.toList()));
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: TagLogic, method: applyTags]");
 			throw new DBException("DB Runtime Error[class: TagLogic, method: applyTags]");
 		}
 	}
@@ -128,6 +134,7 @@ public class TagLogic {
 			}
 			return tagRepository.findByTagNameIn(tags.stream().map(Tag::getTagName).collect(Collectors.toList()));
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: TagLogic, method: applySystemTag]");
 			throw new DBException("DB Runtime Error[class: TagLogic, method: applySystemTag]");
 		}
 	}

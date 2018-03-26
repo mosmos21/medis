@@ -52,6 +52,7 @@ public class ArgumentCheckLogic {
 	            throw e;
 	        }
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: ArgumrntCheckLogic, method: checkAdminAuthority]");
 			throw new DBException("DB Runtime Error[class: ArgumrntCheckLogic, method: checkAdminAuthority]");
 		}
     }
@@ -65,6 +66,7 @@ public class ArgumentCheckLogic {
                 throw e;
             }
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: ArgumrntCheckLogic, method: checkUserExist]");
 			throw new DBException("DB Runtime Error[class: ArgumrntCheckLogic, method: checkUserExist]");
 		}
     }
@@ -85,6 +87,7 @@ public class ArgumentCheckLogic {
 				throw new AuthorityException("employeeNumber", employeeNumber, "他ユーザの"+contents+"は取得することができません");
 			}
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: ArgumrntCheckLogic, method: checkUser]");
 			throw new DBException("DB Runtime Error[class: ArgumrntCheckLogic, method: checkUser]");
 		}
 	}
@@ -97,6 +100,7 @@ public class ArgumentCheckLogic {
 				throw new NotExistException("lastUpdateId", updateId, "存在しない更新IDです");
 			}
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: ArgumrntCheckLogic, method: checkLastUpdateId]");
 			throw new DBException("DB Runtime Error[class: ArgumrntCheckLogic, method: checkLastUpdateId]");
 		}
 	}
@@ -110,6 +114,7 @@ public class ArgumentCheckLogic {
 	            throw e;
 	        }
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: ArgumrntCheckLogic, method: checkTemplateId]");
 			throw new DBException("DB Runtime Error[class: ArgumrntCheckLogic, method: checkTemplateId]");
 		}
     }
@@ -122,6 +127,7 @@ public class ArgumentCheckLogic {
 				throw new NotExistException("documentId", documentId, "存在しないドキュメントIDです");
 			}
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: ArgumrntCheckLogic, method: checkDocumentId]");
 			throw new DBException("DB Runtime Error[class: ArgumrntCheckLogic, method: checkDocumentId]");
 		}
 	}
@@ -134,6 +140,7 @@ public class ArgumentCheckLogic {
 				throw new NotExistException("commentId", commentId, "存在しないコメントIDです");
 			}
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: ArgumrntCheckLogic, method: checkCommentId]");
 			throw new DBException("DB Runtime Error[class: ArgumrntCheckLogic, method: checkCommentId]");
 		}
 	}

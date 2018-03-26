@@ -56,6 +56,7 @@ public class TemplateLogic {
             template.setContents((ArrayList<TemplateContentForm>)getTemplateContents(id));
             return template;
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateLogic, method: getTemplate]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: getTemplate]");
 		}
     }
@@ -77,6 +78,7 @@ public class TemplateLogic {
             }
             return contents;
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateLogic, method: getTemplateContents]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: getTemplateContents]");
 		}
     }
@@ -86,6 +88,7 @@ public class TemplateLogic {
     		List<TemplateTag> templateTagList = templateTagRepository.findByTemplateId(id);
             return tagRepository.findByTagIdIn(templateTagList.stream().map(TemplateTag::getTagId).collect(Collectors.toList()));
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateLogic, method: getTemplateTags]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: getTemplateTags]");
 		}
     }
@@ -97,6 +100,7 @@ public class TemplateLogic {
             templateInfoRepository.save(info);
             logger.info("[method: toggleTemplatePublish] Update info of templateID '" + templateId + "' " + info);
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateLogic, method: toggleTemplatePublish]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: toggleTemplatePublish]");
 		}
     }
@@ -110,6 +114,7 @@ public class TemplateLogic {
             saveTemplateContent(id, templateForm.getContents());
             return id;
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateLogic, method: save]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: save]");
 		}
     }
@@ -124,6 +129,7 @@ public class TemplateLogic {
             templateInfoRepository.save(info);
             return info.getTemplateId();
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateLogic, method: saveTemplateInfo]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: saveTemplateInfo]");
 		}
     }
@@ -135,6 +141,7 @@ public class TemplateLogic {
                 saveContentItems(templateId, content.getContentOrder(), content.getItems());
             }
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateLogic, method: saveTemplateContent]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: saveTemplateContent]");
 		}
     }
@@ -147,6 +154,7 @@ public class TemplateLogic {
                 lineNumber++;
             }
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateLogic, method: saveContentItems]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: saveContentItems]");
 		}
     }
@@ -163,6 +171,7 @@ public class TemplateLogic {
                 order++;
             }
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateLogic, method: saveTags]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: saveTags]");
 		}
     }
@@ -179,6 +188,7 @@ public class TemplateLogic {
             }
             return String.format("t%010d", idNum + 1);
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateLogic, method: createNewTemplateId]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: createNewTemplateId]");
 		}
     }

@@ -27,6 +27,7 @@ public class TemplateListLogic {
     	try {
     		return templateInfoRepository.findAll(new Sort(Sort.Direction.DESC,"templateId"));
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateListLogic, method: getAllTemplateInfoList]");
 			throw new DBException("DB Runtime Error[class: TemplateListLogic, method: getAllTemplateInfoList]");
 		}
     }
@@ -35,6 +36,7 @@ public class TemplateListLogic {
     	try {
     		return templateInfoRepository.findByTemplatePublishOrderByTemplateIdDesc(publish);
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateListLogic, method: getAllTemplateInfoList(boolean publish)]");
 			throw new DBException("DB Runtime Error[class: TemplateListLogic, method: getAllTemplateInfoList(boolean publish)]");
 		}
     }
@@ -43,6 +45,7 @@ public class TemplateListLogic {
     	try {
     		return templateInfoRepository.findByEmployeeNumber(employeeNumber);
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateListLogic, method: getAllTemplateInfoList(String employeeNumber)]");
 			throw new DBException("DB Runtime Error[class: TemplateListLogic, method: getAllTemplateInfoList(String employeeNumber)]");
 		}
     }
@@ -51,6 +54,7 @@ public class TemplateListLogic {
     	try {
     		return templateInfoRepository.findByEmployeeNumberAndTemplatePublish(emplouyeeNumber, publish);
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: TemplateListLogic, method: getAllTemplateInfoList(String emplouyeeNumber, boolean publish)]");
 			throw new DBException("DB Runtime Error[class: TemplateListLogic, method: getAllTemplateInfoList(String emplouyeeNumber, boolean publish)]");
 		}
     }

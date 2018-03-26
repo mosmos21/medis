@@ -54,6 +54,7 @@ public class DocumentListLogic {
 
 			return form;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentListLogic, method: getDocumentList]");
 			throw new DBException("DB Runtime Error[class: DocumentListLogic, method: getDocumentList]");
 		}
 	}

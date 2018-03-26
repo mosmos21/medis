@@ -75,6 +75,7 @@ public class MonitoringLogic {
 			}
 			return form;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: MonitoringLogic, method: getMonitoringList]");
 			throw new DBException("DB Runtime Error[class: MonitoringLogic, method: getMonitoringList]");
 		}
 	}

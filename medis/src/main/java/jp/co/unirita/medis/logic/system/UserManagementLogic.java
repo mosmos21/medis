@@ -46,6 +46,7 @@ public class UserManagementLogic {
     	try {
     		return authorityRepository.findAll();
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: UserManagementLogic, method: getAuthorityTypeList]");
 			throw new DBException("DB Runtime Error[class: UserManagementLogic, method: getAuthorityTypeList]");
 		}
     }
@@ -67,6 +68,7 @@ public class UserManagementLogic {
 	        }
 			return forms;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: UserManagementLogic, method: getUserManagement]");
 			throw new DBException("DB Runtime Error[class: UserManagementLogic, method: getUserManagement]");
 		}
 	}
@@ -84,6 +86,7 @@ public class UserManagementLogic {
 			user.setAuthorityId(authorityId);
 			userRepository.saveAndFlush(user);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: UserManagementLogic, method: updateUserManagement]");
 			throw new DBException("DB Runtime Error[class: UserManagementLogic, method: updateUserManagement]");
 		}
 	}
@@ -128,6 +131,7 @@ public class UserManagementLogic {
 
 			return detail;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: UserManagementLogic, method: createUser]");
 			throw new DBException("DB Runtime Error[class: UserManagementLogic, method: createUser]");
 		}
 	}

@@ -56,6 +56,7 @@ public class SettingLogic {
 					.map(tagRepository::findOne)
 					.collect(Collectors.toList());
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: SettingLogic, method: getMonitoringTag]");
 			throw new DBException("DB Runtime Error[class: SettingLogic, method: getMonitoringTag]");
 		}
 	}
@@ -72,6 +73,7 @@ public class SettingLogic {
 			}
 			return forms;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: SettingLogic, method: getNotificationTag]");
 			throw new DBException("DB Runtime Error[class: SettingLogic, method: getNotificationTag]");
 		}
 	}
@@ -85,6 +87,7 @@ public class SettingLogic {
 			setting.put("mailNotification", config.isMailNotification());
 			return setting;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: SettingLogic, method: getNotificationComment]");
 			throw new DBException("DB Runtime Error[class: SettingLogic, method: getNotificationComment]");
 		}
 	}
@@ -94,6 +97,7 @@ public class SettingLogic {
 			userDetail.setEmployeeNumber(employeeNumber);
 			userDetailRepository.saveAndFlush(userDetail);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: SettingLogic, method: updateUserDetail]");
 			throw new DBException("DB Runtime Error[class: SettingLogic, method: updateUserDetail]");
 		}
 	}
@@ -124,6 +128,7 @@ public class SettingLogic {
 				notificationConfigRepository.saveAndFlush(conf);
 			}
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: SettingLogic, method: updateMonitoringTag]");
 			throw new DBException("DB Runtime Error[class: SettingLogic, method: updateMonitoringTag]");
 		}
 	}
@@ -134,6 +139,7 @@ public class SettingLogic {
 			notifications.forEach(notificationConfigRepository::save);
 			notificationConfigRepository.flush();
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: SettingLogic, method: updateNotificationTag]");
 			throw new DBException("DB Runtime Error[class: SettingLogic, method: updateNotificationTag]");
 		}
 	}
@@ -146,6 +152,7 @@ public class SettingLogic {
 			config.setMailNotification(map.get("mailNotification"));
 			notificationConfigRepository.saveAndFlush(config);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: SettingLogic, method: updateNotificationComment]");
 			throw new DBException("DB Runtime Error[class: SettingLogic, method: updateNotificationComment]");
 		}
 	}
@@ -159,6 +166,7 @@ public class SettingLogic {
 			config.setMailNotification(map.get("mailNotification"));
 			notificationConfigRepository.saveAndFlush(config);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: SettingLogic, method: createNotificationComment]");
 			throw new DBException("DB Runtime Error[class: SettingLogic, method: createNotificationComment]");
 		}
 	}

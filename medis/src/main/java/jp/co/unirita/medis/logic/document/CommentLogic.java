@@ -67,6 +67,7 @@ public class CommentLogic {
 			}
 			return commentInfoList;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: CommentLogic, method: getCommentInfo]");
 			throw new DBException("DB Runtime Error[class: CommentLogic, method: getCommentInfo]");
 		}
 	}
@@ -98,6 +99,7 @@ public class CommentLogic {
 			comment.setRead(true);
 			commentRepository.saveAndFlush(comment);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: CommentLogic, method: alreadyRead]");
 			throw new DBException("DB Runtime Error[class: CommentLogic, method: alreadyRead]");
 		}
 	}
@@ -123,6 +125,7 @@ public class CommentLogic {
 			}
 			return String.format("o%010d", idNum + 1);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: CommentLogic, method: getNewCommentId]");
 			throw new DBException("DB Runtime Error[class: CommentLogic, method: getNewCommentId]");
 		}
 	}
@@ -139,6 +142,7 @@ public class CommentLogic {
 
 			return createCommentInfoForm(comment, userDetail);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: CommentLogic, method: save]");
 			throw new DBException("DB Runtime Error[class: CommentLogic, method: save]");
 		}
 	}

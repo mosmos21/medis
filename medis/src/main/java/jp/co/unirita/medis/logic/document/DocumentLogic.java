@@ -69,6 +69,7 @@ public class DocumentLogic {
 			DocumentInfo documentInfo = documentInfoRepository.findOne(documentId);
 			return documentInfo;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: getDocumentInfo]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocumentInfo]");
 		}
 	}
@@ -91,6 +92,7 @@ public class DocumentLogic {
 			document.setSelected(bookmark == null ? false : bookmark.isSelected());
 			return document;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: getDocument]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocument]");
 		}
 	}
@@ -116,6 +118,7 @@ public class DocumentLogic {
 			contents.add(content);
 			return contents;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: getDocumentContents]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocumentContents]");
 		}
 	}
@@ -137,6 +140,7 @@ public class DocumentLogic {
 			tagList.sort(Comparator.naturalOrder());
 			return tagList;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: getDocumentTagStartWith]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: getDocumentTagStartWith]");
 		}
 	}
@@ -148,6 +152,7 @@ public class DocumentLogic {
 			documentInfoRepository.save(info);
 			logger.info("[method: toggleDocumentPublish] Update info of documentID '" + documentId + "' " + info);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: toggleDocumentPublish]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: toggleDocumentPublish]");
 		}
 	}
@@ -160,6 +165,7 @@ public class DocumentLogic {
 			saveDocumentContent(documentForm.getDocumentId(), documentForm.getContents());
 			return id;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: save]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: save]");
 		}
 	}
@@ -176,6 +182,7 @@ public class DocumentLogic {
 			documentInfoRepository.saveAndFlush(info);
 			return info.getDocumentId();
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: saveDocumentInfo]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentInfo]");
 		}
 	}
@@ -187,6 +194,7 @@ public class DocumentLogic {
 			}
 			documentItemRepository.flush();
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: saveDocumentContent]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentContent]");
 		}
 	}
@@ -199,6 +207,7 @@ public class DocumentLogic {
 				lineNumber++;
 			}
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: saveDocumentItems]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveDocumentItems]");
 		}
 	}
@@ -224,6 +233,7 @@ public class DocumentLogic {
 			}
 			documentTagRepository.saveAndFlush(new DocumentTag(documentId, order, systemTagList.get(0).getTagId()));
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: saveTags]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: saveTags]");
 		}
 	}
@@ -237,6 +247,7 @@ public class DocumentLogic {
 			updateInfoRepository.delete(updateInfoRepository.findByDocumentId(documentId));
 			documentInfoRepository.delete(documentId);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: deleteDocument]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: deleteDocument]");
 		}
 	}
@@ -253,13 +264,8 @@ public class DocumentLogic {
 			}
 			return String.format("d%010d", idNum + 1);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: DocumentLogic, method: createNewDocumentId]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: createNewDocumentId]");
 		}
 	}
-
-//	public String update(DocumentForm documentForm, String employeeNumber) throws IdIssuanceUpperException {
-//		save(documentForm, employeeNumber);
-//		return documentForm.getDocumentId();
-//	}
-
 }

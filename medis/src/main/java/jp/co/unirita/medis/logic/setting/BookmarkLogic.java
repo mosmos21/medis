@@ -62,6 +62,7 @@ public class BookmarkLogic {
 
 			return form;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: BookmarkLogic, method: getBookmarkList]");
 			throw new DBException("DB Runtime Error[class: BookmarkLogic, method: getBookmarkList]");
 		}
 	}
@@ -79,6 +80,7 @@ public class BookmarkLogic {
 			}
 			return String.format("m%010d", idNum + 1);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: BookmarkLogic, method: getNewBookmarkId]");
 			throw new DBException("DB Runtime Error[class: BookmarkLogic, method: getNewBookmarkId]");
 		}
 	}
@@ -102,6 +104,7 @@ public class BookmarkLogic {
 				bookmarkRepository.saveAndFlush(bookmark);
 			}
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: BookmarkLogic, method: updateBookmark]");
 			throw new DBException("DB Runtime Error[class: BookmarkLogic, method: updateBookmark]");
 		}
 	}

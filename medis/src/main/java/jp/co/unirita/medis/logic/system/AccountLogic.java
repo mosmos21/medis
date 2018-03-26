@@ -43,6 +43,7 @@ public class AccountLogic {
     	try {
     		return userDetailRepository.findOne(employeeNumber);
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: AccountLogic, method: getUserDetail]");
 			throw new DBException("DB Runtime Error[class: AccountLogic, method: getUserDetail]");
 		}
     }
@@ -64,6 +65,7 @@ public class AccountLogic {
             result.put("result", "OK");
             return result;
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: AccountLogic, method: checkUserIntegrity]");
 			throw new DBException("DB Runtime Error[class: AccountLogic, method: checkUserIntegrity]");
 		}
     }
@@ -77,6 +79,7 @@ public class AccountLogic {
             tempkeyInfoRepository.saveAndFlush(info);
             return info.getTempKey();
     	} catch (DBException e) {
+    		logger.error("DB Runtime Error[class: AccountLogic, method: issueTempKey]");
 			throw new DBException("DB Runtime Error[class: AccountLogic, method: issueTempKey]");
 		}
     }
@@ -102,6 +105,7 @@ public class AccountLogic {
 	        result.put("mailaddress", detail.getMailaddress());
 	        return result;
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: AccountLogic, method: checkTempKeyIntegrity]");
 			throw new DBException("DB Runtime Error[class: AccountLogic, method: checkTempKeyIntegrity]");
 		}
 	}
@@ -123,6 +127,7 @@ public class AccountLogic {
 			user.setPassword(new BCryptPasswordEncoder().encode(password));
 			userRepository.saveAndFlush(user);
 		} catch (DBException e) {
+			logger.error("DB Runtime Error[class: AccountLogic, method: passwordReset]");
 			throw new DBException("DB Runtime Error[class: AccountLogic, method: passwordReset]");
 		}
 	}
