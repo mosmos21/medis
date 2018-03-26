@@ -17,12 +17,13 @@ public class DocumentInfoForm {
 	private String employeeNumber;
 	private String lastName;
 	private String firstName;
+	private String name;
 	private String templateId;
 	private Timestamp documentCreateDate;
 	private boolean documentPublish;
 
 	public DocumentInfoForm(DocumentInfo doc, UserDetail user) {
 		this(doc.getDocumentId(), doc.getDocumentName(), doc.getEmployeeNumber(), user.getLastName(), user.getFirstName()
-				, doc.getTemplateId(), doc.getDocumentCreateDate(), doc.isDocumentPublish());
+				, user.getLastName() + " " + user.getFirstName(), doc.getTemplateId(), doc.getDocumentCreateDate(), doc.isDocumentPublish());
 	}
 }
