@@ -152,7 +152,6 @@ public class DocumentController {
 		DocumentInfo documentInfo = documentLogic.getDocumentInfo(documentId);
 		logger.info("[method: updateDocument] UpdateDocument list by " + documentId + ".");
 		argumentCheckLogic.checkDocumentId(documentId);
-
 		if (documentInfo.isDocumentPublish()) {
 			notificationLogic.documentUpdateNotification(documentInfo.getEmployeeNumber(), documentId);
 		}
@@ -176,7 +175,9 @@ public class DocumentController {
 		DocumentInfo documentInfo = documentLogic.getDocumentInfo(documentId);
 		argumentCheckLogic.checkDocumentId(documentId);
 		documentLogic.saveTags(documentId, tags);
-		notificationLogic.documentUpdateNotification(documentInfo.getEmployeeNumber(), documentId);
+		if (documentInfo.isDocumentPublish()) {
+			notificationLogic.documentUpdateNotification(documentInfo.getEmployeeNumber(), documentId);
+		}
 	}
 
 	/**
