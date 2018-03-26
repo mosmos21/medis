@@ -81,12 +81,13 @@ export class EditTemplateComponent implements OnInit {
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(() => {
-      if (this.template.templateId != null) {
+      if (templateId != null) {
         this.http.getWithPromise('templates/' + templateId).then(res => {
           this.template = this.convertService.makeTemplate(res, this.blocks);
           this.template.contents
             .filter(content => content.block.additionalType == 'document')
             .forEach(content => content.block.addItem());
+            console.log(this.template);
           return this.http.getWithPromise('templates/' + this.template.templateId + '/tags');
         }, error => {
           this.errorService.errorPath(error.status);
