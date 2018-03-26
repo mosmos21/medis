@@ -68,6 +68,7 @@
                     "firstName": "(firstName)",
                     "lastNamePhonetic": "(lastNamePhonetic)",
                     "firstNamePhonetic": "(firstNamePhonetic)",
+                    "name": "(name)", //lastName + firstName
                     "mailaddress": "(mailaddress)",
                     "icon": true|false,
                     "authorityType": "(authorityType)",

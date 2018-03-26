@@ -51,6 +51,9 @@
                     "documentId": "(documentId)",
                     "documentName": "(documentName)",
                     "employeeNumber": "(employeeNumber)",
+                    "lastName": "(lastName)",
+                    "firstName": "(firstName)",
+                    "name": "(name)", //lastName + firstName
                     "templateId": "(templateId)",
                     "documentCreateDate": "(documentCreateDate)",
                     "documentPublish": true|false
@@ -80,6 +83,9 @@
                     "documentId": "(documentId)",
                     "documentName": "(documentName)",
                     "employeeNumber": "(employeeNumber)",
+                    "lastName": "(lastName)",
+                    "firstName": "(firstName)",
+                    "name": "(name)", //lastName + firstName
                     "templateId": "(templateId)",
                     "documentCreateDate": "(documentCreateDate)",
                     "documentPublish": true|false
@@ -129,6 +135,9 @@
                     "documentId": "(documentId)",
                     "documentName": "(documentName)",
                     "employeeNumber": "(employeeNumber)",
+                    "lastName": "(lastName)",
+                    "firstName": "(firstName)",
+                    "name": "(name)", //lastName + firstName
                     "templateId": "(templateId)",
                     "documentCreateDate": "(documentCreateDate)",
                     "documentPublish": true|false
