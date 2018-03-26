@@ -30,7 +30,7 @@ public class TagLogicTest {
     @Test
     public void タグ一覧取得() {
         List<Tag> tagList = tagLogic.getTagList();
-        assertEquals("タグ一覧の取得ができませんでした", 3, tagList.size());
+        assertEquals("タグ一覧の取得ができませんでした", 4, tagList.size());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class TagLogicTest {
     public void 新規システムタグID取得_成功時() throws IdIssuanceUpperException {
 
         String tagId = tagLogic.getNewSystemTagId();
-        assertEquals("新規システムタグIDの取得（成功時）が正しく動作していません", "s0000000000", tagId);
+        assertEquals("新規システムタグIDの取得（成功時）が正しく動作していません", "s0000000002", tagId);
     }
 /*
     @Test
