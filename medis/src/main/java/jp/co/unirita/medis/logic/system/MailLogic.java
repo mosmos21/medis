@@ -1,6 +1,6 @@
 package jp.co.unirita.medis.logic.system;
 
-import jp.co.unirita.medis.config.ClientPathUtil;
+import jp.co.unirita.medis.config.path.ClientPathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;

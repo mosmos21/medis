@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jp.co.unirita.medis.config.path.ServerResourcesPathUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,7 @@ import jp.co.unirita.medis.util.exception.DBException;
 public class SettingLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
 	private static final String COMMENT_NOTIFICATION_TAG = "g0000000000";
-	private final Path rootLocation = Paths.get("resources/image/");
 
 	@Autowired
 	NotificationConfigRepository notificationConfigRepository;
@@ -46,6 +45,8 @@ public class SettingLogic {
 	TagRepository tagRepository;
 	@Autowired
 	UserDetailRepository userDetailRepository;
+	@Autowired
+	ServerResourcesPathUtil serverResourcesPathUtil;
 
 	public List<Tag> getMonitoringTag(String employeeNumber) {
 		try {
@@ -172,17 +173,19 @@ public class SettingLogic {
 	}
 
 	public void store(String employeeNumber, MultipartFile file) {
+		Path rootLocation = Paths.get(serverResourcesPathUtil.getPath() +"/image/");
 		try {
-			if (Files.exists(this.rootLocation.resolve(employeeNumber + ".png"))) {
-				Files.delete(this.rootLocation.resolve(employeeNumber + ".png"));
+			if (Files.exists(rootLocation.resolve(employeeNumber + ".png"))) {
+				Files.delete(rootLocation.resolve(employeeNumber + ".png"));
 			}
-			Files.copy(file.getInputStream(), this.rootLocation.resolve(employeeNumber + ".png"));
+			Files.copy(file.getInputStream(), rootLocation.resolve(employeeNumber + ".png"));
 		} catch (Exception e) {
 			throw new RuntimeException("FAIL!");
 		}
 	}
 
 	public Resource loadFile(String filename) {
+		Path rootLocation = Paths.get(serverResourcesPathUtil.getPath() +"/image/");
 		try {
 			Path file = rootLocation.resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
@@ -197,10 +200,12 @@ public class SettingLogic {
 	}
 
 	public void deleteAll() {
+		Path rootLocation = Paths.get(serverResourcesPathUtil.getPath() +"/image/");
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
 	}
 
 	public void init() {
+		Path rootLocation = Paths.get(serverResourcesPathUtil.getPath() +"/image/");
 		try {
 			Files.createDirectory(rootLocation);
 		} catch (IOException e) {
