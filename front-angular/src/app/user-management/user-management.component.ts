@@ -59,32 +59,27 @@ export class UserManagementComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  confirmChangeEnable(e: any, index: number): void {
-    e.preventDefault();
-    const enable = this.users[index].enabled ? '無効' : '有効';
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
-      data: {
-        message: this.users[index].lastName + this.users[index].firstName + 'さんのアカウントを' + enable + '化します。'
-      }
+  confirmChangeEnable(user: UserForm): void {
+    user.enabled = !user.enabled;
+    this.http.post("system/users/update", user).subscribe(res => {
+      console.log(res);
+      this.snackBarService.openSnackBar('変更しました', '');
+    }, error => {
+      this.errorService.errorPath(error.status);
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.users[index].enabled = !this.users[index].enabled;
-        this.snackBarService.openSnackBar('変更しました', '');
-      }
-    });
+
   }
 
-  initialization(index: number): void {
+  initialization(user: UserForm): void {
     const data = {
-      employeeNumber: this.users[index].employeeNumber,
-      mailaddress: this.users[index].mailaddress,
+      employeeNumber: user.employeeNumber,
+      mailaddress: user.mailaddress,
       password: 'DUMMY',
     }
 
     const dialogRef = this.dialog.open(InitializationComponent, {
       data: {
-        user: this.users[index],
+        user: user,
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -93,7 +88,7 @@ export class UserManagementComponent implements OnInit {
         }, error => {
           this.errorService.errorPath(error.status);
         });
-        this.snackBarService.openSnackBar(this.users[index].lastName + this.users[index].firstName + 'さんにパスワード初期化用メールを送信しました。', '');
+        this.snackBarService.openSnackBar(user.lastName + user.firstName + 'さんにパスワード初期化用メールを送信しました。', '');
       }
     });
   }
@@ -117,9 +112,9 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  changeEnable(index: number): void {
-    this.users[index].enabled = !this.users[index].enabled;
-  }
+  // changeEnable(index: number): void {
+  //   user.enabled = !user.enabled;
+  // }
 
   @HostListener('window:unload', ['$event'])
   unloadHandler() {

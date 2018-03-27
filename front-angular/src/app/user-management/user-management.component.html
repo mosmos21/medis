@@ -28,13 +28,13 @@
                 <ng-container matColumnDef="enabled">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> 有効/無効 </mat-header-cell>
                     <mat-cell *matCellDef="let user; let idx = index">
-                        <mat-slide-toggle id="toggleButton_tag" (click)="confirmChangeEnable($event, idx)" [checked]="user.enabled" color="primary"></mat-slide-toggle>
+                        <mat-slide-toggle id="toggleButton_tag" (change)="confirmChangeEnable(user)" [checked]="user.enabled" color="primary"></mat-slide-toggle>
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="reset">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> 初期化 </mat-header-cell>
                     <mat-cell *matCellDef="let user; let idx = index">
-                        <button mat-raised-button color="warn" (click)=" initialization(idx) ">初期化</button>
+                        <button mat-raised-button color="warn" (click)=" initialization(user) ">初期化</button>
                     </mat-cell>
                 </ng-container>
 
