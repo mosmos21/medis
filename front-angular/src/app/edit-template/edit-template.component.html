@@ -21,7 +21,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="template_content_list" [dragula]='"template-contents"' [dragulaModel]='contents'>
+                    <div id="template_content_list" [dragula]='"template-contents"'>
                         <!-- コンテンツ -->
                         <div class="template_content" *ngFor="let content of template.contents;trackBy:trackByIndex;let idx = index;">
                             <div class="template_block_body">

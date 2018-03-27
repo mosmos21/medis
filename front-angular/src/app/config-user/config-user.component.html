@@ -67,7 +67,7 @@
 						</tr>
 						<tr>
 							<th>アイコン</th>
-							<td *ngIf="!isIconInput">
+							<td>
 								<div class="icon_position">
 									<img *ngIf="!authService.isUserEmpty()" [src]="authService.userdetail.iconUrl" class="account_icon" />
 								</div>
