@@ -6,3 +6,8 @@
 .mat-column-templatePublish{
     flex: 0 0 100px;
 }
+
+.edit_button{
+    margin-top: 10px;
+    float: right;
+}
