@@ -40,7 +40,6 @@ public class CheckUpdateController {
 	@GetMapping("/latest")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Map<String, String> CheckLatestUpdateId() {
-		logger.info("[method ChackLatest] Get LatestUpdateID");
 
 		return checkUpdateLogic.getLatestUpdateId();
 
@@ -58,9 +57,8 @@ public class CheckUpdateController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public List<SnackbarNotificationsForm> CheckUpdate(@AuthenticationPrincipal User user,
 			@PathVariable(value = "updateId") String updateId) throws NotExistException {
-		logger.info("[method updatetypeConfirmation] GetUpdatetypeConfirmation by DocumentId : "
-				+ user.getEmployeeNumber() + " After UpdateId " + updateId + ".");
 		argumentCheckLogic.checkLastUpdateId(updateId);
+
 		return checkUpdateLogic.updateTypeConfirmation(user.getEmployeeNumber(), updateId);
 	}
 }
