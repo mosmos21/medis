@@ -13,9 +13,20 @@
 
  .mat-table{
      overflow: auto;
-     height: calc(100vh - 773px);
+     height: calc(40vh - 46px);
  }
 
  .hoge{
      color: blue;
+ }
+
+ .toppage_tile_upper {
+     height: 45vh;
+     padding-top: 45vh !important;
+ }
+
+ .toppage_tile_under {
+    height: 45vh;
+    padding-top: 45vh !important;
+    margin-top: 45vh !important;
  }
