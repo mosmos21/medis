@@ -67,12 +67,12 @@
     margin: 30px 10px;
     margin-left: 5%;
     padding: 0;
-    /* height: 100px; */
+    height: 90%;
  }
  
  .list_box {
     border: 1px black solid;
-    height: 16em;
+    height: 100%;
     width: 100%;
     padding: 0;
     border-radius: 5px;
@@ -248,4 +248,16 @@
 /* 設定系ボタン */
 .apply-button{
     float: right;
+}
+
+/* テーブルのタイトルクリックUI */
+
+.title_column {
+    color: #0000ff;
+    text-decoration: underline;
+}
+
+.title_column:hover {
+    text-decoration: none;
+    cursor: pointer;
 }

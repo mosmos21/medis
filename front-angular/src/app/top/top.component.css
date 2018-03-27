@@ -13,5 +13,9 @@
 
  .mat-table{
      overflow: auto;
-     height: 13em;
+     height: calc(100vh - 773px);
+ }
+
+ .hoge{
+     color: blue;
  }

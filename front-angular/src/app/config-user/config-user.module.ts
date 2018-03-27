@@ -10,11 +10,6 @@ import {
   MatButtonModule,
   MatIconModule
 } from '@angular/material';
-import { 
-  FileUploadModule,
-  FileSelectDirective,
-  FileDropDirective,
-} from 'ng2-file-upload'
 
 @NgModule({
   imports: [
@@ -29,8 +24,6 @@ import {
   declarations: [
     ConfigUserComponent,
     EditIconComponent,
-    FileDropDirective,
-    FileSelectDirective,
   ]
 })
 export class ConfigUserModule { }

@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   public errorMessage: string = '';
   public employeeNumber: string = '';
-  public password: string = 'pass2017';
+  public password: string = '';
   public hide: boolean;
 
   constructor(

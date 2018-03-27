@@ -6,6 +6,7 @@ import {
   MatIconModule,
   MatTableModule,
   MatSortModule,
+  MatGridListModule,
 } from '@angular/material';
 
 @NgModule({
@@ -15,6 +16,7 @@ import {
     MatIconModule,
     MatTableModule,
     MatSortModule,
+    MatGridListModule,
   ],
   declarations: [TopComponent]
 })

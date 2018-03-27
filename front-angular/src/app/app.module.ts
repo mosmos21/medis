@@ -16,6 +16,7 @@ import {
   MatButtonToggleModule,
   MatTableModule,
   MatSortModule,
+  MatGridListModule,
 } from '@angular/material';
 
 import { FileUploadModule } from 'ng2-file-upload'
@@ -99,6 +100,7 @@ import { TypeConversionService } from './services/type-conversion.service';
     MatProgressSpinnerModule,
     MatTableModule,
     MatSortModule,
+    MatGridListModule,
 
     LoginModule,
     TopModule,
