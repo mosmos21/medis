@@ -15,21 +15,17 @@
 }
 
 .side_menu_icon {
-	/* border: 1px black solid; */
-	padding: 1px;
 	margin-top: 10px;
 	margin-left: 5px;
-	margin-right: 1px;
 	width: 48px;
 	height: 48px;
-	/* background: #095731; */
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;  
 	cursor: pointer;
 }
 
 .side_menu_icon:hover {
-	background: #888888;
+	background: #06351e;
 }
 
 #wrap_side_menu_content {

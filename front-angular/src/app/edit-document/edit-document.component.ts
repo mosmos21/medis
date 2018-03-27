@@ -62,7 +62,6 @@ export class EditDocumentComponent implements OnInit {
     this.load(this.documentId);
     this.searchService.getTags();
     this.checkIsDraft();
-    console.log(this.isDraft);
   }
 
   checkIsDraft(): void {

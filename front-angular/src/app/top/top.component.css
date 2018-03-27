@@ -16,15 +16,15 @@
      height: calc(40vh - 46px);
  }
 .mat-column-name{
-    flex: 0 0 120px;
+    flex: 0 0 110px;
 }
 
 .mat-column-documentCreateDate{
-    flex: 0 0 150px;
+    flex: 0 0 130px;
 }
 
  .mat-column-updateDate{
-    flex: 0 0 150px;
+    flex: 0 0 130px;
 }
  .grid_list {
     padding-bottom: 0px !important;
