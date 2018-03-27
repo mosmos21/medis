@@ -52,17 +52,11 @@
                                     <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                                 </ng-container>
 
-<<<<<<< Updated upstream
-                        <mat-header-row *matHeaderRowDef="tableService.displayedColumnsOwnDocument"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: tableService.displayedColumnsOwnDocument;"></mat-row>
-                    </mat-table>
-=======
                                 <mat-header-row *matHeaderRowDef="displayedColumnsND"></mat-header-row>
                                 <mat-row *matRowDef="let row; columns: displayedColumnsND;"></mat-row>
                             </mat-table>
                         </div>
                     </div>
->>>>>>> Stashed changes
                 </div>
             </mat-grid-tile>
             <mat-grid-tile>
@@ -88,25 +82,12 @@
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
                                     <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                                 </ng-container>
-
-<<<<<<< Updated upstream
-                        <mat-header-row *matHeaderRowDef="tableService.displayedColumnsDocument"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: tableService.displayedColumnsDocument;"></mat-row>
-                    </mat-table>
-                </div>
-            </div>
-        </div>
-        <div class="wrap_list_box">
-            <div class="list_box">
-                <div class="list_box_header">
-                    <h3>監視タグ付き文書一覧</h3>
-=======
                                 <mat-header-row *matHeaderRowDef="displayedColumnsNND"></mat-header-row>
                                 <mat-row *matRowDef="let row; columns: displayedColumnsNND;"></mat-row>
                             </mat-table>
                         </div>
                     </div>
->>>>>>> Stashed changes
+                    >>>>>>> Stashed changes
                 </div>
             </mat-grid-tile>
             <mat-grid-tile>
@@ -132,18 +113,11 @@
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
                                     <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                                 </ng-container>
-
-<<<<<<< Updated upstream
-                        <mat-header-row *matHeaderRowDef="tableService.displayedColumnsDocument"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: tableService.displayedColumnsDocument;"></mat-row>
-                    </mat-table>
-=======
                                 <mat-header-row *matHeaderRowDef="displayedColumnsNND"></mat-header-row>
                                 <mat-row *matRowDef="let row; columns: displayedColumnsNND;"></mat-row>
                             </mat-table>
                         </div>
                     </div>
->>>>>>> Stashed changes
                 </div>
             </mat-grid-tile>
         </mat-grid-list>
