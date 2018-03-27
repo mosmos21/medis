@@ -96,22 +96,19 @@ export class ConfigUserComponent implements OnInit {
       this.userSettings.mailaddress,
     ]
     this.errorMessage = "";
-    let boolEmpty: boolean = !this.validate.empty(editUser);
-    let boolKana: boolean = !this.validate.kana(editUser);
 
-    if (boolEmpty && boolKana) {
+    if (this.validate.empty(editUser)) {
+      this.errorMessage += "入力必須項目が未入力です";
+    } else if (this.validate.kana(this.userSettings.lastNamePhonetic, this.userSettings.firstNamePhonetic)) {
+      this.errorMessage += "フリガナは全角カナで入力してください";
+    } else if (this.validate.mail(this.userSettings.mailaddress)) {
+      this.errorMessage += "メールアドレスの形式が不正です";
+    } else {
       this.http.postWithPromise('settings/me', this.userSettings).then(res => { }, error => {
         this.errorService.errorPath(error.status);
       });
       this.nav.toTop();
       this.snacBarService.openSnackBar('保存しました', '');
-    } else {
-      if (!this.validate.empty(editUser)) {
-        this.errorMessage += "入力必須項目が未入力です。";
-      }
-      if (!this.validate.kana(editUser)) {
-        this.errorMessage += "フリガナは全角カナで入力してください";
-      }
     }
   }
 
