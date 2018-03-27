@@ -48,7 +48,6 @@ export class SnackBarService {
     if (this.latestUpdateId) {
       this.http.get("update/" + this.latestUpdateId).subscribe(
         res => {
-          console.log(res);
           this.updateList = this.typeConversionService.makeUpdateList(res);
           if (this.updateList.length > 0) {
             this.latestUpdateId = this.updateList[this.updateList.length - 1].updateId;
@@ -64,7 +63,6 @@ export class SnackBarService {
   }
 
   openSnackBar(message: string, link: string): void {
-    console.log("openSnackBar");
     if (link == "") {
       let ref = this.snackBar.open(message, "閉じる", {
         duration: 1000,

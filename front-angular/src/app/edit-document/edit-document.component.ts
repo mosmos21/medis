@@ -33,6 +33,8 @@ export class EditDocumentComponent implements OnInit {
   public document: Document = new Document();
   public fixedTags: TagContent[] = new Array();
   private message: string = '';
+  public isDraft: boolean;
+  private documentId: string;
 
   constructor(
     public dialog: MatDialog,
@@ -52,12 +54,21 @@ export class EditDocumentComponent implements OnInit {
     this.nav.show();
     this.authService.getUserDetail();
     this.searchService.init();
+    this.isDraft = false;
   }
 
   ngOnInit() {
-    this.load(this.route.snapshot.paramMap.get('id'));
+    this.documentId = this.route.snapshot.paramMap.get('id');
+    this.load(this.documentId);
     this.searchService.getTags();
-    let test = new Array(4);
+    this.checkIsDraft();
+    console.log(this.isDraft);
+  }
+
+  checkIsDraft(): void {
+    this.http.getWithPromise("documents/private").then(res => {
+      this.isDraft = res.some(val => val.documentId == this.documentId);
+    });
   }
 
   load(documentId: string): void {
@@ -74,7 +85,7 @@ export class EditDocumentComponent implements OnInit {
           this.document.setDocumentInfo(res);
           this.document = this.convertService.makeDocument(res);
           this.http.getWithPromise('settings/me').then(res => {
-            if(this.document.employeeNumber != res.employeeNumber) {
+            if (this.document.employeeNumber != res.employeeNumber) {
               this.errorService.errorPath('1');
             }
           })
