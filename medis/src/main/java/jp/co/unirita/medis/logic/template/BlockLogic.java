@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import jp.co.unirita.medis.config.path.ServerResourcesPathUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,13 +21,16 @@ import jp.co.unirita.medis.form.template.BlockBaseItemForm;
 @Service
 public class BlockLogic {
 
+    @Autowired
+    ServerResourcesPathUtil serverResourcesPathUtil;
+
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public List<BlockBaseForm> getBlockList() {
         List<BlockBaseForm> list = new ArrayList<>();
         try{
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(new File("resources/block.json"));
+            JsonNode root = mapper.readTree(new File(serverResourcesPathUtil.getPath() + "/block.json"));
             System.out.println(root+"2");
             for(JsonNode node : root) {
                 String blockId = node.get("blockId").asText();
