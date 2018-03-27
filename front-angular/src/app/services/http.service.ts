@@ -61,6 +61,10 @@ export class HttpService {
     });
   }
 
+  postResetPass(url: string, data: Object): any {
+    return this.http.post(this.hostname + url, data, { withCredentials: true });
+  }
+
   getHostname(): string {
     return this.hostname;
   }

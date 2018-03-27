@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.http.post('accounts/usercheck', data).subscribe(success => {
+        this.http.postResetPass('accounts/usercheck', data).subscribe(success => {
           let dialogRef = this.dialog.open(MessageModalComponent, {
             data: {
               message: 'パスワード再設定用メールを送信しました。'
