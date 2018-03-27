@@ -74,7 +74,7 @@ public class InfomationLogic {
 
     public List<InfomationForm> getInfomationList(String employeeNumber, String lastUpadteId) {
         List<InfomationForm> list = getAllInfomationList(employeeNumber).stream()
-                .filter(info -> info.getUpdateId().compareTo(lastUpadteId) == 1)
+                .filter(info -> info.getUpdateId().compareTo(lastUpadteId) >= 1)
                 .collect(Collectors.toList());
         return list;
     }

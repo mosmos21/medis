@@ -118,7 +118,7 @@ public class DocumentLogicTest {
     	form.setTemplateId("t0000000002");
     	form.setPublish(false);
     	form.setContents(文章データ());
-    	String resultId = documentLogic.update(form,"99999");
+    	String resultId = documentLogic.save(form,"99999");
     	DocumentInfo result = documentInfoRepository.findOne(resultId);
 
     	DocumentInfo testData = new DocumentInfo();
