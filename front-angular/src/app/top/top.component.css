@@ -15,11 +15,17 @@
      overflow: auto;
      height: calc(40vh - 46px);
  }
+.mat-column-name{
+    flex: 0 0 120px;
+}
 
- .hoge{
-     color: blue;
- }
+.mat-column-documentCreateDate{
+    flex: 0 0 150px;
+}
 
+ .mat-column-updateDate{
+    flex: 0 0 150px;
+}
  .grid_list {
     padding-bottom: 0px !important;
  }

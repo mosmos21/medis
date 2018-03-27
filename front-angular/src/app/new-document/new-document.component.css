@@ -1,4 +1,8 @@
 .mat-table{
     overflow: auto;
-    height: calc(100vh - 262px);
+    height: calc(100vh - 222px);
+}
+
+.mat-column-templateCreateDate{
+    flex: 0 0 150px;
 }
