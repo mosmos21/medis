@@ -9,7 +9,6 @@ import { AuthService } from '../services/auth.service';
 import { HttpService } from '../services/http.service';
 import { ErrorService } from '../services/error.service';
 import { SearchService } from '../services/search.service';
-import { DragulaService } from 'ng2-dragula';
 import { ValidatorService } from '../services/validator.service';
 import { NavigationService } from '../services/navigation.service';
 import { TypeConversionService } from '../services/type-conversion.service';
@@ -40,7 +39,6 @@ export class EditTemplateComponent implements OnInit {
     private location: Location,
     private authService: AuthService,
     private errorService: ErrorService,
-    private dragulaService: DragulaService,
     private convertService: TypeConversionService,
   ) {
     this.nav.showAdminMenu();
@@ -52,24 +50,7 @@ export class EditTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.dragulaService.setOptions('template-block', {
-    //   copy: function (el: any, source: any) {
-    //     return source.id === 'template_block_list';
-    //   },
-    //   accepts: function (el: any, source: any) {
-    //     return source.id !== 'template_block_list';
-    //   }
-    // });
-
-    // this.dragulaService.drop.subscribe(value => {
-    //   let [e, el] = value.slice(1);
-    //   let id = e.childNodes[1].id;
-    //   if (id != '') {
-    //     e.remove();
-    //     this.addBlock(id);
-    //   }
-    // });
-    // this.load(this.route.snapshot.paramMap.get('id'));
+    this.load(this.route.snapshot.paramMap.get('id'));
   }
 
   load(templateId: string): void {

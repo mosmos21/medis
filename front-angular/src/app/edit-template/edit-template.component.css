@@ -135,6 +135,11 @@
   cursor: pointer;
 }
 
+.template_block_info:hover {
+  background: #aaa;
+  color: #fff;
+} 
+
 .template_block_body {
   padding: 5px;
   height: auto;
@@ -169,6 +174,7 @@
 .content_remove:hover {
   background: #666;
   color: #fff;
+  cursor: pointer;
 }
 
 .block_header {

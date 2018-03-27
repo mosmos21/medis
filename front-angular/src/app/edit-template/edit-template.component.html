@@ -93,10 +93,10 @@
             <div id="wrap_template_toolbar_content">
                 <mat-tab-group class="edit_template_tab">
                     <mat-tab label="ブロック" id="tag_label">
-                        <div id="template_block_list" class="content_scroll_y" [dragula]='"template-block"'>
+                        <div id="template_block_list" class="content_scroll_y">
                             <!-- テンプレートリスト -->
                             <div *ngFor="let block of blockList">
-                                <div id="{{ block[0] }}" class="template_block_info">{{ block[1] }}</div>
+                                <div id="{{ block[0] }}" class="template_block_info" (click)="addBlock(block[0])">{{ block[1] }}</div>
                             </div>
                             <!-- テンプレートリスト -->
                         </div>
