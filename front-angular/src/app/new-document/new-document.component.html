@@ -8,22 +8,26 @@
                 <div class="list_box_header">
                     <h3>テンプレート一覧</h3>
                 </div>
-                <div class="list_box_content list_box_content_tall content_scroll_y">
-                    <table id="info_list">
-                        <tr>
-                            <th id="info_list_id">テンプレートID</th>
-                            <th id="info_list_name">テンプレート名</th>
-                            <th id="info_list_date">作成日</th>
-                        </tr>
 
-                        <tr *ngFor="let l of templates">
-                            <td>{{ l.templateId }}</td>
-                            <td>
-                                <a href="/edit/new#{{ l.templateId }}">{{ l.templateName }}</a>
-                            </td>
-                            <td>{{ conv.time2Date(l.templateCreateDate) }}</td>
-                        </tr>
-                    </table>
+                <div class="table_container">
+                    <mat-table #table [dataSource]="tableService.dataSource" matSort>
+
+                        <ng-container matColumnDef="templateId">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>テンプレートID </mat-header-cell>
+                            <mat-cell *matCellDef="let template"> {{template.templateId}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="templateName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> テンプレート名 </mat-header-cell>
+                            <mat-cell *matCellDef="let template">{{template.templateName}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="templateCreateDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
+                            <mat-cell *matCellDef="let template"> {{template.templateCreateDate | date: 'yyyy/MM/dd HH:mm'}} </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="tableService.displayedColumnsTemplate"></mat-header-row>
+                        <mat-row routerLink="/edit/new" fragment="{{row.templateId}}" *matRowDef="let row; columns: tableService.displayedColumnsTemplate;"></mat-row>
+                    </mat-table>
                 </div>
             </div>
         </div>

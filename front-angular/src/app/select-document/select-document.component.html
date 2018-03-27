@@ -8,7 +8,37 @@
                 <div class="list_box_header">
                     <h3>下書き文書一覧</h3>
                 </div>
-                <div class="list_box_content list_box_content_tall">
+                <div class="table_container">
+                    <mat-table #table [dataSource]="tableService.dataSource" matSort>
+
+                        <ng-container matColumnDef="documentId">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメントID </mat-header-cell>
+                            <mat-cell *matCellDef="let document"> {{document.documentId}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="documentName">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
+                            <mat-cell *matCellDef="let document">{{document.documentName}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="documentCreateDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
+                            <mat-cell *matCellDef="let document"> {{document.documentCreateDate | date: 'yyyy/MM/dd HH:mm'}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="delete">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> 削除 </mat-header-cell>
+                            <mat-cell *matCellDef="let document">
+                                <div class="delete_icon">
+                                    <button mat-icon-button (click)="deleteDraft(document.documentId)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="tableService.displayedColumnsDraft"></mat-header-row>
+                        <mat-row routerLink="/edit/{{row.documentId}}" *matRowDef="let row; columns: tableService.displayedColumnsDraft;"></mat-row>
+                    </mat-table>
+                </div>
+                <!-- <div class="list_box_content list_box_content_tall">
                     <div class="content_scroll_y">
                         <table id="info_list">
                             <tr>
@@ -33,7 +63,7 @@
                             </tr>
                         </table>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

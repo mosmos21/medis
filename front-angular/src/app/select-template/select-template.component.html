@@ -17,7 +17,7 @@
 							<mat-cell *matCellDef="let template"> {{template.templateId}} </mat-cell>
 						</ng-container>
 						<ng-container matColumnDef="templateName">
-							<mat-header-cell *matHeaderCellDef mat-sort-header> 名 </mat-header-cell>
+							<mat-header-cell *matHeaderCellDef mat-sort-header> テンプレート名 </mat-header-cell>
 							<mat-cell *matCellDef="let template">{{template.templateName}}</mat-cell>
 						</ng-container>
 						<ng-container matColumnDef="templateCreateDate">
@@ -29,34 +29,6 @@
 						<mat-row routerLink="/admin/template/{{row.templateId}}" *matRowDef="let row; columns: tableService.displayedColumnsTemplate;"></mat-row>
 					</mat-table>
 				</div>
-				<!-- <div class="list_box_content list_box_content_tall content_scroll_y">
-					<table id="info_list">
-						<tr>
-							<th id="info_list_id">テンプレートID</th>
-							<th id="info_list_name">テンプレート名</th>
-							<th id="info_list_date">作成日</th>
-							<th id="info_list_flag">公開フラグ</th>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<a href="/admin/template/new">新規テンプレートを作成する</a>
-							</td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr *ngFor="let t of templates; let idx = index;">
-							<td>{{ t.templateId }}</td>
-							<td>
-								<a href="/admin/template/{{ t.templateId }}">{{ t.templateName }}</a>
-							</td>
-							<td>{{ convert.time2Date(t.templateCreateDate) }}</td>
-							<td align="center">
-								<mat-slide-toggle (click)="confirmChangePublish($event, idx)" id="toggleButton_tag" [checked]="t.templatePublish"></mat-slide-toggle>
-							</td>
-						</tr>
-					</table>
-				</div> -->
 			</div>
 		</div>
 	</div>

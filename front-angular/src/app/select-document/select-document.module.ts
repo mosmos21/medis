@@ -5,8 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { SelectDocumentComponent } from './select-document.component';
 import {
   MatButtonModule,
-  MatIconModule
+  MatIconModule,
+  MatTableModule,
+  MatSortModule,
 } from '@angular/material';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -15,6 +18,9 @@ import {
     HttpClientModule,
     MatButtonModule,
     MatIconModule,
+    MatTableModule,
+    MatSortModule,
+    RouterModule,
   ],
   declarations: [SelectDocumentComponent],
   providers: []

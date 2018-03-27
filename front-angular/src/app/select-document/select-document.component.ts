@@ -1,6 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http';
+import {
+  MatSort,
+  MatTableDataSource,
+} from '@angular/material';
 
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
@@ -9,6 +13,7 @@ import { ConvertDateService } from '../services/convert-date.service';
 import { SnackBarService } from '../services/snack-bar.service';
 import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
 import { HttpService } from '../services/http.service';
+import { TableService } from '../services/table.service';
 import { DocumentInfo } from '../model/DocumentInfo';
 
 @Component({
@@ -19,6 +24,8 @@ import { DocumentInfo } from '../model/DocumentInfo';
 export class SelectDocumentComponent implements OnInit {
 
   public documents: DocumentInfo[] = new Array();
+  public dataSource;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public conv: ConvertDateService,
@@ -30,6 +37,7 @@ export class SelectDocumentComponent implements OnInit {
     private errorService: ErrorService,
     private snackBarService: SnackBarService,
     private msgToSidenavService: MsgToSidenavService,
+    public tableService: TableService,
   ) {
     this.nav.show();
     this.authService.getUserDetail();
@@ -40,8 +48,9 @@ export class SelectDocumentComponent implements OnInit {
   }
 
   loadList(): void {
-    this.http.get('documents/private').subscribe(list => {
-      this.documents = list;
+    this.http.get('documents/private').subscribe(res => {
+      this.dataSource = this.tableService.insertDataSourceDocument(res);
+      this.dataSource.sort = this.sort;
     }, error => {
       this.errorService.errorPath(error.status);
     });

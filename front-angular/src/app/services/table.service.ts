@@ -14,6 +14,7 @@ import { TemplateInfo } from '../model/TemplateInfo';
 export class TableService {
   public displayedColumnsDocument = ["documentId", "documentName", "name", "documentCreateDate"];
   public displayedColumnsTemplate = ["templateId", "templateName", "templateCreateDate"];
+  public displayedColumnsDraft = ["documentId", "documentName", "documentCreateDate", "delete"];
   public dataSource;
   @ViewChild(MatSort) sort: MatSort;
 

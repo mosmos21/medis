@@ -57,6 +57,15 @@ tr:nth-child(odd) td {
     width: 100px;
 }
 
-.delete_icon{
-    text-align: center;
+.mat-table{
+    overflow: auto;
+    height: calc(100vh - 262px);
+}
+
+.mat-column-delete{
+    flex: 0 0 100px;
+}
+
+.hoover{
+    cursor: pointer;
 }

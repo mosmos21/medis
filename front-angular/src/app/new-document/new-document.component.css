@@ -23,3 +23,8 @@ table tr th {
 tr:nth-child(odd) td {  
     background-color: #fff;  
 }
+
+.mat-table{
+    overflow: auto;
+    height: calc(100vh - 262px);
+}
