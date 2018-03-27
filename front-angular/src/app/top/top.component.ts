@@ -9,6 +9,7 @@ import { IsNewService } from '../services/is-new.service';
 import { CookieService } from 'ngx-cookie-service'
 import { NavigationService } from '../services/navigation.service';
 import { ConvertDateService } from '../services/convert-date.service';
+import { TableService } from '../services/table.service';
 
 import { User } from '../model/User';
 
@@ -46,6 +47,7 @@ export class TopComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private errorService: ErrorService,
+    public tableService: TableService,
   ) {
     this.nav.show();
     this.nav.showUserMenu();
@@ -55,29 +57,26 @@ export class TopComponent implements OnInit {
 
   ngOnInit() {
     this.http.get("infomations").subscribe(list => {
-      this.updateList = list;
-      this.commentDataSource = new MatTableDataSource<DocumentInfo>(list);
+      console.log(list);
+      this.commentDataSource = this.tableService.insertDataSourceDocument(list);
       this.commentDataSource.sort = this.commentSort;
     }, error => {
       this.errorService.errorPath(error.status);
     });
     this.http.get("documents/public").subscribe(list => {
-      this.ownDocList = list;
-      this.ownDataSource = new MatTableDataSource<DocumentInfo>(list);
+      this.ownDataSource = this.tableService.insertDataSourceDocument(list);
       this.ownDataSource.sort = this.ownSort;
     }, error => {
       this.errorService.errorPath(error.status);
     });
     this.http.get("documents/bookmark").subscribe(list => {
-      this.favDocList = list;
-      this.favDataSource = new MatTableDataSource<DocumentInfo>(list);
+      this.favDataSource = this.tableService.insertDataSourceDocument(list);
       this.favDataSource.sort = this.favSort;
     }, error => {
       this.errorService.errorPath(error.status);
     });
     this.http.get("documents/monitoring_tags").subscribe(list => {
-      this.monDocList = list;
-      this.monitoringDataSource = new MatTableDataSource<DocumentInfo>(list);
+      this.monitoringDataSource = this.tableService.insertDataSourceDocument(list);
       this.monitoringDataSource.sort = this.monitoringSort;
     }, error => {
       this.errorService.errorPath(error.status);

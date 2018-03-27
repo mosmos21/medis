@@ -43,6 +43,7 @@ export class SelectTemplateComponent implements OnInit {
   ngOnInit() {
     this.http.get('templates').subscribe(list => {
       this.templates = list;
+      console.log(list);
       this.dataSource = this.tableService.insertDataSourceTemplate(list);
       this.dataSource.sort = this.sort;
     }, error => {

@@ -10,12 +10,8 @@
 				</div>
 
 				<div class="table_container">
-					<mat-table #table [dataSource]="tableService.dataSource" matSort>
+					<mat-table #table [dataSource]="dataSource" matSort>
 
-						<ng-container matColumnDef="templateId">
-							<mat-header-cell *matHeaderCellDef mat-sort-header>テンプレートID </mat-header-cell>
-							<mat-cell *matCellDef="let template"> {{template.templateId}} </mat-cell>
-						</ng-container>
 						<ng-container matColumnDef="templateName">
 							<mat-header-cell *matHeaderCellDef mat-sort-header> テンプレート名 </mat-header-cell>
 							<mat-cell *matCellDef="let template">{{template.templateName}}</mat-cell>
@@ -24,9 +20,15 @@
 							<mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
 							<mat-cell *matCellDef="let template"> {{template.templateCreateDate | date: 'yyyy/MM/dd HH:mm'}} </mat-cell>
 						</ng-container>
+						<ng-container matColumnDef="templatePublish">
+							<mat-header-cell *matHeaderCellDef mat-sort-header> 公開/非公開 </mat-header-cell>
+							<mat-cell *matCellDef="let template; let idx = index">
+								<mat-slide-toggle id="toggleButton_tag" (click)="confirmChangePublish($event,idx)" [checked]="template.templatePublish" color="primary"></mat-slide-toggle>
+							</mat-cell>
+						</ng-container>
 
-						<mat-header-row *matHeaderRowDef="tableService.displayedColumnsTemplate"></mat-header-row>
-						<mat-row routerLink="/admin/template/{{row.templateId}}" *matRowDef="let row; columns: tableService.displayedColumnsTemplate;"></mat-row>
+						<mat-header-row *matHeaderRowDef="tableService.displayedColumnsTemplateAdmin"></mat-header-row>
+						<mat-row *matRowDef="let row; columns: tableService.displayedColumnsTemplateAdmin;"></mat-row>
 					</mat-table>
 				</div>
 			</div>

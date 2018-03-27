@@ -65,4 +65,8 @@ export class SelectDocumentComponent implements OnInit {
       this.errorService.errorPath(error.status);
     });
   }
+
+  toEdit(documentId: string) {
+    this.router.navigate(["edit/" + documentId]);
+  }
 }

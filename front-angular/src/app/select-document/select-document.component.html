@@ -9,19 +9,15 @@
                     <h3>下書き文書一覧</h3>
                 </div>
                 <div class="table_container">
-                    <mat-table #table [dataSource]="tableService.dataSource" matSort>
+                    <mat-table #table [dataSource]="dataSource" matSort>
 
-                        <ng-container matColumnDef="documentId">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメントID </mat-header-cell>
-                            <mat-cell *matCellDef="let document"> {{document.documentId}} </mat-cell>
-                        </ng-container>
                         <ng-container matColumnDef="documentName">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
-                            <mat-cell *matCellDef="let document">{{document.documentName}}</mat-cell>
+                            <mat-cell (click)="toEdit(document.documentId)" *matCellDef="let document">{{document.documentName}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="documentCreateDate">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-                            <mat-cell *matCellDef="let document"> {{document.documentCreateDate | date: 'yyyy/MM/dd HH:mm'}} </mat-cell>
+                            <mat-cell (click)="toEdit(document.documentId)" *matCellDef="let document"> {{document.documentCreateDate | date: 'yyyy/MM/dd HH:mm'}} </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="delete">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> 削除 </mat-header-cell>
@@ -35,35 +31,9 @@
                         </ng-container>
 
                         <mat-header-row *matHeaderRowDef="tableService.displayedColumnsDraft"></mat-header-row>
-                        <mat-row routerLink="/edit/{{row.documentId}}" *matRowDef="let row; columns: tableService.displayedColumnsDraft;"></mat-row>
+                        <mat-row *matRowDef="let row; columns: tableService.displayedColumnsDraft;"></mat-row>
                     </mat-table>
                 </div>
-                <!-- <div class="list_box_content list_box_content_tall">
-                    <div class="content_scroll_y">
-                        <table id="info_list">
-                            <tr>
-                                <th id="info_list_id">文書ID</th>
-                                <th id="info_list_name">文書タイトル</th>
-                                <th id="info_list_date">作成日</th>
-                                <th id="info_list_delete">削除</th>
-                            </tr>
-                            <tr *ngFor="let l of documents">
-                                <td>{{ l.documentId }}</td>
-                                <td>
-                                    <a href="/edit/{{ l.documentId }}">{{ l.documentName }}</a>
-                                </td>
-                                <td>{{ conv.time2Date(l.documentCreateDate) }}</td>
-                                <td>
-                                    <div class="delete_icon">
-                                        <button mat-icon-button (click)="deleteDraft(l.documentId)">
-                                            <mat-icon>delete</mat-icon>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>

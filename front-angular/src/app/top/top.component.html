@@ -9,9 +9,11 @@
                     <mat-table #commentTable [dataSource]="commentDataSource" matSort>
 
                         <ng-container matColumnDef="documentName">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメント名 </mat-header-cell>
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>タイトル</mat-header-cell>
                             <mat-cell *matCellDef="let documents" (click)="viewDocument(documents.documentId)">
                                 {{documents.documentName}}
+                                <span *ngIf="documents.updateType == 'v0000000002'">にコメントが付きました</span>
+                                <span *ngIf="documents.updateType == 'v0000000003'">のコメントが既読されました</span>
                                 <span class="isNew" *ngIf="isNewService.checkNew(documents.updateDate)">new!!</span>
                             </mat-cell>
                         </ng-container>
@@ -21,8 +23,8 @@
                             <mat-cell *matCellDef="let documents"> {{documents.updateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                         </ng-container>
 
-                        <mat-header-row *matHeaderRowDef="displayedColumnsNU"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumnsNU;"></mat-row>
+                        <mat-header-row *matHeaderRowDef="tableService.displayedColumnsComment"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: tableService.displayedColumnsComment;"></mat-row>
                     </mat-table>
                 </div>
             </div>
@@ -47,8 +49,8 @@
                             <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                         </ng-container>
 
-                        <mat-header-row *matHeaderRowDef="displayedColumnsND"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumnsND;"></mat-row>
+                        <mat-header-row *matHeaderRowDef="tableService.displayedColumnsOwnDocument"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: tableService.displayedColumnsOwnDocument;"></mat-row>
                     </mat-table>
                 </div>
             </div>
@@ -76,8 +78,8 @@
                             <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                         </ng-container>
 
-                        <mat-header-row *matHeaderRowDef="displayedColumnsNND"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumnsNND;"></mat-row>
+                        <mat-header-row *matHeaderRowDef="tableService.displayedColumnsDocument"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: tableService.displayedColumnsDocument;"></mat-row>
                     </mat-table>
                 </div>
             </div>
@@ -105,8 +107,8 @@
                             <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                         </ng-container>
 
-                        <mat-header-row *matHeaderRowDef="displayedColumnsNND"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumnsNND;"></mat-row>
+                        <mat-header-row *matHeaderRowDef="tableService.displayedColumnsDocument"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: tableService.displayedColumnsDocument;"></mat-row>
                     </mat-table>
                 </div>
             </div>

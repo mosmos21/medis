@@ -12,22 +12,24 @@ import { TemplateInfo } from '../model/TemplateInfo';
 
 @Injectable()
 export class TableService {
-  public displayedColumnsDocument = ["documentId", "documentName", "name", "documentCreateDate"];
-  public displayedColumnsTemplate = ["templateId", "templateName", "templateCreateDate"];
-  public displayedColumnsDraft = ["documentId", "documentName", "documentCreateDate", "delete"];
+  public displayedColumnsDocument = ["documentName", "name", "documentCreateDate"];
+  public displayedColumnsOwnDocument = ["documentName", "documentCreateDate"];
+  public displayedColumnsComment = ["documentName", "updateDate"];
+  public displayedColumnsDraft = ["documentName", "documentCreateDate", "delete"];
+  public displayedColumnsTemplate = ["templateName", "templateCreateDate"];
+  public displayedColumnsTemplateAdmin = ["templateName", "templateCreateDate", "templatePublish"];
+
   public dataSource;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor() { }
 
   insertDataSourceDocument(docSource: DocumentInfo[]): Object {
-    this.dataSource = new MatTableDataSource<DocumentInfo>(docSource);
-    return this.dataSource;
+    return new MatTableDataSource<DocumentInfo>(docSource);
   }
 
   insertDataSourceTemplate(docSource: TemplateInfo[]): Object {
-    this.dataSource = new MatTableDataSource<TemplateInfo>(docSource);
-    return this.dataSource;
+    return new MatTableDataSource<TemplateInfo>(docSource);
   }
 
 }

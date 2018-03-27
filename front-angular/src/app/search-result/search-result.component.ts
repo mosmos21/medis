@@ -9,6 +9,7 @@ import { ErrorService } from '../services/error.service';
 import { SearchService } from '../services/search.service';
 import { NavigationService } from '../services/navigation.service';
 import { ConvertDateService } from '../services/convert-date.service';
+import { TableService } from '../services/table.service';
 import { DocumentInfo } from '../model/DocumentInfo';
 
 @Component({
@@ -20,7 +21,6 @@ export class SearchResultComponent implements OnInit {
 
   public documents: DocumentInfo[] = new Array();
   private msg: String;
-  public displayedColumns = ["documentId", "documentName", "name", "documentCreateDate"];
   public dataSource;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -31,6 +31,7 @@ export class SearchResultComponent implements OnInit {
     private searchService: SearchService,
     private errorService: ErrorService,
     public conv: ConvertDateService,
+    public tableService: TableService,
   ) {
     this.nav.show();
     this.authService.getUserDetail();
@@ -43,15 +44,9 @@ export class SearchResultComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit() {
-    console.log("ngAfterViewInit");
-  }
-
   getList(msg: String): void {
-    console.log(msg);
     this.http.get("search?tags=" + this.encodeStringToUri(msg)).subscribe(list => {
-      this.documents = list;
-      this.dataSource = new MatTableDataSource<DocumentInfo>(this.documents);
+      this.dataSource = this.tableService.insertDataSourceDocument(list);
       this.dataSource.sort = this.sort;
     }, error => {
       this.errorService.errorPath(error.status);
@@ -60,7 +55,7 @@ export class SearchResultComponent implements OnInit {
   }
 
   existDocuments(): boolean {
-    return Object.keys(this.documents).length > 1;
+    return this.dataSource;
   }
 
   encodeStringToUri(msg: any): string {
