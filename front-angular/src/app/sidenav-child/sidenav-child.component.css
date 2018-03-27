@@ -25,11 +25,11 @@
 	/* background: #095731; */
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;  
-	cursor: pointer; 
+	cursor: pointer;
 }
 
-.side_menu_icon_active {
-	background: #dddddd;
+.side_menu_icon:hover {
+	background: #888888;
 }
 
 #wrap_side_menu_content {

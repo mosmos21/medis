@@ -84,6 +84,10 @@ export class SelectTemplateComponent implements OnInit {
   }
 
   editTemplate(templateId: string) {
-    this.router.navigate(["admin/template/" + templateId]);
+    if (templateId == "new") {
+      this.router.navigate(["admin/template/new"]);
+    } else {
+      this.router.navigate(["admin/template/" + templateId]);
+    }
   }
 }

@@ -107,7 +107,7 @@
                 </mat-tab-group>
             </div>
             <div id="wrap_template_toolbar_button">
-                <div *ngIf="!document.documentId">
+                <div *ngIf="!document.documentId || isDraft">
                     <button mat-raised-button class="send_button" (click)="submit('draft')">下書き</button>
                 </div>
                 <div>

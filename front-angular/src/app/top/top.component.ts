@@ -57,7 +57,6 @@ export class TopComponent implements OnInit {
 
   ngOnInit() {
     this.http.get("infomations").subscribe(list => {
-      console.log(list);
       this.commentDataSource = this.tableService.insertDataSourceDocument(list);
       this.commentDataSource.sort = this.commentSort;
     }, error => {

@@ -62,7 +62,7 @@ export class EditTemplateComponent implements OnInit {
     }, error => {
       this.errorService.errorPath(error.status);
     }).then(() => {
-      if (templateId != null) {
+      if (templateId != null && templateId != "new") {
         this.http.getWithPromise('templates/' + templateId).then(res => {
           this.template = this.convertService.makeTemplate(res, this.blocks);
           this.template.contents

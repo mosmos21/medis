@@ -28,8 +28,8 @@
 	cursor: pointer; 
 }
 
-.side_menu_icon_active {
-	background: #dddddd;
+.side_menu_icon:hover {
+	background: #888888;
 }
 
 #wrap_side_menu_content {

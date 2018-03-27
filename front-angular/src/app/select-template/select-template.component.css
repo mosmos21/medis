@@ -1,8 +1,13 @@
 .mat-table{
     overflow: auto;
-    height: calc(100vh - 262px);
+    height: calc(100vh - 222px);
 }
 
 .mat-column-templatePublish{
     flex: 0 0 100px;
+}
+
+.edit_button{
+    margin-top: 10px;
+    float: right;
 }

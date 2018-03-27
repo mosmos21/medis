@@ -9,17 +9,17 @@ import { ValidatorService } from '../services/validator.service'
 })
 export class CreateUserComponent implements OnInit {
 
-  errorMessage: string = '';
+  public errorMessage: string = '';
 
   public autorities = [
-    { authorityId: 'a0000000000', authorityType: 'アドミニストレータ' },
+    { authorityId: 'a0000000000', authorityType: '管理者ユーザ' },
     { authorityId: 'a0000000001', authorityType: '一般ユーザ' }
   ];
 
   constructor(
     public dialogRef: MatDialogRef<CreateUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private valid: ValidatorService,
+    private validate: ValidatorService,
   ) { }
 
   onClose(): void {
@@ -27,7 +27,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   onSubmit(): void {
-    let newUser = [
+    let newUser: string[] = [
       this.data.user.employeeNumber,
       this.data.user.lastName,
       this.data.user.firstName,
@@ -36,11 +36,19 @@ export class CreateUserComponent implements OnInit {
       this.data.user.mailaddress,
       this.data.user.authorityId,
     ]
+    this.errorMessage = "";
     console.log(newUser);
-    if (!this.valid.empty(newUser)) {
-      this.dialogRef.close(this.data.user)
+
+    if (this.validate.empty(newUser)) {
+      this.errorMessage += "入力必須項目が未入力です";
+    } else if (this.validate.employeeNumber(this.data.user.employeeNumber)) {
+      this.errorMessage += "社員番号の形式が不正です";
+    } else if (this.validate.kana(this.data.user.lastNamePhonetic, this.data.user.firstNamePhonetic)) {
+      this.errorMessage += "フリガナは全角カナで入力してください";
+    } else if (this.validate.mail(this.data.user.mailaddress)) {
+      this.errorMessage += "メールアドレスの形式が不正です";
     } else {
-      this.errorMessage = '入力必須項目が未入力です。'
+      this.dialogRef.close(newUser)
     }
   }
 

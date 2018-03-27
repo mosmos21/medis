@@ -14,6 +14,7 @@ import {
   MatFormFieldModule,
   MatSortModule,
   MatTableModule,
+  MatIconModule
 } from '@angular/material';
 
 @NgModule({
@@ -31,6 +32,7 @@ import {
     MatInputModule,
     MatSortModule,
     MatTableModule,
+    MatIconModule
   ],
   declarations: [
     SelectTemplateComponent,
