@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, HostListener, ViewChild } from '@angular/core';
 import { MatDialog, MatSort } from '@angular/material';
+import { Router } from '@angular/router';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
@@ -34,6 +35,7 @@ export class SelectTemplateComponent implements OnInit {
     private errorService: ErrorService,
     private snackBarService: SnackBarService,
     public tableService: TableService,
+    private router: Router,
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
@@ -79,5 +81,9 @@ export class SelectTemplateComponent implements OnInit {
     }, error => {
       this.errorService.errorPath(error.status);
     });
+  }
+
+  editTemplate(templateId: string) {
+    this.router.navigate(["admin/template/" + templateId]);
   }
 }

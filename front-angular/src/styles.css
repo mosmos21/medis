@@ -261,3 +261,7 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.mat-row:hover{
+    background: #e2e2e2;
+}

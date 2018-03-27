@@ -14,7 +14,9 @@
 
 						<ng-container matColumnDef="templateName">
 							<mat-header-cell *matHeaderCellDef mat-sort-header> テンプレート名 </mat-header-cell>
-							<mat-cell *matCellDef="let template">{{template.templateName}}</mat-cell>
+							<mat-cell *matCellDef="let template">
+								<span class="title_column" (click)="editTemplate(template.templateId)">{{template.templateName}}</span>
+							</mat-cell>
 						</ng-container>
 						<ng-container matColumnDef="templateCreateDate">
 							<mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>

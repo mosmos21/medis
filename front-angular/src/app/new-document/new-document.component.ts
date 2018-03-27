@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   MatSort,
   MatTableDataSource
@@ -32,6 +33,7 @@ export class NewDocumentComponent implements OnInit {
     private authService: AuthService,
     private errorService: ErrorService,
     public tableService: TableService,
+    private router: Router,
   ) {
     this.nav.show();
     this.authService.getUserDetail();
@@ -43,12 +45,14 @@ export class NewDocumentComponent implements OnInit {
 
   loadlist(): void {
     this.http.get("templates/public").subscribe(res => {
-      // this.templates = res;
-      console.log(res);
       this.dataSource = this.tableService.insertDataSourceTemplate(res);
       this.dataSource.sort = this.sort;
     }, error => {
       this.errorService.errorPath(error.status);
     });
+  }
+
+  editDocument(templateId: string) {
+    this.router.navigate(["edit/new"], { fragment: templateId });
   }
 }

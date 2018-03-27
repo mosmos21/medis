@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material';
 import { MatSort } from '@angular/material';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
 import { HttpService } from '../services/http.service';
@@ -32,6 +33,7 @@ export class SearchResultComponent implements OnInit {
     private errorService: ErrorService,
     public conv: ConvertDateService,
     public tableService: TableService,
+    private router: Router,
   ) {
     this.nav.show();
     this.authService.getUserDetail();
@@ -62,4 +64,7 @@ export class SearchResultComponent implements OnInit {
     return encodeURIComponent(msg);
   }
 
+  viewDocument(documentId: string) {
+    this.router.navigate(["browsing/" + documentId]);
+  }
 }

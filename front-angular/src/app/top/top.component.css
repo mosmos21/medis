@@ -15,11 +15,6 @@
      overflow: auto;
      height: calc(40vh - 46px);
  }
-
- .hoge{
-     color: blue;
- }
-
  .toppage_tile_upper {
      height: 45vh;
      padding-top: 45vh !important;

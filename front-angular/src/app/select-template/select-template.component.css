@@ -2,3 +2,7 @@
     overflow: auto;
     height: calc(100vh - 262px);
 }
+
+.mat-column-templatePublish{
+    flex: 0 0 100px;
+}

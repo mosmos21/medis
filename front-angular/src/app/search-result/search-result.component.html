@@ -14,7 +14,9 @@
 
 							<ng-container matColumnDef="documentName">
 								<mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
-								<mat-cell *matCellDef="let documents"> {{documents.documentName}} </mat-cell>
+								<mat-cell *matCellDef="let documents">
+									<span class="title_column" (click)="viewDocument(documents.documentId)">{{documents.documentName}}</span>
+								</mat-cell>
 							</ng-container>
 							<ng-container matColumnDef="name">
 								<mat-header-cell *matHeaderCellDef mat-sort-header> 作成者 </mat-header-cell>
@@ -26,7 +28,7 @@
 							</ng-container>
 
 							<mat-header-row *matHeaderRowDef="tableService.displayedColumnsDocument"></mat-header-row>
-							<mat-row routerLink="/browsing/{{row.documentId}}" *matRowDef="let row; columns: tableService.displayedColumnsDocument;"></mat-row>
+							<mat-row *matRowDef="let row; columns: tableService.displayedColumnsDocument;"></mat-row>
 						</mat-table>
 					</div>
 				</div>

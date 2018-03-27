@@ -66,7 +66,7 @@ export class SelectDocumentComponent implements OnInit {
     });
   }
 
-  toEdit(documentId: string) {
+  editDocument(documentId: string) {
     this.router.navigate(["edit/" + documentId]);
   }
 }

@@ -13,11 +13,13 @@
 
                         <ng-container matColumnDef="documentName">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
-                            <mat-cell (click)="toEdit(document.documentId)" *matCellDef="let document">{{document.documentName}}</mat-cell>
+                            <mat-cell *matCellDef="let document">
+                                <span class="title_column" (click)="editDocument(document.documentId)">{{document.documentName}}</span>
+                            </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="documentCreateDate">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-                            <mat-cell (click)="toEdit(document.documentId)" *matCellDef="let document"> {{document.documentCreateDate | date: 'yyyy/MM/dd HH:mm'}} </mat-cell>
+                            <mat-cell *matCellDef="let document"> {{document.documentCreateDate | date: 'yyyy/MM/dd HH:mm'}} </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="delete">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> 削除 </mat-header-cell>
