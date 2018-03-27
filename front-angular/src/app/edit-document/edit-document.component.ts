@@ -73,6 +73,11 @@ export class EditDocumentComponent implements OnInit {
         this.http.getWithPromise('documents/' + documentId).then(res => {
           this.document.setDocumentInfo(res);
           this.document = this.convertService.makeDocument(res);
+          this.http.getWithPromise('settings/me').then(res => {
+            if(this.document.employeeNumber != res.employeeNumber) {
+              this.errorService.errorPath('1');
+            }
+          })
           return this.http.getWithPromise('templates/' + this.document.templateId);
         }, error => {
           this.errorService.errorPath(error.status);

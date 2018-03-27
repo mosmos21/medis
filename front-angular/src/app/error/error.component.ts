@@ -19,7 +19,6 @@ export class ErrorComponent implements OnInit {
   ) {
     nav.hide();
     this.errorNum = route.snapshot.params['id'];
-    console.log(this.errorNum)
     if (this.errorNum == '400') {
       this.message = '予期せぬリクエストがありました。'
     } else if (this.errorNum == '403') {
@@ -29,6 +28,9 @@ export class ErrorComponent implements OnInit {
     } else if (this.errorNum == '404' || this.errorNum == null) {
       this.errorNum = '404'
       this.message = 'ページもしくはデータが見つかりませんでした。'
+    } else if (this.errorNum == '1') {
+      this.errorNum = '0'
+      this.message = 'ドキュメントの編集権限がありません。'
     } else {
       this.errorNum = '0'
       this.message = '何かしらの問題がありました。'
