@@ -28,30 +28,6 @@
 /* ここまで全体 */
 
 /* ここからテンプレ選択画面 */
-table {
-    width: 100%;
-}
-
-table tr th,
-table tr td {
-    padding: 5px 10px;
-    border: 2px solid #ddd;
-    vertical-align: middle;
-}
-
-table tr th {
-    background: #aaa;
-}
-
-table tr th {
-    text-align: center;
-    font-weight: bold;
-}
-
-
-tr:nth-child(odd) td {  
-    background-color: #fff;  
-}
 
 #info_list_delete{
     width: 100px;
@@ -59,13 +35,13 @@ tr:nth-child(odd) td {
 
 .mat-table{
     overflow: auto;
-    height: calc(100vh - 262px);
+    height: calc(100vh - 222px);
 }
 
 .mat-column-delete{
     flex: 0 0 100px;
 }
 
-.hoover{
-    cursor: pointer;
+.mat-column-documentCreateDate{
+    flex: 0 0 150px;
 }
