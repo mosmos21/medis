@@ -101,7 +101,7 @@
         - レスポンス(201 CREATED)
 
 - ## ユーザ管理情報の更新
-    - ### [POST] https://{hostname}/{version}/system/users
+    - ### [POST] https://{hostname}/{version}/system/users/update
         ユーザの有効状態、権限を変更する
 
         ---
