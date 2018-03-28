@@ -265,6 +265,26 @@
     background: #e6e6e6;
 }
 
+ .mat-header-row{
+     min-height: 40px !important;
+ }
+
+ .mat-row{
+     min-height: 35px !important;
+ }
+
+ .mat-column-name{
+    flex: 0 0 110px !important;
+}
+
+.mat-column-documentCreateDate{
+    flex: 0 0 130px !important;
+}
+
+ .mat-column-updateDate{
+    flex: 0 0 130px !important;
+}
+
 /* ドキュメントプレート */
 #document_plate {
   background: #fff;

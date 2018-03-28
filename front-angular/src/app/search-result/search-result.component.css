@@ -2,11 +2,3 @@
     overflow: auto;
     height: calc(100vh - 222px);
 }
-
-.mat-column-name{
-    flex: 0 0 120px;
-}
-
-.mat-column-documentCreateDate{
-    flex: 0 0 150px;
-}

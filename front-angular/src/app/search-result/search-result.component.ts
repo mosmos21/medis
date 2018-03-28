@@ -59,10 +59,6 @@ export class SearchResultComponent implements OnInit {
     );
   }
 
-  existDocuments(): boolean {
-    return this.dataSource;
-  }
-
   encodeStringToUri(msg: any): string {
     return encodeURIComponent(msg);
   }

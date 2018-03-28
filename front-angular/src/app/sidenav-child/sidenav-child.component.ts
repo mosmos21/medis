@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from '../services/error.service';
 import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
+import { HttpService } from '../services/http.service';
 
 @Component({
   selector: 'app-sidenav-child',
@@ -21,7 +22,7 @@ export class SidenavChildComponent implements OnInit {
 
   constructor(
     public nav: NavigationService,
-    private http: HttpClient,
+    private http: HttpService,
     @Inject('hostname') private hostname: string,
     private authService: AuthService,
     private errorService: ErrorService,
@@ -61,9 +62,9 @@ export class SidenavChildComponent implements OnInit {
   }
 
   loadDraftList() {
-    this.http.get(this.hostname + "documents/private", { withCredentials: true, headers: this.authService.headerAddToken() }).subscribe(
-      json => {
-        this.list = json;
+    this.http.get("documents/private").subscribe(
+      res => {
+        this.list = res;
         this.num = this.list.length;
       },
       error => {
