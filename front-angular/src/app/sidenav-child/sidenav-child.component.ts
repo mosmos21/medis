@@ -46,7 +46,6 @@ export class SidenavChildComponent implements OnInit {
     this.mymenuVisible = true;
     this.searchVisible = false;
     this.settingsVisible = false;
-    this.router.navigate(["top"]);
   }
 
   searchOpen() {

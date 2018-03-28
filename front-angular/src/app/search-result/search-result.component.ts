@@ -44,10 +44,8 @@ export class SearchResultComponent implements OnInit {
   ngOnInit() {
     console.log(this.searchService.selectedTags);
     if (this.searchService.selectedTags.length > 0) {
-      console.log("hoge");
       this.getList(this.typeConv.makeTagNameList(this.searchService.selectedTags).join(","));
     } else {
-      console.log("fuga");
       this.dataSource = "";
     }
     this.searchService.searchTagsData$.subscribe(msg => {
