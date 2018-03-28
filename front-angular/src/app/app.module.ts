@@ -132,6 +132,7 @@ import { TypeConversionService } from './services/type-conversion.service';
     IsNewService,
     HttpService,
     TableService,
+    // { provide: 'hostname', useValue: 'http://35.196.55.70:8080/v1/' }
     { provide: 'hostname', useValue: 'http://localhost:8080/v1/' }
   ],
   entryComponents: [

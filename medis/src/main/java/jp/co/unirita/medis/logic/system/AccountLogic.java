@@ -40,8 +40,11 @@ public class AccountLogic {
 
 	public User getUserinfo(String employeeNumber) {
 		User user = userRepository.findOne(employeeNumber);
-		user.setPassword("");
-		return user;
+		User result = new User();
+		result.setEmployeeNumber(user.getEmployeeNumber());
+		result.setAuthorityId(user.getAuthorityId());
+		result.setEnabled(user.isEnabled());
+		return result;
 	}
 
     public UserDetail getUserDetail(String employeeNumber) {
