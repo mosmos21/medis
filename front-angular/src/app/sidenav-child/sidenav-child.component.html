@@ -4,9 +4,15 @@
 
 			<!-- サイドメニューボタン -->
 			<div id="wrap_side_menu_icon">
-				<div id="menu_user" class="side_menu_icon" (click)="mymenuOpen()"></div>
-				<div id="menu_search" class="side_menu_icon" (click)="searchOpen()"></div>
-				<div id="menu_config" class="side_menu_icon" (click)="settingsOpen()"></div>
+				<div class="side_menu_icon">
+					<div id="menu_user" (click)="mymenuOpen()"></div>
+				</div>
+				<div class="side_menu_icon">
+					<div id="menu_search" (click)="searchOpen()"></div>
+				</div>
+				<div class="side_menu_icon">
+					<div id="menu_config" (click)="settingsOpen()"></div>
+				</div>
 			</div>
 		</mat-sidenav-container>
 	</mat-sidenav>
