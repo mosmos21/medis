@@ -12,7 +12,7 @@
 
                                 <ng-container matColumnDef="documentName">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメント名 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents" (click)="viewDocument(documents.documentId)">
+                                    <mat-cell *matCellDef="let documents">
                                         <span class="title_column" (click)="viewDocument(documents.documentId)">{{documents.documentName}}</span>
                                         <span class="isNew" *ngIf="isNewService.checkNew(documents.updateDate)">new!!</span>
                                     </mat-cell>
@@ -41,7 +41,7 @@
 
                                 <ng-container matColumnDef="documentName">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメント名 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents">
+                                    <mat-cell *matCellDef="let documents" fxFlex="20px">
                                         <span class="title_column" (click)="viewDocument(documents.documentId)">{{documents.documentName}}</span>
                                         <span class="isNew" *ngIf="isNewService.checkNew(documents.documentCreateDate)">new!!</span>
                                     </mat-cell>
@@ -70,7 +70,7 @@
 
                                 <ng-container matColumnDef="documentName">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents" (click)="viewDocument(documents.documentId)">
+                                    <mat-cell *matCellDef="let documents">
                                         <span class="title_column" (click)="viewDocument(documents.documentId)">{{documents.documentName}}</span>
                                         <span class="isNew" *ngIf="isNewService.checkNew(documents.documentCreateDate)">new!!</span>
                                     </mat-cell>
@@ -101,7 +101,7 @@
 
                                 <ng-container matColumnDef="documentName">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents" (click)="viewDocument(documents.documentId)">
+                                    <mat-cell *matCellDef="let documents">
                                         <span class="title_column" (click)="viewDocument(documents.documentId)">{{documents.documentName}}</span>
                                         <span class="isNew" *ngIf="isNewService.checkNew(documents.documentCreateDate)">new!!</span>
                                     </mat-cell>

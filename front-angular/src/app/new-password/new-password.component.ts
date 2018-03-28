@@ -44,20 +44,19 @@ export class NewPasswordComponent implements OnInit {
       const params = {
         secret: qParams['secret'],
       }
-      this.http.post('accounts/keycheck', params).subscribe(res => {
-        const result = JSON.parse(res);
-        if (result['result'] == 'NG') {
+      this.http.postResetPass('accounts/keycheck', params).subscribe(res => {
+        if (res['result'] == 'NG') {
           const dialogRef = this.dialog.open(MessageModalComponent, {
             data: {
               message: res['message'],
             }
           });
-          dialogRef.afterClosed().subscribe(result => {
+          dialogRef.afterClosed().subscribe(res => {
             this.router.navigate(['/login']);
           });
         } else {
-          this.user['employeeNumber'] = result['employeeNumber'];
-          this.user['mailaddress'] = result['mailaddress'];
+          this.user['employeeNumber'] = res['employeeNumber'];
+          this.user['mailaddress'] = res['mailaddress'];
         }
       }, error => {
         this.errorService.errorPath(error.status);
@@ -70,7 +69,8 @@ export class NewPasswordComponent implements OnInit {
     if (this.password == this.passwordCheck) {
       this.errorMessage = '';
       this.user['password'] = this.password;
-      this.http.post('accounts/reset', this.user).subscribe(success => {
+      console.log(this.user);
+      this.http.postResetPass('accounts/reset', this.user).subscribe(success => {
         const dialogRef = this.dialog.open(MessageModalComponent, {
           data: {
             message: 'パスワードの初期化が完了しました'
