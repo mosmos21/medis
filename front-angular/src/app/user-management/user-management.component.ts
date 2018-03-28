@@ -4,8 +4,10 @@ import {
   MatTableDataSource,
   MatSort,
 } from '@angular/material';
+import { PapaParseService } from 'ngx-papaparse'
 
 import { CreateUserComponent } from '../create-user/create-user.component'
+import { CreateUsersByCsvComponent } from '../create-users-by-csv/create-users-by-csv.component'
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { MessageModalComponent } from '../message-modal/message-modal.component'
 import { InitializationComponent } from '../initialization/initialization.component'
@@ -33,6 +35,7 @@ export class UserManagementComponent implements OnInit {
   constructor(
     public nav: NavigationService,
     public dialog: MatDialog,
+    private papa: PapaParseService,
     private http: HttpService,
     private authService: AuthService,
     private errorService: ErrorService,
@@ -41,6 +44,13 @@ export class UserManagementComponent implements OnInit {
     this.nav.showAdminMenu();
     this.nav.show();
     this.authService.getUserDetail();
+    let csvData = '"Hello","World!"';
+
+    this.papa.parse(csvData, {
+      complete: (results, file) => {
+        console.log('Parsed: ', results.data);
+      }
+    });
   }
 
   ngOnInit() {
@@ -121,6 +131,39 @@ export class UserManagementComponent implements OnInit {
     this.http.post('users/update', this.users).subscribe(success => {
     }, error => {
       this.errorService.errorPath(error.status);
+    });
+  }
+
+  createUsersByCsv(): void {
+    const dialogRef = this.dialog.open(CreateUsersByCsvComponent, {
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+        this.papa.parse(result, {
+          complete: (results) => {
+            results.data.map(u => {
+              return {
+                employeeNumber: u[0],
+                lastName: u[1],
+                firstName: u[2],
+                lastNamePhonetic: u[3],
+                firstNamePhonetic: u[4],
+                mailaddress: u[5],
+                icon: false,
+                authorityId: u[6],
+                enabled: true,
+              }
+            }).forEach(element => {
+              this.users.push(element);
+              this.http.post('system/users/new', element).subscribe(success => {
+              }, error => {
+                this.errorService.errorPath(error.status);
+              });
+            });
+          }
+        });
+      }
     });
   }
 }

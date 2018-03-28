@@ -28,6 +28,7 @@ import { AppComponent } from './app.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { CreateUsersByCsvComponent } from './create-users-by-csv/create-users-by-csv.component';
 import { InitializationComponent } from './initialization/initialization.component';
 
 import { DragulaModule } from 'ng2-dragula';
@@ -139,6 +140,7 @@ import { TypeConversionService } from './services/type-conversion.service';
     ResetPassComponent,
     ConfirmationComponent,
     CreateUserComponent,
+    CreateUsersByCsvComponent,
     InitializationComponent,
     MessageModalComponent,
     EditIconComponent,

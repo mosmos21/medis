@@ -27,6 +27,8 @@ public class TagLogic {
 
 	@Autowired
 	TagRepository tagRepository;
+	@Autowired
+	IdUtilLogic idUtilLogic;
 
 	public List<Tag> getTagList() {
 		try {
@@ -95,7 +97,7 @@ public class TagLogic {
 
 	public Tag createSystemTag(String value) throws IdIssuanceUpperException {
 		try {
-			String id = getNewSystemTagId();
+			String id = idUtilLogic.getNewSystemTagId();
 			Tag tag = new Tag(id, value);
 			tagRepository.saveAndFlush(tag);
 			return tag;
