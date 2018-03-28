@@ -1,21 +1,20 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
- }
- 
- html {
+}
+
+html {
     height: 100%;
- }
- 
- body {
+}
+
+body {
     background: #e7e7e7;
     color: #ffffff;
- }
+}
 
- pre {
+pre {
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow: auto;
@@ -23,53 +22,53 @@
     font-weight: 500;
     margin: 0.5em 2em;
 }
- 
- .content_scroll_y {
+
+.content_scroll_y {
     overflow-x: hidden;
     overflow-y: scroll;
- }
- 
- .content_scroll {
+}
+
+.content_scroll {
     overflow-x: scroll;
     overflow-y: scroll;
- }
- 
- #wrap_main_content {
+}
+
+#wrap_main_content {
     height: calc(100vh - 64px);
     background: #eee;
     color: black;
     z-index: 1;
- }
- 
- .wrap_main_content_center {
+}
+
+.wrap_main_content_center {
     width: auto;
     height: 100%;
     margin: 0;
     padding: 0;
- }
- 
- .main_content_header {
+}
+
+.main_content_header {
     width: 90%;
     height: 50px;
     line-height: 50px;
     margin-left: 5%;
- }
- 
- .main_content_header_text{
-     font-size: xx-large;
-     font-weight: bold;
- }
+}
 
- /* ここからリストボックス */
- .wrap_list_box {
+.main_content_header_text {
+    font-size: xx-large;
+    font-weight: bold;
+}
+/* ここからリストボックス */
+
+.wrap_list_box {
     width: 90%;
     margin: 30px 10px;
     margin-left: 5%;
     padding: 0;
     height: 40vh;
- }
- 
- .list_box {
+}
+
+.list_box {
     border: 1px black solid;
     height: 100%;
     width: 100%;
@@ -77,17 +76,17 @@
     border-radius: 5px;
     border: 2px #999 solid;
     box-shadow: 2px 2px 2px #999;
- }
- 
- .wrap_list_box_tall {
+}
+
+.wrap_list_box_tall {
     height: calc(100% - 110px);
- }
- 
- .wrap_list_box_tall .list_box{
+}
+
+.wrap_list_box_tall .list_box {
     height: 100%;
- }
- 
- .list_box_header {
+}
+
+.list_box_header {
     border: 0;
     padding: 0.3em;
     width: 100%;
@@ -96,16 +95,16 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom: 4px #0f9d58 double;
- }
- 
- .list_box_header h3 {
+}
+
+.list_box_header h3 {
     margin-left: 0.5em;
     padding-left: 0.5em;
     color: #555;
     border-left: 4px #0f9d58 solid;
- }
- 
- .list_box_content {
+}
+
+.list_box_content {
     /* margin: 0; */
     /* margin: 1%; */
     /* padding: 1em 2em; */
@@ -114,71 +113,75 @@
     margin-right: auto;
     margin-top: 1%;
     height: 12em;
- }
- 
- .list_box_content_tall {
+}
+
+.list_box_content_tall {
     height: calc(100% - 60px);
- }
- 
- .list_box_content ul li {
+}
+
+.list_box_content ul li {
     padding: 0;
     margin: 0.1em;
     border-bottom: 1px black dashed;
- }
- 
- .list_content_time {
+}
+
+.list_content_time {
     float: right;
- }
- 
- /* ここからテーブルのカラム幅 */
- table {
+}
+
+/* ここからテーブルのカラム幅 */
+
+table {
     table-layout: fixed;
- }
- 
- td {
+}
+
+td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
- }
+}
 
- #info_list_id {
+#info_list_id {
     width: 11em;
- }
- 
- #info_list_date {
+}
+
+#info_list_date {
     width: 12em;
- }
+}
 
- #info_list_author {
-     width: 12em;
- }
- 
- #info_list_flag {
+#info_list_author {
+    width: 12em;
+}
+
+#info_list_flag {
     width: 8em;
- }
- 
- /* ここまでテーブルのカラム幅 */
- 
- /* ここまでリストボックス */
- 
- /* ここからスクロールバーカスタマイズ*/
- ::-webkit-scrollbar {
-    width: 10px;
- }
- 
- ::-webkit-scrollbar-track {
-  border-radius: 10px;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
- }
- 
- ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 50, .5);
-  border-radius: 10px;
-  box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
- }
- /* ここまでスクロールバーカスタマイズ*/
+}
 
- /* ======== ここからタグ ======== */
+/* ここまでテーブルのカラム幅 */
+
+/* ここまでリストボックス */
+
+/* ここからスクロールバーカスタマイズ*/
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 50, .5);
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .3);
+}
+
+/* ここまでスクロールバーカスタマイズ*/
+
+/* ======== ここからタグ ======== */
+
 #wrap_tag_list {
     width: 100%;
     overflow: hidden;
@@ -208,7 +211,7 @@
     border-left: solid 5px #0f9d58;
 }
 
-.tag_new{
+.tag_new {
     font-size: 13px;
     width: 180px;
     border-left: solid 5px #0f379d;
@@ -236,16 +239,19 @@
     z-index: 0;
 }
 
-.tag_erasable:hover .tag_remove{
+.tag_erasable:hover .tag_remove {
     opacity: 1;
 }
-.tag_erasable:hover .tag_remove:hover{
+
+.tag_erasable:hover .tag_remove:hover {
     color: #000;
 }
+
 /* ======== ここまでタグ ======== */
 
 /* 設定系ボタン */
-.apply-button{
+
+.apply-button {
     float: right;
 }
 
@@ -261,53 +267,54 @@
     cursor: pointer;
 }
 
-.mat-row:hover{
+.mat-row:hover {
     background: #e6e6e6;
 }
 
- .mat-header-row{
-     min-height: 40px !important;
- }
+.mat-header-row {
+    min-height: 40px !important;
+}
 
- .mat-row{
-     min-height: 35px !important;
- }
+.mat-row {
+    min-height: 35px !important;
+}
 
- .mat-column-name{
+.mat-column-name {
     flex: 0 0 110px !important;
 }
 
-.mat-column-documentCreateDate{
+.mat-column-documentCreateDate {
     flex: 0 0 140px !important;
 }
 
-.mat-column-templateCreateDate{
+.mat-column-templateCreateDate {
     flex: 0 0 140px !important;
 }
 
- .mat-column-updateDate{
+.mat-column-updateDate {
     flex: 0 0 140px !important;
 }
 
 /* ドキュメントプレート */
+
 #document_plate {
-  background: #fff;
-  margin-top: 5px;
-  margin-right: 100px;
-  margin-bottom: 20px;
-  padding: 10px;
-  min-width: 800px;
-  width: auto;
-  min-height: 1200px;
-  height: auto;
-  border-top: 1px #ddd solid;
-  border-left: 1px #ddd solid;
-  box-shadow: 5px 5px 5px #999;
+    background: #fff;
+    margin-top: 5px;
+    margin-right: 100px;
+    margin-bottom: 20px;
+    padding: 10px;
+    min-width: 800px;
+    width: auto;
+    min-height: 1200px;
+    height: auto;
+    border-top: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    box-shadow: 5px 5px 5px #999;
 }
 
 #edit_template_body {
     margin-left: 20px;
     padding: 0;
     height: calc(100% - 50px);
-    width :100%;
+    width: 100%;
 }
