@@ -4,7 +4,6 @@ import java.lang.invoke.MethodHandles;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +19,7 @@ import jp.co.unirita.medis.domain.user.User;
 import jp.co.unirita.medis.domain.user.UserRepository;
 import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
+import jp.co.unirita.medis.util.UUIDUtil;
 import jp.co.unirita.medis.util.exception.DBException;
 import jp.co.unirita.medis.util.exception.NotExistException;
 
@@ -74,7 +74,7 @@ public class AccountLogic {
     	try {
     		TempkeyInfo info = new TempkeyInfo();
             info.setEmployeeNumber(employeeNumber);
-            info.setTempKey(UUID.randomUUID().toString().replace("-", ""));
+            info.setTempKey(UUIDUtil.getRandomUUID());
             info.setChangeDate(new Timestamp(System.currentTimeMillis()));
             tempkeyInfoRepository.saveAndFlush(info);
             return info.getTempKey();

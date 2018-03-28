@@ -3,7 +3,6 @@ package jp.co.unirita.medis.logic.system;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +18,7 @@ import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.system.UserManagementForm;
 import jp.co.unirita.medis.logic.util.TagLogic;
+import jp.co.unirita.medis.util.UUIDUtil;
 import jp.co.unirita.medis.util.exception.ConflictException;
 import jp.co.unirita.medis.util.exception.DBException;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
@@ -112,7 +112,7 @@ public class UserManagementLogic {
 			user.setEmployeeNumber(userManagementForm.getEmployeeNumber());
 	        user.setAuthorityId(userManagementForm.getAuthorityId());
 	        user.setEnabled(userManagementForm.isEnabled());
-	        user.setPassword(UUID.randomUUID().toString().replace("-", ""));
+	        user.setPassword(UUIDUtil.getRandomUUID());
 	        logger.info("[method: createUser] create new user: " + user.toString());
 	        userRepository.saveAndFlush(user);
 
