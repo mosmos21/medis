@@ -31,6 +31,22 @@
         
         - レスポンス(204 NO CONTENT)
 
+- ## ユーザ情報の取得
+    - ### [GET] http://{hostname}/{version}/system/me  
+        ログインしているユーザのuser_infoテーブルの情報を取得  
+        passwordは空文字で送る
+
+        ---
+        - レスポンス(200 OK)
+            ```json
+            {
+                "employeeNumber": "(employeeNumber)",
+                "authorityId": "(authorityId)",
+                "enabled": true|false,
+                "password": ""
+            }
+            ```
+
 - ## ユーザ権限種別一覧の取得
     - ### [GET] http://{hostname}/{version}/system/authorities  
         権限種別一覧の取得  
