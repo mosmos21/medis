@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class TemplateLogic {
 
     @Autowired
     TemplateInfoRepository templateInfoRepository;
+    @Autowired
+    DocumentInfoRepository documentInfoRepository;
     @Autowired
     TagRepository tagRepository;
     @Autowired
@@ -103,6 +106,10 @@ public class TemplateLogic {
     		logger.error("DB Runtime Error[class: TemplateLogic, method: toggleTemplatePublish]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: toggleTemplatePublish]");
 		}
+    }
+
+    public boolean isUsed(String templateId) {
+        return documentInfoRepository.findByTemplateId(templateId).size() > 0;
     }
 
     public String save(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException{

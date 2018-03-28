@@ -72,6 +72,26 @@ public class TemplateController {
     }
 
     /**
+     * テンプレートが使用されているかを返す
+     * @param user ログインしているユーザ
+     * @param templateId テンプレートのテンプレートID
+     * @return 使用されていればtrue 未使用ならfalseを返す
+     * @throws NotExistException 取得しようとしているテンプレートIDが存在していない場合に発生する例外
+     */
+    @GetMapping(value = "{templateId:^t[0-9]{10}$}/used")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean isUsed(
+            @AuthenticationPrincipal User user,
+            @PathVariable(value ="templateId") String templateId
+    ) throws NotExistException {
+        String employeeNumber = user.getEmployeeNumber();
+        logger.info("[method: isUsed] employeeNumber = " + employeeNumber + " templateId = " + templateId);
+
+        argumentCheckLogic.checkTemplateId(templateId);
+        return templateLogic.isUsed(templateId);
+    }
+
+    /**
      * テンプレートにつけられたタグ一覧を取得する
      * @param user ログインしているユーザ
      * @param templateId 取得するタグ一覧が付いているテンプレートID
