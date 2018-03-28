@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import jp.co.unirita.medis.domain.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,17 @@ public class UserManagementController {
 	SettingLogic settingLogic;
 	@Autowired
 	MailLogic mailLogic;
+
+	/**
+	 * ユーザ情報を取得する
+	 * @param user ログインしているユーザ
+	 * @return ユーザ情報(@see jp.co.unirita.medis.form.User)
+	 */
+	@GetMapping(value = "me")
+	@ResponseStatus(HttpStatus.OK)
+	public User getUser(@AuthenticationPrincipal User user){
+		return accountLogic.getUserinfo(user.getEmployeeNumber());
+	}
 
 
     /**

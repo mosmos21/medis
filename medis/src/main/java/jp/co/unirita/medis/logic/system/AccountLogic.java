@@ -38,6 +38,11 @@ public class AccountLogic {
 	@Autowired
 	TempkeyInfoRepository tempkeyInfoRepository;
 
+	public User getUserinfo(String employeeNumber) {
+		User user = userRepository.findOne(employeeNumber);
+		user.setPassword("");
+		return user;
+	}
 
     public UserDetail getUserDetail(String employeeNumber) {
     	try {
