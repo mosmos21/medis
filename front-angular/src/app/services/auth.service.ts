@@ -95,7 +95,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return this.cookieService.get('XSRF-TOKEN') == localStorage.getItem('token')
+    return this.cookieService.get('XSRF-TOKEN') == localStorage.getItem('token');
   }
 
   headerAddToken(): HttpHeaders {
