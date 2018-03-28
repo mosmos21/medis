@@ -192,7 +192,7 @@ public class SettingLogic {
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
-				return new UrlResource(Paths.get("resources/default.png").toUri());
+				return new UrlResource(Paths.get(serverResourcesPathUtil.getPath() + "/default.png").toUri());
 			}
 		} catch (MalformedURLException e) {
 			throw new RuntimeException("FAIL!");
