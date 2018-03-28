@@ -51,8 +51,6 @@ export class AuthService {
         localStorage.setItem('token', this.cookieService.get('XSRF-TOKEN'))
         if (this.user["authorityId"] == "a0000000000") {
           this.redirectUrl = "admin/template"
-        } else {
-          this.redirectUrl = "top"
         }
         callback();
       },
