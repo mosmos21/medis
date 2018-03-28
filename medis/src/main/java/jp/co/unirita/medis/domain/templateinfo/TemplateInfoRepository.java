@@ -11,4 +11,5 @@ public interface TemplateInfoRepository extends JpaRepository<TemplateInfo, Stri
     List<TemplateInfo> findByTemplatePublish(boolean templatePublish);
     List<TemplateInfo> findByEmployeeNumberAndTemplatePublish(String employeeNumber, boolean templatePublish);
 	List<TemplateInfo> findByTemplatePublishOrderByTemplateIdDesc(boolean publish);
+	void deleteByTemplateId(String templateId);
 }

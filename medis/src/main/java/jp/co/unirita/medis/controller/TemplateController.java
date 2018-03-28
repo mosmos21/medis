@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -219,5 +220,15 @@ public class TemplateController {
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
         argumentCheckLogic.checkTemplateId(templateId);
         templateLogic.saveTags(templateId, tags);
+    }
+
+    @DeleteMapping(value = "{templateId:^t[0-9]{10}$}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTemplate(
+        @AuthenticationPrincipal User user,
+        @PathVariable String templateId
+    ) throws AuthorityException, NotExistException{
+        logger.info("[method: deleteTemplate] templateId = " + templateId);
+        templateLogic.delete(templateId);
     }
 }
