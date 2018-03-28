@@ -1,5 +1,5 @@
 <div id="wrap_main_content">
-    <div class="wrap_main_content_center content_scroll">
+    <div class="wrap_main_content_center">
         <div id="wrap_edit_template" class="wrap_edit_content">
             <div id="edit_template_header">
             </div>
@@ -95,7 +95,7 @@
             <div id="wrap_template_toolbar_content">
                 <mat-tab-group class="edit_template_tab">
                     <mat-tab label="ブロック" id="tag_label">
-                        <div id="template_block_list" class="content_scroll_y">
+                        <div id="template_block_list">
                             <!-- テンプレートリスト -->
                             <div *ngFor="let block of blockList">
                                 <div id="{{ block[0] }}" class="template_block_info" (click)="addBlock(block[0])">{{ block[1] }}</div>
@@ -129,11 +129,8 @@
             </div>
 
             <div id="wrap_template_toolbar_button">
-                <div>
-                    <button mat-raised-button class="send_button" (click)="submit('draft')">下書き</button>
-                </div>
-                <div>
-                    <button mat-raised-button class="send_button" (click)="submit('save')">保存</button>
+                <div *ngIf="!isUsed">
+                    <button mat-raised-button class="send_button" (click)="submit('draft')">保存</button>
                 </div>
                 <div>
                     <button mat-raised-button class="send_button" (click)="goBack()">戻る</button>

@@ -26,7 +26,8 @@ export class EditTemplateComponent implements OnInit {
   public blocks: Map<string, Block> = new Map<string, Block>();
   public blockList: [string, string][] = new Array();
   public template: Template = new Template();
-  private message = '';
+  private message: string = '';
+  public isUsed: boolean;
 
   constructor(
     public dialog: MatDialog,
@@ -50,7 +51,16 @@ export class EditTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.load(this.route.snapshot.paramMap.get('id'));
+    let id = this.route.snapshot.paramMap.get('id')
+    console.log(id);
+    this.load(id);
+    if (id != 'new') {
+      this.http.get('templates/' + id + '/used/').subscribe(res => {
+        this.isUsed = res
+      }, error => {
+        this.errorService.errorPath(error.status);
+      });
+    }
   }
 
   load(templateId: string): void {

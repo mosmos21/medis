@@ -87,8 +87,8 @@
   padding: 0;
   width: 90%;
   height: auto;
-  border-top: 2px #666 dashed;
-  border-bottom: 2px #666 dashed;
+  /* border-top: 2px #666 dashed;
+  border-bottom: 2px #666 dashed; */
 }
 
 #wrap_template_toolbar_content {
