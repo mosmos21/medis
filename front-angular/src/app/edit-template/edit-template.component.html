@@ -10,7 +10,6 @@
                 <div id="document_plate">
                     <div id="wrap_tag_list">
                         <div id="tag_list">
-
                             <div id="selected_tags" *ngFor="let stag of searchService.selectedTags; let idx = index">
                                 <div class="tag_base tag_small tag_side tag_erasable" (click)="searchService.deleteTags($event,idx)">{{stag.tagName}}</div>
                             </div>

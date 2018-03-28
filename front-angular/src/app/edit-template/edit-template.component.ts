@@ -123,7 +123,7 @@ export class EditTemplateComponent implements OnInit {
       if (type == 'save') {
         this.message = 'テンプレートを保存し、公開しました。';
       } else {
-        this.message = 'テンプレートを下書きとして保存しました。';
+        this.message = 'テンプレートを保存しました。';
       }
       if (this.template.templateId == null) {
         this.http.put('templates/new', json).subscribe(
