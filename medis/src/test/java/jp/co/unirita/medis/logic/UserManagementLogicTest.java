@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.system.UserManagementForm;
 import jp.co.unirita.medis.logic.system.UserManagementLogic;
 import jp.co.unirita.medis.util.exception.ConflictException;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -71,7 +71,6 @@ public class UserManagementLogicTest {
     	userManagementForm.setIcon(true);
     	userManagementForm.setAuthorityId("a0000000001");
     	userManagementForm.setEnabled(true);
-    	userManagementForm.setPassword("new");
         userManagementLogic.createUser(userManagementForm);
 
     	UserDetail userDetail = new UserDetail();
@@ -90,7 +89,7 @@ public class UserManagementLogicTest {
     	user.setEmployeeNumber("new");
     	user.setAuthorityId("a0000000001");
     	user.setEnabled(true);
-    	user.setPassword("new");
+    	user.setPassword("88169f9f17664d8982cd2a38da0b357e");
         assertEquals("ユーザ情報が新規作成できませんでした（user側）"
         		+ "でした", user, userRepository.findOne("new"));
     }
@@ -108,7 +107,6 @@ public class UserManagementLogicTest {
 		userManagementForm.setIcon(true);
 		userManagementForm.setAuthorityId("a0000000001");
 		userManagementForm.setEnabled(true);
-		userManagementForm.setPassword("new");
 		try {
 			userManagementLogic.createUser(userManagementForm);
 		} catch (ConflictException e) {

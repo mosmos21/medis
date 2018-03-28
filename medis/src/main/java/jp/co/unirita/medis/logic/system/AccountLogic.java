@@ -54,12 +54,12 @@ public class AccountLogic {
             UserDetail detail = userDetailRepository.findOne(employeeNumber);
             if (detail == null) {
                 result.put("result", "NG");
-                result.put("message", "ユーザが見つかりませんでした");
+                result.put("message", "入力された社員番号が存在しません");
                 return result;
             }
             if (!mailaddress.equals(detail.getMailaddress())) {
                 result.put("result", "NG");
-                result.put("message", "社員番号とメールアドレスの組み合わせが一致しません");
+                result.put("message", "入力された社員番号とメールアドレスが不正です");
                 return result;
             }
             result.put("result", "OK");

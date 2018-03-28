@@ -3,6 +3,7 @@ package jp.co.unirita.medis.logic.system;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,7 +112,7 @@ public class UserManagementLogic {
 			user.setEmployeeNumber(userManagementForm.getEmployeeNumber());
 	        user.setAuthorityId(userManagementForm.getAuthorityId());
 	        user.setEnabled(userManagementForm.isEnabled());
-	        user.setPassword(userManagementForm.getPassword());
+	        user.setPassword(UUID.randomUUID().toString().replace("-", ""));
 	        logger.info("[method: createUser] create new user: " + user.toString());
 	        userRepository.saveAndFlush(user);
 

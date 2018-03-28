@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import jp.co.unirita.medis.logic.system.MailLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.unirita.medis.form.system.AccountForm;
 import jp.co.unirita.medis.logic.system.AccountLogic;
+import jp.co.unirita.medis.logic.system.MailLogic;
 import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RestController
@@ -67,7 +67,7 @@ public class AccountController {
      */
 	@PostMapping(value = "reset")
     @ResponseStatus(HttpStatus.CREATED)
-	void passwordReset(@RequestBody AccountForm form) throws NotExistException {
+	void passwordReset(@RequestBody @Valid AccountForm form) throws NotExistException {
 		accountLogic.passwordReset(form.getEmployeeNumber(), form.getMailaddress(), form.getPassword());
 	}
 }

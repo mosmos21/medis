@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.co.unirita.medis.logic.system.MailLogic;
-import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,12 @@ import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.form.system.UserManagementForm;
 import jp.co.unirita.medis.logic.setting.SettingLogic;
 import jp.co.unirita.medis.logic.system.AccountLogic;
+import jp.co.unirita.medis.logic.system.MailLogic;
 import jp.co.unirita.medis.logic.system.UserManagementLogic;
 import jp.co.unirita.medis.logic.util.ArgumentCheckLogic;
 import jp.co.unirita.medis.util.exception.AuthorityException;
 import jp.co.unirita.medis.util.exception.ConflictException;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import jp.co.unirita.medis.util.exception.NotExistException;
 
 @RestController
@@ -93,7 +95,7 @@ public class UserManagementController {
     @ResponseStatus(HttpStatus.CREATED)
 	public void updateUserManagement(
             @AuthenticationPrincipal User user,
-	        @RequestBody UserManagementForm data
+	        @RequestBody @Valid UserManagementForm data
     ) throws AuthorityException, NotExistException {
         logger.info("[method: updateUserManagement] employeeNumber = " + user.getEmployeeNumber());
 	    argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
@@ -112,7 +114,7 @@ public class UserManagementController {
     @ResponseStatus(HttpStatus.CREATED)
 	public void createUser(
             @AuthenticationPrincipal User user,
-            @RequestBody UserManagementForm data
+            @RequestBody @Valid UserManagementForm data
     ) throws AuthorityException, ConflictException, IdIssuanceUpperException {
         logger.info("[method: createUser] employeeNumber = " + user.getEmployeeNumber());
         argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
