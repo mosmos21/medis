@@ -189,7 +189,7 @@ public class SettingLogic {
 		try {
 			Path file = rootLocation.resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
-			if (resource.exists() || resource.isReadable()) {
+			if (resource.exists() && resource.isReadable()) {
 				return resource;
 			} else {
 				return new UrlResource(Paths.get(serverResourcesPathUtil.getPath() + "/default.png").toUri());
