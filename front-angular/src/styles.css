@@ -262,5 +262,28 @@
 }
 
 .mat-row:hover{
-    background: #e2e2e2;
+    background: #e6e6e6;
+}
+
+/* ドキュメントプレート */
+#document_plate {
+  background: #fff;
+  margin-top: 5px;
+  margin-right: 100px;
+  margin-bottom: 20px;
+  padding: 10px;
+  min-width: 800px;
+  width: auto;
+  min-height: 1200px;
+  height: auto;
+  border-top: 1px #ddd solid;
+  border-left: 1px #ddd solid;
+  box-shadow: 5px 5px 5px #999;
+}
+
+#edit_template_body {
+    margin-left: 20px;
+    padding: 0;
+    height: calc(100% - 50px);
+    width :100%;
 }

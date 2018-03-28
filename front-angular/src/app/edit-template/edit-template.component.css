@@ -33,14 +33,6 @@
   padding: 10px 30px;
 }
 
-#edit_template_body {
-  margin: 0 0;
-  padding: 0;
-  height: calc(100% - 50px);
-  /* width: 94%; */
-  width: 100%;
-}
-
 #template_title {
   margin-top: 50px;
   margin-left: calc(50% - 400px);
@@ -52,8 +44,9 @@
 #template_plate {
   background: #fff;
   margin-top: 5px;
-  /* margin-left: calc(50% - 400px); */
   margin-right: 100px;
+  margin-left: 20px;
+  margin-bottom: 20px;
   padding: 10px;
   min-width: 800px;
   width: auto;
