@@ -11,8 +11,8 @@ import { SearchService } from '../services/search.service';
 import { NavigationService } from '../services/navigation.service';
 import { ConvertDateService } from '../services/convert-date.service';
 import { TableService } from '../services/table.service';
-import { DocumentInfo } from '../model/DocumentInfo';
 import { TypeConversionService } from '../services/type-conversion.service';
+import { DocumentInfo } from '../model/DocumentInfo';
 
 @Component({
   selector: 'app-search-result',
@@ -42,7 +42,14 @@ export class SearchResultComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getList(this.typeConv.makeTagNameList(this.searchService.selectedTags).join(","));
+    console.log(this.searchService.selectedTags);
+    if (this.searchService.selectedTags.length > 0) {
+      console.log("hoge");
+      this.getList(this.typeConv.makeTagNameList(this.searchService.selectedTags).join(","));
+    } else {
+      console.log("fuga");
+      this.dataSource = "";
+    }
     this.searchService.searchTagsData$.subscribe(msg => {
       this.msg = msg;
       this.getList(this.msg);

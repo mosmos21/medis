@@ -8,7 +8,7 @@
                 <mat-form-field id="template_title">
                     <input matInput [(ngModel)]="template.templateName" name="templateName" placeholder="テンプレート名">
                 </mat-form-field>
-                <div id="template_plate">
+                <div id="document_plate">
                     <div id="wrap_tag_list">
                         <h2>固定タグ編集</h2>
                         <div id="tag_list">
@@ -106,7 +106,7 @@
                         <div id="menu_search_content" class="menu_content">
                             <div *ngIf="searchService.selectedTags.length < 8">
                                 <mat-form-field>
-                                    <input matInput placeholder="Tag Name" value="" (input)="searchService.searchTag($event.target.value)">
+                                    <input matInput placeholder="Tag Name" value="" [(ngModel)]="searchService.searchWord" (input)="searchService.searchTag($event.target.value)">
                                 </mat-form-field>
                             </div>
 

@@ -14,8 +14,8 @@ export class SearchService {
   private searchTagsDataSource = new Subject<String>();
   public searchTagsData$ = this.searchTagsDataSource.asObservable();
 
-  public newTagName = "";
-  public searchWord = "";
+  public newTagName: string;
+  public searchWord: string;
   public selectedTags: TagContent[] = new Array();
   public tempTags: TagContent[] = new Array();
   public newTags: TagContent[] = new Array();
@@ -121,10 +121,9 @@ export class SearchService {
   }
 
   searchTag(searchWord): void {
-    console.log(searchWord);
     this.targetTags = this.tempTags;
     this.targetTags = this.targetTags.filter((item) => {
-      return item.tagName.indexOf(this.searchWord) != -1
+      return item.tagName.indexOf(searchWord) != -1
     });
   }
 

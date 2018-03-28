@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { NavigationService } from '../services/navigation.service';
-import { HttpClient } from '@angular/common/http';
-
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from '../services/error.service';
 import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
@@ -27,6 +26,7 @@ export class SidenavChildComponent implements OnInit {
     private authService: AuthService,
     private errorService: ErrorService,
     private msgToSidenavService: MsgToSidenavService,
+    private router: Router,
   ) {
     this.mymenuOpen();
   }
@@ -46,6 +46,7 @@ export class SidenavChildComponent implements OnInit {
     this.mymenuVisible = true;
     this.searchVisible = false;
     this.settingsVisible = false;
+    this.router.navigate(["top"]);
   }
 
   searchOpen() {

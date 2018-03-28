@@ -278,11 +278,15 @@
 }
 
 .mat-column-documentCreateDate{
-    flex: 0 0 130px !important;
+    flex: 0 0 140px !important;
+}
+
+.mat-column-templateCreateDate{
+    flex: 0 0 140px !important;
 }
 
  .mat-column-updateDate{
-    flex: 0 0 130px !important;
+    flex: 0 0 140px !important;
 }
 
 /* ドキュメントプレート */
