@@ -195,7 +195,9 @@ public class SettingLogic {
 				return new UrlResource(Paths.get(serverResourcesPathUtil.getPath() + "/default.png").toUri());
 			}
 		} catch (MalformedURLException e) {
+			logger.error("error in loadFile()", e);
 			throw new RuntimeException("FAIL!");
+			// TODO 後で考える
 		}
 	}
 
