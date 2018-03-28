@@ -28,8 +28,8 @@ public class MedisApplication extends WebMvcConfigurerAdapter implements Command
 
 	@Override
 	public void run(String... arg) throws Exception {
-		settingLogic.deleteAll();
-		settingLogic.init();
+//		settingLogic.deleteAll();
+//		settingLogic.init();
 	}
 
 	@Bean
