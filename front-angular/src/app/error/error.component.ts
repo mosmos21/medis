@@ -31,6 +31,9 @@ export class ErrorComponent implements OnInit {
     } else if (this.errorNum == '1') {
       this.errorNum = '0'
       this.message = 'ドキュメントの編集権限がありません。'
+    } else if (this.errorNum == '2') {
+      this.errorNum = '0'
+      this.message = '閲覧権限のないページです。'
     } else {
       this.errorNum = '0'
       this.message = '何かしらの問題がありました。'
