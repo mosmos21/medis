@@ -43,6 +43,7 @@ public class UserManagementForm {
     private String firstNamePhonetic;
 
 	private String name;
+	private String namePhonetic;
 
 	@Size(max = 64)
 	@NotBlank
@@ -64,6 +65,7 @@ public class UserManagementForm {
 		this.lastNamePhonetic = detail.getLastNamePhonetic();
 		this.firstNamePhonetic = detail.getFirstNamePhonetic();
 		this.name = detail.getLastName() + " " + detail.getFirstName();
+		this.namePhonetic = detail.getLastNamePhonetic() + " " + detail.getFirstNamePhonetic();
 		this.mailaddress = detail.getMailaddress();
 		this.icon = detail.isIcon();
 	}

@@ -17,6 +17,7 @@ import { HttpService } from '../services/http.service';
 import { ErrorService } from '../services/error.service';
 import { SnackBarService } from '../services/snack-bar.service';
 import { NavigationService } from '../services/navigation.service';
+import { TableService } from '../services/table.service';
 
 @Component({
   selector: 'app-user-management',
@@ -25,8 +26,7 @@ import { NavigationService } from '../services/navigation.service';
 })
 export class UserManagementComponent implements OnInit {
 
-  public displayedColumns = ["employeeNumber", "name", "mailaddress", "enabled", "reset"];
-  public searchWord: string = '';
+  // public searchWord: string = '';
   private users: UserForm[] = new Array();
 
   public dataSource;
@@ -40,6 +40,7 @@ export class UserManagementComponent implements OnInit {
     private authService: AuthService,
     private errorService: ErrorService,
     private snackBarService: SnackBarService,
+    public tableService: TableService,
   ) {
     this.nav.showAdminMenu();
     this.nav.show();
@@ -56,6 +57,7 @@ export class UserManagementComponent implements OnInit {
   ngOnInit() {
     this.http.get('system/users').subscribe(users => {
       this.users = users;
+      console.log(users);
       this.dataSource = new MatTableDataSource<UserForm>(users);
       this.dataSource.sort = this.sort;
     }, error => {

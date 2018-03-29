@@ -20,6 +20,7 @@ export class TableService {
   public displayedColumnsTemplate = ["templateName", "templateCreateDate"];
   public displayedColumnsTemplateAdmin = ["templateName", "templateCreateDate", "templatePublish"];
   public displayedColumnsTag = ["tagName", "mailNotification", "browserNotification"];
+  public displayedColumnsUser = ["employeeNumber", "name", "namePhonetic", "mailaddress", "enabled", "reset"];
 
   public dataSource;
   @ViewChild(MatSort) sort: MatSort;
