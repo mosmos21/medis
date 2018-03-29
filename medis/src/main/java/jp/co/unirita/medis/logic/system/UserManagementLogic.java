@@ -62,6 +62,9 @@ public class UserManagementLogic {
 			List<UserDetail> details = userDetailRepository.findAll();
 
 			for(UserDetail detail: details) {
+				if(detail.getEmployeeNumber().equals("admin")) {
+					continue;
+				}
 			    UserManagementForm form = new UserManagementForm();
 			    form.applyUserDetail(detail);
 			    form.applyUser(userRepository.findOne(form.getEmployeeNumber()));
