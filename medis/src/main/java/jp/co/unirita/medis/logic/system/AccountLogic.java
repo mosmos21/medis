@@ -71,6 +71,7 @@ public class AccountLogic {
                 return result;
             }
             result.put("result", "OK");
+            result.put("message", mailaddress + "宛にパスワード初期化用メールを送信しました。");
             return result;
     	} catch (DBException e) {
     		logger.error("DB Runtime Error[class: AccountLogic, method: checkUserIntegrity]");

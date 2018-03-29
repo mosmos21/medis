@@ -17,7 +17,8 @@ VALUES
     ('97966', 'a0000000001', true, '$2a$10$yJm/uuHY9oV2hYQ89R1g6esVZo9JJTa/8MwKpFJgHqAAIDlEIZoxK'),
     ('97967', 'a0000000001', true, '$2a$10$/Cf/SJ1P/2db4UJNm9cD8.PyV528NLFVYlDKeStjS4tWqZCJAd9ti'),
     ('97968', 'a0000000001', true, '$2a$10$BnLAYTMkSO4Hk2Wg74S9IuypDy4B1PEKDo2aQJM11CLtkCcPpNaBy'),
-    ('97962', 'a0000000001', true, '$2a$10$GFoPnfFZE1Ft7U2Gs/NfhOgVRohtrArhzvvshPcwy6Fx4vESsi.KC');
+    ('97962', 'a0000000001', true, '$2a$10$GFoPnfFZE1Ft7U2Gs/NfhOgVRohtrArhzvvshPcwy6Fx4vESsi.KC'),
+    ('97973', 'a0000000001', true, '$2a$10$Fbju14Pgklx/yHs/lTmq3ulBZcHCwaQ8YD8rKSSJndvsxFFnZdIk6');
 
 
 DELETE FROM "user_detail";
@@ -31,7 +32,8 @@ VALUES
     ('97965', '亮太', 'リョウタ', false, '新里', 'シンザト', 'ryota_shinzato@unirita.co.jp'),
     ('97966', '宏崇', 'ヒロタカ', false, '須藤', 'スドウ', 'hirotaka_sudo@unirita.co.jp'),
     ('97967', '玄哉', 'ヒロヤ', false, '中川路', 'ナカカワジ', 'hiroya_nakakawaji@unirita.co.jp'),
-    ('97962', '優輝', 'ユウキ', false, '加賀谷', 'カガヤ', 'yuuki_kagaya@unirita.co.jp');
+    ('97962', '優輝', 'ユウキ', false, '加賀谷', 'カガヤ', 'yuuki_kagaya@unirita.co.jp'),
+    ('97973', '佳音', 'カノン', false, '吉岡', 'ヨシオカ', 'kanon_yoshioka@unirita.co.jp');
 
 
 DELETE FROM "tag";
@@ -53,6 +55,7 @@ VALUES
     ('s0000000003', '須藤 宏崇'),
     ('s0000000004', '新里 亮太'),
     ('s0000000005', '中川路 玄哉'),
+    ('s0000000006', '吉岡 佳音'),
     ('n0000000009', 'A-AUTO'),
     ('n0000000010', 'MyQuery'),
     ('n0000000011', 'Be.Cloud'),
@@ -132,7 +135,8 @@ VALUES
     ('97965', 'g0000000000', 'false', 'false'),
     ('97966', 'g0000000000', 'false', 'false'),
     ('97967', 'g0000000000', 'false', 'false'),
-    ('97968', 'g0000000000', 'false', 'false');
+    ('97968', 'g0000000000', 'false', 'false'),
+    ('97973', 'g0000000000', 'false', 'false');
 
 DELETE FROM "update";
 INSERT INTO "update"
