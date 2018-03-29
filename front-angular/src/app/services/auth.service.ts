@@ -69,15 +69,14 @@ export class AuthService {
   logout(): void {
     this.http.get(this.hostname + 'logout', { withCredentials: true, headers: this.headerAddToken() }).subscribe(
       success => {
-        localStorage.removeItem('token')
         this.init();
-        this.router.navigate(['/login']);
       },
       error => {
-        localStorage.removeItem('token')
-        this.router.navigate(['/login']);
       }
     );
+    localStorage.removeItem('token')
+    this.router.navigate(['/login'])
+    this.redirectUrl = 'top'
   }
 
   errorLogout(): void {
