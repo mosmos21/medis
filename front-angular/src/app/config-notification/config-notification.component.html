@@ -37,22 +37,28 @@
 				</div>
 				<div *ngIf="existTags; then tagsTable; else noTags"></div>
 				<ng-template #tagsTable>
-					<table class="t-line">
-						<tr>
-							<th>タグ名</th>
-							<th>メール</th>
-							<th class="boder-none">プッシュ</th>
-						</tr>
-						<tr *ngFor="let n of notification.tagNotification; let idx = index">
-							<td>{{n.tagName}}</td>
-							<td>
-								<mat-slide-toggle color="primary" [(ngModel)]="n.mailNotification"></mat-slide-toggle>
-							</td>
-							<td>
-								<mat-slide-toggle color="accent" [(ngModel)]="n.browserNotification"></mat-slide-toggle>
-							</td>
-						</tr>
-					</table>
+					<mat-table #table [dataSource]="dataSource" matSort>
+						<ng-container matColumnDef="tagName">
+							<mat-header-cell *matHeaderCellDef mat-sort-header> タグ名 </mat-header-cell>
+							<mat-cell *matCellDef="let tag">
+								<span class="title_column">{{tag.tagName}}</span>
+							</mat-cell>
+						</ng-container>
+						<ng-container matColumnDef="mailNotification">
+							<mat-header-cell *matHeaderCellDef mat-sort-header> メール通知 </mat-header-cell>
+							<mat-cell *matCellDef="let tag">
+								<mat-slide-toggle [(ngModel)]="tag.mailNotification" color="primary"></mat-slide-toggle>
+							</mat-cell>
+						</ng-container>
+						<ng-container matColumnDef="browserNotification">
+							<mat-header-cell *matHeaderCellDef mat-sort-header> ブラウザ通知 </mat-header-cell>
+							<mat-cell *matCellDef="let tag">
+								<mat-slide-toggle [(ngModel)]="tag.browserNotification" color="accent"></mat-slide-toggle>
+							</mat-cell>
+						</ng-container>
+						<mat-header-row *matHeaderRowDef="tableService.displayedColumnsTag"></mat-header-row>
+						<mat-row *matRowDef="let row; columns: tableService.displayedColumnsTag;"></mat-row>
+					</mat-table>
 				</ng-template>
 				<ng-template #noTags>
 					<div class="no_tags">監視タグが設定されていません。</div>
@@ -60,5 +66,5 @@
 				<br/>
 			</div>
 		</div>
+
 	</div>
-</div>

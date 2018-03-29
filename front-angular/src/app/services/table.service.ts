@@ -9,6 +9,7 @@ import {
 
 import { DocumentInfo } from '../model/DocumentInfo';
 import { TemplateInfo } from '../model/TemplateInfo';
+import { TagContent } from '../model/TagContent';
 
 @Injectable()
 export class TableService {
@@ -18,18 +19,23 @@ export class TableService {
   public displayedColumnsDraft = ["documentName", "documentCreateDate", "delete"];
   public displayedColumnsTemplate = ["templateName", "templateCreateDate"];
   public displayedColumnsTemplateAdmin = ["templateName", "templateCreateDate", "templatePublish"];
+  public displayedColumnsTag = ["tagName", "mailNotification", "browserNotification"];
 
   public dataSource;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor() { }
 
-  insertDataSourceDocument(docSource: DocumentInfo[]): Object {
-    return new MatTableDataSource<DocumentInfo>(docSource);
+  insertDataSourceDocument(documentSource: DocumentInfo[]): Object {
+    return new MatTableDataSource<DocumentInfo>(documentSource);
   }
 
-  insertDataSourceTemplate(docSource: TemplateInfo[]): Object {
-    return new MatTableDataSource<TemplateInfo>(docSource);
+  insertDataSourceTemplate(templateSource: TemplateInfo[]): Object {
+    return new MatTableDataSource<TemplateInfo>(templateSource);
+  }
+
+  insertDataSourceTag(tagSource: TagContent[]): object {
+    return new MatTableDataSource<TagContent>(tagSource);
   }
 
 }

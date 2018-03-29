@@ -1,10 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatSort } from '@angular/material';
 
 import { HttpService } from '../services/http.service';
 import { AuthService } from '../services/auth.service';
 import { ErrorService } from '../services/error.service';
 import { SnackBarService } from '../services/snack-bar.service';
 import { NavigationService } from '../services/navigation.service';
+import { TableService } from '../services/table.service';
 
 import { Notification } from '../model/Notification';
 
@@ -20,12 +22,16 @@ export class ConfigNotificationComponent implements OnInit {
   public isTagBrowser: boolean = true;
   public existTags: boolean;
 
+  public dataSource;
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     private nav: NavigationService,
     private http: HttpService,
     private authService: AuthService,
     private errorService: ErrorService,
     private snackBarService: SnackBarService,
+    public tableService: TableService,
   ) {
     this.nav.show();
     this.authService.getUserDetail();
@@ -33,9 +39,10 @@ export class ConfigNotificationComponent implements OnInit {
 
   ngOnInit() {
     this.http.getWithPromise('settings/me/tag_notifications').then(res => {
-      this.notification.setTagNotification(res);
-      this.existTags = this.notification.tagNotification.length != 0;
-      console.log(this.existTags);
+      this.dataSource = this.tableService.insertDataSourceTag(res);
+      this.dataSource.sort = this.sort;
+      console.log(this.dataSource);
+      this.existTags = res.length != 0;
     }, error => {
       this.errorService.errorPath(error.status);
     });
@@ -47,24 +54,25 @@ export class ConfigNotificationComponent implements OnInit {
   }
 
   toggleTagMailAll(): void {
-    for (let i in this.notification.tagNotification) {
-      this.notification.tagNotification[i]['mailNotification'] = this.isTagMail;
+    for (let i = 0; i < this.dataSource._data.value.length; i++) {
+      this.dataSource._data.value[i].mailNotification = this.isTagMail;
     }
   }
 
   toggleTagBrowserAll(): void {
-    for (let i in this.notification.tagNotification) {
-      this.notification.tagNotification[i]['browserNotification'] = this.isTagBrowser;
+    for (let i = 0; i < this.dataSource._data.value.length; i++) {
+      this.dataSource._data.value[i].browserNotification = this.isTagBrowser;
     }
   }
 
   submit(): void {
+    let data = this.dataSource._data.value;
     let success: boolean = true;
     const commentNotification = {
       mailNotification: this.notification.mailNotification,
       browserNotification: this.notification.browserNotification,
     };
-    this.http.postWithPromise('settings/me/tag_notifications', this.notification.tagNotification).then(res => {
+    this.http.postWithPromise('settings/me/tag_notifications', data).then(res => {
       return this.http.postWithPromise('settings/me/comment_notifications', commentNotification);
     }, error => {
       success = false;

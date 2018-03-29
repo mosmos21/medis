@@ -6,7 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { ErrorService } from './error.service';
 import { HttpService } from './http.service';
 import { TypeConversionService } from './type-conversion.service';
-import { TagContent } from '../model/Tag';
+import { TagContent } from '../model/TagContent';
 
 @Injectable()
 export class SearchService {

@@ -72,7 +72,6 @@ export class UserManagementComponent implements OnInit {
   confirmChangeEnable(user: UserForm): void {
     user.enabled = !user.enabled;
     this.http.post("system/users/update", user).subscribe(res => {
-      console.log(res);
       this.snackBarService.openSnackBar('変更しました', '');
     }, error => {
       this.errorService.errorPath(error.status);

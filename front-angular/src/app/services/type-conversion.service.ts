@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Block } from "../model/Block";
 import { Template } from "../model/Template";
 import { Document } from "../model/Document";
-import { TagContent } from "../model/Tag";
+import { TagContent } from "../model/TagContent";
 import { UpdateList } from '../model/UpdateList';
 
 @Injectable()

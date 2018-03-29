@@ -14,7 +14,7 @@ import { NavigationService } from '../services/navigation.service';
 import { MsgToSidenavService } from '../services/msg-to-sidenav.service';
 import { TypeConversionService } from '../services/type-conversion.service';
 
-import { TagContent } from '../model/Tag';
+import { TagContent } from '../model/TagContent';
 import { Block } from '../model/Block';
 import { Document } from '../model/Document';
 import { Template } from '../model/Template';

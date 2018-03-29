@@ -6,6 +6,8 @@ import { ConfigNotificationRoutingModule } from './config-notification-routing.m
 import {
   MatButtonModule,
   MatSlideToggleModule,
+  MatSortModule,
+  MatTableModule,
 } from '@angular/material';
 
 @NgModule({
@@ -15,6 +17,8 @@ import {
     CommonModule,
     MatButtonModule,
     MatSlideToggleModule,
+    MatSortModule,
+    MatTableModule,
   ],
   declarations: [ConfigNotificationComponent]
 })

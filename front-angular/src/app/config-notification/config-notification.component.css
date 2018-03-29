@@ -39,43 +39,6 @@
 	align-items: center;
 	justify-content: center;
 }
-table{
-    display: flex;
-	align-items: center;
-	justify-content: center;
-    top: 0px;
-	width: auto;
-	padding: 0px 20px;
-    margin-bottom: 50px;
-    overflow-y: scroll;
-}
-th,td{
-	padding: 5px 15px;
-    border: solid #ddd;
-}
-th{
-	width: 25%;
-	background-color: #ddd;
-	border-right: 1px dotted #fff;
-}
-th.border-none{
-	border-right: none;
-}
-td{
-	border-bottom: 1px solid #aaa;
-	text-align: center;
-}
-.t-line tr:nth-child(odd) td {  
-  background-color: #fff;  
-}
-
-table tr th {
-    background: #aaa;
-}
-
-.t-line{
-    margin-top: 10px;
-}
 
 .notification_mail {
     margin-right: 1.5em;
@@ -87,4 +50,18 @@ table tr th {
 
 .no_tags {
     text-align: center;
+}
+
+.mat-table{
+    width: 1000px;
+    min-width: 500px;
+    margin: auto;
+}
+
+.mat-column-mailNotification{
+    flex: 0 0 150px;
+}
+
+.mat-column-browserNotification{
+    flex: 0 0 150px;
 }
