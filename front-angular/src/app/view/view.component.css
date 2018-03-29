@@ -188,6 +188,12 @@ input[type="checkbox"]:checked {
     float: right;
 }
 
-.read_button{
-    color: black;
+.unread_button{
+    /* border: solid 2px #999; */
+}
+
+.unread_icon{
+    /* height: 40px;
+    width: 40px; */
+    /* margin-bottom: 8px; */
 }
