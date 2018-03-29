@@ -9,6 +9,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class CreateUsersByCsvComponent implements OnInit {
 
   public file: File;
+  public fileName: string;
+  public message: string;
 
   constructor(public dialogRef: MatDialogRef<CreateUsersByCsvComponent>) { }
 
@@ -16,7 +18,14 @@ export class CreateUsersByCsvComponent implements OnInit {
   }
 
   selectFile(event): void {
-    this.file = event.target.files.item(0)
+    this.file = event.target.files.item(0);
     console.log(this.file);
+    if (this.file.name.match('.+.csv')) {
+      this.message = null;
+      this.fileName = this.file.name;
+    } else {
+      this.fileName = null;
+      this.message = 'CSVファイルを指定してください。';
+    }
   }
 }

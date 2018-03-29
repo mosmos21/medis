@@ -13,7 +13,9 @@ import { AuthService } from '../services/auth.service'
 })
 export class EditIconComponent implements OnInit {
 
-  selectedFiles: FileList;
+  file: File;
+  fileName: string;
+  message: string;
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 }
 
@@ -26,19 +28,21 @@ export class EditIconComponent implements OnInit {
   }
 
   selectFile(event): void {
-    const file = event.target.files.item(0)
-
-    if (file.type.match('image.*')) {
-      this.selectedFiles = event.target.files;
+    this.file = event.target.files.item(0)
+    console.log(this.file);
+    if (this.file.type.match('image/png')) {
+      this.message = null;
+      this.fileName = this.file.name;
     } else {
-      alert('invalid format!');
+      this.fileName = null;
+      this.message = 'PNGファイルを指定してください。';
     }
   }
 
   upload(): void {
-    this.currentFileUpload = this.selectedFiles.item(0);
+    this.currentFileUpload = this.file;
     this.http.postIcon(this.currentFileUpload);
-    this.selectedFiles = undefined;
+    this.file = undefined;
     this.dialogRef.close(this.currentFileUpload);
   }
 

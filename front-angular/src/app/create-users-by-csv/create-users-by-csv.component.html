@@ -1,8 +1,9 @@
-<label class="btn btn-default">
-	<input type="file" (change)="selectFile($event)">
-	<!-- <button mat-raised-button>ç”»åƒ�é�¸æŠž</button> -->
-</label>
-
-<button mat-fab class="btn btn-success" [mat-dialog-close]="file">
-	<mat-icon>file_upload</mat-icon>
-</button>
+<div class="wrap_content">
+	<label class="mat-raised-button" for="file_upload">CSSファイルを選択</label>
+	<input hidden="true" type="file" accept="text/csv" id="file_upload" (change)="selectFile($event)">
+	<div>{{ fileName }}</div>
+	<div style="color: #ff0000">{{ message }}</div>
+	<button mat-fab class="btn-success" [disabled]="!fileName" [mat-dialog-close]="file">
+		<mat-icon>file_upload</mat-icon>
+	</button>
+</div>
