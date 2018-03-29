@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jp.co.unirita.medis.logic.util.IdUtilLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,8 @@ public class DocumentLogic {
 
 	@Autowired
 	TagLogic tagLogic;
+	@Autowired
+	IdUtilLogic idUtilLogic;
 
 
 	public DocumentInfo getDocumentInfo(String documentId) {
@@ -219,7 +222,7 @@ public class DocumentLogic {
 			int order = 1;
 			for (Tag tag : tagLogic.applyTags(tags)) {
 				if (tag.getTagId() == null) {
-					tag.setTagId(tagLogic.getNewTagId());
+					tag.setTagId(idUtilLogic.getNewTagId());
 				}
 				documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
 				order++;

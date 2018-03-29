@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.unirita.medis.logic.util.IdUtilLogic;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class TagLogicTest {
     @Autowired
     TagLogic tagLogic;
     @Autowired
+    IdUtilLogic idUtilLogic;
+    @Autowired
     TagRepository tagRepository;
 
     @Test
@@ -36,7 +39,7 @@ public class TagLogicTest {
     @Test
     public void 新規タグID取得_成功時() throws IdIssuanceUpperException {
 
-        String tagId = tagLogic.getNewTagId();
+        String tagId = idUtilLogic.getNewTagId();
         assertEquals("新規タグIDの取得（成功時）が正しく動作していません", "n0000000004", tagId);
     }
 
@@ -48,7 +51,7 @@ public class TagLogicTest {
     	tagRepository.saveAndFlush(tag);
     	boolean result = false;
 		try {
-	        tagLogic.getNewTagId();
+	        idUtilLogic.getNewTagId();
 		} catch (IdIssuanceUpperException e) {
 			result = true;
 		}
@@ -58,14 +61,14 @@ public class TagLogicTest {
     @Test
     public void 新規タグID取得_タグ数0の場合() throws IdIssuanceUpperException {
     	tagRepository.deleteAll();
-        String tagId = tagLogic.getNewTagId();
+        String tagId = idUtilLogic.getNewTagId();
         assertEquals("タグ一覧の取得（タグ数0の場合）が正しく動作していません", "n0000000000", tagId);
     }
 
     @Test
     public void 新規システムタグID取得_成功時() throws IdIssuanceUpperException {
 
-        String tagId = tagLogic.getNewSystemTagId();
+        String tagId = idUtilLogic.getNewSystemTagId();
         assertEquals("新規システムタグIDの取得（成功時）が正しく動作していません", "s0000000002", tagId);
     }
 /*
@@ -84,7 +87,7 @@ public class TagLogicTest {
     	tagRepository.saveAndFlush(tag);
     	boolean result = false;
 		try {
-	        tagLogic.getNewSystemTagId();
+	        idUtilLogic.getNewSystemTagId();
 		} catch (IdIssuanceUpperException e) {
 			result = true;
 		}
@@ -94,7 +97,7 @@ public class TagLogicTest {
     @Test
     public void 新規システムタグID取得_タグ数0の場合() throws IdIssuanceUpperException {
     	tagRepository.deleteAll();
-        String tagId = tagLogic.getNewSystemTagId();
+        String tagId = idUtilLogic.getNewSystemTagId();
         assertEquals("新規システムタグ一覧の取得（タグ数0の場合）が正しく動作していません", "s0000000000", tagId);
     }
 

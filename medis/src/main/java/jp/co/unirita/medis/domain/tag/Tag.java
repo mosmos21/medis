@@ -10,13 +10,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Data
 @Entity
 @Table(name = "tag")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Tag implements Comparable<Tag>{
+public class Tag implements Comparable<Tag>, Serializable{
 
 	@Id
 	@Size(min = 11, max = 11)

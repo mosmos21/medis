@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
+import jp.co.unirita.medis.logic.util.IdUtilLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,8 @@ public class TemplateLogic {
     TemplateItemRepository templateItemRepository;
     @Autowired
     TagLogic tagLogic;
+    @Autowired
+    IdUtilLogic idUtilLogic;
 
 
     public TemplateForm getTemplate(String id) {
@@ -172,7 +175,7 @@ public class TemplateLogic {
     		int order = 1;
             for(Tag tag : tagLogic.applyTags(tags)) {
                 if(tag.getTagId() == null) {
-                    tag.setTagId(tagLogic.getNewTagId());
+                    tag.setTagId(idUtilLogic.getNewTagId());
                 }
                 templateTagRepository.save(new TemplateTag(templateId, order, tag.getTagId()));
                 order++;

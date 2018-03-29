@@ -43,49 +43,9 @@ public class TagLogic {
 		}
 	}
 
-	public synchronized String getNewTagId() throws IdIssuanceUpperException {
-		try {
-			OptionalLong maxId = tagRepository.findAll().stream()
-					.filter(tag -> tag.getTagId().charAt(0) == 'n')
-					.map(tag -> tag.getTagId().substring(1))
-					.mapToLong(Long::parseLong)
-					.max();
-			if (!maxId.isPresent()) {
-				return "n0000000000";
-			}
-			if (maxId.getAsLong() == 9999999999L) {
-				throw new IdIssuanceUpperException("IDの発行限界");
-			}
-			return String.format("n%010d", maxId.getAsLong() + 1);
-		} catch (DBException e) {
-			logger.error("DB Runtime Error[class: TagLogic, method: getNewTagId]");
-			throw new DBException("DB Runtime Error[class: TagLogic, method: getNewTagId]");
-		}
-	}
-
-	public synchronized String getNewSystemTagId() throws IdIssuanceUpperException {
-		try {
-			OptionalLong maxId = tagRepository.findAll().stream()
-					.filter(tag -> tag.getTagId().charAt(0) == 's')
-					.map(tag -> tag.getTagId().substring(1))
-					.mapToLong(Long::parseLong)
-					.max();
-			if (!maxId.isPresent()) {
-				return "s0000000000";
-			}
-			if (maxId.getAsLong() == 9999999999L) {
-				throw new IdIssuanceUpperException("IDの発行限界");
-			}
-			return String.format("s%010d", maxId.getAsLong() + 1);
-		} catch (DBException e) {
-			logger.error("DB Runtime Error[class: TagLogic, method: getNewSystemTagId]");
-			throw new DBException("DB Runtime Error[class: TagLogic, method: getNewSystemTagId]");
-		}
-	}
-
 	private Tag createTag(String value) throws IdIssuanceUpperException {
 		try {
-			String id = getNewTagId();
+			String id = idUtilLogic.getNewTagId();
 		    Tag tag = new Tag(id, value);
 		    tagRepository.saveAndFlush(tag);
 		    return tag;
