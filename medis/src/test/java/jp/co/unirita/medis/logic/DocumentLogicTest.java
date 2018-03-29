@@ -152,7 +152,7 @@ public class DocumentLogicTest {
     	List<DocumentTag> testData = new ArrayList<>();
     	testData.add(new DocumentTag("d0000000003",1,"n0000000001"));
     	testData.add(new DocumentTag("d0000000003",2,"n0000000002"));
-    	testData.add(new DocumentTag("d0000000003",3,"s0000000002"));
+    	testData.add(new DocumentTag("d0000000003",3,"s0000000008"));
 
     	assertEquals("タグの保存が正しく動作していません",testData , result);
     }
