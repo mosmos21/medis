@@ -20,12 +20,15 @@ export class CreateUsersByCsvComponent implements OnInit {
   selectFile(event): void {
     this.file = event.target.files.item(0);
     console.log(this.file);
-    if (this.file.name.match('.+.csv')) {
-      this.message = null;
-      this.fileName = this.file.name;
-    } else {
+    if (this.file == null) {
+      this.fileName = null;
+      this.message = 'ファイルが選択されていません。'
+    } else if (!this.file.type.match('image/png')) {
       this.fileName = null;
       this.message = 'CSVファイルを指定してください。';
+    } else {
+      this.message = null;
+      this.fileName = this.file.name;
     }
   }
 }

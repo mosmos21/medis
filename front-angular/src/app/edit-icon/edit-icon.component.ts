@@ -30,12 +30,18 @@ export class EditIconComponent implements OnInit {
   selectFile(event): void {
     this.file = event.target.files.item(0)
     console.log(this.file);
-    if (this.file.type.match('image/png')) {
-      this.message = null;
-      this.fileName = this.file.name;
-    } else {
+    if (this.file == null) {
+      this.fileName = null;
+      this.message = 'ファイルが選択されていません。'
+    } else if (!this.file.type.match('image/png')) {
       this.fileName = null;
       this.message = 'PNGファイルを指定してください。';
+    } else if (this.file.size > 65536) {
+      this.fileName = null;
+      this.message = 'ファイルサイズが大きすぎます。';
+    } else {
+      this.message = null;
+      this.fileName = this.file.name;
     }
   }
 
