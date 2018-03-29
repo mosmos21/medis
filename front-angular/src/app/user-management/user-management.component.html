@@ -41,9 +41,9 @@
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="reset">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> 初期化 </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> パスワードリセット </mat-header-cell>
                     <mat-cell *matCellDef="let user; let idx = index">
-                        <button mat-raised-button color="warn" (click)=" initialization(user) ">初期化</button>
+                        <button mat-button color="warn" (click)=" initialization(user)">リセット</button>
                     </mat-cell>
                 </ng-container>
 
