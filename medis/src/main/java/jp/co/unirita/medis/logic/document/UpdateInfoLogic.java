@@ -4,6 +4,7 @@ import java.lang.invoke.MethodHandles;
 import java.sql.Timestamp;
 import java.util.List;
 
+import jp.co.unirita.medis.logic.util.IdIssuanceLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class UpdateInfoLogic {
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
+	IdIssuanceLogic idIssuanceLogic;
+	@Autowired
 	UpdateInfoRepository updateInfoRepository;
 
 	public List<UpdateInfo> getUpdateInfo(String id) {
@@ -34,28 +37,12 @@ public class UpdateInfoLogic {
 		}
 	}
 
-	public synchronized String createNewUpdateId() throws IdIssuanceUpperException {
-		try {
-			List<UpdateInfo> list = updateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "updateId"));
-			if (list.size() == 0) {
-				return "u0000000000";
-			}
-			long idNum = Long.parseLong(list.get(0).getUpdateId().substring(1));
-			if (idNum == 9999999999L) {
-				throw new IdIssuanceUpperException("更新IDの発行限界");
-			}
-			return String.format("u%010d", idNum + 1);
-		} catch (DBException e) {
-			logger.error("DB Runtime Error[class: UpdateInfoLogic, method: createNewUpdateId]");
-			throw new DBException("DB Runtime Error[class: UpdateInfoLogic, method: createNewUpdateId]");
-		}
-	}
 
 	public void saveUpdateInfo(String documentId, String updateType, String employeeNumber) throws IdIssuanceUpperException {
 		try {
 			UpdateInfo info = new UpdateInfo();
 			Timestamp updateDate = new Timestamp(System.currentTimeMillis());
-			info.setUpdateId(createNewUpdateId());
+			info.setUpdateId(idIssuanceLogic.createUpdateId());
 			info.setDocumentId(documentId);
 			info.setUpdateType(updateType);
 			info.setEmployeeNumber(employeeNumber);

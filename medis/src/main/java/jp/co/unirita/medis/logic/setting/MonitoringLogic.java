@@ -62,7 +62,7 @@ public class MonitoringLogic {
 		    List<DocumentInfo> documentInfoList2 = documentInfoRepository.findByDocumentIdIn(documentIdList);
 		    List<DocumentInfo> documentInfoList = Stream.concat(documentInfoList1.stream(), documentInfoList2.stream())
 		    		.distinct()
-		    		.filter(info -> info.isDocumentPublish() == true)
+		    		.filter(info -> info.isDocumentPublish())
 		    		.sorted(Comparator.comparing(DocumentInfo::getDocumentCreateDate).reversed())
 		    		.collect(Collectors.toList());
 		    List<UserDetail> userDetail = new ArrayList<>();

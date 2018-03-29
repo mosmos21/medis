@@ -44,34 +44,6 @@ public class CommentLogicTest {
     }
 
     @Test
-    public void 新規コメントID取得_成功時() throws IdIssuanceUpperException {
-
-        String commentId = commentLogic.getNewCommentId();
-        assertEquals("新規コメントIDの取得（成功時）が正しく動作していません", "o0000000017", commentId);
-    }
-
-    @Test
-    public void 新規コメントID取得_コメント発行数限界の場合() {
-    	Comment comment = new Comment();
-    	comment.setCommentId("o9999999999");
-    	commentRepository.saveAndFlush(comment);
-    	boolean result = false;
-		try {
-			commentLogic.getNewCommentId();
-		} catch (IdIssuanceUpperException e) {
-			result = true;
-		}
-        assertEquals("コメント一覧の取得（コメント発行数限界の場合）が正しく動作していません", true, result);
-    }
-
-    @Test
-    public void 新規コメントID取得_コメント数0の場合() throws IdIssuanceUpperException {
-    	commentRepository.deleteAll();
-        String commentId = commentLogic.getNewCommentId();
-        assertEquals("コメント一覧の取得（コメント数0の場合）が正しく動作していません", "o0000000000", commentId);
-    }
-
-    @Test
     public void コメント保存() throws IdIssuanceUpperException {
     	Map<String,String> testValue = new HashMap<>();
     	testValue.put("value", "てすと");

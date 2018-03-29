@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jp.co.unirita.medis.logic.util.IdIssuanceLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 public class BookmarkLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+	@Autowired
+	IdIssuanceLogic idIssuanceLogic;
 
 	@Autowired
 	BookmarkRepository bookmarkRepository;
@@ -67,24 +71,6 @@ public class BookmarkLogic {
 		}
 	}
 
-	// 最新のIDを生成
-	public synchronized String getNewBookmarkId() throws IdIssuanceUpperException {
-		try {
-			List<Bookmark> bookmarkList = bookmarkRepository.findAll(new Sort(Sort.Direction.DESC, "bookmarkId"));
-			if (bookmarkList.size() == 0) {
-				return "m0000000000";
-			}
-			long idNum = Long.parseLong(bookmarkList.get(0).getBookmarkId().substring(1));
-			if (idNum == 9999999999L) {
-				throw new IdIssuanceUpperException("IDの発行限界");
-			}
-			return String.format("m%010d", idNum + 1);
-		} catch (DBException e) {
-			logger.error("DB Runtime Error[class: BookmarkLogic, method: getNewBookmarkId]");
-			throw new DBException("DB Runtime Error[class: BookmarkLogic, method: getNewBookmarkId]");
-		}
-	}
-
 	public void updateBookmark(String employeeNumber, String documentId, boolean selected) throws IdIssuanceUpperException {
 		try {
 			Bookmark info = bookmarkRepository.findByEmployeeNumberAndDocumentId(employeeNumber, documentId);
@@ -92,7 +78,7 @@ public class BookmarkLogic {
 			if (info == null) {
 				// 最新のIDを取得し、DBに登録
 				Bookmark bookmark = new Bookmark();
-				bookmark.setBookmarkId(getNewBookmarkId());
+				bookmark.setBookmarkId(idIssuanceLogic.createBookmarkId());
 				bookmark.setEmployeeNumber(employeeNumber);
 				bookmark.setDocumentId(documentId);
 				bookmark.setSelected(true);

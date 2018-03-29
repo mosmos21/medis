@@ -62,22 +62,4 @@ public class BookmarkLogicTest {
 		bookmarkLogic.updateBookmark("medis", "d0000000013", false);
 		assertEquals("m0000000006のお気に入り情報を更新できませんでした", bookmark, bookmarkRepository.findOne("m0000000006"));
 	}
-
-	@Test
-	public void bookmarkIdがない時に新規登録() throws IdIssuanceUpperException {
-		Bookmark newBookmark = new Bookmark();
-		Bookmark bookmark = new Bookmark();
-		newBookmark.setBookmarkId(bookmarkLogic.getNewBookmarkId());
-		newBookmark.setEmployeeNumber("gu");
-		newBookmark.setDocumentId("d0000000015");
-		newBookmark.setSelected(true);
-
-		bookmark.setBookmarkId("m0000000007");
-		bookmark.setEmployeeNumber("gu");
-		bookmark.setDocumentId("d0000000015");
-		bookmark.setSelected(true);
-		assertEquals("m0000000008の新規登録ができませんでした", newBookmark, bookmark);
-
-	}
-
 }

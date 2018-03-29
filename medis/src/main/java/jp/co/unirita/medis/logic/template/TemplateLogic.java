@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
-import jp.co.unirita.medis.logic.util.IdUtilLogic;
+import jp.co.unirita.medis.logic.util.IdIssuanceLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +50,7 @@ public class TemplateLogic {
     @Autowired
     TagLogic tagLogic;
     @Autowired
-    IdUtilLogic idUtilLogic;
+    IdIssuanceLogic idIssuenceLogic;
 
 
     public TemplateForm getTemplate(String id) {
@@ -131,7 +130,7 @@ public class TemplateLogic {
 
     private String saveTemplateInfo(TemplateForm templateForm, String employeeNumber) throws IdIssuanceUpperException {
     	try {
-    		String templateId = templateForm.getTemplateId() == null ?  createNewTemplateId() : templateForm.getTemplateId();
+    		String templateId = templateForm.getTemplateId() == null ?  idIssuenceLogic.createTemplateId() : templateForm.getTemplateId();
             String templateName = templateForm.getTemplateName();
             Timestamp templateCreateDate = new Timestamp(System.currentTimeMillis());
             boolean templatePublish = templateForm.isPublish();
@@ -175,7 +174,7 @@ public class TemplateLogic {
     		int order = 1;
             for(Tag tag : tagLogic.applyTags(tags)) {
                 if(tag.getTagId() == null) {
-                    tag.setTagId(idUtilLogic.getNewTagId());
+                    tag.setTagId(idIssuenceLogic.createTagId());
                 }
                 templateTagRepository.save(new TemplateTag(templateId, order, tag.getTagId()));
                 order++;
@@ -183,23 +182,6 @@ public class TemplateLogic {
     	} catch (DBException e) {
     		logger.error("DB Runtime Error[class: TemplateLogic, method: saveTags]");
 			throw new DBException("DB Runtime Error[class: TemplateLogic, method: saveTags]");
-		}
-    }
-
-    private synchronized String createNewTemplateId() throws IdIssuanceUpperException{
-    	try {
-    		List<TemplateInfo> list = templateInfoRepository.findAll(new Sort(Sort.Direction.DESC, "templateId"));
-            if(list.size()  == 0) {
-                return "t0000000000";
-            }
-            long idNum = Long.parseLong(list.get(0).getTemplateId().substring(1));
-            if(idNum == 9999999999L){
-                throw new IdIssuanceUpperException("Can not issue any more ID");
-            }
-            return String.format("t%010d", idNum + 1);
-    	} catch (DBException e) {
-    		logger.error("DB Runtime Error[class: TemplateLogic, method: createNewTemplateId]");
-			throw new DBException("DB Runtime Error[class: TemplateLogic, method: createNewTemplateId]");
 		}
     }
 

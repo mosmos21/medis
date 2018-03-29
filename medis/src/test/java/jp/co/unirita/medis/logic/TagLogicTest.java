@@ -1,11 +1,10 @@
 package jp.co.unirita.medis.logic;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import jp.co.unirita.medis.logic.util.IdUtilLogic;
+import jp.co.unirita.medis.domain.tag.Tag;
+import jp.co.unirita.medis.domain.tag.TagRepository;
+import jp.co.unirita.medis.logic.util.IdIssuanceLogic;
+import jp.co.unirita.medis.logic.util.TagLogic;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import jp.co.unirita.medis.domain.tag.Tag;
-import jp.co.unirita.medis.domain.tag.TagRepository;
-import jp.co.unirita.medis.logic.util.TagLogic;
-import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,7 +25,7 @@ public class TagLogicTest {
     @Autowired
     TagLogic tagLogic;
     @Autowired
-    IdUtilLogic idUtilLogic;
+    IdIssuanceLogic idIssuanceLogic;
     @Autowired
     TagRepository tagRepository;
 
@@ -39,7 +38,7 @@ public class TagLogicTest {
     @Test
     public void 新規タグID取得_成功時() throws IdIssuanceUpperException {
 
-        String tagId = idUtilLogic.getNewTagId();
+        String tagId = idIssuanceLogic.createTagId();
         assertEquals("新規タグIDの取得（成功時）が正しく動作していません", "n0000000004", tagId);
     }
 
@@ -51,7 +50,7 @@ public class TagLogicTest {
     	tagRepository.saveAndFlush(tag);
     	boolean result = false;
 		try {
-	        idUtilLogic.getNewTagId();
+	        idIssuanceLogic.createTagId();
 		} catch (IdIssuanceUpperException e) {
 			result = true;
 		}
@@ -61,21 +60,21 @@ public class TagLogicTest {
     @Test
     public void 新規タグID取得_タグ数0の場合() throws IdIssuanceUpperException {
     	tagRepository.deleteAll();
-        String tagId = idUtilLogic.getNewTagId();
+        String tagId = idIssuanceLogic.createTagId();
         assertEquals("タグ一覧の取得（タグ数0の場合）が正しく動作していません", "n0000000000", tagId);
     }
 
     @Test
     public void 新規システムタグID取得_成功時() throws IdIssuanceUpperException {
 
-        String tagId = idUtilLogic.getNewSystemTagId();
+        String tagId = idIssuanceLogic.createSystemTagId();
         assertEquals("新規システムタグIDの取得（成功時）が正しく動作していません", "s0000000002", tagId);
     }
 /*
     @Test
     public void 新規システムタグID取得_フォーマット() throws IdIssuanceUpperException {
 
-        String tagId = tagLogic.getNewSystemTagId();
+        String tagId = tagLogic.createSystemTagId();
         assertEquals("新規システムタグIDの取得（フォーマット）が正しく動作していません", "s%010d", tagId);
     }
 */
@@ -87,7 +86,7 @@ public class TagLogicTest {
     	tagRepository.saveAndFlush(tag);
     	boolean result = false;
 		try {
-	        idUtilLogic.getNewSystemTagId();
+	        idIssuanceLogic.createSystemTagId();
 		} catch (IdIssuanceUpperException e) {
 			result = true;
 		}
@@ -97,7 +96,7 @@ public class TagLogicTest {
     @Test
     public void 新規システムタグID取得_タグ数0の場合() throws IdIssuanceUpperException {
     	tagRepository.deleteAll();
-        String tagId = idUtilLogic.getNewSystemTagId();
+        String tagId = idIssuanceLogic.createSystemTagId();
         assertEquals("新規システムタグ一覧の取得（タグ数0の場合）が正しく動作していません", "s0000000000", tagId);
     }
 

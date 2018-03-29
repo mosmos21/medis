@@ -1,20 +1,5 @@
 package jp.co.unirita.medis.logic.document;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import jp.co.unirita.medis.logic.util.IdUtilLogic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import jp.co.unirita.medis.domain.bookmark.Bookmark;
 import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
 import jp.co.unirita.medis.domain.comment.CommentRepository;
@@ -31,9 +16,22 @@ import jp.co.unirita.medis.domain.userdetail.UserDetail;
 import jp.co.unirita.medis.domain.userdetail.UserDetailRepository;
 import jp.co.unirita.medis.form.document.DocumentContentForm;
 import jp.co.unirita.medis.form.document.DocumentForm;
+import jp.co.unirita.medis.logic.util.IdIssuanceLogic;
 import jp.co.unirita.medis.logic.util.TagLogic;
 import jp.co.unirita.medis.util.exception.DBException;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -64,7 +62,7 @@ public class DocumentLogic {
 	@Autowired
 	TagLogic tagLogic;
 	@Autowired
-	IdUtilLogic idUtilLogic;
+	IdIssuanceLogic idIssuanceLogic;
 
 
 	public DocumentInfo getDocumentInfo(String documentId) {
@@ -175,7 +173,7 @@ public class DocumentLogic {
 
 	public String saveDocumentInfo(DocumentForm document, String employeeNumber) throws IdIssuanceUpperException {
 		try {
-			String documentId = document.getDocumentId() == null ? createNewDocumentId() : document.getDocumentId();
+			String documentId = document.getDocumentId() == null ? idIssuanceLogic.createDocumentId() : document.getDocumentId();
 			String templateId = document.getTemplateId();
 			String documentName = document.getDocumentName();
 			Timestamp documentCreateDate = new Timestamp(System.currentTimeMillis());
@@ -222,7 +220,7 @@ public class DocumentLogic {
 			int order = 1;
 			for (Tag tag : tagLogic.applyTags(tags)) {
 				if (tag.getTagId() == null) {
-					tag.setTagId(idUtilLogic.getNewTagId());
+					tag.setTagId(idIssuanceLogic.createTagId());
 				}
 				documentTagRepository.save(new DocumentTag(documentId, order, tag.getTagId()));
 				order++;
@@ -252,23 +250,6 @@ public class DocumentLogic {
 		} catch (DBException e) {
 			logger.error("DB Runtime Error[class: DocumentLogic, method: deleteDocument]");
 			throw new DBException("DB Runtime Error[class: DocumentLogic, method: deleteDocument]");
-		}
-	}
-
-	private synchronized String createNewDocumentId() throws IdIssuanceUpperException {
-		try {
-			List<DocumentInfo> list = documentInfoRepository.findAll(new Sort(Sort.Direction.DESC, "documentId"));
-			if (list.size() == 0) {
-				return "d0000000000";
-			}
-			long idNum = Long.parseLong(list.get(0).getDocumentId().substring(1));
-			if (idNum == 9999999999L) {
-				throw new IdIssuanceUpperException("文書の発行限界");
-			}
-			return String.format("d%010d", idNum + 1);
-		} catch (DBException e) {
-			logger.error("DB Runtime Error[class: DocumentLogic, method: createNewDocumentId]");
-			throw new DBException("DB Runtime Error[class: DocumentLogic, method: createNewDocumentId]");
 		}
 	}
 }

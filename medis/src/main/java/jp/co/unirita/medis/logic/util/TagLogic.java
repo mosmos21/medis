@@ -3,7 +3,6 @@ package jp.co.unirita.medis.logic.util;
 import java.lang.invoke.MethodHandles;
 import java.util.Comparator;
 import java.util.List;
-import java.util.OptionalLong;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -28,7 +27,7 @@ public class TagLogic {
 	@Autowired
 	TagRepository tagRepository;
 	@Autowired
-	IdUtilLogic idUtilLogic;
+	IdIssuanceLogic idIssuanceLogic;
 
 	public List<Tag> getTagList() {
 		try {
@@ -45,7 +44,7 @@ public class TagLogic {
 
 	private Tag createTag(String value) throws IdIssuanceUpperException {
 		try {
-			String id = idUtilLogic.getNewTagId();
+			String id = idIssuanceLogic.createTagId();
 		    Tag tag = new Tag(id, value);
 		    tagRepository.saveAndFlush(tag);
 		    return tag;
@@ -57,7 +56,7 @@ public class TagLogic {
 
 	public Tag createSystemTag(String value) throws IdIssuanceUpperException {
 		try {
-			String id = idUtilLogic.getNewSystemTagId();
+			String id = idIssuanceLogic.createSystemTagId();
 			Tag tag = new Tag(id, value);
 			tagRepository.saveAndFlush(tag);
 			return tag;
