@@ -74,7 +74,6 @@ public class UserManagementController {
 	public List<UserManagementForm> getUserManagement(
             @AuthenticationPrincipal User user
     ) throws AuthorityException {
-        logger.info("[method: getUserManagement] employeeNumber = " + user.getEmployeeNumber());
 	    argumentCheckLogic.checkAdminAuthority(user.getEmployeeNumber());
 		List<UserManagementForm> info = userManagementLogic.getUserManagement();
 		return info;

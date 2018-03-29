@@ -55,8 +55,11 @@ public class LoginController {
             }
         }
         User user = userRepository.findOne(data.getEmployeeNumber());
-        user.setPassword("");
-        return user;
+        User result = new User();
+        result.setEmployeeNumber(user.getEmployeeNumber());
+        result.setAuthorityId(user.getAuthorityId());
+        result.setEnabled(user.isEnabled());
+        return result;
     }
 
     @GetMapping(value = "logout")
