@@ -12,19 +12,22 @@
 
                                 <ng-container matColumnDef="documentName">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメント名 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents">
-                                        <span class="title_column" (click)="viewDocument(documents.documentId)">{{documents.documentName}}</span>
-                                        <span class="isNew" *ngIf="isNewService.checkNew(documents.updateDate)">new!!</span>
+                                    <mat-cell *matCellDef="let document">
+                                        <span class="title_column" (click)="viewDocument(document.documentId)">{{document.documentName}}
+                                            <span *ngIf="document.updateType == 'v0000000002'">にコメントが付きました</span>
+                                            <span *ngIf="document.updateType == 'v0000000003'">のコメントが既読されました</span>
+                                        </span>
+                                        <span class="isNew" *ngIf="isNewService.checkNew(document.updateDate)">new!!</span>
                                     </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="updateDate">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents"> {{documents.updateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
+                                    <mat-cell *matCellDef="let document"> {{document.updateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                                 </ng-container>
 
-                                <mat-header-row *matHeaderRowDef="displayedColumnsNU"></mat-header-row>
-                                <mat-row *matRowDef="let row; columns: displayedColumnsNU;"></mat-row>
+                                <mat-header-row *matHeaderRowDef="tableService.displayedColumnsComment"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: tableService.displayedColumnsComment;"></mat-row>
                             </mat-table>
                         </div>
                     </div>
@@ -41,19 +44,19 @@
 
                                 <ng-container matColumnDef="documentName">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header>ドキュメント名 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents" fxFlex="20px">
-                                        <span class="title_column" (click)="viewDocument(documents.documentId)">{{documents.documentName}}</span>
-                                        <span class="isNew" *ngIf="isNewService.checkNew(documents.documentCreateDate)">new!!</span>
+                                    <mat-cell *matCellDef="let document" fxFlex="20px">
+                                        <span class="title_column" (click)="viewDocument(document.documentId)">{{document.documentName}}</span>
+                                        <span class="isNew" *ngIf="isNewService.checkNew(document.documentCreateDate)">new!!</span>
                                     </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="documentCreateDate">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
+                                    <mat-cell *matCellDef="let document"> {{document.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                                 </ng-container>
 
-                                <mat-header-row *matHeaderRowDef="displayedColumnsND"></mat-header-row>
-                                <mat-row *matRowDef="let row; columns: displayedColumnsND;"></mat-row>
+                                <mat-header-row *matHeaderRowDef="tableService.displayedColumnsOwnDocument"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: tableService.displayedColumnsOwnDocument;"></mat-row>
                             </mat-table>
                         </div>
                     </div>
@@ -70,21 +73,21 @@
 
                                 <ng-container matColumnDef="documentName">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents">
-                                        <span class="title_column" (click)="viewDocument(documents.documentId)">{{documents.documentName}}</span>
-                                        <span class="isNew" *ngIf="isNewService.checkNew(documents.documentCreateDate)">new!!</span>
+                                    <mat-cell *matCellDef="let document">
+                                        <span class="title_column" (click)="viewDocument(document.documentId)">{{document.documentName}}</span>
+                                        <span class="isNew" *ngIf="isNewService.checkNew(document.documentCreateDate)">new!!</span>
                                     </mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="name">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> 作成者 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents"> {{documents.lastName}}{{documents.firstName}} </mat-cell>
+                                    <mat-cell *matCellDef="let document"> {{document.lastName}}{{document.firstName}} </mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="documentCreateDate">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
+                                    <mat-cell *matCellDef="let document"> {{document.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                                 </ng-container>
-                                <mat-header-row *matHeaderRowDef="displayedColumnsNND"></mat-header-row>
-                                <mat-row *matRowDef="let row; columns: displayedColumnsNND;"></mat-row>
+                                <mat-header-row *matHeaderRowDef="tableService.displayedColumnsDocument"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: tableService.displayedColumnsDocument;"></mat-row>
                             </mat-table>
                         </div>
                     </div>
@@ -101,21 +104,21 @@
 
                                 <ng-container matColumnDef="documentName">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> ドキュメント名 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents">
-                                        <span class="title_column" (click)="viewDocument(documents.documentId)">{{documents.documentName}}</span>
-                                        <span class="isNew" *ngIf="isNewService.checkNew(documents.documentCreateDate)">new!!</span>
+                                    <mat-cell *matCellDef="let document">
+                                        <span class="title_column" (click)="viewDocument(document.documentId)">{{document.documentName}}</span>
+                                        <span class="isNew" *ngIf="isNewService.checkNew(document.documentCreateDate)">new!!</span>
                                     </mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="name">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> 作成者 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents"> {{documents.name}} </mat-cell>
+                                    <mat-cell *matCellDef="let document"> {{document.name}} </mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="documentCreateDate">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header> 作成日 </mat-header-cell>
-                                    <mat-cell *matCellDef="let documents"> {{documents.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
+                                    <mat-cell *matCellDef="let document"> {{document.documentCreateDate | date:'yyyy/MM/dd HH:mm'}} </mat-cell>
                                 </ng-container>
-                                <mat-header-row *matHeaderRowDef="displayedColumnsNND"></mat-header-row>
-                                <mat-row *matRowDef="let row; columns: displayedColumnsNND;"></mat-row>
+                                <mat-header-row *matHeaderRowDef="tableService.displayedColumnsDocument"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: tableService.displayedColumnsDocument;"></mat-row>
                             </mat-table>
                         </div>
                     </div>
