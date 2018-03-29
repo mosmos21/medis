@@ -1,16 +1,5 @@
 package jp.co.unirita.medis.logic.util;
 
-import java.lang.invoke.MethodHandles;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalLong;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
 import jp.co.unirita.medis.domain.bookmark.Bookmark;
 import jp.co.unirita.medis.domain.bookmark.BookmarkRepository;
 import jp.co.unirita.medis.domain.comment.Comment;
@@ -18,28 +7,26 @@ import jp.co.unirita.medis.domain.comment.CommentRepository;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfo;
 import jp.co.unirita.medis.domain.documentInfo.DocumentInfoRepository;
 import jp.co.unirita.medis.domain.tag.Tag;
+import jp.co.unirita.medis.domain.tag.TagRepository;
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
 import jp.co.unirita.medis.domain.templateinfo.TemplateInfoRepository;
-import jp.co.unirita.medis.domain.update.UpdateRepository;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
+import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
+import jp.co.unirita.medis.util.exception.DBException;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 
-import jp.co.unirita.medis.domain.tag.TagRepository;
-import jp.co.unirita.medis.util.exception.DBException;
-import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
-import lombok.Data;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-import javax.persistence.PersistenceContext;
+import java.lang.invoke.MethodHandles;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.OptionalLong;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 @Service
 public class IdIssuanceLogic {
@@ -57,7 +44,7 @@ public class IdIssuanceLogic {
 	@Autowired
 	CommentRepository commentRepository;
 	@Autowired
-	UpdateRepository updateRepository;
+	UpdateInfoRepository updateInfoRepository;
 	@Autowired
 	BookmarkRepository bookmarkRepository;
 
@@ -115,7 +102,7 @@ public class IdIssuanceLogic {
 
 	public synchronized String createUpdateId() throws IdIssuanceUpperException {
 		try {
-			return issueNewId('u', updateRepository,
+			return issueNewId('u', updateInfoRepository,
 					(Function<UpdateInfo, String>) info -> info.getUpdateId().substring(1));
 		} catch (DBException e) {
 			logger.error("error in createUpdateId()", e);
