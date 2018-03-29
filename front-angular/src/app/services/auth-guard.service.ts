@@ -27,7 +27,6 @@ export class AuthGuardService implements CanActivate {
   checkLogin(url: string): boolean {
     if (this.authService.isLoggedIn()) {
       this.http.get('system/me').subscribe(res=> {
-        console.log('hoge');
         if(url.startsWith('/admin') && res['authorityId'] == 'a0000000001') {
           this.logout();
         }
