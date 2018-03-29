@@ -3,6 +3,7 @@ package jp.co.unirita.medis.logic.util;
 import java.lang.invoke.MethodHandles;
 import java.util.OptionalLong;
 
+import jp.co.unirita.medis.domain.tag.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,9 @@ public class IdUtilLogic {
 			if (maxId.getAsLong() == 9999999999L) {
 				throw new IdIssuanceUpperException("IDの発行限界");
 			}
-			return String.format("s%010d", maxId.getAsLong() + 1);
+			String tagId = String.format("s%010d", maxId.getAsLong() + 1);
+			tagRepository.saveAndFlush(new Tag(tagId, null));
+			return tagId;
 		} catch (DBException e) {
 			logger.error("DB Runtime Error[class: TagLogic, method: getNewSystemTagId]");
 			throw new DBException("DB Runtime Error[class: TagLogic, method: getNewSystemTagId]");
