@@ -54,6 +54,7 @@ input[type="checkbox"]:checked {
 #tag_list {
     margin: 10px;
     min-height: 40px;
+    overflow: hidden;
 }
 
 /* ここまでテンプレ部分 */
