@@ -67,7 +67,7 @@ public class AccountLogic {
             }
             if (!mailaddress.equals(detail.getMailaddress())) {
                 result.put("result", "NG");
-                result.put("message", "入力された社員番号とメールアドレスが不正です");
+                result.put("message", "社員番号とメールアドレスの組み合わせが一致しません");
                 return result;
             }
             result.put("result", "OK");
