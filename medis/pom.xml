@@ -111,7 +111,8 @@
                     <encoding>UTF-8</encoding>
                     <inputEncoding>UTF-8</inputEncoding>
                     <outputEncoding>UTF-8</outputEncoding>
-                    <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
+                    <!--<argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>-->
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
             </plugin>
 			<plugin>
