@@ -125,7 +125,7 @@ public class IdIssuanceLogic {
 		return issueNewId(key, repository, o -> true, mapFunc);
 	}
 
-	private synchronized String issueNewId(
+	private String issueNewId(
 			char key, JpaRepository repository, Predicate filterFunc, Function mapFunc
 	) throws DBException, IdIssuanceUpperException {
 		if(maxIdMap.containsKey(key)) {
