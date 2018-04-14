@@ -14,13 +14,11 @@ import jp.co.unirita.medis.domain.updateinfo.UpdateInfo;
 import jp.co.unirita.medis.domain.updateinfo.UpdateInfoRepository;
 import jp.co.unirita.medis.util.exception.DBException;
 import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.OptionalLong;
@@ -29,9 +27,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @Service
+@Slf4j
 public class IdIssuanceLogic {
-
-	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private Map<Character, Long> maxIdMap = new HashMap<>();
 
@@ -53,7 +50,7 @@ public class IdIssuanceLogic {
 			return issueNewId('t', templateInfoRepository,
 					(Function<TemplateInfo, String>) info -> info.getTemplateId().substring(1));
 		} catch (DBException e) {
-			logger.error("error in createTemplateId()", e);
+			log.error("error in createTemplateId()", e);
 			throw e;
 		}
 	}
@@ -63,7 +60,7 @@ public class IdIssuanceLogic {
 			return issueNewId('d', documentInfoRepository,
 					(Function<DocumentInfo, String>) info -> info.getDocumentId().substring(1));
 		} catch (DBException e) {
-			logger.error("error in createDocumentId()", e);
+			log.error("error in createDocumentId()", e);
 			throw e;
 		}
 	}
@@ -74,7 +71,7 @@ public class IdIssuanceLogic {
 					(Predicate<Tag>) tag -> tag.getTagId().charAt(0) == 'n',
 					(Function<Tag, String>) tag -> tag.getTagId().substring(1));
 		} catch (DBException e) {
-			logger.error("error in createSystemTagId()", e);
+			log.error("error in createSystemTagId()", e);
 			throw e;
 		}
 	}
@@ -85,7 +82,7 @@ public class IdIssuanceLogic {
 					(Predicate<Tag>) tag -> tag.getTagId().charAt(0) == 's',
 					(Function<Tag, String>) tag -> tag.getTagId().substring(1));
 		} catch (DBException e) {
-			logger.error("error in createSystemTagId()", e);
+			log.error("error in createSystemTagId()", e);
 			throw e;
 		}
 	}
@@ -95,7 +92,7 @@ public class IdIssuanceLogic {
 			return issueNewId('o', commentRepository,
 					(Function<Comment, String>) tag -> tag.getCommentId().substring(1));
 		} catch (DBException e) {
-			logger.error("error in createCommentId()", e);
+			log.error("error in createCommentId()", e);
 			throw e;
 		}
 	}
@@ -105,17 +102,17 @@ public class IdIssuanceLogic {
 			return issueNewId('u', updateInfoRepository,
 					(Function<UpdateInfo, String>) info -> info.getUpdateId().substring(1));
 		} catch (DBException e) {
-			logger.error("error in createUpdateId()", e);
+			log.error("error in createUpdateId()", e);
 			throw e;
 		}
 	}
 
 	public synchronized String createBookmarkId() throws IdIssuanceUpperException {
 		try {
-			return issueNewId('u', bookmarkRepository,
+			return issueNewId('m', bookmarkRepository,
 					(Function<Bookmark, String>) book -> book.getBookmarkId().substring(1));
 		} catch (DBException e) {
-			logger.error("error in createBookmarkId()", e);
+			log.error("error in createBookmarkId()", e);
 			throw e;
 		}
 	}
@@ -128,21 +125,19 @@ public class IdIssuanceLogic {
 	private String issueNewId(
 			char key, JpaRepository repository, Predicate filterFunc, Function mapFunc
 	) throws DBException, IdIssuanceUpperException {
-		if(maxIdMap.containsKey(key)) {
-			long id = maxIdMap.get(key) + 1;
-			maxIdMap.put(key, id);
-			return String.format(key + "%010d", id);
-		}
-		long IdNum =0L;
-		Stream<String> idStream = repository.findAll().stream().filter(filterFunc).map(mapFunc);
-		OptionalLong maxId = idStream.mapToLong(Long::parseLong).max();
-		if (maxId.isPresent()) {
-			if (maxId.getAsLong() == 9999999999L) {
-				throw new IdIssuanceUpperException("IDの発行限界");
-			}
-			IdNum = maxId.getAsLong() + 1;
-		}
-		maxIdMap.put(key, IdNum);
-		return String.format(key + "%010d", IdNum);
+	    long idNum;
+	    if (maxIdMap.containsKey(key)) {
+	        idNum = maxIdMap.get(key);
+        } else {
+            Stream<String> idStream = repository.findAll().stream().filter(filterFunc).map(mapFunc);
+            OptionalLong maxId = idStream.mapToLong(Long::parseLong).max();
+            idNum = maxId.orElse(0L);
+        }
+        if (idNum == 9999999999L) {
+            throw new IdIssuanceUpperException("IDの発行限界");
+        }
+        long newId = idNum + 1;
+        maxIdMap.put(key, newId);
+        return String.format(key + "%010d", newId);
 	}
 }
