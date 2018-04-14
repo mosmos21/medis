@@ -42,21 +42,21 @@ public class AccountLogicTest {
     @Test
     public void パスワード再設定用のデータの確認結果の取得_存在する場合() {
         Map<String,String> result = accountLogic.checkUserIntegrity("g00000","medis.masa0@gmail.com");
-        assertEquals("パスワード再設定用のデータが確認できませんでした", result.get("result"), "OK");
+        assertEquals("パスワード再設定用のデータが確認できませんでした", "OK", result.get("result"));
     }
 
     @Test
     public void パスワード再設定用のデータの確認結果の取得_ユーザが存在しない場合() {
         Map<String,String> result = accountLogic.checkUserIntegrity("unknown","medis.masa0@gmail.com");
-        assertEquals("不明なユーザが参照されています", result.get("result"), "NG");
-        assertEquals("エラーメッセージが間違っています", result.get("message"), "入力された社員番号が存在しません");
+        assertEquals("不明なユーザが参照されています", "NG", result.get("result"));
+        assertEquals("エラーメッセージが間違っています", "入力された社員番号が存在しません", result.get("message"));
     }
 
     @Test
     public void パスワード再設定用のデータの確認結果の取得_社員番号とメールアドレスの組み合わせが一致しない場合() {
         Map<String,String> result = accountLogic.checkUserIntegrity("g00000","unknown@gmail.com");
-        assertEquals("不明なユーザが参照されています", result.get("result"), "NG");
-        assertEquals("エラーメッセージが間違っています", result.get("message"), "社員番号とメールアドレスの組み合わせが一致しません");
+        assertEquals("不明なユーザが参照されています", "NG", result.get("result"));
+        assertEquals("エラーメッセージが間違っています", "社員番号とメールアドレスの組み合わせが一致しません", result.get("message"));
     }
 
     @Test
@@ -69,16 +69,16 @@ public class AccountLogicTest {
     public void 送信された一時キーの有効性の確認_存在する場合() {
         String key = accountLogic.issueTempKey("g00000");
         Map<String, String> result = accountLogic.checkTempKeyIntegrity(key);
-        assertEquals("キーチェックに失敗しています", result.get("result"), "OK");
-        assertEquals("取得された社員番号が間違っています", result.get("employeeNumber"), "g00000");
-        assertEquals("取得されたメールアドレスが間違っています", result.get("mailaddress"), "medis.masa0@gmail.com");
+        assertEquals("キーチェックに失敗しています", "OK", result.get("result"));
+        assertEquals("取得された社員番号が間違っています", "g00000", result.get("employeeNumber"));
+        assertEquals("取得されたメールアドレスが間違っています", "medis.masa0@gmail.com", result.get("mailaddress"));
     }
 
     @Test
     public void 送信された一時キーの有効性の確認_存在しない場合() {
         Map<String,String> result = accountLogic.checkTempKeyIntegrity("DUMMY_TEMP_KEY");
-        assertEquals("不明なキーが参照されています", result.get("result") , "NG");
-        assertEquals("エラー文が間違っています", result.get("message"), "登録されていないキーを使用しています");
+        assertEquals("不明なキーが参照されています", "NG", result.get("result"));
+        assertEquals("エラー文が間違っています", "登録されていないキーを使用しています", result.get("message"));
     }
 
     @Test
@@ -88,8 +88,8 @@ public class AccountLogicTest {
         info.setChangeDate(new Timestamp(0));
         tempkeyInfoRepository.saveAndFlush(info);
         Map<String, String> result = accountLogic.checkTempKeyIntegrity(key);
-        assertEquals("一時キーの時間制限が動作していません", result.get("result"), "NG");
-        assertEquals("エラー文が間違っています", result.get("message"), "メール発行から30分を過ぎています");
+        assertEquals("一時キーの時間制限が動作していません", "NG", result.get("result"));
+        assertEquals("エラー文が間違っています", "メール発行から30分を過ぎています", result.get("message"));
     }
 
     @Test
