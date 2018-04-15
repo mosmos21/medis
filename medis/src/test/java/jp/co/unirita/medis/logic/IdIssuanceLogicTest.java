@@ -1,6 +1,9 @@
 package jp.co.unirita.medis.logic;
 
+import jp.co.unirita.medis.domain.templateinfo.TemplateInfo;
+import jp.co.unirita.medis.domain.templateinfo.TemplateInfoRepository;
 import jp.co.unirita.medis.logic.util.IdIssuanceLogic;
+import jp.co.unirita.medis.util.exception.IdIssuanceUpperException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +22,8 @@ public class IdIssuanceLogicTest {
 
     @Autowired
     IdIssuanceLogic idIssuanceLogic;
+    @Autowired
+    TemplateInfoRepository templateInfoRepository;
 
     @Before
     @After
@@ -93,6 +98,21 @@ public class IdIssuanceLogicTest {
             assertEquals("発行されたIDが正しくありません", "m0000000001", id);
         }catch (Exception e) {
             fail("予期せないエラーが発生しました");
+        }
+    }
+
+    @Test
+    public void 発行上限到達時() {
+        TemplateInfo info = new TemplateInfo();
+        info.setTemplateId("t9999999999");
+        templateInfoRepository.saveAndFlush(info);
+        try {
+             idIssuanceLogic.createTemplateId();
+             fail("上限を超えたIDを発行しています");
+        }catch (IdIssuanceUpperException e) {
+            assertEquals("エラー文が間違っています", "IDの発行限界", e.getMessage());
+        }finally {
+            templateInfoRepository.delete(info);
         }
     }
 }
